@@ -16,6 +16,7 @@ export declare const internalGroqTypeReferenceTo: unique symbol
 
 // Source: ../sanity.schema.json
 export type Logo = {
+  logoImage?: LogoImage
   text?: string
   iconLetter?: string
   href?: string
@@ -24,6 +25,21 @@ export type Logo = {
 export type CtaButton = {
   label?: string
   href?: string
+}
+
+export type SanityImageAssetReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+}
+
+export type LogoImage = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "logoImage.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
 }
 
 export type Navbar = {
@@ -36,13 +52,6 @@ export type HeroStat = {
   _type: 'heroStat'
   value: string
   label: string
-}
-
-export type SanityImageAssetReference = {
-  _ref: string
-  _type: 'reference'
-  _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
 }
 
 export type HeroSection = {
@@ -362,9 +371,10 @@ export type Slug = {
 export type AllSanitySchemaTypes =
   | Logo
   | CtaButton
+  | SanityImageAssetReference
+  | LogoImage
   | Navbar
   | HeroStat
-  | SanityImageAssetReference
   | HeroSection
   | Settings
   | SanityImageCrop
