@@ -1,6 +1,42 @@
 @import 'tailwindcss';
 
 @theme {
+  /* Color palette — dark mode only */
+  --color-bg-deep: #0b0b0c;
+  --color-bg-mid: #111111;
+  --color-bg-surface: #181818;
+  --color-accent: #6fcf3a;
+  --color-accent-hover: #5bb82e;
+  --color-graphite: #2a2a2a;
+  --color-silver: #9e9e9e;
+  --color-white: #ffffff;
+
+  /* Typography — fonts loaded via next/font/google in layout.tsx */
+  --font-display: var(--font-bebas), sans-serif;
+  --font-heading: var(--font-space-grotesk), sans-serif;
+  --font-body: var(--font-inter), sans-serif;
   --font-sans: var(--font-inter), sans-serif;
-  --font-mono: var(--font-ibm-plex-mono), monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg-deep);
+  color: var(--color-white);
+  font-family: var(--font-body);
+}
+
+@layer utilities {
+  .glass {
+    background: rgba(24, 24, 24, 0.6);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .section-padding {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
 }
