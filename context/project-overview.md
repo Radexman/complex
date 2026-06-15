@@ -28,23 +28,23 @@
 
 ## Stack (reconciled to installed versions)
 
-> ⚠️ The original spec said *Next.js 15* and *Sanity v3*. The repository is actually on **Next.js 16** and **Sanity v5** — the table below reflects what is installed (`frontend/package.json`, `studio/package.json`). Build against these.
+> ⚠️ The original spec said _Next.js 15_ and _Sanity v3_. The repository is actually on **Next.js 16** and **Sanity v5** — the table below reflects what is installed (`frontend/package.json`, `studio/package.json`). Build against these.
 
-| Layer | Technology | Installed |
-|---|---|---|
-| Framework | Next.js (App Router) + TypeScript | `next@^16`, `typescript@^5.9` |
-| UI runtime | React | `react@^19.2` |
-| Styling | Tailwind CSS v4 (config in `frontend/app/globals.css`, **no** `tailwind.config.ts`) | `tailwindcss@^4.3` |
-| Headless UI | Ark UI (headless primitives) | _to add_ `@ark-ui/react` |
-| Icons (web) | lucide-react (recommended) | _to add_ `lucide-react` |
-| Forms | react-hook-form + Zod | _to add_ |
-| CMS | Sanity Studio v5 + next-sanity | `sanity@^5.31`, `next-sanity@^13` |
-| Live/Visual Editing | `next-sanity` Live Content API + Presentation | installed |
-| 3D Configurator | React Three Fiber + drei + three (models from Blender `.glb`) | _to add_ `@react-three/fiber`, `@react-three/drei`, `three` |
-| AI Visualization | OpenAI API (vision + image generation) | _to add_ `openai` |
-| Transactional email | Resend | _to add_ `resend` |
-| Deployment | Vercel | — |
-| Image CDN | Sanity CDN + `next/image` | configured (`cdn.sanity.io` allowed in `next.config.ts`) |
+| Layer               | Technology                                                                          | Installed                                                   |
+| ------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| Framework           | Next.js (App Router) + TypeScript                                                   | `next@^16`, `typescript@^5.9`                               |
+| UI runtime          | React                                                                               | `react@^19.2`                                               |
+| Styling             | Tailwind CSS v4 (config in `frontend/app/globals.css`, **no** `tailwind.config.ts`) | `tailwindcss@^4.3`                                          |
+| Headless UI         | Ark UI (headless primitives)                                                        | _to add_ `@ark-ui/react`                                    |
+| Icons (web)         | lucide-react (recommended)                                                          | _to add_ `lucide-react`                                     |
+| Forms               | react-hook-form + Zod                                                               | _to add_                                                    |
+| CMS                 | Sanity Studio v5 + next-sanity                                                      | `sanity@^5.31`, `next-sanity@^13`                           |
+| Live/Visual Editing | `next-sanity` Live Content API + Presentation                                       | installed                                                   |
+| 3D Configurator     | React Three Fiber + drei + three (models from Blender `.glb`)                       | _to add_ `@react-three/fiber`, `@react-three/drei`, `three` |
+| AI Visualization    | OpenAI API (vision + image generation)                                              | _to add_ `openai`                                           |
+| Transactional email | Resend                                                                              | _to add_ `resend`                                           |
+| Deployment          | Vercel                                                                              | —                                                           |
+| Image CDN           | Sanity CDN + `next/image`                                                           | configured (`cdn.sanity.io` allowed in `next.config.ts`)    |
 
 **Repo shape:** npm-workspaces monorepo — `frontend/` (Next.js) + `studio/` (Sanity). Schema is authored in `studio/` and consumed in `frontend/` via generated `frontend/sanity.types.ts` (see root `CLAUDE.md` for the TypeGen pipeline). The studio already ships a `settings` singleton (document id `siteSettings`); extend it rather than creating a parallel type.
 
@@ -52,11 +52,11 @@
 
 ## Users & Goals
 
-| Persona | Needs | Primary conversion |
-|---|---|---|
+| Persona                          | Needs                                          | Primary conversion            |
+| -------------------------------- | ---------------------------------------------- | ----------------------------- |
 | **Homeowners / property owners** | Visual inspiration, premium feel, easy quoting | Configurator → quotation form |
-| **Architects & contractors** | Materials, specs, project references | Realizacje + offer specs |
-| **Returning clients** | Contact, follow-up quotes | Kontakt / quotation form |
+| **Architects & contractors**     | Materials, specs, project references           | Realizacje + offer specs      |
+| **Returning clients**            | Contact, follow-up quotes                      | Kontakt / quotation form      |
 
 Business model is **lead generation** (no e-commerce in MVP): quotation submissions, phone CTAs, contact inquiries. Future: Stripe deposits.
 
@@ -68,25 +68,25 @@ Business model is **lead generation** (no e-commerce in MVP): quotation submissi
 
 ### Color Palette
 
-| Token | Hex | Usage |
-|---|---|---|
-| `bg-deep` | `#0B0B0C` | Page background |
-| `bg-mid` | `#111111` | Section backgrounds |
-| `bg-surface` | `#181818` | Cards, panels |
-| `accent` | `#4CAF50` (muted alt `#6FCF3A`) | CTAs, highlights, hover, focus |
-| `graphite` | `#2A2A2A` | Borders, dividers |
-| `silver` | `#9E9E9E` | Secondary text |
-| `white` | `#FFFFFF` | Primary typography |
+| Token        | Hex                             | Usage                          |
+| ------------ | ------------------------------- | ------------------------------ |
+| `bg-deep`    | `#0B0B0C`                       | Page background                |
+| `bg-mid`     | `#111111`                       | Section backgrounds            |
+| `bg-surface` | `#181818`                       | Cards, panels                  |
+| `accent`     | `#4CAF50` (muted alt `#6FCF3A`) | CTAs, highlights, hover, focus |
+| `graphite`   | `#2A2A2A`                       | Borders, dividers              |
+| `silver`     | `#9E9E9E`                       | Secondary text                 |
+| `white`      | `#FFFFFF`                       | Primary typography             |
 
 > Green is the inherited brand accent — keep it. It differentiates from competitors who default to blue/gold. Define these as Tailwind v4 `@theme` tokens in `globals.css`.
 
 ### Typography
 
-| Role | Font | Notes |
-|---|---|---|
-| Display / Hero | **Bebas Neue** | Massive headlines, hero titles |
-| Headings | **Space Grotesk** | Section & card titles |
-| Body | **Inter** | Paragraphs, descriptions |
+| Role           | Font              | Notes                          |
+| -------------- | ----------------- | ------------------------------ |
+| Display / Hero | **Bebas Neue**    | Massive headlines, hero titles |
+| Headings       | **Space Grotesk** | Section & card titles          |
+| Body           | **Inter**         | Paragraphs, descriptions       |
 
 Load via `next/font/google`, expose as CSS variables (`--font-bebas`, `--font-space-grotesk`, `--font-inter`) and wire into `@theme` (`--font-display`, `--font-heading`, `--font-sans`).
 
@@ -102,19 +102,19 @@ Load via `next/font/google`, expose as CSS variables (`--font-bebas`, `--font-sp
 - **Web UI:** `lucide-react` (consistent thin-line set matching the architectural aesthetic).
 - **Sanity Studio:** `@sanity/icons` (already a dependency) — assign one per document/object type (see content model).
 
-| Context | Icon (lucide) |
-|---|---|
-| Oferta | `LayoutGrid` |
-| Formularze wycen | `FileText` |
-| Realizacje | `Images` |
-| O nas | `Building2` |
-| Kierownik budowy | `HardHat` |
-| Kontakt | `Phone` |
-| Configurator CTA | `Box` / `Boxes` |
-| AI visualizer CTA | `Sparkles` |
-| Stat: realizacje | `CheckCircle2` |
+| Context             | Icon (lucide)   |
+| ------------------- | --------------- |
+| Oferta              | `LayoutGrid`    |
+| Formularze wycen    | `FileText`      |
+| Realizacje          | `Images`        |
+| O nas               | `Building2`     |
+| Kierownik budowy    | `HardHat`       |
+| Kontakt             | `Phone`         |
+| Configurator CTA    | `Box` / `Boxes` |
+| AI visualizer CTA   | `Sparkles`      |
+| Stat: realizacje    | `CheckCircle2`  |
 | Stat: doświadczenie | `CalendarClock` |
-| Stat: zadowolenie | `Smile` |
+| Stat: zadowolenie   | `Smile`         |
 
 ---
 
@@ -150,19 +150,19 @@ graph TD
 
 ### Route Map
 
-| Route | Type | Source |
-|---|---|---|
-| `/` | Static (live) | `settings` + featured `service`/`project`/`testimonial` |
-| `/oferta/[slug]` | Dynamic | `service` |
-| `/oferta/[slug]/[sub-slug]` | Dynamic (nested) | `service` with `parentService` |
-| `/wycena/[type]` | Dynamic | `quotationFormConfig` |
-| `/realizacje` | Static (live) | `project[]` |
-| `/realizacje/[slug]` | Dynamic | `project` |
-| `/o-nas` | Static (live) | `page` (`o-nas`) + `teamMember[]` |
-| `/kierownik-budowy` | Static (live) | `page` (`kierownik-budowy`) |
-| `/kontakt` | Static (live) | `settings` |
-| `/konfigurator` | Client-heavy | static `.glb` assets |
-| `/wizualizacja` | Client + API | `/api/visualize` |
+| Route                       | Type             | Source                                                  |
+| --------------------------- | ---------------- | ------------------------------------------------------- |
+| `/`                         | Static (live)    | `settings` + featured `service`/`project`/`testimonial` |
+| `/oferta/[slug]`            | Dynamic          | `service`                                               |
+| `/oferta/[slug]/[sub-slug]` | Dynamic (nested) | `service` with `parentService`                          |
+| `/wycena/[type]`            | Dynamic          | `quotationFormConfig`                                   |
+| `/realizacje`               | Static (live)    | `project[]`                                             |
+| `/realizacje/[slug]`        | Dynamic          | `project`                                               |
+| `/o-nas`                    | Static (live)    | `page` (`o-nas`) + `teamMember[]`                       |
+| `/kierownik-budowy`         | Static (live)    | `page` (`kierownik-budowy`)                             |
+| `/kontakt`                  | Static (live)    | `settings`                                              |
+| `/konfigurator`             | Client-heavy     | static `.glb` assets                                    |
+| `/wizualizacja`             | Client + API     | `/api/visualize`                                        |
 
 ---
 
@@ -170,14 +170,14 @@ graph TD
 
 `NavBar`: transparent at top → blur-on-scroll; collapses to a slide-in drawer on mobile. Nav items are CMS-managed via `settings.navigationItems`.
 
-| # | Item | Behavior | Icon |
-|---|---|---|---|
-| 1 | **Oferta** | Mega menu | `LayoutGrid` |
-| 2 | **Formularze wycen** | Mega menu | `FileText` |
-| 3 | **Realizacje** | Link | `Images` |
-| 4 | **O nas** | Link | `Building2` |
-| 5 | **Kierownik budowy** | Link | `HardHat` |
-| 6 | **Kontakt** | Link | `Phone` |
+| #   | Item                 | Behavior  | Icon         |
+| --- | -------------------- | --------- | ------------ |
+| 1   | **Oferta**           | Mega menu | `LayoutGrid` |
+| 2   | **Formularze wycen** | Mega menu | `FileText`   |
+| 3   | **Realizacje**       | Link      | `Images`     |
+| 4   | **O nas**            | Link      | `Building2`  |
+| 5   | **Kierownik budowy** | Link      | `HardHat`    |
+| 6   | **Kontakt**          | Link      | `Phone`      |
 
 **Oferta** mega menu → Zadaszenia aluminiowe (+ sub-links), Żaluzje tarasowe, Tarasy kompozytowe (+ sub-links), Tarasy z płyt gresowych, Tarasy drewniane, Elewacje kompozytowe, Schody modułowe.
 
@@ -192,54 +192,55 @@ graph TD
 Goal: strong first impression, emotional connection, lead capture.
 
 - **A. Hero** — fullscreen cinematic video/photo (Sanity), dark gradient overlay, animated Bebas Neue headline, Space Grotesk subheadline, three CTAs: **Skonfiguruj pergolę**, **Bezpłatna wycena**, **Zobacz realizacje**; scroll indicator; optional floating glass stat cards.
-- **B. Trust / Stats** — animated counters on scroll, from `settings.stats` (e.g. *1200+ montaży*, *15 lat doświadczenia*, *98% zadowolonych klientów*).
+- **B. Trust / Stats** — animated counters on scroll, from `settings.stats` (e.g. _1200+ montaży_, _15 lat doświadczenia_, _98% zadowolonych klientów_).
 - **C. Featured Services** — dark glass cards from `service`; thumbnail, short description, arrow CTA; hover lift + green border.
-- **D. 3D Configurator Preview** — teaser *"Skonfiguruj swoją pergolę w 3D"*, embedded mini-configurator (frame color picker), CTA → `/konfigurator`.
-- **E. AI Visualizer Teaser** — *"Zobacz jak pergola wygląda w Twoim ogrodzie"*, sample before/after, link → `/wizualizacja`.
-- **F. Realizacje Preview** — grid of 6 recent `project`s, filter tags (Residential, Taras, Zadaszenie, Premium), CTA *"Zobacz wszystkie realizacje"*.
+- **D. 3D Configurator Preview** — teaser _"Skonfiguruj swoją pergolę w 3D"_, embedded mini-configurator (frame color picker), CTA → `/konfigurator`.
+- **E. AI Visualizer Teaser** — _"Zobacz jak pergola wygląda w Twoim ogrodzie"_, sample before/after, link → `/wizualizacja`.
+- **F. Realizacje Preview** — grid of 6 recent `project`s, filter tags (Residential, Taras, Zadaszenie, Premium), CTA _"Zobacz wszystkie realizacje"_.
 - **G. About** — story teaser + craftsmanship imagery, CTA → `/o-nas`.
 - **H. Testimonials** — auto-sliding glass cards from `testimonial` (stars, name, quote).
-- **I. Lead CTA Banner** — full-width: *"Zaprojektuj swoją przestrzeń na zewnątrz"*, inline form (name, phone, email) or link → `/kontakt`.
+- **I. Lead CTA Banner** — full-width: _"Zaprojektuj swoją przestrzeń na zewnątrz"_, inline form (name, phone, email) or link → `/kontakt`.
 - **J. Footer** — logo, nav, contact, social, newsletter, legal (RODO, Polityka prywatności), animated top divider.
 
 ### 2. Offer Pages (`/oferta/[slug]`)
 
 Generated from `service`. Hero (name + cover), Portable Text description, gallery, key features/specs, CTA → related quotation form, related `project`s filtered by type. Sub-categories nest at `/oferta/[slug]/[sub-slug]` via `parentService`.
 
-| Polish Name | Slug |
-|---|---|
-| Zadaszenia aluminiowe | `zadaszenia-aluminiowe` |
-| Żaluzje tarasowe | `zaluzje-tarasowe` |
-| Tarasy kompozytowe | `tarasy-kompozytowe` |
-| Tarasy z płyt gresowych | `tarasy-gresowe` |
-| Tarasy drewniane | `tarasy-drewniane` |
-| Elewacje kompozytowe | `elewacje-kompozytowe` |
-| Schody modułowe | `schody-modulowe` |
+| Polish Name             | Slug                    |
+| ----------------------- | ----------------------- |
+| Zadaszenia aluminiowe   | `zadaszenia-aluminiowe` |
+| Żaluzje tarasowe        | `zaluzje-tarasowe`      |
+| Tarasy kompozytowe      | `tarasy-kompozytowe`    |
+| Tarasy z płyt gresowych | `tarasy-gresowe`        |
+| Tarasy drewniane        | `tarasy-drewniane`      |
+| Elewacje kompozytowe    | `elewacje-kompozytowe`  |
+| Schody modułowe         | `schody-modulowe`       |
 
 ### 3. Quotation Forms (`/wycena/[type]`)
 
 Four multi-step forms (react-hook-form + Zod). Field visibility per type is CMS-configurable via `quotationFormConfig`.
 
-| Form | Slug |
-|---|---|
-| Formularz Wyceny Tarasu | `taras` |
+| Form                        | Slug         |
+| --------------------------- | ------------ |
+| Formularz Wyceny Tarasu     | `taras`      |
 | Formularz Wyceny Zadaszenia | `zadaszenie` |
-| Formularz Wyceny Żaluzji | `zaluzje` |
-| Formularz Wyceny Schodów | `schody` |
+| Formularz Wyceny Żaluzji    | `zaluzje`    |
+| Formularz Wyceny Schodów    | `schody`     |
 
 **Shared fields:** full name, phone, email, city / postal code.
 
 **Product-specific fields:**
-- *Zadaszenie:* width (m), length (m), roof type (glass / slat / solid / sliding), frame color, features (LED, automation, glass walls), planned install date, budget range.
-- *Taras:* surface area (m²), material (composite / gres / wood), color, features.
-- *Żaluzje:* window/door dimensions, type (interior / exterior), color.
-- *Schody:* number of steps, material, style.
+
+- _Zadaszenie:_ width (m), length (m), roof type (glass / slat / solid / sliding), frame color, features (LED, automation, glass walls), planned install date, budget range.
+- _Taras:_ surface area (m²), material (composite / gres / wood), color, features.
+- _Żaluzje:_ window/door dimensions, type (interior / exterior), color.
+- _Schody:_ number of steps, material, style.
 
 **UX:** 3 steps (Contact → Product Details → Summary) with progress bar, smooth transitions, live Zod validation with inline errors, floating labels + glass inputs, file upload (photos/plans), success screen. Submissions emailed via Resend; optionally stored in Sanity.
 
 ### 4. Realizacje (`/realizacje`)
 
-Masonry grid from `project`. Filters: type, material, location. Card: cover, title, short description, location tag. Detail (`/realizacje/[slug]`): lightbox gallery, specs (size, material, duration), optional testimonial, CTA *"Zamów podobny projekt"*.
+Masonry grid from `project`. Filters: type, material, location. Card: cover, title, short description, location tag. Detail (`/realizacje/[slug]`): lightbox gallery, specs (size, material, duration), optional testimonial, CTA _"Zamów podobny projekt"_.
 
 ### 5. O nas (`/o-nas`)
 
@@ -247,7 +248,7 @@ Company story (Portable Text + split imagery), animated milestone timeline, team
 
 ### 6. Kierownik budowy (`/kierownik-budowy`)
 
-Service page for the construction-site-manager offering: hero, Portable Text description, "what's included" list, "why it matters" benefits, collapsible FAQ (CMS), CTA *"Skontaktuj się z nami"*.
+Service page for the construction-site-manager offering: hero, Portable Text description, "what's included" list, "why it matters" benefits, collapsible FAQ (CMS), CTA _"Skontaktuj się z nami"_.
 
 ### 7. Kontakt (`/kontakt`)
 
@@ -259,14 +260,14 @@ R3F + three. Pergola `.glb` from Blender with named mesh groups (frame/metal, ro
 
 - **Color picker** for metal frame — preset swatches: Matte Black `#1A1A1A`, Anthracite `#3D3D3D`, White Aluminum `#F0F0F0`, Dark Bronze `#3E2B1E`; optional custom hex.
 - Orbit controls (rotate/zoom/pan), smooth camera transitions, animated load.
-- Layout: full canvas + floating glass settings panel (swatches, view presets front/side/perspective), CTA *"Zapytaj o wycenę"* → `/wycena/zadaszenie`.
+- Layout: full canvas + floating glass settings panel (swatches, view presets front/side/perspective), CTA _"Zapytaj o wycenę"_ → `/wycena/zadaszenie`.
 - Implementation: traverse model on load, match metal group by Blender name, override `MeshStandardMaterial.color` via React state. Mobile: simplified (swatches + static render, no orbit).
 
 ### 9. AI Garden Visualizer (`/wizualizacja`)
 
 Upload garden photo → AI renders pergola integrated into the scene.
 
-- Flow: upload (JPG/PNG/WEBP ≤ 10MB) → preview → pick style (**Nowoczesna**, **Skandynawska**, **Luksusowa czarna**, **Naturalne drewno**) → **Generuj wizualizację** → animated loading → before/after comparison slider → download → CTA *"Podoba Ci się? Zamów wycenę"* → `/wycena/zadaszenie`.
+- Flow: upload (JPG/PNG/WEBP ≤ 10MB) → preview → pick style (**Nowoczesna**, **Skandynawska**, **Luksusowa czarna**, **Naturalne drewno**) → **Generuj wizualizację** → animated loading → before/after comparison slider → download → CTA _"Podoba Ci się? Zamów wycenę"_ → `/wycena/zadaszenie`.
 - Server: `FormData` upload to `/api/visualize`; OpenAI vision model analyzes perspective/lighting, image model generates result; return image URL.
 - MVP: one generation per session, no auth. Friendly Polish error messages (unsupported format, too large, API failure).
 
@@ -421,20 +422,20 @@ flowchart TD
 
 Ark UI headless primitives styled with Tailwind v4.
 
-| Component | Purpose |
-|---|---|
-| `GlassCard` | Backdrop-blur card with subtle border |
-| `HeroSection` | Full-bleed media + overlay + animated title |
-| `SectionWrapper` | Consistent padding + max-width container |
-| `Button` | Primary (green), secondary (ghost), tertiary (text) |
-| `NavBar` | Transparent → blur on scroll, mobile drawer |
-| `MegaMenu` | Dropdown for Oferta & Formularze wycen |
-| `QuotationForm` | Multi-step shared layout + per-type fields |
-| `ProjectCard` | Masonry card for Realizacje |
-| `TestimonialSlider` | Auto-sliding glass testimonial cards |
-| `ComparisonSlider` | Before/after image reveal |
-| `ColorSwatch` | Color picker for the configurator |
-| `ThreeDViewer` | R3F canvas wrapper |
+| Component           | Purpose                                             |
+| ------------------- | --------------------------------------------------- |
+| `GlassCard`         | Backdrop-blur card with subtle border               |
+| `HeroSection`       | Full-bleed media + overlay + animated title         |
+| `SectionWrapper`    | Consistent padding + max-width container            |
+| `Button`            | Primary (green), secondary (ghost), tertiary (text) |
+| `NavBar`            | Transparent → blur on scroll, mobile drawer         |
+| `MegaMenu`          | Dropdown for Oferta & Formularze wycen              |
+| `QuotationForm`     | Multi-step shared layout + per-type fields          |
+| `ProjectCard`       | Masonry card for Realizacje                         |
+| `TestimonialSlider` | Auto-sliding glass testimonial cards                |
+| `ComparisonSlider`  | Before/after image reveal                           |
+| `ColorSwatch`       | Color picker for the configurator                   |
+| `ThreeDViewer`      | R3F canvas wrapper                                  |
 
 **Responsive:** desktop-first, fully mobile-usable; mega menu → drawer; configurator simplified on mobile; Tailwind default breakpoints (`sm`–`2xl`).
 
@@ -442,12 +443,12 @@ Ark UI headless primitives styled with Tailwind v4.
 
 ## API Routes
 
-| Route | Method | Purpose |
-|---|---|---|
-| `/api/quote` | POST | Validate + email quotation submissions (Resend), optional Sanity write |
-| `/api/contact` | POST | Contact form → Resend |
-| `/api/visualize` | POST | Image upload → OpenAI → generated image URL |
-| `/api/draft-mode/enable` | GET | Existing — Presentation/Visual Editing draft mode |
+| Route                    | Method | Purpose                                                                |
+| ------------------------ | ------ | ---------------------------------------------------------------------- |
+| `/api/quote`             | POST   | Validate + email quotation submissions (Resend), optional Sanity write |
+| `/api/contact`           | POST   | Contact form → Resend                                                  |
+| `/api/visualize`         | POST   | Image upload → OpenAI → generated image URL                            |
+| `/api/draft-mode/enable` | GET    | Existing — Presentation/Visual Editing draft mode                      |
 
 Keep all secrets (OpenAI, Resend, Sanity write token) server-side only.
 
@@ -468,7 +469,6 @@ SANITY_API_WRITE_TOKEN=                # if storing form submissions
 
 # Integrations (server only)
 OPENAI_API_KEY=
-RESEND_API_KEY=
 
 # Site
 NEXT_PUBLIC_SITE_URL=
@@ -490,14 +490,14 @@ NEXT_PUBLIC_SITE_URL=
 
 ## Delivery Phases
 
-| Phase | Scope |
-|---|---|
-| **1 — Foundation** | Next + Tailwind v4 tokens + Ark UI; Sanity schemas; NavBar/Footer/MegaMenu; design tokens |
-| **2 — Core Pages** | Home, Oferta (dynamic), Realizacje, O nas, Kierownik budowy, Kontakt |
-| **3 — Forms** | 4 quotation forms (RHF + Zod), Resend submission, success/error states |
-| **4 — 3D Configurator** | Blender `.glb` export, R3F integration, metal color picker, `/konfigurator` |
-| **5 — AI Visualizer** | `/api/visualize`, OpenAI integration, comparison slider, `/wizualizacja` |
-| **6 — Polish & Launch** | SEO metadata, Lighthouse, cross-browser, CMS handoff walkthrough, Vercel deploy |
+| Phase                   | Scope                                                                                     |
+| ----------------------- | ----------------------------------------------------------------------------------------- |
+| **1 — Foundation**      | Next + Tailwind v4 tokens + Ark UI; Sanity schemas; NavBar/Footer/MegaMenu; design tokens |
+| **2 — Core Pages**      | Home, Oferta (dynamic), Realizacje, O nas, Kierownik budowy, Kontakt                      |
+| **3 — Forms**           | 4 quotation forms (RHF + Zod), Resend submission, success/error states                    |
+| **4 — 3D Configurator** | Blender `.glb` export, R3F integration, metal color picker, `/konfigurator`               |
+| **5 — AI Visualizer**   | `/api/visualize`, OpenAI integration, comparison slider, `/wizualizacja`                  |
+| **6 — Polish & Launch** | SEO metadata, Lighthouse, cross-browser, CMS handoff walkthrough, Vercel deploy           |
 
 ---
 
@@ -515,6 +515,7 @@ NEXT_PUBLIC_SITE_URL=
 ## Reference Links
 
 **Frameworks & libraries**
+
 - Next.js (App Router): https://nextjs.org/docs — and read local docs in `node_modules/next/dist/docs/` before Next.js work
 - Tailwind CSS v4: https://tailwindcss.com/docs
 - Ark UI: https://ark-ui.com/docs
@@ -523,11 +524,12 @@ NEXT_PUBLIC_SITE_URL=
 - React Three Fiber: https://r3f.docs.pmnd.rs — drei: https://drei.docs.pmnd.rs — three.js: https://threejs.org/docs
 
 **CMS**
+
 - Sanity docs: https://www.sanity.io/docs — `@sanity/icons`: https://icons.sanity.build/all
 - next-sanity: https://github.com/sanity-io/next-sanity — Live Content API: https://www.sanity.io/live
 - Presentation / Visual Editing: https://www.sanity.io/docs/presentation
 
 **Integrations**
+
 - OpenAI API: https://platform.openai.com/docs
-- Resend: https://resend.com/docs
 - Vercel deploy: https://vercel.com/docs

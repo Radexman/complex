@@ -6,6 +6,10 @@
         "Authorization": "Bearer sk..."
       }
     },
+    "ark-ui": {
+      "command": "npx",
+      "args": ["-y", "@ark-ui/mcp"]
+    },
     "context7": {
       "type": "stdio",
       "command": "npx",
