@@ -9,30 +9,28 @@ import type {Settings} from '../../../sanity.types'
 
 export const settings = defineType({
   name: 'settings',
-  title: 'Settings',
+  title: 'Ustawienia',
   type: 'document',
   icon: CogIcon,
   fields: [
     defineField({
-      name: 'heading',
-      title: 'Homepage Heading',
-      description: 'The main H1 displayed on the homepage.',
+      name: 'title',
+      title: 'Nazwa strony',
+      description: 'Używana w nagłówku strony oraz jako tytuł w metadanych.',
       type: 'string',
       initialValue: 'Complex',
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: 'title',
-      title: 'Site Title',
-      description: 'Used in the site header and as the metadata title.',
-      type: 'string',
-      initialValue: 'Complex',
-      validation: (rule) => rule.required(),
+      name: 'hero',
+      title: 'Sekcja Hero',
+      description: 'Pełnoekranowa sekcja na górze strony głównej.',
+      type: 'heroSection',
     }),
     defineField({
       name: 'description',
-      title: 'Description',
-      description: 'Used as the site metadata description.',
+      title: 'Opis',
+      description: 'Używany jako opis strony w metadanych.',
       type: 'array',
       of: [
         // A minified block content field for the description. https://www.sanity.io/docs/block-content
@@ -50,9 +48,9 @@ export const settings = defineType({
     }),
     defineField({
       name: 'ogImage',
-      title: 'Open Graph Image',
+      title: 'Obraz Open Graph',
       type: 'image',
-      description: 'Displayed on social cards and search engine results.',
+      description: 'Wyświetlany w kartach społecznościowych i wynikach wyszukiwania.',
       options: {
         hotspot: true,
         aiAssist: {
@@ -62,14 +60,14 @@ export const settings = defineType({
       fields: [
         defineField({
           name: 'alt',
-          description: 'Important for accessibility and SEO.',
-          title: 'Alternative text',
+          description: 'Ważny dla dostępności i SEO.',
+          title: 'Tekst alternatywny',
           type: 'string',
           validation: (rule) => {
             return rule.custom((alt, context) => {
               const document = context.document as Settings
               if (document?.ogImage?.asset?._ref && !alt) {
-                return 'Required'
+                return 'Wymagane'
               }
               return true
             })
@@ -77,13 +75,14 @@ export const settings = defineType({
         }),
         defineField({
           name: 'metadataBase',
+          title: 'Adres bazowy metadanych',
           type: 'url',
           description: (
             <a
               href="https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase"
               rel="noreferrer noopener"
             >
-              More information
+              Więcej informacji
             </a>
           ),
         }),
@@ -93,7 +92,7 @@ export const settings = defineType({
   preview: {
     prepare() {
       return {
-        title: 'Settings',
+        title: 'Ustawienia',
       }
     },
   },

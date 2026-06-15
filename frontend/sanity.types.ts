@@ -15,11 +15,41 @@
 export declare const internalGroqTypeReferenceTo: unique symbol
 
 // Source: ../sanity.schema.json
+export type HeroStat = {
+  _type: 'heroStat'
+  value: string
+  label: string
+}
+
 export type SanityImageAssetReference = {
   _ref: string
   _type: 'reference'
   _weak?: boolean
   [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+}
+
+export type HeroSection = {
+  _type: 'heroSection'
+  backgroundImage: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  headline: string
+  headlineAccent?: string
+  subheadline?: string
+  primaryCtaLabel: string
+  primaryCtaHref: string
+  secondaryCtaLabel: string
+  secondaryCtaHref: string
+  stats?: Array<
+    {
+      _key: string
+    } & HeroStat
+  >
 }
 
 export type Settings = {
@@ -28,8 +58,8 @@ export type Settings = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  heading: string
   title: string
+  hero?: HeroSection
   description?: Array<{
     children?: Array<{
       marks?: Array<string>
@@ -312,7 +342,9 @@ export type Slug = {
 }
 
 export type AllSanitySchemaTypes =
+  | HeroStat
   | SanityImageAssetReference
+  | HeroSection
   | Settings
   | SanityImageCrop
   | SanityImageHotspot
@@ -348,8 +380,8 @@ export type SettingsQueryResult = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  heading: string
   title: string
+  hero?: HeroSection
   description?: Array<{
     children?: Array<{
       marks?: Array<string>
