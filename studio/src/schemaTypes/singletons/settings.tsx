@@ -34,6 +34,12 @@ export const settings = defineType({
       type: 'heroSection',
     }),
     defineField({
+      name: 'trust',
+      title: 'Sekcja Trust',
+      description: 'Sekcja zaufania pod hero — statystyki i odznaki budujące wiarygodność.',
+      type: 'trustSection',
+    }),
+    defineField({
       name: 'description',
       title: 'Opis',
       description: 'Używany jako opis strony w metadanych.',

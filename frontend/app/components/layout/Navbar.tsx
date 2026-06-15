@@ -145,7 +145,7 @@ export default function Navbar({navbar}: {navbar?: NavbarType}) {
 
   return (
     <header
-      className={`fixed top-0 left-0 z-50 w-full transition-all duration-300 ${
+      className={`fixed top-0 left-0 z-50 w-full animate-[nav-slide-down_0.45s_cubic-bezier(0.22,1,0.36,1)] transition-all duration-300 ${
         scrolled ? 'bg-bg-mid/80 backdrop-blur-md' : 'bg-transparent'
       }`}
     >
