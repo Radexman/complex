@@ -15,6 +15,23 @@
 export declare const internalGroqTypeReferenceTo: unique symbol
 
 // Source: ../sanity.schema.json
+export type Logo = {
+  text?: string
+  iconLetter?: string
+  href?: string
+}
+
+export type CtaButton = {
+  label?: string
+  href?: string
+}
+
+export type Navbar = {
+  _type: 'navbar'
+  logo?: Logo
+  ctaButton?: CtaButton
+}
+
 export type HeroStat = {
   _type: 'heroStat'
   value: string
@@ -59,6 +76,7 @@ export type Settings = {
   _updatedAt: string
   _rev: string
   title: string
+  navbar?: Navbar
   hero?: HeroSection
   description?: Array<{
     children?: Array<{
@@ -342,6 +360,9 @@ export type Slug = {
 }
 
 export type AllSanitySchemaTypes =
+  | Logo
+  | CtaButton
+  | Navbar
   | HeroStat
   | SanityImageAssetReference
   | HeroSection
@@ -381,6 +402,7 @@ export type SettingsQueryResult = {
   _updatedAt: string
   _rev: string
   title: string
+  navbar?: Navbar
   hero?: HeroSection
   description?: Array<{
     children?: Array<{
