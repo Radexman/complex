@@ -1,10 +1,13 @@
+import {sanityFetch} from '@/sanity/lib/live'
+import {settingsQuery} from '@/sanity/lib/queries'
+import Navbar from '@/app/components/layout/Navbar'
+
 /**
- * Site header placeholder. The full NavBar (transparent → blur-on-scroll,
- * mega menus, mobile drawer) is a separate feature; until then nothing is
- * rendered so the hero stays fullscreen from the top. The on-page site title
- * was intentionally removed — the site name lives in metadata (the browser tab)
- * via `generateMetadata`, not as visible text over the hero.
+ * Site header. Fetches the CMS-managed navbar config (logo + CTA) and renders
+ * the fixed <Navbar>, which is transparent over the hero and blurs on scroll.
  */
-export default function Header() {
-  return null
+export default async function Header() {
+  const {data: settings} = await sanityFetch({query: settingsQuery})
+
+  return <Navbar navbar={settings?.navbar} />
 }

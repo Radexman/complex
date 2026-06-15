@@ -22,6 +22,12 @@ export const settings = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'navbar',
+      title: 'Nawigacja',
+      description: 'Logo i przycisk CTA w górnym pasku nawigacji.',
+      type: 'navbar',
+    }),
+    defineField({
       name: 'hero',
       title: 'Sekcja Hero',
       description: 'Pełnoekranowa sekcja na górze strony głównej.',
