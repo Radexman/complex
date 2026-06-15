@@ -1,21 +1,15 @@
 import {settingsQuery} from '@/sanity/lib/queries'
 import {sanityFetch} from '@/sanity/lib/live'
-import {dataAttr} from '@/sanity/lib/utils'
+import HeroSection from '@/app/components/sections/HeroSection'
 
 export default async function Page() {
   const {data: settings} = await sanityFetch({
     query: settingsQuery,
   })
 
-  return (
-    <h1
-      data-sanity={
-        settings?._id
-          ? dataAttr({id: settings._id, type: 'settings', path: 'heading'}).toString()
-          : undefined
-      }
-    >
-      {settings?.heading ?? 'Complex'}
-    </h1>
-  )
+  if (!settings?.hero) {
+    return null
+  }
+
+  return <HeroSection data={settings.hero} />
 }

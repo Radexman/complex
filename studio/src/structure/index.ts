@@ -9,11 +9,11 @@ import type {StructureBuilder, StructureResolver} from 'sanity/structure'
 
 export const structure: StructureResolver = (S: StructureBuilder) =>
   S.list()
-    .title('Website Content')
+    .title('Treść strony')
     .items([
       // Settings Singleton in order to view/edit the one particular document for Settings.  Learn more about Singletons: https://www.sanity.io/docs/create-a-link-to-a-single-edit-page-in-your-main-document-type-list
       S.listItem()
-        .title('Site Settings')
+        .title('Ustawienia strony')
         .child(S.document().schemaType('settings').documentId('siteSettings'))
         .icon(CogIcon),
     ])

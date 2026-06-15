@@ -26,7 +26,7 @@ const SANITY_STUDIO_PREVIEW_URL = process.env.SANITY_STUDIO_PREVIEW_URL || 'http
 
 // Define the home location for the presentation tool
 const homeLocation = {
-  title: 'Home',
+  title: 'Strona główna',
   href: '/',
 } satisfies DocumentLocation
 
@@ -47,7 +47,7 @@ function resolveHref(documentType?: string, slug?: string): string | undefined {
 // Main Sanity configuration
 export default defineConfig({
   name: 'default',
-  title: 'Sanity + Next.js Starter Template',
+  title: 'Complex',
 
   projectId,
   dataset,
@@ -81,7 +81,7 @@ export default defineConfig({
         locations: {
           settings: defineLocations({
             locations: [homeLocation],
-            message: 'This document is used on all pages',
+            message: 'Ten dokument jest używany na wszystkich stronach',
             tone: 'positive',
           }),
           page: defineLocations({
