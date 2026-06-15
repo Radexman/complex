@@ -1,8 +1,6 @@
 import {CogIcon} from '@sanity/icons'
 import {defineArrayMember, defineField, defineType} from 'sanity'
-import type {Link, Settings} from '../../../sanity.types'
-
-import * as demo from '../../lib/initialValues'
+import type {Settings} from '../../../sanity.types'
 
 /**
  * Settings schema Singleton.  Singletons are single documents that are displayed not in a collection, handy for things like site settings and other global configurations.
@@ -16,21 +14,28 @@ export const settings = defineType({
   icon: CogIcon,
   fields: [
     defineField({
-      name: 'title',
-      description: 'This field is the title of your blog.',
-      title: 'Title',
+      name: 'heading',
+      title: 'Homepage Heading',
+      description: 'The main H1 displayed on the homepage.',
       type: 'string',
-      initialValue: demo.title,
+      initialValue: 'Complex',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'title',
+      title: 'Site Title',
+      description: 'Used in the site header and as the metadata title.',
+      type: 'string',
+      initialValue: 'Complex',
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'description',
-      description: 'Used on the Homepage',
       title: 'Description',
+      description: 'Used as the site metadata description.',
       type: 'array',
-      initialValue: demo.description,
       of: [
-        // Define a minified block content field for the description. https://www.sanity.io/docs/block-content
+        // A minified block content field for the description. https://www.sanity.io/docs/block-content
         defineArrayMember({
           type: 'block',
           options: {},
@@ -38,79 +43,7 @@ export const settings = defineType({
           lists: [],
           marks: {
             decorators: [],
-            annotations: [
-              {
-                name: 'link',
-                type: 'object',
-                title: 'Link',
-                fields: [
-                  defineField({
-                    name: 'linkType',
-                    title: 'Link Type',
-                    type: 'string',
-                    initialValue: 'href',
-                    options: {
-                      list: [
-                        {title: 'URL', value: 'href'},
-                        {title: 'Page', value: 'page'},
-                        {title: 'Post', value: 'post'},
-                      ],
-                      layout: 'radio',
-                    },
-                  }),
-                  defineField({
-                    name: 'href',
-                    title: 'URL',
-                    type: 'url',
-                    hidden: ({parent}) => parent?.linkType !== 'href' && parent?.linkType != null,
-                    validation: (Rule) =>
-                      Rule.custom((value, context) => {
-                        const parent = context.parent as Link
-                        if (parent?.linkType === 'href' && !value) {
-                          return 'URL is required when Link Type is URL'
-                        }
-                        return true
-                      }),
-                  }),
-                  defineField({
-                    name: 'page',
-                    title: 'Page',
-                    type: 'reference',
-                    to: [{type: 'page'}],
-                    hidden: ({parent}) => parent?.linkType !== 'page',
-                    validation: (Rule) =>
-                      Rule.custom((value, context) => {
-                        const parent = context.parent as Link
-                        if (parent?.linkType === 'page' && !value) {
-                          return 'Page reference is required when Link Type is Page'
-                        }
-                        return true
-                      }),
-                  }),
-                  defineField({
-                    name: 'post',
-                    title: 'Post',
-                    type: 'reference',
-                    to: [{type: 'post'}],
-                    hidden: ({parent}) => parent?.linkType !== 'post',
-                    validation: (Rule) =>
-                      Rule.custom((value, context) => {
-                        const parent = context.parent as Link
-                        if (parent?.linkType === 'post' && !value) {
-                          return 'Post reference is required when Link Type is Post'
-                        }
-                        return true
-                      }),
-                  }),
-                  defineField({
-                    name: 'openInNewTab',
-                    title: 'Open in new tab',
-                    type: 'boolean',
-                    initialValue: false,
-                  }),
-                ],
-              },
-            ],
+            annotations: [],
           },
         }),
       ],

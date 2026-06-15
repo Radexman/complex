@@ -31,5 +31,10 @@
     "@sanity/prettier-config": "^3.0.0",
     "npm-run-all2": "^5.0.2",
     "prettier": "^3.8.3"
+  },
+  "dependencies": {
+    "@ark-ui/react": "^5.37.2",
+    "react-hook-form": "^7.79.0",
+    "zod": "^4.4.3"
   }
 }

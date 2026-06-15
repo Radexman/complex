@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "Sanity": {
+      "url": "https://mcp.sanity.io",
+      "headers": {
+        "Authorization": "Bearer sk..."
+      }
+    },
+    "context7": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp",
+        "--api-key",
+        "ctx7sk-75b1a6bf-1be3-4fe2-973c-e3b4c7b44490"
+      ],
+      "env": {}
+    }
+  }
+}
