@@ -14,6 +14,17 @@ Not Started
 
 ## History
 
+### Trust Section (2026-06-15)
+
+CMS-managed social-proof / credibility block on the home page, directly below the hero, with a GSAP scroll reveal. Also added a navbar entrance animation in the same session.
+
+- Sanity: `trustSection` + `trustStat` object types (`studio/src/schemaTypes/objects/`), embedded as the `trust` field on the `settings` singleton (no `homePage` doc — matches the Hero precedent). `trustStat.icon` is a constrained `options.list` dropdown (8 allowed values, exported as `TRUST_STAT_ICONS`). Polish `initialValue` defaults for header, stats, badges. Registered `trustStat` in `index.ts`; regenerated types (`TrustSection`/`TrustStat`).
+- Component `frontend/app/components/sections/TrustSection.tsx` (`'use client'`): centered header (`max-w-4xl`), responsive 4/2/1 stat-card grid, badge row. Icon string → Lucide via a static `ICON_MAP` (no dynamic imports), with `stegaClean` on the key so Visual Editing metadata doesn't break the lookup. Green radial glow in the upper-left (`relative overflow-hidden` section + absolute blurred radial). Full in-component fallbacks; rendered **always** in `page.tsx` (initialValue doesn't backfill the existing singleton), so the section shows even before an editor populates it.
+- **GSAP fix:** initial implementation chained three `.from()` tweens in one ScrollTrigger timeline → cards stayed stuck at `opacity:0` (immediateRender footgun). Rewrote to `gsap.set(...)` hidden state + `.to()` reveals (header → cards stagger 0.1 → badges) with `toggleActions: 'play none none none'`, via `useGSAP`. Reliable now.
+- **Hover polish:** card carries `border-b-2` at rest (was `hover:border-b-2`, which shifted height by 1px) and only swaps the bottom color to accent on hover; icon gets `group-hover:brightness-125` (greener) and its tile `group-hover:bg-accent/20`.
+- **Navbar entrance:** new `nav-slide-down` keyframe in `globals.css` (`translateY(-100%)` + fade); header animates in with `animate-[nav-slide-down_0.45s_cubic-bezier(0.22,1,0.36,1)]`. Independent of the scroll-based background transition.
+- Verified: frontend `tsc`, studio `tsc`, `eslint`, `next build` all pass. No server actions/utilities added, so no Vitest tests (per coding standards).
+
 ### Navbar dropdown links not clickable (fix, 2026-06-15)
 
 Oferta / Formularze wycen desktop dropdown items had no hover feedback and didn't navigate on click. Ark UI's `Menu` (portalled, Zag-driven) was the culprit; two attempts to fix it within Ark (`asChild`+`Link`, then plain `Menu.Item`+`onSelect`/`router.push`) both still failed in the browser.
