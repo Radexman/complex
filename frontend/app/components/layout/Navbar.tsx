@@ -1,12 +1,14 @@
 'use client'
 
-import {useEffect, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import {usePathname} from 'next/navigation'
-import {Accordion, Dialog, Menu, Portal} from '@ark-ui/react'
+import {Accordion, Dialog, Portal} from '@ark-ui/react'
 import {ChevronDown, Menu as MenuIcon, X} from 'lucide-react'
 
 import type {Navbar as NavbarType} from '@/sanity.types'
+import {urlForImage} from '@/sanity/lib/utils'
 
 type NavItem = {label: string; href: string}
 
@@ -47,6 +49,76 @@ function isActivePath(pathname: string, href: string) {
   return href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`)
 }
 
+/**
+ * Desktop nav dropdown — plain React state + real <Link> anchors (no headless
+ * library). Closes on outside pointerdown, Escape, or selecting a link.
+ */
+function NavDropdown({
+  label,
+  items,
+  align = 'left',
+}: {
+  label: string
+  items: NavItem[]
+  align?: 'left' | 'right'
+}) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!open) return
+    const onPointerDown = (event: PointerEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) setOpen(false)
+    }
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpen(false)
+    }
+    document.addEventListener('pointerdown', onPointerDown)
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown)
+      document.removeEventListener('keydown', onKeyDown)
+    }
+  }, [open])
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        aria-expanded={open}
+        aria-haspopup="menu"
+        className="flex items-center gap-1 text-sm text-silver transition-colors duration-200 outline-none hover:text-white aria-expanded:text-white"
+      >
+        {label}
+        <ChevronDown
+          size={16}
+          className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+          aria-hidden="true"
+        />
+      </button>
+      {open && (
+        <div
+          className={`glass absolute top-full mt-3 min-w-56 rounded-lg animate-[nav-fade-in_0.15s_ease-out] ${
+            align === 'right' ? 'right-0' : 'left-0'
+          }`}
+        >
+          {items.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setOpen(false)}
+              className="block px-4 py-2 text-sm whitespace-nowrap text-silver transition-colors hover:bg-white/10 hover:text-white"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function Navbar({navbar}: {navbar?: NavbarType}) {
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
@@ -62,6 +134,9 @@ export default function Navbar({navbar}: {navbar?: NavbarType}) {
   const logoText = navbar?.logo?.text || DEFAULT_LOGO_TEXT
   const logoLetter = navbar?.logo?.iconLetter || DEFAULT_LOGO_LETTER
   const logoHref = navbar?.logo?.href || DEFAULT_LOGO_HREF
+  const logoImageUrl = navbar?.logo?.logoImage?.asset
+    ? urlForImage(navbar.logo.logoImage)?.height(96).fit('max').url()
+    : undefined
   const ctaLabel = navbar?.ctaButton?.label || DEFAULT_CTA_LABEL
   const ctaHref = navbar?.ctaButton?.href || DEFAULT_CTA_HREF
 
@@ -76,41 +151,29 @@ export default function Navbar({navbar}: {navbar?: NavbarType}) {
     >
       <nav className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-4 px-4 md:px-8">
         <Link href={logoHref} className="flex shrink-0 items-center gap-2.5" aria-label={logoText}>
-          <span className="flex h-8 w-8 items-center justify-center rounded-md bg-accent font-heading text-lg font-bold text-black">
-            {logoLetter}
-          </span>
-          <span className="font-heading text-lg font-bold text-white">{logoText}</span>
+          {logoImageUrl ? (
+            <Image
+              src={logoImageUrl}
+              alt={logoText}
+              width={240}
+              height={48}
+              className="h-12 w-auto object-contain"
+              priority
+            />
+          ) : (
+            <>
+              <span className="flex h-10 w-10 items-center justify-center rounded-md bg-accent font-heading text-xl font-bold text-black">
+                {logoLetter}
+              </span>
+              <span className="font-heading text-xl font-bold text-white">{logoText}</span>
+            </>
+          )}
         </Link>
         <div className="hidden flex-1 items-center justify-center gap-5 lg:flex">
           <Link href="/" className={navLinkClass(isActivePath(pathname, '/'))}>
             Strona główna
           </Link>
-          <Menu.Root>
-            <Menu.Trigger className="group flex items-center gap-1 text-sm text-silver transition-colors duration-200 outline-none hover:text-white data-[state=open]:text-white">
-              Oferta
-              <ChevronDown
-                size={16}
-                className="transition-transform duration-200 group-data-[state=open]:rotate-180"
-                aria-hidden="true"
-              />
-            </Menu.Trigger>
-            <Portal>
-              <Menu.Positioner className="z-50">
-                <Menu.Content className="glass min-w-56 origin-top rounded-lg py-2 outline-none animate-[nav-fade-in_0.15s_ease-out]">
-                  {OFERTA_ITEMS.map((item) => (
-                    <Menu.Item key={item.href} value={item.href} asChild>
-                      <Link
-                        href={item.href}
-                        className="block px-4 py-2 text-sm text-silver transition-colors hover:bg-bg-surface hover:text-white"
-                      >
-                        {item.label}
-                      </Link>
-                    </Menu.Item>
-                  ))}
-                </Menu.Content>
-              </Menu.Positioner>
-            </Portal>
-          </Menu.Root>
+          <NavDropdown label="Oferta" items={OFERTA_ITEMS} />
           {NAV_LINKS.map((item) => (
             <Link
               key={item.href}
@@ -122,32 +185,7 @@ export default function Navbar({navbar}: {navbar?: NavbarType}) {
           ))}
         </div>
         <div className="hidden shrink-0 items-center gap-3 lg:flex">
-          <Menu.Root>
-            <Menu.Trigger className="group flex items-center gap-1 text-sm text-silver transition-colors duration-200 outline-none hover:text-white data-[state=open]:text-white">
-              Formularze wycen
-              <ChevronDown
-                size={16}
-                className="transition-transform duration-200 group-data-[state=open]:rotate-180"
-                aria-hidden="true"
-              />
-            </Menu.Trigger>
-            <Portal>
-              <Menu.Positioner className="z-50">
-                <Menu.Content className="glass min-w-64 origin-top rounded-lg py-2 outline-none animate-[nav-fade-in_0.15s_ease-out]">
-                  {WYCENA_ITEMS.map((item) => (
-                    <Menu.Item key={item.href} value={item.href} asChild>
-                      <Link
-                        href={item.href}
-                        className="block px-4 py-2 text-sm text-silver transition-colors hover:bg-bg-surface hover:text-white"
-                      >
-                        {item.label}
-                      </Link>
-                    </Menu.Item>
-                  ))}
-                </Menu.Content>
-              </Menu.Positioner>
-            </Portal>
-          </Menu.Root>
+          <NavDropdown label="Formularze wycen" items={WYCENA_ITEMS} align="right" />
           <Link
             href={ctaHref}
             className="rounded-md bg-accent px-4 py-2 text-sm font-semibold text-black transition-colors hover:bg-accent-hover"

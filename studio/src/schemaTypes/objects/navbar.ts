@@ -15,6 +15,14 @@ export const navbar = defineType({
       options: {collapsible: true, collapsed: false},
       fields: [
         defineField({
+          name: 'logoImage',
+          title: 'Ikona logo',
+          description:
+            'Obraz logo wyświetlany po lewej stronie. Jeśli nie wgrasz ikony, użyta zostanie litera w zielonym kwadracie.',
+          type: 'image',
+          options: {hotspot: true},
+        }),
+        defineField({
           name: 'text',
           title: 'Nazwa marki',
           description: 'Tekst obok ikony.',
@@ -23,8 +31,8 @@ export const navbar = defineType({
         }),
         defineField({
           name: 'iconLetter',
-          title: 'Litera w ikonie',
-          description: 'Pojedyncza litera w zielonym kwadracie.',
+          title: 'Litera w ikonie (zapasowa)',
+          description: 'Pojedyncza litera w zielonym kwadracie. Używana, gdy nie wgrano ikony logo.',
           type: 'string',
           initialValue: 'C',
           validation: (rule) => rule.max(1),
