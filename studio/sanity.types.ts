@@ -42,6 +42,53 @@ export type LogoImage = {
   _type: 'image'
 }
 
+export type OfferCard = {
+  _type: 'offerCard'
+  title: string
+  description?: string
+  image?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  icon?:
+    | 'layers'
+    | 'sliders-horizontal'
+    | 'sparkles'
+    | 'sun'
+    | 'wind'
+    | 'shield'
+    | 'house'
+    | 'boxes'
+  featured?: boolean
+  badges?: Array<string>
+  offerSlug?:
+    | 'zadaszenia-aluminiowe'
+    | 'zaluzje-tarasowe'
+    | 'tarasy-kompozytowe'
+    | 'tarasy-gresowe'
+    | 'tarasy-drewniane'
+    | 'elewacje-kompozytowe'
+    | 'schody-modulowe'
+}
+
+export type OfferSection = {
+  _type: 'offerSection'
+  eyebrow?: string
+  headline: string
+  subheadline?: string
+  ctaLabel: string
+  ctaHref: string
+  cards?: Array<
+    {
+      _key: string
+    } & OfferCard
+  >
+}
+
 export type TrustStat = {
   _type: 'trustStat'
   icon: 'shield' | 'clock' | 'award' | 'users' | 'star' | 'check' | 'tool' | 'map'
@@ -109,6 +156,7 @@ export type Settings = {
   navbar?: Navbar
   hero?: HeroSection
   trust?: TrustSection
+  offer?: OfferSection
   description?: Array<{
     children?: Array<{
       marks?: Array<string>
@@ -395,6 +443,8 @@ export type AllSanitySchemaTypes =
   | CtaButton
   | SanityImageAssetReference
   | LogoImage
+  | OfferCard
+  | OfferSection
   | TrustStat
   | TrustSection
   | Navbar

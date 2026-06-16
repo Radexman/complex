@@ -40,6 +40,12 @@ export const settings = defineType({
       type: 'trustSection',
     }),
     defineField({
+      name: 'offer',
+      title: 'Sekcja Oferta',
+      description: 'Sekcja z ofertą — karty z daną usługą i odnośnikiem',
+      type: 'offerSection',
+    }),
+    defineField({
       name: 'description',
       title: 'Opis',
       description: 'Używany jako opis strony w metadanych.',
