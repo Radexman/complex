@@ -2,25 +2,47 @@
 
 ## Status
 
-In Progress
+Not Started
 
 ## Goals
 
-Build the home-page **Offer (Oferta)** section as a bento-grid of cards, matching the v0
-prototype screenshots: one large featured card (image background, "Featured" badge, title,
-description, badge pills) plus smaller cards (icon tile, title, description). Hover reveals a
-corner arrow button, brightens the image, and turns the title accent-green. CMS-driven via the
-existing `offerSection`/`offerCard` schema, with full in-component Polish fallbacks. Improve
-header spacing/typo and ensure mobile friendliness.
+<!-- Populated by /feature load -->
 
 ## Notes
 
-- Schema already exists (`offerSection` + `offerCard`, embedded as `settings.offer`).
-- Bento on `lg`: 3 cols × 3 rows, featured = `col-span-2 row-span-2`; the rest auto-flow into
-  the remaining cells. `md`: 2 cols. Mobile: single column stack.
-- Icon string → Lucide via static `ICON_MAP` + `stegaClean` (same pattern as TrustSection).
+<!-- Populated by /feature load -->
 
 ## History
+
+### Bento Offer Cards + Prettier formatting (2026-06-16)
+
+Home-page **Offer (Oferta)** section as a bento grid, matching the v0 prototype, plus a
+project-wide Prettier formatting pass (committed separately).
+
+- Component `frontend/app/components/sections/OfferSection.tsx` (`'use client'`): bento grid —
+  on `lg` a 3-col × 3-row grid where the featured card is `col-span-2 row-span-2` and the rest
+  auto-flow into the remaining cells (matches the screenshot: 2 stacked right, 2 along the
+  bottom, bottom-right empty at 5 cards); `md` 2-col; mobile single-column stack with per-card
+  `min-h`. Featured card sorts first so auto-flow stays clean.
+- Card visuals: optional `next/image` background + bottom gradient; **hover** brightens/scales
+  the image, fades in a corner `ArrowUpRight` button, and turns the title `accent`. Featured
+  card shows a green "Wyróżnione" icon badge + title + description + pill badges; smaller cards
+  show an icon tile (top) + title/description (bottom). Whole card is a `<Link>` to
+  `/oferta/<slug>` (falls back to `ctaHref`).
+- Icon string → Lucide via static `ICON_MAP` + `stegaClean` on the key (TrustSection pattern).
+  Full in-component Polish fallbacks (5 cards: 1 featured + 4) since `initialValue` doesn't
+  backfill the existing singleton. GSAP scroll reveal via the safe `gsap.set` + `.to` pattern.
+- Header polish: replaced loose `container mx-auto` with the standard `mx-auto max-w-7xl px-6
+  md:px-12`; fixed the `thext-white` typo; styled subheadline (`text-silver`); "Poznaj całą
+  ofertę" CTA is now an accent link with an animated arrow. Header stacks on mobile.
+- **Prettier:** added root + frontend `prettier.config.mjs` overriding `@sanity/prettier-config`
+  (`semi`, `bracketSpacing`, trailing commas, single quotes), removed the `package.json`
+  `"prettier"` key, ignored generated/vendored paths (`.claude/**`, `**/.sanity/`,
+  `sanity.types.ts`, `sanity.schema.json`). Reformatted the whole repo; TypeGen now emits the
+  new style too (it formats its output with the project config), so the generated type files
+  were regenerated to match. Committed as a standalone `chore:` so it stays out of blame.
+- Verified: frontend `tsc`, studio `tsc`, `eslint` (no new warnings), `next build`, and
+  `prettier --check .` all pass. No server actions/utilities added, so no Vitest tests.
 
 ### Trust Section (2026-06-15)
 
