@@ -2,15 +2,23 @@
 
 ## Status
 
-Not Started
+In Progress
 
 ## Goals
 
-<!-- Populated by /feature load -->
+Build the home-page **Offer (Oferta)** section as a bento-grid of cards, matching the v0
+prototype screenshots: one large featured card (image background, "Featured" badge, title,
+description, badge pills) plus smaller cards (icon tile, title, description). Hover reveals a
+corner arrow button, brightens the image, and turns the title accent-green. CMS-driven via the
+existing `offerSection`/`offerCard` schema, with full in-component Polish fallbacks. Improve
+header spacing/typo and ensure mobile friendliness.
 
 ## Notes
 
-<!-- Populated by /feature load -->
+- Schema already exists (`offerSection` + `offerCard`, embedded as `settings.offer`).
+- Bento on `lg`: 3 cols × 3 rows, featured = `col-span-2 row-span-2`; the rest auto-flow into
+  the remaining cells. `md`: 2 cols. Mobile: single column stack.
+- Icon string → Lucide via static `ICON_MAP` + `stegaClean` (same pattern as TrustSection).
 
 ## History
 
