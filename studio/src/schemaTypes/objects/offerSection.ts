@@ -98,9 +98,9 @@ export const offerSection = defineType({
     }),
   ],
   preview: {
-    select: { title: 'headline' },
-    prepare({ title }) {
-      return { title: title || 'Sekcja Oferta', subtitle: 'Oferta' };
+    select: { subtitle: 'headline' },
+    prepare({ subtitle }) {
+      return { title: 'Sekcja Oferta', subtitle };
     },
   },
 });

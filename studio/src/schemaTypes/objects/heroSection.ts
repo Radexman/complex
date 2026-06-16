@@ -79,8 +79,8 @@ export const heroSection = defineType({
       type: 'array',
       of: [defineArrayMember({ type: 'heroStat' })],
       initialValue: [
-        { value: '1200+', label: 'Realizacji' },
-        { value: '15', label: 'Lat doświadczenia' },
+        { value: '200+', label: 'Realizacji' },
+        { value: '13', label: 'Lat doświadczenia' },
         { value: '98%', label: 'Zadowolonych klientów' },
         { value: '50+', label: 'Opcji projektowych' },
       ],
@@ -88,9 +88,9 @@ export const heroSection = defineType({
     }),
   ],
   preview: {
-    select: { title: 'headline', media: 'backgroundImage' },
-    prepare({ title, media }) {
-      return { title: title || 'Sekcja Hero', subtitle: 'Hero', media };
+    select: { subtitle: 'headline', media: 'backgroundImage' },
+    prepare({ subtitle, media }) {
+      return { title: 'Sekcja Hero', subtitle, media };
     },
   },
 });

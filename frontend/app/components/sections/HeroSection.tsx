@@ -10,22 +10,6 @@ import { stegaClean } from 'next-sanity';
 import type { HeroSection as HeroSectionType } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/utils';
 
-type HeroStat = { value: string; label: string };
-
-/** Fallback stats used when the CMS document has none. */
-const DEFAULT_STATS: HeroStat[] = [
-  { value: '1200+', label: 'Realizacji' },
-  { value: '15', label: 'Lat doświadczenia' },
-  { value: '98%', label: 'Zadowolonych klientów' },
-  { value: '50+', label: 'Opcji projektowych' },
-];
-
-/** CTA fallbacks for when the CMS fields are empty. */
-const DEFAULT_PRIMARY_CTA_LABEL = 'Nasze realizacje';
-const DEFAULT_PRIMARY_CTA_HREF = '/realizacje';
-const DEFAULT_SECONDARY_CTA_LABEL = 'Darmowa wycena';
-const DEFAULT_SECONDARY_CTA_HREF = '/wycena/zadaszenie';
-
 /**
  * Splits the headline so the `accent` substring can be rendered in the accent
  * color. Falls back to the plain headline when the accent is absent.
@@ -52,14 +36,17 @@ function renderHeadline(headline: string, accent?: string) {
 export default function HeroSection({ data }: { data: HeroSectionType }) {
   const container = useRef<HTMLElement>(null);
 
-  const { backgroundImage, headline, headlineAccent, subheadline, stats } = data;
-
-  const primaryCtaLabel = data.primaryCtaLabel || DEFAULT_PRIMARY_CTA_LABEL;
-  const primaryCtaHref = data.primaryCtaHref || DEFAULT_PRIMARY_CTA_HREF;
-  const secondaryCtaLabel = data.secondaryCtaLabel || DEFAULT_SECONDARY_CTA_LABEL;
-  const secondaryCtaHref = data.secondaryCtaHref || DEFAULT_SECONDARY_CTA_HREF;
-
-  const resolvedStats = stats && stats.length > 0 ? stats : DEFAULT_STATS;
+  const {
+    backgroundImage,
+    headline,
+    headlineAccent,
+    subheadline,
+    stats,
+    primaryCtaLabel,
+    primaryCtaHref,
+    secondaryCtaLabel,
+    secondaryCtaHref,
+  } = data;
 
   useGSAP(
     () => {
@@ -147,17 +134,19 @@ export default function HeroSection({ data }: { data: HeroSectionType }) {
             {secondaryCtaLabel}
           </Link>
         </div>
-        <div data-hero-animate className="mt-16 grid grid-cols-2 gap-4 md:grid-cols-4">
-          {resolvedStats.map((stat, index) => (
-            <div
-              key={index}
-              className="glass flex flex-col items-center justify-center rounded-lg px-8 py-6 text-center"
-            >
-              <span className="font-heading text-4xl font-bold text-accent">{stat.value}</span>
-              <span className="mt-1 text-sm text-white">{stat.label}</span>
-            </div>
-          ))}
-        </div>
+        {stats && stats.length > 0 && (
+          <div data-hero-animate className="mt-16 grid grid-cols-2 gap-4 md:grid-cols-4">
+            {stats.map((stat) => (
+              <div
+                key={stat._key}
+                className="glass flex flex-col items-center justify-center rounded-lg px-8 py-6 text-center"
+              >
+                <span className="font-heading text-4xl font-bold text-accent">{stat.value}</span>
+                <span className="mt-1 text-sm text-white">{stat.label}</span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

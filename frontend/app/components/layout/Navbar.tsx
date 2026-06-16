@@ -39,12 +39,6 @@ const NAV_LINKS: NavItem[] = [
   { label: 'Kontakt', href: '/kontakt' },
 ];
 
-const DEFAULT_LOGO_TEXT = 'Complex';
-const DEFAULT_LOGO_LETTER = 'C';
-const DEFAULT_LOGO_HREF = '/';
-const DEFAULT_CTA_LABEL = 'Darmowa wycena';
-const DEFAULT_CTA_HREF = '/wycena/zadaszenie';
-
 function isActivePath(pathname: string, href: string) {
   return href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
 }
@@ -131,14 +125,14 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const logoText = navbar?.logo?.text || DEFAULT_LOGO_TEXT;
-  const logoLetter = navbar?.logo?.iconLetter || DEFAULT_LOGO_LETTER;
-  const logoHref = navbar?.logo?.href || DEFAULT_LOGO_HREF;
+  const logoText = navbar?.logo?.text;
+  const logoLetter = navbar?.logo?.iconLetter;
+  const logoHref = navbar?.logo?.href ?? '/';
   const logoImageUrl = navbar?.logo?.logoImage?.asset
     ? urlForImage(navbar.logo.logoImage)?.height(96).fit('max').url()
     : undefined;
-  const ctaLabel = navbar?.ctaButton?.label || DEFAULT_CTA_LABEL;
-  const ctaHref = navbar?.ctaButton?.href || DEFAULT_CTA_HREF;
+  const ctaLabel = navbar?.ctaButton?.label;
+  const ctaHref = navbar?.ctaButton?.href;
 
   const navLinkClass = (active: boolean) =>
     `text-sm transition-colors duration-200 ${active ? 'text-white' : 'text-silver hover:text-white'}`;
@@ -154,19 +148,25 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
           {logoImageUrl ? (
             <Image
               src={logoImageUrl}
-              alt={logoText}
+              alt={logoText ?? ''}
               width={240}
               height={48}
               className="h-12 w-auto object-contain"
               priority
             />
           ) : (
-            <>
-              <span className="flex h-10 w-10 items-center justify-center rounded-md bg-accent font-heading text-xl font-bold text-black">
-                {logoLetter}
-              </span>
-              <span className="font-heading text-xl font-bold text-white">{logoText}</span>
-            </>
+            (logoLetter || logoText) && (
+              <>
+                {logoLetter && (
+                  <span className="flex h-10 w-10 items-center justify-center rounded-md bg-accent font-heading text-xl font-bold text-black">
+                    {logoLetter}
+                  </span>
+                )}
+                {logoText && (
+                  <span className="font-heading text-xl font-bold text-white">{logoText}</span>
+                )}
+              </>
+            )
           )}
         </Link>
         <div className="hidden flex-1 items-center justify-center gap-5 lg:flex">
@@ -186,12 +186,14 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
         </div>
         <div className="hidden shrink-0 items-center gap-3 lg:flex">
           <NavDropdown label="Formularze wycen" items={WYCENA_ITEMS} align="right" />
-          <Link
-            href={ctaHref}
-            className="rounded-md bg-accent px-4 py-2 text-sm font-semibold text-black transition-colors hover:bg-accent-hover"
-          >
-            {ctaLabel}
-          </Link>
+          {ctaLabel && ctaHref && (
+            <Link
+              href={ctaHref}
+              className="rounded-md bg-accent px-4 py-2 text-sm font-semibold text-black transition-colors hover:bg-accent-hover"
+            >
+              {ctaLabel}
+            </Link>
+          )}
         </div>
         <Dialog.Root open={mobileOpen} onOpenChange={(e) => setMobileOpen(e.open)}>
           <Dialog.Trigger className="text-white outline-none lg:hidden" aria-label="Otwórz menu">
@@ -288,13 +290,15 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
                   </Accordion.Root>
                 </div>
 
-                <Link
-                  href={ctaHref}
-                  onClick={() => setMobileOpen(false)}
-                  className="mt-4 rounded-md bg-accent px-4 py-3 text-center text-sm font-semibold text-black transition-colors hover:bg-accent-hover"
-                >
-                  {ctaLabel}
-                </Link>
+                {ctaLabel && ctaHref && (
+                  <Link
+                    href={ctaHref}
+                    onClick={() => setMobileOpen(false)}
+                    className="mt-4 rounded-md bg-accent px-4 py-3 text-center text-sm font-semibold text-black transition-colors hover:bg-accent-hover"
+                  >
+                    {ctaLabel}
+                  </Link>
+                )}
               </Dialog.Content>
             </Dialog.Positioner>
           </Portal>
