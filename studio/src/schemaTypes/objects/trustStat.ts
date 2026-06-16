@@ -1,17 +1,17 @@
-import {BarChartIcon} from '@sanity/icons'
-import {defineField, defineType} from 'sanity'
+import { BarChartIcon } from '@sanity/icons';
+import { defineField, defineType } from 'sanity';
 
 /** Allowed icon identifiers — mapped to Lucide icons in the frontend component. */
 export const TRUST_STAT_ICONS = [
-  {title: 'Tarcza (jakość / gwarancja)', value: 'shield'},
-  {title: 'Zegar (doświadczenie)', value: 'clock'},
-  {title: 'Nagroda (zadowolenie klientów)', value: 'award'},
-  {title: 'Ludzie (zespół)', value: 'users'},
-  {title: 'Gwiazda (oceny)', value: 'star'},
-  {title: 'Znacznik (certyfikaty)', value: 'check'},
-  {title: 'Narzędzie (rzemiosło)', value: 'tool'},
-  {title: 'Pinezka (region)', value: 'map'},
-] as const
+  { title: 'Tarcza (jakość / gwarancja)', value: 'shield' },
+  { title: 'Zegar (doświadczenie)', value: 'clock' },
+  { title: 'Nagroda (zadowolenie klientów)', value: 'award' },
+  { title: 'Ludzie (zespół)', value: 'users' },
+  { title: 'Gwiazda (oceny)', value: 'star' },
+  { title: 'Znacznik (certyfikaty)', value: 'check' },
+  { title: 'Narzędzie (rzemiosło)', value: 'tool' },
+  { title: 'Pinezka (region)', value: 'map' },
+] as const;
 
 export const trustStat = defineType({
   name: 'trustStat',
@@ -53,6 +53,6 @@ export const trustStat = defineType({
     }),
   ],
   preview: {
-    select: {title: 'value', subtitle: 'label'},
+    select: { title: 'value', subtitle: 'label' },
   },
-})
+});

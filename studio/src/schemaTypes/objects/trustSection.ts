@@ -1,5 +1,5 @@
-import {StarIcon} from '@sanity/icons'
-import {defineArrayMember, defineField, defineType} from 'sanity'
+import { StarIcon } from '@sanity/icons';
+import { defineArrayMember, defineField, defineType } from 'sanity';
 
 export const trustSection = defineType({
   name: 'trustSection',
@@ -36,7 +36,7 @@ export const trustSection = defineType({
       title: 'Statystyki',
       description: 'Karty statystyk (zalecane 4, maksymalnie 6).',
       type: 'array',
-      of: [defineArrayMember({type: 'trustStat'})],
+      of: [defineArrayMember({ type: 'trustStat' })],
       initialValue: [
         {
           icon: 'shield',
@@ -70,7 +70,7 @@ export const trustSection = defineType({
       title: 'Odznaki zaufania',
       description: 'Krótkie etykiety wyświetlane jako lista na dole sekcji.',
       type: 'array',
-      of: [defineArrayMember({type: 'string'})],
+      of: [defineArrayMember({ type: 'string' })],
       initialValue: [
         '10 lat gwarancji',
         'Bezpłatna konsultacja',
@@ -80,9 +80,9 @@ export const trustSection = defineType({
     }),
   ],
   preview: {
-    select: {title: 'headline'},
-    prepare({title}) {
-      return {title: title || 'Sekcja Trust', subtitle: 'Trust'}
+    select: { title: 'headline' },
+    prepare({ title }) {
+      return { title: title || 'Sekcja Trust', subtitle: 'Trust' };
     },
   },
-})
+});

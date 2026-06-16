@@ -1,11 +1,11 @@
-'use client'
+'use client';
 
-import {useEffect, useRef, useState, type RefObject} from 'react'
-import {gsap} from 'gsap'
-import {ScrollTrigger} from 'gsap/ScrollTrigger'
-import {useGSAP} from '@gsap/react'
-import {useCountUp} from 'react-countup'
-import {stegaClean} from 'next-sanity'
+import { useEffect, useRef, useState, type RefObject } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+import { useCountUp } from 'react-countup';
+import { stegaClean } from 'next-sanity';
 import {
   Award,
   CheckCircle,
@@ -16,11 +16,11 @@ import {
   Users,
   Wrench,
   type LucideIcon,
-} from 'lucide-react'
+} from 'lucide-react';
 
-import type {TrustSection as TrustSectionType} from '@/sanity.types'
+import type { TrustSection as TrustSectionType } from '@/sanity.types';
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger);
 
 const ICON_MAP: Record<string, LucideIcon> = {
   shield: ShieldCheck,
@@ -31,26 +31,26 @@ const ICON_MAP: Record<string, LucideIcon> = {
   check: CheckCircle,
   tool: Wrench,
   map: MapPin,
-}
+};
 
-type TrustStat = NonNullable<TrustSectionType['stats']>[number]
+type TrustStat = NonNullable<TrustSectionType['stats']>[number];
 
 function parseStatValue(
   raw?: string,
-): {prefix: string; end: number; decimals: number; suffix: string} | null {
-  const value = stegaClean(raw ?? '').trim()
-  const match = value.match(/^(\D*)(\d+(?:[.,]\d+)?)(\D*)$/)
-  if (!match) return null
-  const [, prefix, numStr, suffix] = match
-  const decimals = /[.,]/.test(numStr) ? numStr.split(/[.,]/)[1].length : 0
-  const end = parseFloat(numStr.replace(',', '.'))
-  return {prefix, end, decimals, suffix}
+): { prefix: string; end: number; decimals: number; suffix: string } | null {
+  const value = stegaClean(raw ?? '').trim();
+  const match = value.match(/^(\D*)(\d+(?:[.,]\d+)?)(\D*)$/);
+  if (!match) return null;
+  const [, prefix, numStr, suffix] = match;
+  const decimals = /[.,]/.test(numStr) ? numStr.split(/[.,]/)[1].length : 0;
+  const end = parseFloat(numStr.replace(',', '.'));
+  return { prefix, end, decimals, suffix };
 }
 
-function StatValue({raw, triggered}: {raw?: string; triggered: boolean}) {
-  const parsed = parseStatValue(raw)
-  const countUpRef = useRef<HTMLSpanElement>(null)
-  const {start} = useCountUp({
+function StatValue({ raw, triggered }: { raw?: string; triggered: boolean }) {
+  const parsed = parseStatValue(raw);
+  const countUpRef = useRef<HTMLSpanElement>(null);
+  const { start } = useCountUp({
     ref: countUpRef as RefObject<HTMLElement>,
     start: 0,
     end: parsed?.end ?? 0,
@@ -60,23 +60,23 @@ function StatValue({raw, triggered}: {raw?: string; triggered: boolean}) {
     prefix: parsed?.prefix ?? '',
     suffix: parsed?.suffix ?? '',
     startOnMount: false,
-  })
+  });
 
   useEffect(() => {
-    if (triggered && parsed) start()
-  }, [triggered])
+    if (triggered && parsed) start();
+  }, [triggered]);
 
   if (!parsed) {
-    return <>{stegaClean(raw ?? '')}</>
+    return <>{stegaClean(raw ?? '')}</>;
   }
 
-  return <span ref={countUpRef} />
+  return <span ref={countUpRef} />;
 }
 
-const DEFAULT_EYEBROW = 'Dlaczego Complex?'
-const DEFAULT_HEADLINE = 'Zaufali nam właściciele domów w całym regionie'
+const DEFAULT_EYEBROW = 'Dlaczego Complex?';
+const DEFAULT_HEADLINE = 'Zaufali nam właściciele domów w całym regionie';
 const DEFAULT_SUBHEADLINE =
-  'Nasze zaangażowanie w jakość sprawiło, że staliśmy się pierwszym wyborem przy realizacji nowoczesnych przestrzeni zewnętrznych.'
+  'Nasze zaangażowanie w jakość sprawiło, że staliśmy się pierwszym wyborem przy realizacji nowoczesnych przestrzeni zewnętrznych.';
 
 const DEFAULT_STATS: TrustStat[] = [
   {
@@ -111,30 +111,30 @@ const DEFAULT_STATS: TrustStat[] = [
     label: 'Opcji projektowych',
     description: 'Konstrukcje, materiały i wykończenia dobrane do każdego projektu',
   },
-]
+];
 
 const DEFAULT_BADGES = [
   '10 lat gwarancji',
   'Bezpłatna konsultacja',
   'Materiały premium',
   'Realizacje na terenie Śląska i Opolszczyzny',
-]
+];
 
-export default function TrustSection({data}: {data?: TrustSectionType}) {
-  const container = useRef<HTMLElement>(null)
-  const [countersTriggered, setCountersTriggered] = useState(false)
+export default function TrustSection({ data }: { data?: TrustSectionType }) {
+  const container = useRef<HTMLElement>(null);
+  const [countersTriggered, setCountersTriggered] = useState(false);
 
-  const eyebrow = data?.eyebrow || DEFAULT_EYEBROW
-  const headline = data?.headline || DEFAULT_HEADLINE
-  const subheadline = data?.subheadline || DEFAULT_SUBHEADLINE
-  const stats = data?.stats && data.stats.length > 0 ? data.stats : DEFAULT_STATS
-  const badges = data?.badges && data.badges.length > 0 ? data.badges : DEFAULT_BADGES
+  const eyebrow = data?.eyebrow || DEFAULT_EYEBROW;
+  const headline = data?.headline || DEFAULT_HEADLINE;
+  const subheadline = data?.subheadline || DEFAULT_SUBHEADLINE;
+  const stats = data?.stats && data.stats.length > 0 ? data.stats : DEFAULT_STATS;
+  const badges = data?.badges && data.badges.length > 0 ? data.badges : DEFAULT_BADGES;
 
   useGSAP(
     () => {
-      gsap.set('[data-trust-header]', {y: 30, opacity: 0})
-      gsap.set('[data-trust-card]', {y: 40, opacity: 0})
-      gsap.set('[data-trust-badges]', {y: 20, opacity: 0})
+      gsap.set('[data-trust-header]', { y: 30, opacity: 0 });
+      gsap.set('[data-trust-card]', { y: 40, opacity: 0 });
+      gsap.set('[data-trust-badges]', { y: 20, opacity: 0 });
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -142,7 +142,7 @@ export default function TrustSection({data}: {data?: TrustSectionType}) {
           start: 'top 80%',
           toggleActions: 'play none none none',
         },
-      })
+      });
 
       tl.to('[data-trust-header]', {
         y: 0,
@@ -153,14 +153,18 @@ export default function TrustSection({data}: {data?: TrustSectionType}) {
       })
         .to(
           '[data-trust-card]',
-          {y: 0, opacity: 1, duration: 0.6, ease: 'power3.out', stagger: 0.1},
+          { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out', stagger: 0.1 },
           '-=0.4',
         )
         .add(() => setCountersTriggered(true), '<')
-        .to('[data-trust-badges]', {y: 0, opacity: 1, duration: 0.5, ease: 'power3.out'}, '-=0.2')
+        .to(
+          '[data-trust-badges]',
+          { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' },
+          '-=0.2',
+        );
     },
-    {scope: container},
-  )
+    { scope: container },
+  );
 
   return (
     <section ref={container} className="section-padding relative overflow-hidden bg-bg-mid">
@@ -191,7 +195,7 @@ export default function TrustSection({data}: {data?: TrustSectionType}) {
         </div>
         <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           {stats.map((stat) => {
-            const Icon = ICON_MAP[stegaClean(stat.icon)] ?? ShieldCheck
+            const Icon = ICON_MAP[stegaClean(stat.icon)] ?? ShieldCheck;
             return (
               <div
                 key={stat._key}
@@ -213,7 +217,7 @@ export default function TrustSection({data}: {data?: TrustSectionType}) {
                   <p className="mt-1 font-body text-sm text-silver">{stat.description}</p>
                 )}
               </div>
-            )
+            );
           })}
         </div>
         <div data-trust-badges className="mt-12 flex flex-wrap justify-center gap-6">
@@ -229,5 +233,5 @@ export default function TrustSection({data}: {data?: TrustSectionType}) {
         </div>
       </div>
     </section>
-  )
+  );
 }

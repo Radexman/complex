@@ -1,5 +1,5 @@
-import {MenuIcon} from '@sanity/icons'
-import {defineField, defineType} from 'sanity'
+import { MenuIcon } from '@sanity/icons';
+import { defineField, defineType } from 'sanity';
 
 export const navbar = defineType({
   name: 'navbar',
@@ -12,7 +12,7 @@ export const navbar = defineType({
       title: 'Logo',
       description: 'Marka wyświetlana po lewej stronie paska nawigacji.',
       type: 'object',
-      options: {collapsible: true, collapsed: false},
+      options: { collapsible: true, collapsed: false },
       fields: [
         defineField({
           name: 'logoImage',
@@ -20,7 +20,7 @@ export const navbar = defineType({
           description:
             'Obraz logo wyświetlany po lewej stronie. Jeśli nie wgrasz ikony, użyta zostanie litera w zielonym kwadracie.',
           type: 'image',
-          options: {hotspot: true},
+          options: { hotspot: true },
         }),
         defineField({
           name: 'text',
@@ -32,7 +32,8 @@ export const navbar = defineType({
         defineField({
           name: 'iconLetter',
           title: 'Litera w ikonie (zapasowa)',
-          description: 'Pojedyncza litera w zielonym kwadracie. Używana, gdy nie wgrano ikony logo.',
+          description:
+            'Pojedyncza litera w zielonym kwadracie. Używana, gdy nie wgrano ikony logo.',
           type: 'string',
           initialValue: 'C',
           validation: (rule) => rule.max(1),
@@ -51,7 +52,7 @@ export const navbar = defineType({
       title: 'Przycisk CTA',
       description: 'Zielony przycisk po prawej stronie paska nawigacji.',
       type: 'object',
-      options: {collapsible: true, collapsed: false},
+      options: { collapsible: true, collapsed: false },
       fields: [
         defineField({
           name: 'label',
@@ -70,7 +71,7 @@ export const navbar = defineType({
   ],
   preview: {
     prepare() {
-      return {title: 'Nawigacja'}
+      return { title: 'Nawigacja' };
     },
   },
-})
+});

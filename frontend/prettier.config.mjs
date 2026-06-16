@@ -1,6 +1,22 @@
-// Local re-export of the shared Sanity config so Prettier resolves it from
-// frontend's own node_modules. Without this, `sanity typegen` (run during the
-// Vercel build, which installs only the frontend workspace) walks up to the
-// root package.json's "prettier": "@sanity/prettier-config" and fails to
-// resolve the package, emitting a formatting warning during type generation.
-export {default} from '@sanity/prettier-config'
+// Self-contained copy of the root Prettier config. Prettier resolves config by
+// walking up from each file, but `sanity typegen` (run during the Vercel build,
+// which installs only the frontend workspace) needs the config — and its
+// `@sanity/prettier-config` dependency — resolvable from frontend's own
+// node_modules. Importing the root config would walk up to the (uninstalled)
+// root node_modules and fail, so we duplicate the override here.
+// Keep in sync with ../prettier.config.mjs.
+import sanityConfig from '@sanity/prettier-config';
+
+const config = {
+  ...sanityConfig,
+  semi: true,
+  bracketSpacing: true,
+  singleQuote: true,
+  trailingComma: 'all',
+  arrowParens: 'always',
+  printWidth: 100,
+  tabWidth: 2,
+  endOfLine: 'lf',
+};
+
+export default config;

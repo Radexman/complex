@@ -1,5 +1,5 @@
-import {StarIcon} from '@sanity/icons'
-import {defineArrayMember, defineField, defineType} from 'sanity'
+import { StarIcon } from '@sanity/icons';
+import { defineArrayMember, defineField, defineType } from 'sanity';
 
 export const heroSection = defineType({
   name: 'heroSection',
@@ -12,7 +12,7 @@ export const heroSection = defineType({
       title: 'Zdjęcie tła',
       description: 'Pełnoekranowe zdjęcie w tle sekcji hero.',
       type: 'image',
-      options: {hotspot: true},
+      options: { hotspot: true },
       fields: [
         defineField({
           name: 'alt',
@@ -77,20 +77,20 @@ export const heroSection = defineType({
       title: 'Statystyki',
       description: 'Rząd kart statystyk na dole sekcji (zalecane 4).',
       type: 'array',
-      of: [defineArrayMember({type: 'heroStat'})],
+      of: [defineArrayMember({ type: 'heroStat' })],
       initialValue: [
-        {value: '1200+', label: 'Realizacji'},
-        {value: '15', label: 'Lat doświadczenia'},
-        {value: '98%', label: 'Zadowolonych klientów'},
-        {value: '50+', label: 'Opcji projektowych'},
+        { value: '1200+', label: 'Realizacji' },
+        { value: '15', label: 'Lat doświadczenia' },
+        { value: '98%', label: 'Zadowolonych klientów' },
+        { value: '50+', label: 'Opcji projektowych' },
       ],
       validation: (rule) => rule.max(4),
     }),
   ],
   preview: {
-    select: {title: 'headline', media: 'backgroundImage'},
-    prepare({title, media}) {
-      return {title: title || 'Sekcja Hero', subtitle: 'Hero', media}
+    select: { title: 'headline', media: 'backgroundImage' },
+    prepare({ title, media }) {
+      return { title: title || 'Sekcja Hero', subtitle: 'Hero', media };
     },
   },
-})
+});

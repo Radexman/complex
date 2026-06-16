@@ -1,30 +1,30 @@
-'use client'
+'use client';
 
-import {useRef} from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import {gsap} from 'gsap'
-import {useGSAP} from '@gsap/react'
-import {stegaClean} from 'next-sanity'
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRef } from 'react';
+import { gsap } from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { stegaClean } from 'next-sanity';
 
-import type {HeroSection as HeroSectionType} from '@/sanity.types'
-import {urlForImage} from '@/sanity/lib/utils'
+import type { HeroSection as HeroSectionType } from '@/sanity.types';
+import { urlForImage } from '@/sanity/lib/utils';
 
-type HeroStat = {value: string; label: string}
+type HeroStat = { value: string; label: string };
 
 /** Fallback stats used when the CMS document has none. */
 const DEFAULT_STATS: HeroStat[] = [
-  {value: '1200+', label: 'Realizacji'},
-  {value: '15', label: 'Lat doświadczenia'},
-  {value: '98%', label: 'Zadowolonych klientów'},
-  {value: '50+', label: 'Opcji projektowych'},
-]
+  { value: '1200+', label: 'Realizacji' },
+  { value: '15', label: 'Lat doświadczenia' },
+  { value: '98%', label: 'Zadowolonych klientów' },
+  { value: '50+', label: 'Opcji projektowych' },
+];
 
 /** CTA fallbacks for when the CMS fields are empty. */
-const DEFAULT_PRIMARY_CTA_LABEL = 'Nasze realizacje'
-const DEFAULT_PRIMARY_CTA_HREF = '/realizacje'
-const DEFAULT_SECONDARY_CTA_LABEL = 'Darmowa wycena'
-const DEFAULT_SECONDARY_CTA_HREF = '/wycena/zadaszenie'
+const DEFAULT_PRIMARY_CTA_LABEL = 'Nasze realizacje';
+const DEFAULT_PRIMARY_CTA_HREF = '/realizacje';
+const DEFAULT_SECONDARY_CTA_LABEL = 'Darmowa wycena';
+const DEFAULT_SECONDARY_CTA_HREF = '/wycena/zadaszenie';
 
 /**
  * Splits the headline so the `accent` substring can be rendered in the accent
@@ -33,33 +33,33 @@ const DEFAULT_SECONDARY_CTA_HREF = '/wycena/zadaszenie'
 function renderHeadline(headline: string, accent?: string) {
   // Strings from sanityFetch carry invisible stega metadata; strip it before
   // any substring matching, otherwise the accent never matches the headline.
-  const cleanHeadline = stegaClean(headline)
-  const cleanAccent = accent ? stegaClean(accent) : undefined
+  const cleanHeadline = stegaClean(headline);
+  const cleanAccent = accent ? stegaClean(accent) : undefined;
   if (!cleanAccent || !cleanHeadline.includes(cleanAccent)) {
-    return cleanHeadline
+    return cleanHeadline;
   }
-  const [before, ...rest] = cleanHeadline.split(cleanAccent)
-  const after = rest.join(cleanAccent)
+  const [before, ...rest] = cleanHeadline.split(cleanAccent);
+  const after = rest.join(cleanAccent);
   return (
     <>
       {before}
       <span className="text-accent">{accent}</span>
       {after}
     </>
-  )
+  );
 }
 
-export default function HeroSection({data}: {data: HeroSectionType}) {
-  const container = useRef<HTMLElement>(null)
+export default function HeroSection({ data }: { data: HeroSectionType }) {
+  const container = useRef<HTMLElement>(null);
 
-  const {backgroundImage, headline, headlineAccent, subheadline, stats} = data
+  const { backgroundImage, headline, headlineAccent, subheadline, stats } = data;
 
-  const primaryCtaLabel = data.primaryCtaLabel || DEFAULT_PRIMARY_CTA_LABEL
-  const primaryCtaHref = data.primaryCtaHref || DEFAULT_PRIMARY_CTA_HREF
-  const secondaryCtaLabel = data.secondaryCtaLabel || DEFAULT_SECONDARY_CTA_LABEL
-  const secondaryCtaHref = data.secondaryCtaHref || DEFAULT_SECONDARY_CTA_HREF
+  const primaryCtaLabel = data.primaryCtaLabel || DEFAULT_PRIMARY_CTA_LABEL;
+  const primaryCtaHref = data.primaryCtaHref || DEFAULT_PRIMARY_CTA_HREF;
+  const secondaryCtaLabel = data.secondaryCtaLabel || DEFAULT_SECONDARY_CTA_LABEL;
+  const secondaryCtaHref = data.secondaryCtaHref || DEFAULT_SECONDARY_CTA_HREF;
 
-  const resolvedStats = stats && stats.length > 0 ? stats : DEFAULT_STATS
+  const resolvedStats = stats && stats.length > 0 ? stats : DEFAULT_STATS;
 
   useGSAP(
     () => {
@@ -69,14 +69,14 @@ export default function HeroSection({data}: {data: HeroSectionType}) {
         duration: 0.8,
         ease: 'power3.out',
         stagger: 0.15,
-      })
+      });
     },
-    {scope: container},
-  )
+    { scope: container },
+  );
 
   const bgUrl = backgroundImage?.asset
     ? urlForImage(backgroundImage).width(2400).quality(80).url()
-    : undefined
+    : undefined;
 
   return (
     <section ref={container} className="relative flex min-h-screen flex-col overflow-hidden">
@@ -160,5 +160,5 @@ export default function HeroSection({data}: {data: HeroSectionType}) {
         </div>
       </div>
     </section>
-  )
+  );
 }

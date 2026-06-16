@@ -2,7 +2,7 @@
  * Fallback values used for site metadata when Settings are not yet populated.
  */
 
-export const title = 'Complex'
+export const title = 'Complex';
 
 export const description = [
   {
@@ -19,4 +19,4 @@ export const description = [
     markDefs: [],
     style: 'normal',
   },
-]
+];

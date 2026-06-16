@@ -1,16 +1,16 @@
-import {dataset, projectId, studioUrl} from '@/sanity/lib/api'
-import {createDataAttribute, CreateDataAttributeProps} from 'next-sanity'
-import {createImageUrlBuilder, type SanityImageSource} from '@sanity/image-url'
+import { dataset, projectId, studioUrl } from '@/sanity/lib/api';
+import { createDataAttribute, CreateDataAttributeProps } from 'next-sanity';
+import { createImageUrlBuilder, type SanityImageSource } from '@sanity/image-url';
 
 const builder = createImageUrlBuilder({
   projectId: projectId || '',
   dataset: dataset || '',
-})
+});
 
 // Create an image URL builder using the client
 // Export a function that can be used to get image URLs
 export function urlForImage(source: SanityImageSource) {
-  return builder.image(source)
+  return builder.image(source);
 }
 
 export function resolveOpenGraphImage(
@@ -18,19 +18,19 @@ export function resolveOpenGraphImage(
   width = 1200,
   height = 627,
 ) {
-  if (!image) return
-  const url = urlForImage(image)?.width(1200).height(627).fit('crop').url()
-  if (!url) return
-  return {url, alt: (image as {alt?: string})?.alt || '', width, height}
+  if (!image) return;
+  const url = urlForImage(image)?.width(1200).height(627).fit('crop').url();
+  if (!url) return;
+  return { url, alt: (image as { alt?: string })?.alt || '', width, height };
 }
 
 type DataAttributeConfig = CreateDataAttributeProps &
-  Required<Pick<CreateDataAttributeProps, 'id' | 'type' | 'path'>>
+  Required<Pick<CreateDataAttributeProps, 'id' | 'type' | 'path'>>;
 
 export function dataAttr(config: DataAttributeConfig) {
   return createDataAttribute({
     projectId,
     dataset,
     baseUrl: studioUrl,
-  }).combine(config)
+  }).combine(config);
 }

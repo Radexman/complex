@@ -39,12 +39,12 @@ Create a `heroSection` schema object (embedded in the `homePage` document or as 
 
 Seed these as default content in the Sanity document or as fallback constants in the component:
 
-| Value | Label |
-|---|---|
-| 1200+ | Realizacji |
-| 15 | Lat doświadczenia |
-| 98% | Zadowolonych klientów |
-| 50+ | Opcji projektowych |
+| Value | Label                 |
+| ----- | --------------------- |
+| 1200+ | Realizacji            |
+| 15    | Lat doświadczenia     |
+| 98%   | Zadowolonych klientów |
+| 50+   | Opcji projektowych    |
 
 ## GSAP Animations
 

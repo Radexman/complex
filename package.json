@@ -26,16 +26,15 @@
     "lint": "npm run lint --workspace=frontend",
     "type-check": "npm run type-check --workspaces"
   },
-  "prettier": "@sanity/prettier-config",
-  "devDependencies": {
-    "@sanity/prettier-config": "^3.0.0",
-    "npm-run-all2": "^5.0.2",
-    "prettier": "^3.8.3"
-  },
   "dependencies": {
     "@ark-ui/react": "^5.37.2",
     "gsap": "^3.15.0",
     "react-hook-form": "^7.79.0",
     "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@sanity/prettier-config": "^3.0.0",
+    "npm-run-all2": "^5.0.2",
+    "prettier": "^3.8.3"
   }
 }
