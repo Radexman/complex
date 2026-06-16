@@ -1,27 +1,27 @@
-import {BlockElementIcon} from '@sanity/icons'
-import {defineArrayMember, defineField, defineType} from 'sanity'
+import { BlockElementIcon } from '@sanity/icons';
+import { defineArrayMember, defineField, defineType } from 'sanity';
 
 export const OFFER_ICONS = [
-  {title: 'Warstwy', value: 'layers'},
-  {title: 'Suwaki (regulacja)', value: 'sliders-horizontal'},
-  {title: 'Iskry (premium)', value: 'sparkles'},
-  {title: 'Słońce (smart / oświetlenie)', value: 'sun'},
-  {title: 'Wiatr (bioklimat / wentylacja)', value: 'wind'},
-  {title: 'Tarcza (gwarancja)', value: 'shield'},
-  {title: 'Dom', value: 'house'},
-  {title: 'Konstrukcja', value: 'boxes'},
-] as const
+  { title: 'Warstwy', value: 'layers' },
+  { title: 'Suwaki (regulacja)', value: 'sliders-horizontal' },
+  { title: 'Iskry (premium)', value: 'sparkles' },
+  { title: 'Słońce (smart / oświetlenie)', value: 'sun' },
+  { title: 'Wiatr (bioklimat / wentylacja)', value: 'wind' },
+  { title: 'Tarcza (gwarancja)', value: 'shield' },
+  { title: 'Dom', value: 'house' },
+  { title: 'Konstrukcja', value: 'boxes' },
+] as const;
 
 /** Available offer pages — values are slugs; the frontend builds /oferta/<slug>. */
 export const OFFER_SLUGS = [
-  {title: 'Zadaszenia aluminiowe', value: 'zadaszenia-aluminiowe'},
-  {title: 'Żaluzje tarasowe', value: 'zaluzje-tarasowe'},
-  {title: 'Tarasy kompozytowe', value: 'tarasy-kompozytowe'},
-  {title: 'Tarasy z płyt gresowych', value: 'tarasy-gresowe'},
-  {title: 'Tarasy drewniane', value: 'tarasy-drewniane'},
-  {title: 'Elewacje kompozytowe', value: 'elewacje-kompozytowe'},
-  {title: 'Schody modułowe', value: 'schody-modulowe'},
-] as const
+  { title: 'Zadaszenia aluminiowe', value: 'zadaszenia-aluminiowe' },
+  { title: 'Żaluzje tarasowe', value: 'zaluzje-tarasowe' },
+  { title: 'Tarasy kompozytowe', value: 'tarasy-kompozytowe' },
+  { title: 'Tarasy z płyt gresowych', value: 'tarasy-gresowe' },
+  { title: 'Tarasy drewniane', value: 'tarasy-drewniane' },
+  { title: 'Elewacje kompozytowe', value: 'elewacje-kompozytowe' },
+  { title: 'Schody modułowe', value: 'schody-modulowe' },
+] as const;
 
 export const offerCard = defineType({
   name: 'offerCard',
@@ -48,7 +48,7 @@ export const offerCard = defineType({
       title: 'Zdjęcie tła',
       description: 'Zdjęcie wypełniające tło karty.',
       type: 'image',
-      options: {hotspot: true},
+      options: { hotspot: true },
       fields: [
         defineField({
           name: 'alt',
@@ -82,7 +82,7 @@ export const offerCard = defineType({
       description:
         'Opcjonalne, krótkie etykiety wyświetlane na dole karty, np. „Powłoka proszkowa”, „10 lat gwarancji”.',
       type: 'array',
-      of: [defineArrayMember({type: 'string'})],
+      of: [defineArrayMember({ type: 'string' })],
       validation: (rule) => rule.max(4),
     }),
     defineField({
@@ -97,13 +97,13 @@ export const offerCard = defineType({
     }),
   ],
   preview: {
-    select: {title: 'title', subtitle: 'description', media: 'image', featured: 'featured'},
-    prepare({title, subtitle, media, featured}) {
+    select: { title: 'title', subtitle: 'description', media: 'image', featured: 'featured' },
+    prepare({ title, subtitle, media, featured }) {
       return {
         title: title || 'Karta oferty',
         subtitle: featured ? '★ Wyróżniona' : subtitle,
         media,
-      }
+      };
     },
   },
-})
+});

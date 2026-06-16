@@ -1,5 +1,5 @@
-import {CogIcon} from '@sanity/icons'
-import type {StructureBuilder, StructureResolver} from 'sanity/structure'
+import { CogIcon } from '@sanity/icons';
+import type { StructureBuilder, StructureResolver } from 'sanity/structure';
 
 /**
  * Structure builder is useful whenever you want to control how documents are grouped and
@@ -16,4 +16,4 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .title('Ustawienia strony')
         .child(S.document().schemaType('settings').documentId('siteSettings'))
         .icon(CogIcon),
-    ])
+    ]);

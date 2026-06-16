@@ -1,5 +1,5 @@
-import {BarChartIcon} from '@sanity/icons'
-import {defineField, defineType} from 'sanity'
+import { BarChartIcon } from '@sanity/icons';
+import { defineField, defineType } from 'sanity';
 
 export const heroStat = defineType({
   name: 'heroStat',
@@ -23,6 +23,6 @@ export const heroStat = defineType({
     }),
   ],
   preview: {
-    select: {title: 'value', subtitle: 'label'},
+    select: { title: 'value', subtitle: 'label' },
   },
-})
+});

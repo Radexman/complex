@@ -1,52 +1,52 @@
-'use client'
+'use client';
 
-import {useEffect, useRef, useState} from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import {usePathname} from 'next/navigation'
-import {Accordion, Dialog, Portal} from '@ark-ui/react'
-import {ChevronDown, Menu as MenuIcon, X} from 'lucide-react'
+import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { Accordion, Dialog, Portal } from '@ark-ui/react';
+import { ChevronDown, Menu as MenuIcon, X } from 'lucide-react';
 
-import type {Navbar as NavbarType} from '@/sanity.types'
-import {urlForImage} from '@/sanity/lib/utils'
+import type { Navbar as NavbarType } from '@/sanity.types';
+import { urlForImage } from '@/sanity/lib/utils';
 
-type NavItem = {label: string; href: string}
+type NavItem = { label: string; href: string };
 
 /** Offer categories — mirrors the project's information architecture. */
 const OFERTA_ITEMS: NavItem[] = [
-  {label: 'Zadaszenia aluminiowe', href: '/oferta/zadaszenia-aluminiowe'},
-  {label: 'Żaluzje tarasowe', href: '/oferta/zaluzje-tarasowe'},
-  {label: 'Tarasy kompozytowe', href: '/oferta/tarasy-kompozytowe'},
-  {label: 'Tarasy z płyt gresowych', href: '/oferta/tarasy-gresowe'},
-  {label: 'Tarasy drewniane', href: '/oferta/tarasy-drewniane'},
-  {label: 'Elewacje kompozytowe', href: '/oferta/elewacje-kompozytowe'},
-  {label: 'Schody modułowe', href: '/oferta/schody-modulowe'},
-]
+  { label: 'Zadaszenia aluminiowe', href: '/oferta/zadaszenia-aluminiowe' },
+  { label: 'Żaluzje tarasowe', href: '/oferta/zaluzje-tarasowe' },
+  { label: 'Tarasy kompozytowe', href: '/oferta/tarasy-kompozytowe' },
+  { label: 'Tarasy z płyt gresowych', href: '/oferta/tarasy-gresowe' },
+  { label: 'Tarasy drewniane', href: '/oferta/tarasy-drewniane' },
+  { label: 'Elewacje kompozytowe', href: '/oferta/elewacje-kompozytowe' },
+  { label: 'Schody modułowe', href: '/oferta/schody-modulowe' },
+];
 
 /** Quotation forms shown under "Formularze wycen". */
 const WYCENA_ITEMS: NavItem[] = [
-  {label: 'Formularz Wyceny Tarasu', href: '/wycena/taras'},
-  {label: 'Formularz Wyceny Zadaszenia', href: '/wycena/zadaszenie'},
-  {label: 'Formularz Wyceny Żaluzji', href: '/wycena/zaluzje'},
-  {label: 'Formularz Wyceny Schodów', href: '/wycena/schody'},
-]
+  { label: 'Formularz Wyceny Tarasu', href: '/wycena/taras' },
+  { label: 'Formularz Wyceny Zadaszenia', href: '/wycena/zadaszenie' },
+  { label: 'Formularz Wyceny Żaluzji', href: '/wycena/zaluzje' },
+  { label: 'Formularz Wyceny Schodów', href: '/wycena/schody' },
+];
 
 /** Simple top-level links rendered after the Oferta dropdown. */
 const NAV_LINKS: NavItem[] = [
-  {label: 'Realizacje', href: '/realizacje'},
-  {label: 'O nas', href: '/o-nas'},
-  {label: 'Kierownik budowy', href: '/kierownik-budowy'},
-  {label: 'Kontakt', href: '/kontakt'},
-]
+  { label: 'Realizacje', href: '/realizacje' },
+  { label: 'O nas', href: '/o-nas' },
+  { label: 'Kierownik budowy', href: '/kierownik-budowy' },
+  { label: 'Kontakt', href: '/kontakt' },
+];
 
-const DEFAULT_LOGO_TEXT = 'Complex'
-const DEFAULT_LOGO_LETTER = 'C'
-const DEFAULT_LOGO_HREF = '/'
-const DEFAULT_CTA_LABEL = 'Darmowa wycena'
-const DEFAULT_CTA_HREF = '/wycena/zadaszenie'
+const DEFAULT_LOGO_TEXT = 'Complex';
+const DEFAULT_LOGO_LETTER = 'C';
+const DEFAULT_LOGO_HREF = '/';
+const DEFAULT_CTA_LABEL = 'Darmowa wycena';
+const DEFAULT_CTA_HREF = '/wycena/zadaszenie';
 
 function isActivePath(pathname: string, href: string) {
-  return href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`)
+  return href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
 }
 
 /**
@@ -58,28 +58,28 @@ function NavDropdown({
   items,
   align = 'left',
 }: {
-  label: string
-  items: NavItem[]
-  align?: 'left' | 'right'
+  label: string;
+  items: NavItem[];
+  align?: 'left' | 'right';
 }) {
-  const [open, setOpen] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!open) return
+    if (!open) return;
     const onPointerDown = (event: PointerEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) setOpen(false)
-    }
+      if (ref.current && !ref.current.contains(event.target as Node)) setOpen(false);
+    };
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false)
-    }
-    document.addEventListener('pointerdown', onPointerDown)
-    document.addEventListener('keydown', onKeyDown)
+      if (event.key === 'Escape') setOpen(false);
+    };
+    document.addEventListener('pointerdown', onPointerDown);
+    document.addEventListener('keydown', onKeyDown);
     return () => {
-      document.removeEventListener('pointerdown', onPointerDown)
-      document.removeEventListener('keydown', onKeyDown)
-    }
-  }, [open])
+      document.removeEventListener('pointerdown', onPointerDown);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [open]);
 
   return (
     <div ref={ref} className="relative">
@@ -116,32 +116,32 @@ function NavDropdown({
         </div>
       )}
     </div>
-  )
+  );
 }
 
-export default function Navbar({navbar}: {navbar?: NavbarType}) {
-  const pathname = usePathname()
-  const [scrolled, setScrolled] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false)
+export default function Navbar({ navbar }: { navbar?: NavbarType }) {
+  const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50)
-    onScroll()
-    window.addEventListener('scroll', onScroll, {passive: true})
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
-  const logoText = navbar?.logo?.text || DEFAULT_LOGO_TEXT
-  const logoLetter = navbar?.logo?.iconLetter || DEFAULT_LOGO_LETTER
-  const logoHref = navbar?.logo?.href || DEFAULT_LOGO_HREF
+  const logoText = navbar?.logo?.text || DEFAULT_LOGO_TEXT;
+  const logoLetter = navbar?.logo?.iconLetter || DEFAULT_LOGO_LETTER;
+  const logoHref = navbar?.logo?.href || DEFAULT_LOGO_HREF;
   const logoImageUrl = navbar?.logo?.logoImage?.asset
     ? urlForImage(navbar.logo.logoImage)?.height(96).fit('max').url()
-    : undefined
-  const ctaLabel = navbar?.ctaButton?.label || DEFAULT_CTA_LABEL
-  const ctaHref = navbar?.ctaButton?.href || DEFAULT_CTA_HREF
+    : undefined;
+  const ctaLabel = navbar?.ctaButton?.label || DEFAULT_CTA_LABEL;
+  const ctaHref = navbar?.ctaButton?.href || DEFAULT_CTA_HREF;
 
   const navLinkClass = (active: boolean) =>
-    `text-sm transition-colors duration-200 ${active ? 'text-white' : 'text-silver hover:text-white'}`
+    `text-sm transition-colors duration-200 ${active ? 'text-white' : 'text-silver hover:text-white'}`;
 
   return (
     <header
@@ -301,5 +301,5 @@ export default function Navbar({navbar}: {navbar?: NavbarType}) {
         </Dialog.Root>
       </nav>
     </header>
-  )
+  );
 }

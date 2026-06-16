@@ -3,5 +3,5 @@ export default function Footer() {
     <footer>
       <p>© {new Date().getFullYear()} Complex</p>
     </footer>
-  )
+  );
 }

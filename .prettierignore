@@ -1,5 +1,9 @@
 .github/**
 
+# Tooling / generated runtime (not project source)
+.claude/**
+**/.sanity/
+
 # Generated files
 package-lock.json
 **/package-lock.json
@@ -17,3 +21,7 @@ out/
 # Other generated files
 *.min.js
 *.min.css
+
+# Sanity TypeGen output (regenerated, not hand-edited)
+**/sanity.types.ts
+sanity.schema.json

@@ -1,6 +1,6 @@
-import {CogIcon} from '@sanity/icons'
-import {defineArrayMember, defineField, defineType} from 'sanity'
-import type {Settings} from '../../../sanity.types'
+import { CogIcon } from '@sanity/icons';
+import { defineArrayMember, defineField, defineType } from 'sanity';
+import type { Settings } from '../../../sanity.types';
 
 /**
  * Settings schema Singleton.  Singletons are single documents that are displayed not in a collection, handy for things like site settings and other global configurations.
@@ -83,12 +83,12 @@ export const settings = defineType({
           type: 'string',
           validation: (rule) => {
             return rule.custom((alt, context) => {
-              const document = context.document as Settings
+              const document = context.document as Settings;
               if (document?.ogImage?.asset?._ref && !alt) {
-                return 'Wymagane'
+                return 'Wymagane';
               }
-              return true
-            })
+              return true;
+            });
           },
         }),
         defineField({
@@ -111,7 +111,7 @@ export const settings = defineType({
     prepare() {
       return {
         title: 'Ustawienia',
-      }
+      };
     },
   },
-})
+});

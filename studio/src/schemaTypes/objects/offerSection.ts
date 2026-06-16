@@ -1,5 +1,5 @@
-import {ThLargeIcon} from '@sanity/icons'
-import {defineArrayMember, defineField, defineType} from 'sanity'
+import { ThLargeIcon } from '@sanity/icons';
+import { defineArrayMember, defineField, defineType } from 'sanity';
 
 export const offerSection = defineType({
   name: 'offerSection',
@@ -51,7 +51,7 @@ export const offerSection = defineType({
       description:
         'Karty w układzie bento. Zalecane 5 (jedna wyróżniona + cztery mniejsze), maksymalnie 6.',
       type: 'array',
-      of: [defineArrayMember({type: 'offerCard'})],
+      of: [defineArrayMember({ type: 'offerCard' })],
       validation: (rule) => rule.min(1).max(6),
       initialValue: [
         {
@@ -98,9 +98,9 @@ export const offerSection = defineType({
     }),
   ],
   preview: {
-    select: {title: 'headline'},
-    prepare({title}) {
-      return {title: title || 'Sekcja Oferta', subtitle: 'Oferta'}
+    select: { title: 'headline' },
+    prepare({ title }) {
+      return { title: title || 'Sekcja Oferta', subtitle: 'Oferta' };
     },
   },
-})
+});
