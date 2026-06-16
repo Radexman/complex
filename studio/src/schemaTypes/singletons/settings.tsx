@@ -9,7 +9,7 @@ import type { Settings } from '../../../sanity.types';
 
 export const settings = defineType({
   name: 'settings',
-  title: 'Ustawienia',
+  title: 'Ustawienia / SEO',
   type: 'document',
   icon: CogIcon,
   fields: [
@@ -20,30 +20,6 @@ export const settings = defineType({
       type: 'string',
       initialValue: 'Complex',
       validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: 'navbar',
-      title: 'Nawigacja',
-      description: 'Logo i przycisk CTA w górnym pasku nawigacji.',
-      type: 'navbar',
-    }),
-    defineField({
-      name: 'hero',
-      title: 'Sekcja Hero',
-      description: 'Pełnoekranowa sekcja na górze strony głównej.',
-      type: 'heroSection',
-    }),
-    defineField({
-      name: 'trust',
-      title: 'Sekcja Trust',
-      description: 'Sekcja zaufania pod hero — statystyki i odznaki budujące wiarygodność.',
-      type: 'trustSection',
-    }),
-    defineField({
-      name: 'offer',
-      title: 'Sekcja Oferta',
-      description: 'Sekcja z ofertą — karty z daną usługą i odnośnikiem',
-      type: 'offerSection',
     }),
     defineField({
       name: 'description',
@@ -110,7 +86,7 @@ export const settings = defineType({
   preview: {
     prepare() {
       return {
-        title: 'Ustawienia',
+        title: 'Ustawienia / SEO',
       };
     },
   },

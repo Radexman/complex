@@ -4,7 +4,7 @@ import { defineArrayMember, defineField, defineType } from 'sanity';
 export const offerSection = defineType({
   name: 'offerSection',
   title: 'Sekcja Oferta',
-  type: 'object',
+  type: 'document',
   icon: ThLargeIcon,
   fields: [
     defineField({
@@ -49,10 +49,10 @@ export const offerSection = defineType({
       name: 'cards',
       title: 'Karty oferty',
       description:
-        'Karty w układzie bento. Zalecane 5 (jedna wyróżniona + cztery mniejsze), maksymalnie 6.',
+        'Karty w układzie bento. Zalecane 5 (jedna wyróżniona + cztery mniejsze), maksymalnie 10.',
       type: 'array',
       of: [defineArrayMember({ type: 'offerCard' })],
-      validation: (rule) => rule.min(1).max(6),
+      validation: (rule) => rule.min(1).max(10),
       initialValue: [
         {
           title: 'Tarasy kompozytowe',

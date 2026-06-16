@@ -15,31 +15,11 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: ../sanity.schema.json
-export type Logo = {
-  logoImage?: LogoImage;
-  text?: string;
-  iconLetter?: string;
-  href?: string;
-};
-
-export type CtaButton = {
-  label?: string;
-  href?: string;
-};
-
 export type SanityImageAssetReference = {
   _ref: string;
   _type: 'reference';
   _weak?: boolean;
   [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-};
-
-export type LogoImage = {
-  asset?: SanityImageAssetReference;
-  media?: unknown; // Unable to locate the referenced type "logoImage.media" in schema
-  hotspot?: SanityImageHotspot;
-  crop?: SanityImageCrop;
-  _type: 'image';
 };
 
 export type OfferCard = {
@@ -75,8 +55,26 @@ export type OfferCard = {
     | 'schody-modulowe';
 };
 
+export type TrustStat = {
+  _type: 'trustStat';
+  icon: 'shield' | 'clock' | 'award' | 'users' | 'star' | 'check' | 'tool' | 'map';
+  value: string;
+  label: string;
+  description?: string;
+};
+
+export type HeroStat = {
+  _type: 'heroStat';
+  value: string;
+  label: string;
+};
+
 export type OfferSection = {
+  _id: string;
   _type: 'offerSection';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
   eyebrow?: string;
   headline: string;
   subheadline?: string;
@@ -89,16 +87,28 @@ export type OfferSection = {
   >;
 };
 
-export type TrustStat = {
-  _type: 'trustStat';
-  icon: 'shield' | 'clock' | 'award' | 'users' | 'star' | 'check' | 'tool' | 'map';
-  value: string;
-  label: string;
-  description?: string;
+export type SanityImageCrop = {
+  _type: 'sanity.imageCrop';
+  top: number;
+  bottom: number;
+  left: number;
+  right: number;
+};
+
+export type SanityImageHotspot = {
+  _type: 'sanity.imageHotspot';
+  x: number;
+  y: number;
+  height: number;
+  width: number;
 };
 
 export type TrustSection = {
+  _id: string;
   _type: 'trustSection';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
   eyebrow?: string;
   headline: string;
   subheadline?: string;
@@ -110,20 +120,12 @@ export type TrustSection = {
   badges?: Array<string>;
 };
 
-export type Navbar = {
-  _type: 'navbar';
-  logo?: Logo;
-  ctaButton?: CtaButton;
-};
-
-export type HeroStat = {
-  _type: 'heroStat';
-  value: string;
-  label: string;
-};
-
 export type HeroSection = {
+  _id: string;
   _type: 'heroSection';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
   backgroundImage: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -146,6 +148,30 @@ export type HeroSection = {
   >;
 };
 
+export type Navbar = {
+  _id: string;
+  _type: 'navbar';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  logo?: {
+    logoImage?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: 'image';
+    };
+    text?: string;
+    iconLetter?: string;
+    href?: string;
+  };
+  ctaButton?: {
+    label?: string;
+    href?: string;
+  };
+};
+
 export type Settings = {
   _id: string;
   _type: 'settings';
@@ -153,10 +179,6 @@ export type Settings = {
   _updatedAt: string;
   _rev: string;
   title: string;
-  navbar?: Navbar;
-  hero?: HeroSection;
-  trust?: TrustSection;
-  offer?: OfferSection;
   description?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -180,22 +202,6 @@ export type Settings = {
     metadataBase?: string;
     _type: 'image';
   };
-};
-
-export type SanityImageCrop = {
-  _type: 'sanity.imageCrop';
-  top: number;
-  bottom: number;
-  left: number;
-  right: number;
-};
-
-export type SanityImageHotspot = {
-  _type: 'sanity.imageHotspot';
-  x: number;
-  y: number;
-  height: number;
-  width: number;
 };
 
 export type SanityAssistInstructionTask = {
@@ -439,20 +445,17 @@ export type Slug = {
 };
 
 export type AllSanitySchemaTypes =
-  | Logo
-  | CtaButton
   | SanityImageAssetReference
-  | LogoImage
   | OfferCard
-  | OfferSection
   | TrustStat
-  | TrustSection
-  | Navbar
   | HeroStat
-  | HeroSection
-  | Settings
+  | OfferSection
   | SanityImageCrop
   | SanityImageHotspot
+  | TrustSection
+  | HeroSection
+  | Navbar
+  | Settings
   | SanityAssistInstructionTask
   | SanityAssistTaskStatus
   | SanityAssistSchemaTypeAnnotations

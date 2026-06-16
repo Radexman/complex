@@ -1,5 +1,5 @@
 import { sanityFetch } from '@/sanity/lib/live';
-import { settingsQuery } from '@/sanity/lib/queries';
+import { navbarQuery } from '@/sanity/lib/queries';
 import Navbar from '@/app/components/layout/Navbar';
 
 /**
@@ -7,7 +7,7 @@ import Navbar from '@/app/components/layout/Navbar';
  * the fixed <Navbar>, which is transparent over the hero and blurs on scroll.
  */
 export default async function Header() {
-  const { data: settings } = await sanityFetch({ query: settingsQuery });
+  const { data: navbar } = await sanityFetch({ query: navbarQuery });
 
-  return <Navbar navbar={settings?.navbar} />;
+  return <Navbar navbar={navbar ?? undefined} />;
 }
