@@ -14,6 +14,39 @@ Not Started
 
 ## History
 
+### Split section configs into singletons (2026-06-16)
+
+Moved per-component config off the single `settings` (`siteSettings`) document into
+dedicated **fixed-id singleton documents**, each its own top-level Studio sidebar entry —
+so editors manage Navbar / Hero / Trust / Offer in separate places instead of one big
+"Ustawienia" blob. Chosen over field-groups / a `homePage` doc; reverses the earlier
+"embed everything in settings" precedent intentionally.
+
+- **Studio:** `navbar` / `heroSection` / `trustSection` / `offerSection` converted from
+  `type: 'object'` → `'document'` (kept in `schemaTypes/objects/`; folder name now cosmetic).
+  `trustSection` got a distinct `CheckmarkCircleIcon` (was a 2nd `StarIcon`). Removed those
+  four fields from `settings.tsx`; settings now holds only `title` / `description` /
+  `ogImage` and is relabeled **"Ustawienia / SEO"**. `structure/index.ts` lists the four
+  sections (each `.documentId(...)`) + divider + settings. `schemaTypes/index.ts` regrouped
+  (singletons vs. embedded objects). Added Presentation `locations` for the four new types
+  (all → home).
+- **Frontend:** added `navbarQuery` / `heroQuery` / `trustQuery` / `offerQuery`; `settingsQuery`
+  is metadata-only now. `page.tsx` fetches hero/trust/offer in parallel (`Promise.all`);
+  `Header.tsx` fetches navbar; `layout.tsx` unchanged (still reads settings for metadata).
+  No `dataAttr` calls existed, so no Visual-Editing path changes. Types regenerated
+  (`SettingsQueryResult` slimmed; new `*QueryResult` types).
+- **No data migration** (dev/fallback data): new singletons start empty, in-component Polish
+  fallbacks cover Trust/Offer. **Hero is guarded by `{hero && …}`, so it won't render until a
+  `heroSection` doc is created + saved** (its `backgroundImage` is required). Old values stay
+  orphaned on `siteSettings` (harmless). Prod Studio needs a redeploy for the new structure;
+  singletons are created on first save.
+- Verified: frontend `tsc` + `next build`, studio `tsc`, `eslint` (only the pre-existing
+  TrustSection `useEffect` warning) all pass. No server actions/utils → no Vitest.
+- **Deferred (separate, pre-existing):** intermittent "Maximum update depth exceeded" in the
+  Studio — not in our code (no custom Studio components); leading suspects are `@sanity/assist`
+  and the Presentation tool still referencing removed `post`/`page` types. Awaiting a console
+  component-stack to pinpoint; not touched in this branch.
+
 ### Bento Offer Cards + Prettier formatting (2026-06-16)
 
 Home-page **Offer (Oferta)** section as a bento grid, matching the v0 prototype, plus a
