@@ -29,6 +29,7 @@
     "next-sanity": "^13.0.8",
     "postcss": "^8.5.15",
     "react": "^19.2.7",
+    "react-countup": "^6.5.3",
     "react-dom": "^19.2.7",
     "sanity": "^5.28.0",
     "sanity-image": "^1.1.0",

@@ -1,9 +1,10 @@
 'use client'
 
-import {useRef} from 'react'
+import {useEffect, useRef, useState, type RefObject} from 'react'
 import {gsap} from 'gsap'
 import {ScrollTrigger} from 'gsap/ScrollTrigger'
 import {useGSAP} from '@gsap/react'
+import {useCountUp} from 'react-countup'
 import {stegaClean} from 'next-sanity'
 import {
   Award,
@@ -33,6 +34,44 @@ const ICON_MAP: Record<string, LucideIcon> = {
 }
 
 type TrustStat = NonNullable<TrustSectionType['stats']>[number]
+
+function parseStatValue(
+  raw?: string,
+): {prefix: string; end: number; decimals: number; suffix: string} | null {
+  const value = stegaClean(raw ?? '').trim()
+  const match = value.match(/^(\D*)(\d+(?:[.,]\d+)?)(\D*)$/)
+  if (!match) return null
+  const [, prefix, numStr, suffix] = match
+  const decimals = /[.,]/.test(numStr) ? numStr.split(/[.,]/)[1].length : 0
+  const end = parseFloat(numStr.replace(',', '.'))
+  return {prefix, end, decimals, suffix}
+}
+
+function StatValue({raw, triggered}: {raw?: string; triggered: boolean}) {
+  const parsed = parseStatValue(raw)
+  const countUpRef = useRef<HTMLSpanElement>(null)
+  const {start} = useCountUp({
+    ref: countUpRef as RefObject<HTMLElement>,
+    start: 0,
+    end: parsed?.end ?? 0,
+    duration: 2.6,
+    decimals: parsed?.decimals ?? 0,
+    decimal: ',',
+    prefix: parsed?.prefix ?? '',
+    suffix: parsed?.suffix ?? '',
+    startOnMount: false,
+  })
+
+  useEffect(() => {
+    if (triggered && parsed) start()
+  }, [triggered])
+
+  if (!parsed) {
+    return <>{stegaClean(raw ?? '')}</>
+  }
+
+  return <span ref={countUpRef} />
+}
 
 const DEFAULT_EYEBROW = 'Dlaczego Complex?'
 const DEFAULT_HEADLINE = 'Zaufali nam właściciele domów w całym regionie'
@@ -83,6 +122,7 @@ const DEFAULT_BADGES = [
 
 export default function TrustSection({data}: {data?: TrustSectionType}) {
   const container = useRef<HTMLElement>(null)
+  const [countersTriggered, setCountersTriggered] = useState(false)
 
   const eyebrow = data?.eyebrow || DEFAULT_EYEBROW
   const headline = data?.headline || DEFAULT_HEADLINE
@@ -116,6 +156,7 @@ export default function TrustSection({data}: {data?: TrustSectionType}) {
           {y: 0, opacity: 1, duration: 0.6, ease: 'power3.out', stagger: 0.1},
           '-=0.4',
         )
+        .add(() => setCountersTriggered(true), '<')
         .to('[data-trust-badges]', {y: 0, opacity: 1, duration: 0.5, ease: 'power3.out'}, '-=0.2')
     },
     {scope: container},
@@ -123,7 +164,6 @@ export default function TrustSection({data}: {data?: TrustSectionType}) {
 
   return (
     <section ref={container} className="section-padding relative overflow-hidden bg-bg-mid">
-      {/* Subtle green radial glow in the upper-left (matches the design) */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -left-40 -top-40 h-150 w-150 rounded-full bg-[radial-gradient(circle,rgba(111,207,58,0.08),transparent_70%)] blur-2xl"
@@ -165,7 +205,9 @@ export default function TrustSection({data}: {data?: TrustSectionType}) {
                     aria-hidden="true"
                   />
                 </div>
-                <p className="mt-4 font-heading text-5xl font-bold text-white">{stat.value}</p>
+                <p className="mt-4 font-heading text-5xl font-bold text-white">
+                  <StatValue raw={stat.value} triggered={countersTriggered} />
+                </p>
                 <p className="mt-2 font-body text-sm font-semibold text-white">{stat.label}</p>
                 {stat.description && (
                   <p className="mt-1 font-body text-sm text-silver">{stat.description}</p>

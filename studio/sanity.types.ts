@@ -42,6 +42,27 @@ export type LogoImage = {
   _type: 'image'
 }
 
+export type TrustStat = {
+  _type: 'trustStat'
+  icon: 'shield' | 'clock' | 'award' | 'users' | 'star' | 'check' | 'tool' | 'map'
+  value: string
+  label: string
+  description?: string
+}
+
+export type TrustSection = {
+  _type: 'trustSection'
+  eyebrow?: string
+  headline: string
+  subheadline?: string
+  stats?: Array<
+    {
+      _key: string
+    } & TrustStat
+  >
+  badges?: Array<string>
+}
+
 export type Navbar = {
   _type: 'navbar'
   logo?: Logo
@@ -87,6 +108,7 @@ export type Settings = {
   title: string
   navbar?: Navbar
   hero?: HeroSection
+  trust?: TrustSection
   description?: Array<{
     children?: Array<{
       marks?: Array<string>
@@ -373,6 +395,8 @@ export type AllSanitySchemaTypes =
   | CtaButton
   | SanityImageAssetReference
   | LogoImage
+  | TrustStat
+  | TrustSection
   | Navbar
   | HeroStat
   | HeroSection
