@@ -84,6 +84,26 @@ export default defineConfig({
             message: 'Ten dokument jest używany na wszystkich stronach',
             tone: 'positive',
           }),
+          navbar: defineLocations({
+            locations: [homeLocation],
+            message: 'Nawigacja jest używana na wszystkich stronach',
+            tone: 'positive',
+          }),
+          heroSection: defineLocations({
+            locations: [homeLocation],
+            message: 'Sekcja Hero jest używana na stronie głównej',
+            tone: 'positive',
+          }),
+          trustSection: defineLocations({
+            locations: [homeLocation],
+            message: 'Sekcja Trust jest używana na stronie głównej',
+            tone: 'positive',
+          }),
+          offerSection: defineLocations({
+            locations: [homeLocation],
+            message: 'Sekcja Oferta jest używana na stronie głównej',
+            tone: 'positive',
+          }),
           page: defineLocations({
             select: {
               name: 'name',

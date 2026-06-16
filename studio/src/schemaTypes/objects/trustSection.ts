@@ -1,11 +1,11 @@
-import { StarIcon } from '@sanity/icons';
+import { CheckmarkCircleIcon } from '@sanity/icons';
 import { defineArrayMember, defineField, defineType } from 'sanity';
 
 export const trustSection = defineType({
   name: 'trustSection',
   title: 'Sekcja Trust',
-  type: 'object',
-  icon: StarIcon,
+  type: 'document',
+  icon: CheckmarkCircleIcon,
   fields: [
     defineField({
       name: 'eyebrow',

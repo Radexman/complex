@@ -10,14 +10,14 @@ import { offerCard } from './objects/offerCard';
 // Export an array of all the schema types.  This is used in the Sanity Studio configuration. https://www.sanity.io/docs/studio/schema-types
 
 export const schemaTypes = [
-  // Singletons
+  // Singletons (one fixed-id document each)
   settings,
-  // Objects
-  heroSection,
-  heroStat,
   navbar,
+  heroSection,
   trustSection,
-  trustStat,
   offerSection,
+  // Objects (embedded in the singletons above)
+  heroStat,
+  trustStat,
   offerCard,
 ];
