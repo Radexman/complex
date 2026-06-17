@@ -145,6 +145,8 @@ export default function OfferSection({ data }: { data?: OfferSectionType }) {
 
   useGSAP(
     () => {
+      if (!container.current) return;
+
       gsap.set('[data-offer-header]', { y: 30, opacity: 0 });
       gsap.set('[data-offer-card]', { y: 40, opacity: 0 });
 
@@ -169,7 +171,7 @@ export default function OfferSection({ data }: { data?: OfferSectionType }) {
           '-=0.4',
         );
     },
-    { scope: container },
+    { scope: container, dependencies: [data] },
   );
 
   if (!data) return null;
@@ -219,7 +221,7 @@ export default function OfferSection({ data }: { data?: OfferSectionType }) {
         </div>
 
         {ordered.length > 0 && (
-          <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-3 lg:min-h-[680px]">
+          <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-3 lg:min-h-170">
             {ordered.map((card, index) => (
               <OfferCard
                 key={card._key}

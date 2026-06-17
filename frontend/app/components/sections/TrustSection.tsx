@@ -77,6 +77,8 @@ export default function TrustSection({ data }: { data?: TrustSectionType }) {
 
   useGSAP(
     () => {
+      if (!container.current) return;
+
       gsap.set('[data-trust-header]', { y: 30, opacity: 0 });
       gsap.set('[data-trust-card]', { y: 40, opacity: 0 });
       gsap.set('[data-trust-badges]', { y: 20, opacity: 0 });
@@ -108,7 +110,7 @@ export default function TrustSection({ data }: { data?: TrustSectionType }) {
           '-=0.2',
         );
     },
-    { scope: container },
+    { scope: container, dependencies: [data] },
   );
 
   if (!data) return null;

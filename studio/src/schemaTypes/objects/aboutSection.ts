@@ -83,6 +83,24 @@ export const aboutSection = defineType({
             'Wyłącznie najwyższej klasy materiały i wykończenia, zapewniające trwałość, estetykę oraz niezawodność na lata.',
           icon: 'gem',
         },
+        {
+          title: 'Precyzja wykonania',
+          description:
+            'Każdy element projektowany i wykonywany z dokładnością do milimetra, by osiągnąć perfekcyjny efekt końcowy.',
+          icon: 'target',
+        },
+        {
+          title: 'Mistrzowskie rzemiosło',
+          description:
+            'Doświadczeni specjaliści wykorzystujący wieloletnią wiedzę i umiejętności podczas każdej realizacji.',
+          icon: 'wrench',
+        },
+        {
+          title: 'Doskonałość wzornictwa',
+          description:
+            'Nowoczesne projekty, które podnoszą estetykę i funkcjonalność każdej przestrzeni zewnętrznej.',
+          icon: 'award',
+        },
       ],
     }),
   ],
