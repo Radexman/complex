@@ -80,9 +80,9 @@ export const trustSection = defineType({
     }),
   ],
   preview: {
-    select: { title: 'headline' },
-    prepare({ title }) {
-      return { title: title || 'Sekcja Trust', subtitle: 'Trust' };
+    select: { subtitle: 'headline' },
+    prepare({ subtitle }) {
+      return { title: 'Sekcja Trust', subtitle };
     },
   },
 });

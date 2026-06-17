@@ -38,59 +38,6 @@ const ICON_MAP: Record<string, LucideIcon> = {
   'boxes': Boxes,
 };
 
-const DEFAULT_EYEBROW = 'Nasza oferta';
-const DEFAULT_HEADLINE = 'Premium systemy zadaszeń tarasowych';
-const DEFAULT_SUBHEADLINE =
-  'Odkryj kolekcję naszych architektonicznych realizacji, zaprojektowanych tak, aby przekształcić Twoją przestrzeń na świeżym powietrzu w luksusową strefę relaksu.';
-const DEFAULT_CTA_LABEL = 'Poznaj całą ofertę';
-const DEFAULT_CTA_HREF = '/oferta';
-
-const DEFAULT_CARDS: OfferCardType[] = [
-  {
-    _key: 'default-1',
-    _type: 'offerCard',
-    title: 'Zadaszenia aluminiowe',
-    description:
-      'Eleganckie, trwałe konstrukcje o czystych liniach architektonicznych. Idealne do nowoczesnych przestrzeni zewnętrznych.',
-    icon: 'layers',
-    featured: true,
-    badges: ['Powłoka proszkowa', '10 lat gwarancji', 'Wymiary na zamówienie'],
-    offerSlug: 'zadaszenia-aluminiowe',
-  },
-  {
-    _key: 'default-2',
-    _type: 'offerCard',
-    title: 'Żaluzje tarasowe',
-    description: 'Regulowane osłony chroniące taras przed słońcem, wiatrem i deszczem.',
-    icon: 'sliders-horizontal',
-    offerSlug: 'zaluzje-tarasowe',
-  },
-  {
-    _key: 'default-3',
-    _type: 'offerCard',
-    title: 'Tarasy z płyt gresowych',
-    description: 'Wyjątkowo wytrzymała, mrozoodporna nawierzchnia o eleganckim wykończeniu.',
-    icon: 'sparkles',
-    offerSlug: 'tarasy-gresowe',
-  },
-  {
-    _key: 'default-4',
-    _type: 'offerCard',
-    title: 'Tarasy kompozytowe',
-    description: 'Bezobsługowe deski kompozytowe łączące naturalny wygląd z trwałością.',
-    icon: 'sun',
-    offerSlug: 'tarasy-kompozytowe',
-  },
-  {
-    _key: 'default-5',
-    _type: 'offerCard',
-    title: 'Tarasy drewniane',
-    description: 'Naturalne drewno dla tych, którzy cenią ciepły, klasyczny charakter ogrodu.',
-    icon: 'wind',
-    offerSlug: 'tarasy-drewniane',
-  },
-];
-
 function cardHref(card: OfferCardType, fallback: string): string {
   const slug = stegaClean(card.offerSlug ?? '');
   return slug ? `/oferta/${slug}` : fallback;
@@ -196,19 +143,10 @@ function OfferCard({
 export default function OfferSection({ data }: { data?: OfferSectionType }) {
   const container = useRef<HTMLElement>(null);
 
-  const eyebrow = data?.eyebrow || DEFAULT_EYEBROW;
-  const headline = data?.headline || DEFAULT_HEADLINE;
-  const subheadline = data?.subheadline || DEFAULT_SUBHEADLINE;
-  const ctaLabel = data?.ctaLabel || DEFAULT_CTA_LABEL;
-  const ctaHref = data?.ctaHref || DEFAULT_CTA_HREF;
-  const cards = data?.cards && data.cards.length > 0 ? data.cards : DEFAULT_CARDS;
-
-  const ordered = [...cards].sort(
-    (a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)),
-  );
-
   useGSAP(
     () => {
+      if (!container.current) return;
+
       gsap.set('[data-offer-header]', { y: 30, opacity: 0 });
       gsap.set('[data-offer-card]', { y: 40, opacity: 0 });
 
@@ -233,7 +171,14 @@ export default function OfferSection({ data }: { data?: OfferSectionType }) {
           '-=0.4',
         );
     },
-    { scope: container },
+    { scope: container, dependencies: [data] },
+  );
+
+  if (!data) return null;
+
+  const { eyebrow, headline, subheadline, ctaLabel, ctaHref } = data;
+  const ordered = [...(data.cards ?? [])].sort(
+    (a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)),
   );
 
   return (
@@ -241,21 +186,25 @@ export default function OfferSection({ data }: { data?: OfferSectionType }) {
       <div className="mx-auto max-w-7xl px-6 md:px-12">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
-            <p
-              data-offer-header
-              className="text-xs font-semibold uppercase tracking-widest text-accent"
-            >
-              {eyebrow}
-            </p>
+            {eyebrow && (
+              <p
+                data-offer-header
+                className="text-xs font-semibold uppercase tracking-widest text-accent"
+              >
+                {eyebrow}
+              </p>
+            )}
             <h2
               data-offer-header
               className="mt-4 font-heading text-4xl font-bold text-white md:text-5xl"
             >
               {headline}
             </h2>
-            <p data-offer-header className="mt-4 font-body text-base text-silver">
-              {subheadline}
-            </p>
+            {subheadline && (
+              <p data-offer-header className="mt-4 font-body text-base text-silver">
+                {subheadline}
+              </p>
+            )}
           </div>
           <Link
             data-offer-header
@@ -271,16 +220,18 @@ export default function OfferSection({ data }: { data?: OfferSectionType }) {
           </Link>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-3 lg:min-h-[680px]">
-          {ordered.map((card, index) => (
-            <OfferCard
-              key={card._key}
-              card={card}
-              featured={index === 0 && Boolean(card.featured)}
-              fallbackHref={ctaHref}
-            />
-          ))}
-        </div>
+        {ordered.length > 0 && (
+          <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-3 lg:min-h-170">
+            {ordered.map((card, index) => (
+              <OfferCard
+                key={card._key}
+                card={card}
+                featured={index === 0 && Boolean(card.featured)}
+                fallbackHref={ctaHref}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

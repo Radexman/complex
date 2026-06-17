@@ -15,6 +15,13 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: ../sanity.schema.json
+export type AboutBadge = {
+  _type: 'aboutBadge';
+  icon: 'gem' | 'target' | 'wrench' | 'award';
+  title: string;
+  description: string;
+};
+
 export type SanityImageAssetReference = {
   _ref: string;
   _type: 'reference';
@@ -69,21 +76,31 @@ export type HeroStat = {
   label: string;
 };
 
-export type OfferSection = {
+export type AboutSection = {
   _id: string;
-  _type: 'offerSection';
+  _type: 'aboutSection';
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  cardImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: 'image';
+  };
+  cardContent?: {
+    title: string;
+    description: string;
+  };
   eyebrow?: string;
   headline: string;
-  subheadline?: string;
-  ctaLabel: string;
-  ctaHref: string;
-  cards?: Array<
+  description?: string;
+  badges?: Array<
     {
       _key: string;
-    } & OfferCard
+    } & AboutBadge
   >;
 };
 
@@ -101,6 +118,24 @@ export type SanityImageHotspot = {
   y: number;
   height: number;
   width: number;
+};
+
+export type OfferSection = {
+  _id: string;
+  _type: 'offerSection';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  headline: string;
+  subheadline?: string;
+  ctaLabel: string;
+  ctaHref: string;
+  cards?: Array<
+    {
+      _key: string;
+    } & OfferCard
+  >;
 };
 
 export type TrustSection = {
@@ -445,13 +480,15 @@ export type Slug = {
 };
 
 export type AllSanitySchemaTypes =
+  | AboutBadge
   | SanityImageAssetReference
   | OfferCard
   | TrustStat
   | HeroStat
-  | OfferSection
+  | AboutSection
   | SanityImageCrop
   | SanityImageHotspot
+  | OfferSection
   | TrustSection
   | HeroSection
   | Navbar
@@ -613,6 +650,37 @@ export type OfferQueryResult = {
   >;
 } | null;
 
+// Source: sanity/lib/queries.ts
+// Variable: aboutQuery
+// Query: *[_type == "aboutSection"][0]
+export type AboutQueryResult = {
+  _id: string;
+  _type: 'aboutSection';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  cardImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: 'image';
+  };
+  cardContent?: {
+    title: string;
+    description: string;
+  };
+  eyebrow?: string;
+  headline: string;
+  description?: string;
+  badges?: Array<
+    {
+      _key: string;
+    } & AboutBadge
+  >;
+} | null;
+
 // Query TypeMap
 import '@sanity/client';
 declare module '@sanity/client' {
@@ -622,5 +690,6 @@ declare module '@sanity/client' {
     '*[_type == "heroSection"][0]': HeroQueryResult;
     '*[_type == "trustSection"][0]': TrustQueryResult;
     '*[_type == "offerSection"][0]': OfferQueryResult;
+    '*[_type == "aboutSection"][0]': AboutQueryResult;
   }
 }
