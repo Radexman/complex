@@ -8,6 +8,8 @@ import { offerSection } from './objects/offerSection';
 import { offerCard } from './objects/offerCard';
 import { aboutSection } from './objects/aboutSection';
 import { aboutBadge } from './objects/aboutBadge';
+import { featuredProjectsSection } from './objects/featuredProjectsSection';
+import { project } from './documents/project';
 
 // Export an array of all the schema types.  This is used in the Sanity Studio configuration. https://www.sanity.io/docs/studio/schema-types
 
@@ -19,6 +21,9 @@ export const schemaTypes = [
   trustSection,
   offerSection,
   aboutSection,
+  featuredProjectsSection,
+  // Collections (multiple documents)
+  project,
   // Objects (embedded in the singletons above)
   heroStat,
   trustStat,

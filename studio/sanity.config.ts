@@ -104,6 +104,27 @@ export default defineConfig({
             message: 'Sekcja Oferta jest używana na stronie głównej',
             tone: 'positive',
           }),
+          aboutSection: defineLocations({
+            locations: [homeLocation],
+            message: 'Sekcja O nas jest używana na stronie głównej',
+            tone: 'positive',
+          }),
+          featuredProjectsSection: defineLocations({
+            locations: [homeLocation],
+            message: 'Sekcja Realizacje jest używana na stronie głównej',
+            tone: 'positive',
+          }),
+          project: defineLocations({
+            select: { title: 'title', city: 'city' },
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: doc?.title || 'Realizacja',
+                  href: '/',
+                },
+              ],
+            }),
+          }),
           page: defineLocations({
             select: {
               name: 'name',

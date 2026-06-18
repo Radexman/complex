@@ -1,6 +1,8 @@
 import {
   CheckmarkCircleIcon,
   CogIcon,
+  ImageIcon,
+  ImagesIcon,
   MenuIcon,
   StarIcon,
   ThLargeIcon,
@@ -41,6 +43,19 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .title('Sekcja O nas')
         .icon(UsersIcon)
         .child(S.document().schemaType('aboutSection').documentId('aboutSection')),
+      S.listItem()
+        .title('Sekcja Realizacje')
+        .icon(ImagesIcon)
+        .child(
+          S.document()
+            .schemaType('featuredProjectsSection')
+            .documentId('featuredProjectsSection'),
+        ),
+      S.divider(),
+      S.listItem()
+        .title('Realizacje')
+        .icon(ImageIcon)
+        .child(S.documentTypeList('project').title('Realizacje')),
       S.divider(),
       // Settings Singleton in order to view/edit the one particular document for Settings.  Learn more about Singletons: https://www.sanity.io/docs/create-a-link-to-a-single-edit-page-in-your-main-document-type-list
       S.listItem()
