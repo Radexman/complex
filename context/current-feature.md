@@ -14,6 +14,43 @@ Not Started
 
 ## History
 
+### Featured Projects Section (2026-06-18)
+
+Home-page **Realizacje** section: a filterable photo grid of completed projects by category,
+with an image lightbox. Built from a new `project` collection + a `featuredProjectsSection`
+singleton. First **collection** document type in the repo (everything prior was a fixed-id
+singleton). Reconciled the prototype spec's paths to the repo: no `homePage` doc — the section
+header is its own singleton (Hero/Trust/Offer/About precedent); `project` created fresh per the
+spec (it didn't already exist).
+
+- **Studio:** `studio/src/schemaTypes/documents/project.ts` — `project` doc (`title`, `city`,
+  `category` 7-value Polish `select` via `options.list` + exported `PROJECT_CATEGORIES`,
+  `coverImage` required, `isFeatured` boolean). `objects/featuredProjectsSection.ts` — fixed-id
+  singleton (`eyebrow`/`headline`/`subheadline`, Polish `initialValue`s). Registered both in
+  `schemaTypes/index.ts` (new "Collections" group). `structure/index.ts`: added **"Sekcja
+  Realizacje"** singleton entry + a **"Realizacje"** `documentTypeList`. `sanity.config.ts`:
+  added Presentation `locations` for `featuredProjectsSection` + `project` (→ home), and the
+  `aboutSection` location that the previous feature had omitted.
+- **Frontend:** `FeaturedProjectsSection.tsx` (`'use client'`). Ark UI `Tabs`
+  (`activationMode="manual"`, no `Tabs.Content`) → `onValueChange` drives a React filter state;
+  "Wszystkie" + pills only for categories present in the featured set (ordered by the
+  `CATEGORY_LABELS` map). Cards: `aspect-[4/3]`, `next/image` fill, gradient + dim-at-rest →
+  brighten on hover; **title over city** bottom-left (dropped the top-left category badge after
+  feedback). Lightbox = Ark UI `Dialog` (focus-trap + Escape + backdrop-click free); image +
+  captions share one wrapper gated on the image's `onLoad` so they **fade in together** (no
+  caption-then-image pop) — `openProject` pre-sets loaded=true when a project has no cover so it
+  reveals instantly. GSAP: header/tab reveal (`gsap.set`+`.to`) + a separate card `fromTo`
+  stagger re-run on `[activeTab, projects]`. Queries `featuredProjectsSectionQuery` +
+  `featuredProjectsQuery` (`isFeatured == true`, ordered `_createdAt desc`); wired into
+  `page.tsx`, guarded by `{featuredSection && …}`. Types regenerated.
+- **Seed (text only, per request):** created + published the section singleton + 6 `project`
+  docs (one per category, all `isFeatured`) via Sanity MCP to `production`. **No cover
+  images** — cards render as dark placeholders and the lightbox shows title/city only until the
+  client uploads photos in the Studio (Studio flags `coverImage` as required). Hosted Studio
+  needs a **redeploy** to expose the new types + sidebar entries.
+- Verified: frontend `tsc` + `eslint`, studio `tsc`, `next build` all pass. No server
+  actions/utils → no Vitest. Not yet eyeballed in-browser (data has no images yet).
+
 ### About Section layout (2026-06-17)
 
 Two-column home **About (O nas)** section built from the `aboutSection` singleton, matching
