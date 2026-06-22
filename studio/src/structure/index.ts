@@ -7,6 +7,7 @@ import {
   RocketIcon,
   StarIcon,
   ThLargeIcon,
+  ThListIcon,
   UsersIcon,
 } from '@sanity/icons';
 import type { StructureBuilder, StructureResolver } from 'sanity/structure';
@@ -56,6 +57,10 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .title('Sekcja CTA / Salon')
         .icon(RocketIcon)
         .child(S.document().schemaType('bottomCtaSection').documentId('bottomCtaSection')),
+      S.listItem()
+        .title('Stopka')
+        .icon(ThListIcon)
+        .child(S.document().schemaType('footer').documentId('footer')),
       S.divider(),
       S.listItem()
         .title('Realizacje')

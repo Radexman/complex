@@ -119,6 +119,37 @@ export type SanityImageHotspot = {
   width: number;
 };
 
+export type Footer = {
+  _id: string;
+  _type: 'footer';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  logo?: {
+    logoImage?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: 'image';
+    };
+    text?: string;
+    iconLetter?: string;
+    href?: string;
+  };
+  tagline?: string;
+  socialLinks?: Array<{
+    platform: 'instagram' | 'facebook' | 'linkedin' | 'youtube' | 'x' | 'tiktok';
+    href: string;
+    _key: string;
+  }>;
+  contactName?: string;
+  contactAddress?: string;
+  contactPhone?: string;
+  contactEmail?: string;
+  copyrightText?: string;
+};
+
 export type BottomCtaSection = {
   _id: string;
   _type: 'bottomCtaSection';
@@ -554,6 +585,7 @@ export type AllSanitySchemaTypes =
   | Project
   | SanityImageCrop
   | SanityImageHotspot
+  | Footer
   | BottomCtaSection
   | FeaturedProjectsSection
   | AboutSection
@@ -796,6 +828,40 @@ export type BottomCtaQueryResult = {
 } | null;
 
 // Source: sanity/lib/queries.ts
+// Variable: footerQuery
+// Query: *[_type == "footer"][0]
+export type FooterQueryResult = {
+  _id: string;
+  _type: 'footer';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  logo?: {
+    logoImage?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: 'image';
+    };
+    text?: string;
+    iconLetter?: string;
+    href?: string;
+  };
+  tagline?: string;
+  socialLinks?: Array<{
+    platform: 'facebook' | 'instagram' | 'linkedin' | 'tiktok' | 'x' | 'youtube';
+    href: string;
+    _key: string;
+  }>;
+  contactName?: string;
+  contactAddress?: string;
+  contactPhone?: string;
+  contactEmail?: string;
+  copyrightText?: string;
+} | null;
+
+// Source: sanity/lib/queries.ts
 // Variable: featuredProjectsQuery
 // Query: *[_type == "project" && isFeatured == true] | order(_createdAt desc){    _id,    title,    city,    category,    coverImage  }
 export type FeaturedProjectsQueryResult = Array<{
@@ -832,6 +898,7 @@ declare module '@sanity/client' {
     '*[_type == "aboutSection"][0]': AboutQueryResult;
     '*[_type == "featuredProjectsSection"][0]': FeaturedProjectsSectionQueryResult;
     '*[_type == "bottomCtaSection"][0]': BottomCtaQueryResult;
+    '*[_type == "footer"][0]': FooterQueryResult;
     '*[_type == "project" && isFeatured == true] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    coverImage\n  }': FeaturedProjectsQueryResult;
   }
 }
