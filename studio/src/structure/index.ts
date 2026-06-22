@@ -6,6 +6,7 @@ import {
   MenuIcon,
   RocketIcon,
   StarIcon,
+  TagIcon,
   ThLargeIcon,
   ThListIcon,
   UsersIcon,
@@ -62,6 +63,10 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .icon(ThListIcon)
         .child(S.document().schemaType('footer').documentId('footer')),
       S.divider(),
+      S.listItem()
+        .title('Oferta')
+        .icon(TagIcon)
+        .child(S.documentTypeList('service').title('Oferta')),
       S.listItem()
         .title('Realizacje')
         .icon(ImageIcon)

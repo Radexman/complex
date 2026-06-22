@@ -30,3 +30,21 @@ export const allProjectsQuery = defineQuery(
     coverImage
   }`,
 );
+
+export const serviceSlugsQuery = defineQuery(
+  `*[_type == "service" && defined(slug.current)]{ "slug": slug.current }`,
+);
+
+export const serviceBySlugQuery = defineQuery(
+  `*[_type == "service" && slug.current == $slug][0]{
+    _id,
+    title,
+    "slug": slug.current,
+    seoDescription,
+    heroImage,
+    heroHeadline,
+    heroSubheadline,
+    relatedFormSlug,
+    category
+  }`,
+);
