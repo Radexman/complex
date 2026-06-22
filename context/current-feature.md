@@ -14,6 +14,32 @@ Not Started
 
 ## History
 
+### Realizacje page header → CMS + Presentation main document (2026-06-22)
+
+Fixed two issues on **`/realizacje`**: (1) Presentation showed „Missing a main document for
+/realizacje” — there was no `mainDocuments` route for it; (2) the eyebrow/headline/subheadline
+were hardcoded in `ProjectsGrid.tsx`, so the client couldn't edit them. Solved both with one new
+fixed-id singleton that doubles as the route's main document.
+
+- **Studio:** `objects/realizacjePage.ts` — `realizacjePage` singleton (`ImagesIcon`, „Strona
+  Realizacje”) with `eyebrow` / `headline` (required) / `subheadline`, Polish `initialValue`s
+  mirroring the old hardcoded copy. Distinct from `featuredProjectsSection` (that's the *home*
+  section header; this is the standalone listing page). Registered in `schemaTypes/index.ts`,
+  added a **„Strona Realizacje”** entry in `structure/index.ts` (above the „Realizacje”
+  collection list), and wired Presentation in `sanity.config.ts` — a `/realizacje`
+  `mainDocuments` route (filter on the fixed `realizacjePage` id, fixes the warning) **and** a
+  `realizacjePage` `locations` resolver → `/realizacje`.
+- **Frontend:** added `realizacjePageQuery`; `app/realizacje/page.tsx` now `Promise.all`-fetches
+  projects + header via `sanityFetch`, passes `header` into `ProjectsGrid`. `ProjectsGrid.tsx`
+  takes a `header: RealizacjePageQueryResult` prop; renders `eyebrow`/`subheadline` conditionally
+  and `headline ?? 'Realizacje'` (in-component fallback since `initialValue` doesn't backfill).
+  Types regenerated (`RealizacjePageQueryResult`).
+- **Seed:** created + published the `realizacjePage` singleton (text only) to `production` via
+  Sanity MCP — the fixed `_id` was honored. Hosted Studio needs a **redeploy** to expose the new
+  „Strona Realizacje” sidebar entry + editor.
+- Verified: frontend `tsc` + `eslint` (only the pre-existing TrustSection warning), studio `tsc`,
+  `next build` all pass (`/realizacje` still static). No server actions/utils → no Vitest.
+
 ### Offer Pages — Part 1: Boilerplate & Hero (2026-06-22)
 
 Foundation for the **7 offer subpages** at `/oferta/[slug]`, all generated from one shared
