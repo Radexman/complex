@@ -10,6 +10,7 @@ export const featuredProjectsSectionQuery = defineQuery(
   `*[_type == "featuredProjectsSection"][0]`,
 );
 export const bottomCtaQuery = defineQuery(`*[_type == "bottomCtaSection"][0]`);
+export const footerQuery = defineQuery(`*[_type == "footer"][0]`);
 export const featuredProjectsQuery = defineQuery(
   `*[_type == "project" && isFeatured == true] | order(_createdAt desc){
     _id,

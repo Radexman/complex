@@ -119,6 +119,11 @@ export default defineConfig({
             message: 'Sekcja CTA / Salon jest używana na stronie głównej',
             tone: 'positive',
           }),
+          footer: defineLocations({
+            locations: [homeLocation],
+            message: 'Stopka jest używana na wszystkich stronach',
+            tone: 'positive',
+          }),
           project: defineLocations({
             select: { title: 'title', city: 'city' },
             resolve: (doc) => ({
