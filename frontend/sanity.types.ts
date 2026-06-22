@@ -76,6 +76,58 @@ export type HeroStat = {
   label: string;
 };
 
+export type Service = {
+  _id: string;
+  _type: 'service';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  seoDescription?: string;
+  heroImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: 'image';
+  };
+  heroHeadline: string;
+  heroSubheadline?: string;
+  relatedFormSlug?: 'zadaszenie' | 'zaluzje' | 'taras' | 'schody';
+  category:
+    | 'zadaszenia-aluminiowe'
+    | 'zaluzje-tarasowe'
+    | 'tarasy-kompozytowe'
+    | 'tarasy-gresowe'
+    | 'tarasy-drewniane'
+    | 'elewacje-kompozytowe'
+    | 'schody-modulowe';
+};
+
+export type SanityImageCrop = {
+  _type: 'sanity.imageCrop';
+  top: number;
+  bottom: number;
+  left: number;
+  right: number;
+};
+
+export type SanityImageHotspot = {
+  _type: 'sanity.imageHotspot';
+  x: number;
+  y: number;
+  height: number;
+  width: number;
+};
+
+export type Slug = {
+  _type: 'slug';
+  current: string;
+  source?: string;
+};
+
 export type Project = {
   _id: string;
   _type: 'project';
@@ -102,22 +154,6 @@ export type Project = {
   };
   surface?: number;
   isFeatured?: boolean;
-};
-
-export type SanityImageCrop = {
-  _type: 'sanity.imageCrop';
-  top: number;
-  bottom: number;
-  left: number;
-  right: number;
-};
-
-export type SanityImageHotspot = {
-  _type: 'sanity.imageHotspot';
-  x: number;
-  y: number;
-  height: number;
-  width: number;
 };
 
 export type Footer = {
@@ -571,21 +607,17 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type Slug = {
-  _type: 'slug';
-  current: string;
-  source?: string;
-};
-
 export type AllSanitySchemaTypes =
   | AboutBadge
   | SanityImageAssetReference
   | OfferCard
   | TrustStat
   | HeroStat
-  | Project
+  | Service
   | SanityImageCrop
   | SanityImageHotspot
+  | Slug
+  | Project
   | Footer
   | BottomCtaSection
   | FeaturedProjectsSection
@@ -615,8 +647,7 @@ export type AllSanitySchemaTypes =
   | SanityFileAsset
   | SanityAssetSourceData
   | SanityImageAsset
-  | Geopoint
-  | Slug;
+  | Geopoint;
 
 // Source: sanity/lib/queries.ts
 // Variable: settingsQuery
@@ -913,6 +944,42 @@ export type AllProjectsQueryResult = Array<{
   };
 }>;
 
+// Source: sanity/lib/queries.ts
+// Variable: serviceSlugsQuery
+// Query: *[_type == "service" && defined(slug.current)]{ "slug": slug.current }
+export type ServiceSlugsQueryResult = Array<{
+  slug: string;
+}>;
+
+// Source: sanity/lib/queries.ts
+// Variable: serviceBySlugQuery
+// Query: *[_type == "service" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    seoDescription,    heroImage,    heroHeadline,    heroSubheadline,    relatedFormSlug,    category  }
+export type ServiceBySlugQueryResult = {
+  _id: string;
+  title: string;
+  slug: string;
+  seoDescription: string | null;
+  heroImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: 'image';
+  } | null;
+  heroHeadline: string;
+  heroSubheadline: string | null;
+  relatedFormSlug: 'schody' | 'taras' | 'zadaszenie' | 'zaluzje' | null;
+  category:
+    | 'elewacje-kompozytowe'
+    | 'schody-modulowe'
+    | 'tarasy-drewniane'
+    | 'tarasy-gresowe'
+    | 'tarasy-kompozytowe'
+    | 'zadaszenia-aluminiowe'
+    | 'zaluzje-tarasowe';
+} | null;
+
 // Query TypeMap
 import '@sanity/client';
 declare module '@sanity/client' {
@@ -928,5 +995,7 @@ declare module '@sanity/client' {
     '*[_type == "footer"][0]': FooterQueryResult;
     '*[_type == "project" && isFeatured == true] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    coverImage\n  }': FeaturedProjectsQueryResult;
     '*[_type == "project"] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    surface,\n    coverImage\n  }': AllProjectsQueryResult;
+    '*[_type == "service" && defined(slug.current)]{ "slug": slug.current }': ServiceSlugsQueryResult;
+    '*[_type == "service" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    seoDescription,\n    heroImage,\n    heroHeadline,\n    heroSubheadline,\n    relatedFormSlug,\n    category\n  }': ServiceBySlugQueryResult;
   }
 }

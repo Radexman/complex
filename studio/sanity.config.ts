@@ -69,6 +69,10 @@ export default defineConfig({
             filter: `_type == "settings" && _id == "siteSettings"`,
           },
           {
+            route: '/oferta/:slug',
+            filter: `_type == "service" && slug.current == $slug || _id == $slug`,
+          },
+          {
             route: '/:slug',
             filter: `_type == "page" && slug.current == $slug || _id == $slug`,
           },
@@ -123,6 +127,17 @@ export default defineConfig({
             locations: [homeLocation],
             message: 'Stopka jest używana na wszystkich stronach',
             tone: 'positive',
+          }),
+          service: defineLocations({
+            select: { title: 'title', slug: 'slug.current' },
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: doc?.title || 'Oferta',
+                  href: doc?.slug ? `/oferta/${doc.slug}` : '/',
+                },
+              ],
+            }),
           }),
           project: defineLocations({
             select: { title: 'title', city: 'city' },
