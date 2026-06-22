@@ -14,6 +14,58 @@ Not Started
 
 ## History
 
+### Offer Pages — Part 1: Boilerplate & Hero (2026-06-22)
+
+Foundation for the **7 offer subpages** at `/oferta/[slug]`, all generated from one shared
+`service` document. **Spec 1 of 7** (`context/features/offer-01-hero-spec.md`) — establishes the
+schema, dynamic route, `OfferPage` composition root, and the hero; specs 2–7 append their own
+fields/sections. First repo page using `generateStaticParams` + per-doc `generateMetadata`
+(`/realizacje` was static). Reconciled the spec's `src/...` paths → repo's `frontend/app/...` +
+`studio/src/schemaTypes/...`, same as the Realizacje page.
+
+- **Studio:** `documents/service.ts` — `service` doc (`TagIcon`, „Oferta (podstrona)") with the
+  foundation/hero fields: `title`, `slug` (from `title`), `seoDescription`, `heroImage`,
+  `heroHeadline`, `heroSubheadline`, `relatedFormSlug`, `category`. `category` **reuses** the
+  existing `PROJECT_CATEGORIES` (imported from `documents/project.ts`) so spec 3's gallery filter
+  joins cleanly; new exported `RELATED_FORM_SLUGS` list (4 form values) drives `relatedFormSlug`.
+  Single „Hero" field group (specs 2–7 add more). Registered in `schemaTypes/index.ts`, added an
+  **„Oferta"** `documentTypeList` in `structure/index.ts`, and wired Presentation in
+  `sanity.config.ts` — both a `service` location resolver **and** an `/oferta/:slug`
+  `mainDocuments` route (first `mainDocuments` route added for our own content; enables
+  click-to-edit).
+- **`relatedFormSlug` = null modeling:** spec lists `null` „Brak formularza" as a value. Modeled
+  as the field simply being **empty** (Sanity dropdowns are clearable) rather than a `'none'`
+  sentinel — keeps the generated type as `"zadaszenie" | … | undefined` and the frontend treats
+  falsy as „no CTA". `elewacje-kompozytowe` is seeded with no `relatedFormSlug` → no hero CTA.
+- **Frontend:** `app/oferta/[slug]/page.tsx` — async Server Component; `generateStaticParams`
+  (build-time `client.fetch(serviceSlugsQuery)`), `generateMetadata` (`title` + `seoDescription`,
+  `stega: false`), fetches `serviceBySlugQuery` via `sanityFetch`, `notFound()` on miss, renders
+  `<OfferPage>`. `components/offer/OfferPage.tsx` — **plain server** composition root (not a
+  „client wrapper" as the spec said — only the hero needs `'use client'`); renders `<OfferHero>`
+  now, with commented slots for the 6 later sections. `components/offer/OfferHero.tsx`
+  (`'use client'`) — `min-h-screen`, `heroImage` via `next/image` (`fill`/`object-cover`),
+  `bg-black/50` overlay, breadcrumb (Oferta `<Link>` → lucide `ChevronRight` → `title`), headline,
+  subheadline, conditional green „Bezpłatna wycena" CTA → `/wycena/[relatedFormSlug]`
+  (`stegaClean` on the slug), bouncing `ChevronDown`. GSAP `gsap.from` staggered upward reveal on
+  mount (`y:40→0`, `stagger 0.12`, `power3.out`) over `[data-offer-animate]` via `useGSAP`.
+- **Queries:** `serviceSlugsQuery` + `serviceBySlugQuery` in `sanity/lib/queries.ts`; types
+  regenerated (`ServiceSlugsQueryResult`, `ServiceBySlugQueryResult`; `sanity.schema.json` picked
+  up the new `service` type via the typegen schema-extract step).
+- **Reconciliations flagged for sign-off:** (1) `sanityFetch` (Live Content API) instead of the
+  spec's `revalidate: 60` — repo convention, route is SSG but live-updates via `<SanityLive>`;
+  (2) `OfferPage` kept server-side, not a client wrapper.
+- **Seed:** created + **published** all 7 `service` docs to `production` via Sanity MCP (hero
+  fields only — `title`/`slug`/`category`/`relatedFormSlug`/`heroHeadline`/`heroSubheadline` per
+  the spec table; later fields seeded in their specs). **No `heroImage`** yet → hero shows the
+  dark overlay over the page background until the client uploads photos. Hosted Studio needs a
+  **redeploy** to expose the new „Oferta" sidebar entry + `service` editor.
+- **Left untouched:** the pre-existing uncommitted `Footer.tsx` refactor (still in the working
+  tree from before the Realizacje feature) — not part of this feature, excluded from the commit
+  again. Future-spec markdowns (`offer-02/03/04`) left untracked for their own features.
+- Verified: frontend `tsc` + `eslint` clean (only the pre-existing TrustSection warning), studio
+  `tsc` clean, `next build` passes — `/oferta/[slug]` is SSG and prerenders all 7 slugs. No server
+  actions/utils → no Vitest. Not yet eyeballed in-browser (seeded docs have no hero images).
+
 ### Realizacje Page (2026-06-22)
 
 Standalone **`/realizacje`** listing page — all projects (ignores `isFeatured`), static
