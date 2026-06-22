@@ -6,13 +6,48 @@ Not Started
 
 ## Goals
 
-<!-- Populated by /feature load -->
+<!-- Bullet points of what success looks like -->
 
 ## Notes
 
-<!-- Populated by /feature load -->
+<!-- Additional context, constraints, or details from spec -->
 
 ## History
+
+### Bottom CTA Section (2026-06-22)
+
+Home-page bottom lead-gen **CTA + showroom/map** section, built from a new `bottomCtaSection`
+fixed-id singleton (Hero/Trust/Offer/About/Featured-Projects precedent — no `homePage` doc).
+First use of **Leaflet** in the repo. Two stacked sub-blocks: a full-bleed CTA block over a
+showroom block with an interactive map.
+
+- **Studio:** `objects/bottomCtaSection.ts` — singleton (`RocketIcon`) with all spec fields
+  (`backgroundImage`, `eyebrow`, `headline`/`headlineAccent`, `subheadline`, primary/secondary
+  CTA label+href, `bullets[]`, `showroomLabel`/`showroomDescription`/`showroomAddress`) + Polish
+  `initialValue`s, split into "Blok CTA" / "Blok salonu" field groups. Registered in
+  `schemaTypes/index.ts`, added a **"Sekcja CTA / Salon"** entry in `structure/index.ts`, and a
+  Presentation `location` → home in `sanity.config.ts`.
+- **Frontend:** `ShowroomMap.tsx` (`'use client'`) — Leaflet map (`[50.6751, 17.9213]`, zoom 15,
+  OSM tiles), custom green `divIcon` pin (white ring + glow for visibility), popup with address +
+  "Nawiguj" → Google Maps directions in a new tab. Default-icon CDN paths fixed via
+  `L.Icon.Default.mergeOptions`; coords + directions URL hardcoded. `BottomCtaSection.tsx`
+  (`'use client'`) — CTA block (`min-h-[50vh]`, darkened `bg-black/70` overlay, eyebrow pill,
+  accent-split headline reusing the `stegaClean` pattern, two CTAs, bullet row) + `bg-bg-mid`
+  showroom block (two-col text + dynamic-imported `<ShowroomMap>` with `ssr: false`). GSAP scroll
+  reveals (CTA stagger, showroom text, map slide-from-right). Query `bottomCtaQuery`; wired into
+  `page.tsx`, guarded by `{bottomCta && …}`. Types regenerated.
+- **Deps:** added `leaflet@1.9.4` + `react-leaflet@5.0.0` (peer-requires React 19 ✓) +
+  `@types/leaflet`.
+- **Gotchas:** (1) the "Nawiguj" link wouldn't go white via Tailwind — Leaflet's
+  `.leaflet-container a` rule outranks `.text-white` on specificity; fixed with an inline
+  `style={{ color: '#fff' }}`. (2) Popup body text is `text-black` (Leaflet popups have a white
+  background), a deliberate deviation from the spec's `text-white`.
+- **Seed:** created + published the `bottomCtaSection` singleton (text only, no background image)
+  to `production` via Sanity MCP so the section renders immediately. Hosted Studio needs a
+  **redeploy** to expose the new sidebar entry + field editor.
+- Verified: frontend `tsc` + `eslint` (only the pre-existing TrustSection warning), studio `tsc`,
+  `next build` all pass. No server actions/utils → no Vitest. In-browser tweaks applied per
+  feedback (darker overlay, shorter block, bigger pin, white CTA text).
 
 ### Featured Projects Section (2026-06-18)
 
@@ -79,8 +114,8 @@ the v0 screenshot (the "Learn more about us" CTA intentionally omitted per reque
   arrives. Merged the whole `fix/drop-component-fallbacks` branch (Navbar/Hero/Offer/Trust
   refactors + `aboutBadge`/`aboutSection` schema) into `main`.
 - Verified: frontend `tsc` + `eslint` (only the pre-existing TrustSection `useEffect` warning)
-  + `next build` all pass. The badge `initialValue` edit is data-only → no type regen needed.
-  No server actions/utils → no Vitest.
+  - `next build` all pass. The badge `initialValue` edit is data-only → no type regen needed.
+    No server actions/utils → no Vitest.
 
 ### Split section configs into singletons (2026-06-16)
 
@@ -134,7 +169,7 @@ project-wide Prettier formatting pass (committed separately).
   Full in-component Polish fallbacks (5 cards: 1 featured + 4) since `initialValue` doesn't
   backfill the existing singleton. GSAP scroll reveal via the safe `gsap.set` + `.to` pattern.
 - Header polish: replaced loose `container mx-auto` with the standard `mx-auto max-w-7xl px-6
-  md:px-12`; fixed the `thext-white` typo; styled subheadline (`text-silver`); "Poznaj całą
+md:px-12`; fixed the `thext-white` typo; styled subheadline (`text-silver`); "Poznaj całą
   ofertę" CTA is now an accent link with an animated arrow. Header stacks on mobile.
 - **Prettier:** added root + frontend `prettier.config.mjs` overriding `@sanity/prettier-config`
   (`semi`, `bracketSpacing`, trailing commas, single quotes), removed the `package.json`
