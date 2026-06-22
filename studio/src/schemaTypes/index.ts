@@ -9,6 +9,7 @@ import { offerCard } from './objects/offerCard';
 import { aboutSection } from './objects/aboutSection';
 import { aboutBadge } from './objects/aboutBadge';
 import { featuredProjectsSection } from './objects/featuredProjectsSection';
+import { realizacjePage } from './objects/realizacjePage';
 import { bottomCtaSection } from './objects/bottomCtaSection';
 import { footer } from './objects/footer';
 import { project } from './documents/project';
@@ -25,6 +26,7 @@ export const schemaTypes = [
   offerSection,
   aboutSection,
   featuredProjectsSection,
+  realizacjePage,
   bottomCtaSection,
   footer,
   // Collections (multiple documents)

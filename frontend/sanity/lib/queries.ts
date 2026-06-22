@@ -9,6 +9,7 @@ export const aboutQuery = defineQuery(`*[_type == "aboutSection"][0]`);
 export const featuredProjectsSectionQuery = defineQuery(
   `*[_type == "featuredProjectsSection"][0]`,
 );
+export const realizacjePageQuery = defineQuery(`*[_type == "realizacjePage"][0]`);
 export const bottomCtaQuery = defineQuery(`*[_type == "bottomCtaSection"][0]`);
 export const footerQuery = defineQuery(`*[_type == "footer"][0]`);
 export const featuredProjectsQuery = defineQuery(

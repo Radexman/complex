@@ -215,6 +215,17 @@ export type BottomCtaSection = {
   showroomAddress?: string;
 };
 
+export type RealizacjePage = {
+  _id: string;
+  _type: 'realizacjePage';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  headline: string;
+  subheadline?: string;
+};
+
 export type FeaturedProjectsSection = {
   _id: string;
   _type: 'featuredProjectsSection';
@@ -620,6 +631,7 @@ export type AllSanitySchemaTypes =
   | Project
   | Footer
   | BottomCtaSection
+  | RealizacjePage
   | FeaturedProjectsSection
   | AboutSection
   | OfferSection
@@ -829,6 +841,20 @@ export type FeaturedProjectsSectionQueryResult = {
 } | null;
 
 // Source: sanity/lib/queries.ts
+// Variable: realizacjePageQuery
+// Query: *[_type == "realizacjePage"][0]
+export type RealizacjePageQueryResult = {
+  _id: string;
+  _type: 'realizacjePage';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  headline: string;
+  subheadline?: string;
+} | null;
+
+// Source: sanity/lib/queries.ts
 // Variable: bottomCtaQuery
 // Query: *[_type == "bottomCtaSection"][0]
 export type BottomCtaQueryResult = {
@@ -991,6 +1017,7 @@ declare module '@sanity/client' {
     '*[_type == "offerSection"][0]': OfferQueryResult;
     '*[_type == "aboutSection"][0]': AboutQueryResult;
     '*[_type == "featuredProjectsSection"][0]': FeaturedProjectsSectionQueryResult;
+    '*[_type == "realizacjePage"][0]': RealizacjePageQueryResult;
     '*[_type == "bottomCtaSection"][0]': BottomCtaQueryResult;
     '*[_type == "footer"][0]': FooterQueryResult;
     '*[_type == "project" && isFeatured == true] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    coverImage\n  }': FeaturedProjectsQueryResult;
