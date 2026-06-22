@@ -119,6 +119,65 @@ export type SanityImageHotspot = {
   width: number;
 };
 
+export type Footer = {
+  _id: string;
+  _type: 'footer';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  logo?: {
+    logoImage?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: 'image';
+    };
+    text?: string;
+    iconLetter?: string;
+    href?: string;
+  };
+  tagline?: string;
+  socialLinks?: Array<{
+    platform: 'instagram' | 'facebook' | 'linkedin' | 'youtube' | 'x' | 'tiktok';
+    href: string;
+    _key: string;
+  }>;
+  contactName?: string;
+  contactAddress?: string;
+  contactPhone?: string;
+  contactEmail?: string;
+  copyrightText?: string;
+};
+
+export type BottomCtaSection = {
+  _id: string;
+  _type: 'bottomCtaSection';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  backgroundImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: 'image';
+  };
+  eyebrow?: string;
+  headline: string;
+  headlineAccent?: string;
+  subheadline?: string;
+  primaryCtaLabel?: string;
+  primaryCtaHref?: string;
+  secondaryCtaLabel?: string;
+  secondaryCtaHref?: string;
+  bullets?: Array<string>;
+  showroomLabel?: string;
+  showroomDescription?: string;
+  showroomAddress?: string;
+};
+
 export type FeaturedProjectsSection = {
   _id: string;
   _type: 'featuredProjectsSection';
@@ -526,6 +585,8 @@ export type AllSanitySchemaTypes =
   | Project
   | SanityImageCrop
   | SanityImageHotspot
+  | Footer
+  | BottomCtaSection
   | FeaturedProjectsSection
   | AboutSection
   | OfferSection

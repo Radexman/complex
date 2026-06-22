@@ -1,21 +1,21 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useMemo, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { Tabs } from '@ark-ui/react/tabs';
-import { Dialog } from '@ark-ui/react/dialog';
-import { Portal } from '@ark-ui/react/portal';
 import { stegaClean } from 'next-sanity';
-import { X } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 
 import type {
   FeaturedProjectsQueryResult,
   FeaturedProjectsSectionQueryResult,
 } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/utils';
+import ProjectLightbox from '@/app/components/ui/ProjectLightbox';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -51,7 +51,7 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void
       type="button"
       data-project-card
       onClick={onOpen}
-      className="group relative aspect-[4/3] cursor-pointer overflow-hidden rounded-xl bg-bg-surface text-left"
+      className="group relative aspect-4/3 cursor-pointer overflow-hidden rounded-xl bg-bg-surface text-left"
     >
       {imageUrl && (
         <Image
@@ -62,7 +62,7 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void
           className="object-cover brightness-90 transition duration-300 group-hover:scale-[1.02] group-hover:brightness-100"
         />
       )}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent transition-opacity duration-300 group-hover:opacity-80" />
+      <div className="absolute inset-0 bg-linear-to-t from-black/75 via-black/25 to-transparent transition-opacity duration-300 group-hover:opacity-80" />
       <div className="absolute inset-x-3 bottom-3">
         <p className="font-heading text-lg font-bold leading-tight text-white">{project.title}</p>
         <p className="mt-1 font-body text-sm text-silver">{project.city}</p>
@@ -81,13 +81,6 @@ export default function FeaturedProjectsSection({
   const container = useRef<HTMLElement>(null);
   const [activeTab, setActiveTab] = useState<string>(ALL);
   const [selected, setSelected] = useState<Project | null>(null);
-  const [imageLoaded, setImageLoaded] = useState(false);
-
-  const openProject = (project: Project) => {
-    // No cover image → nothing to wait for, reveal immediately.
-    setImageLoaded(!project.coverImage?.asset);
-    setSelected(project);
-  };
 
   const { eyebrow, headline, subheadline } = data;
 
@@ -148,27 +141,45 @@ export default function FeaturedProjectsSection({
     { scope: container, dependencies: [activeTab, projects] },
   );
 
-  const selectedImageUrl = selected?.coverImage?.asset
-    ? urlForImage(selected.coverImage).width(1600).quality(85).url()
-    : undefined;
-
   return (
     <section ref={container} className="section-padding bg-bg-deep">
       <div className="mx-auto max-w-7xl px-6 md:px-12">
         {/* Header */}
-        {eyebrow && (
-          <p data-fp-reveal className="text-xs font-semibold uppercase tracking-widest text-accent">
-            {eyebrow}
-          </p>
-        )}
-        <h2 data-fp-reveal className="mt-2 font-heading text-4xl font-bold text-white md:text-5xl">
-          {headline}
-        </h2>
-        {subheadline && (
-          <p data-fp-reveal className="mt-3 max-w-xl font-body text-base text-silver">
-            {subheadline}
-          </p>
-        )}
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-xl">
+            {eyebrow && (
+              <p
+                data-fp-reveal
+                className="text-xs font-semibold uppercase tracking-widest text-accent"
+              >
+                {eyebrow}
+              </p>
+            )}
+            <h2
+              data-fp-reveal
+              className="mt-2 font-heading text-4xl font-bold text-white md:text-5xl"
+            >
+              {headline}
+            </h2>
+            {subheadline && (
+              <p data-fp-reveal className="mt-3 font-body text-base text-silver">
+                {subheadline}
+              </p>
+            )}
+          </div>
+          <Link
+            data-fp-reveal
+            href="/realizacje"
+            className="group inline-flex shrink-0 items-center gap-1.5 font-heading text-sm font-medium text-accent transition-colors hover:text-accent-hover"
+          >
+            Zobacz wszystkie realizacje
+            <ArrowUpRight
+              size={18}
+              className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              aria-hidden="true"
+            />
+          </Link>
+        </div>
 
         {/* Category tabs */}
         <Tabs.Root
@@ -199,62 +210,12 @@ export default function FeaturedProjectsSection({
         {/* Project grid */}
         <div data-fp-grid className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {filtered.map((project) => (
-            <ProjectCard key={project._id} project={project} onOpen={() => openProject(project)} />
+            <ProjectCard key={project._id} project={project} onOpen={() => setSelected(project)} />
           ))}
         </div>
       </div>
 
-      {/* Lightbox */}
-      <Dialog.Root
-        open={selected !== null}
-        onOpenChange={(details) => {
-          if (!details.open) setSelected(null);
-        }}
-      >
-        <Portal>
-          <Dialog.Backdrop className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md" />
-          <Dialog.Positioner className="fixed inset-0 z-50 flex items-center justify-center p-6">
-            <Dialog.Content className="relative flex max-h-[90vh] w-full max-w-4xl flex-col items-center">
-              <Dialog.CloseTrigger className="absolute -top-2 right-0 z-10 cursor-pointer text-white transition-colors hover:text-accent md:-right-2 md:-top-10">
-                <X size={28} aria-hidden="true" />
-                <span className="sr-only">Zamknij</span>
-              </Dialog.CloseTrigger>
-              {selectedImageUrl && !imageLoaded && (
-                <span
-                  aria-hidden="true"
-                  className="absolute top-1/2 h-9 w-9 -translate-y-1/2 animate-spin rounded-full border-2 border-white/30 border-t-white"
-                />
-              )}
-              {selected && (
-                <div
-                  className={`flex flex-col items-center transition-opacity duration-300 ${
-                    imageLoaded ? 'opacity-100' : 'opacity-0'
-                  }`}
-                >
-                  {selectedImageUrl && (
-                    <Image
-                      src={selectedImageUrl}
-                      alt={selected.coverImage?.alt || selected.title}
-                      width={1600}
-                      height={1200}
-                      onLoad={() => setImageLoaded(true)}
-                      className="max-h-[85vh] w-auto rounded-xl object-contain"
-                    />
-                  )}
-                  <div className="mt-4 text-center">
-                    <Dialog.Title className="font-heading text-xl font-bold text-white">
-                      {selected.title}
-                    </Dialog.Title>
-                    <Dialog.Description className="mt-1 font-body text-sm text-silver">
-                      {selected.city}
-                    </Dialog.Description>
-                  </div>
-                </div>
-              )}
-            </Dialog.Content>
-          </Dialog.Positioner>
-        </Portal>
-      </Dialog.Root>
+      <ProjectLightbox project={selected} onClose={() => setSelected(null)} />
     </section>
   );
 }

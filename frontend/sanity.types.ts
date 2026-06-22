@@ -100,6 +100,7 @@ export type Project = {
     alt?: string;
     _type: 'image';
   };
+  surface?: number;
   isFeatured?: boolean;
 };
 
@@ -886,6 +887,32 @@ export type FeaturedProjectsQueryResult = Array<{
   };
 }>;
 
+// Source: sanity/lib/queries.ts
+// Variable: allProjectsQuery
+// Query: *[_type == "project"] | order(_createdAt desc){    _id,    title,    city,    category,    surface,    coverImage  }
+export type AllProjectsQueryResult = Array<{
+  _id: string;
+  title: string;
+  city: string;
+  category:
+    | 'elewacje-kompozytowe'
+    | 'schody-modulowe'
+    | 'tarasy-drewniane'
+    | 'tarasy-gresowe'
+    | 'tarasy-kompozytowe'
+    | 'zadaszenia-aluminiowe'
+    | 'zaluzje-tarasowe';
+  surface: number | null;
+  coverImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: 'image';
+  };
+}>;
+
 // Query TypeMap
 import '@sanity/client';
 declare module '@sanity/client' {
@@ -900,5 +927,6 @@ declare module '@sanity/client' {
     '*[_type == "bottomCtaSection"][0]': BottomCtaQueryResult;
     '*[_type == "footer"][0]': FooterQueryResult;
     '*[_type == "project" && isFeatured == true] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    coverImage\n  }': FeaturedProjectsQueryResult;
+    '*[_type == "project"] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    surface,\n    coverImage\n  }': AllProjectsQueryResult;
   }
 }

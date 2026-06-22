@@ -511,6 +511,13 @@
         },
         "optional": false
       },
+      "surface": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "number"
+        },
+        "optional": true
+      },
       "isFeatured": {
         "type": "objectAttribute",
         "value": {
