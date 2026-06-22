@@ -8,7 +8,7 @@ import { useGSAP } from '@gsap/react';
 import { Tabs } from '@ark-ui/react/tabs';
 import { stegaClean } from 'next-sanity';
 
-import type { AllProjectsQueryResult } from '@/sanity.types';
+import type { AllProjectsQueryResult, RealizacjePageQueryResult } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/utils';
 import ProjectLightbox from '@/app/components/ui/ProjectLightbox';
 
@@ -71,7 +71,13 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void
   );
 }
 
-export default function ProjectsGrid({ projects }: { projects: AllProjectsQueryResult }) {
+export default function ProjectsGrid({
+  projects,
+  header,
+}: {
+  projects: AllProjectsQueryResult;
+  header: RealizacjePageQueryResult;
+}) {
   const container = useRef<HTMLElement>(null);
   const [activeTab, setActiveTab] = useState<string>(ALL);
   const [selected, setSelected] = useState<Project | null>(null);
@@ -110,25 +116,28 @@ export default function ProjectsGrid({ projects }: { projects: AllProjectsQueryR
       <div className="mx-auto max-w-7xl px-6 md:px-12">
         {/* Header */}
         <div className="text-center">
-          <p
-            data-pg-reveal
-            className="text-xs font-semibold uppercase tracking-widest text-accent"
-          >
-            Nasze portfolio
-          </p>
+          {header?.eyebrow && (
+            <p
+              data-pg-reveal
+              className="text-xs font-semibold uppercase tracking-widest text-accent"
+            >
+              {header.eyebrow}
+            </p>
+          )}
           <h1
             data-pg-reveal
             className="mt-2 font-heading text-5xl font-bold text-white md:text-6xl"
           >
-            Realizacje
+            {header?.headline ?? 'Realizacje'}
           </h1>
-          <p
-            data-pg-reveal
-            className="mx-auto mt-4 max-w-2xl font-body text-base text-silver"
-          >
-            Przeglądaj nasze projekty tarasów, zadaszeń, żaluzji i schodów modułowych. Każda
-            realizacja to indywidualne podejście i dbałość o każdy detal.
-          </p>
+          {header?.subheadline && (
+            <p
+              data-pg-reveal
+              className="mx-auto mt-4 max-w-2xl font-body text-base text-silver"
+            >
+              {header.subheadline}
+            </p>
+          )}
         </div>
 
         {/* Category tabs — all categories always shown, in fixed order */}

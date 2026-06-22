@@ -69,6 +69,10 @@ export default defineConfig({
             filter: `_type == "settings" && _id == "siteSettings"`,
           },
           {
+            route: '/realizacje',
+            filter: `_type == "realizacjePage" && _id == "realizacjePage"`,
+          },
+          {
             route: '/oferta/:slug',
             filter: `_type == "service" && slug.current == $slug || _id == $slug`,
           },
@@ -116,6 +120,11 @@ export default defineConfig({
           featuredProjectsSection: defineLocations({
             locations: [homeLocation],
             message: 'Sekcja Realizacje jest używana na stronie głównej',
+            tone: 'positive',
+          }),
+          realizacjePage: defineLocations({
+            locations: [{ title: 'Realizacje', href: '/realizacje' }],
+            message: 'Nagłówek strony „Realizacje”',
             tone: 'positive',
           }),
           bottomCtaSection: defineLocations({
