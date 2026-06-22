@@ -14,6 +14,49 @@ Not Started
 
 ## History
 
+### Realizacje Page (2026-06-22)
+
+Standalone **`/realizacje`** listing page — all projects (ignores `isFeatured`), static
+category-filter tabs, results count, 3-col card grid, shared lightbox. Reuses the same
+`project` document pool as the home `FeaturedProjectsSection` (one source of truth). First
+route page beyond `/` in the repo. Reconciled the spec's `src/...` paths + `revalidate: 60`
+to the repo's `frontend/app/...` layout and `sanityFetch` (Live Content API) convention.
+
+- **Studio:** added optional `surface` (number, m², `positive()` validation, label
+  „Powierzchnia (m²)”) to `documents/project.ts`. `sanity.config.ts`: the `project`
+  Presentation location now also resolves to `/realizacje` (kept the home entry too).
+- **Frontend — shared lightbox:** extracted the Ark UI `Dialog` lightbox out of
+  `FeaturedProjectsSection.tsx` into `app/components/ui/ProjectLightbox.tsx` — a controlled
+  component (`project` / `onClose`) consumed by **both** the home section and the new grid.
+  Preserves the "image + captions fade in together gated on `onLoad`" behavior. The load-gate
+  reset uses React's **render-time state-adjustment** pattern keyed on `_id` (not a
+  `useEffect`) — the `react-hooks/set-state-in-effect` lint rule rejects `setState` in an
+  effect; the original had sidestepped it by resetting in the click handler.
+- **Frontend — page + grid:** `app/realizacje/page.tsx` (async Server Component, static
+  `metadata`, fetches `allProjectsQuery` via `sanityFetch`). `app/components/sections/
+  ProjectsGrid.tsx` (`'use client'`): centered header (h1 „Realizacje”), **static** 8-tab
+  Ark `Tabs` (`activationMode="manual"`, all categories always shown in fixed order — unlike
+  the home section's dynamic tabs), results count „Wyświetlono {n} realizacji", 3-col grid.
+  Cards = category badge top-left + city/`surface` „42 m²" bottom row (surface omitted when
+  null); no star rating. GSAP header-on-mount + cards-on-filter-change reveals via `useGSAP`.
+- **Home link (from `featured.png`):** added a „Zobacz wszystkie realizacje" accent link
+  (OfferSection pattern: `ArrowUpRight` nudge) to the `FeaturedProjectsSection` header,
+  wrapped in a `flex-col md:flex-row md:justify-between` row → `/realizacje`. Hardcoded
+  Polish copy (consistent with the section's other in-component strings; not CMS-driven).
+- **Queries:** added `allProjectsQuery` (`*[_type == "project"] | order(_createdAt desc)`,
+  includes `surface`) in `sanity/lib/queries.ts`; types regenerated (`AllProjectsQueryResult`;
+  studio's stale generated `Footer` type also caught up in the same run).
+- **Reconciliations flagged for sign-off:** (1) `sanityFetch` instead of `revalidate: 60`
+  (repo convention; route shows static but updates live via `<SanityLive>`); (2) card shows
+  **no title** (spec's card lists only badge + city + surface — title lives in the lightbox),
+  a deliberate deviation from the screenshot which shows a title.
+- **Left untouched:** a pre-existing uncommitted `Footer.tsx` refactor (drops in-component
+  fallbacks + early-returns `null`) was in the working tree at session start — **not** part of
+  this feature, so it was excluded from the commit and left uncommitted for separate handling.
+- Verified: frontend `tsc` + `eslint` clean, studio `tsc` clean, `next build` passes
+  (`/realizacje` in the route table). No server actions/utils → no Vitest. Not yet eyeballed
+  in-browser (seeded projects still have no cover images → placeholder cards).
+
 ### Footer (2026-06-22)
 
 Site-wide **Footer**, CMS-managed, rendered at the bottom of every page via `layout.tsx`.
