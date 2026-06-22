@@ -114,6 +114,11 @@ export default defineConfig({
             message: 'Sekcja Realizacje jest używana na stronie głównej',
             tone: 'positive',
           }),
+          bottomCtaSection: defineLocations({
+            locations: [homeLocation],
+            message: 'Sekcja CTA / Salon jest używana na stronie głównej',
+            tone: 'positive',
+          }),
           project: defineLocations({
             select: { title: 'title', city: 'city' },
             resolve: (doc) => ({

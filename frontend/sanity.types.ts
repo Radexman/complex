@@ -119,6 +119,34 @@ export type SanityImageHotspot = {
   width: number;
 };
 
+export type BottomCtaSection = {
+  _id: string;
+  _type: 'bottomCtaSection';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  backgroundImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: 'image';
+  };
+  eyebrow?: string;
+  headline: string;
+  headlineAccent?: string;
+  subheadline?: string;
+  primaryCtaLabel?: string;
+  primaryCtaHref?: string;
+  secondaryCtaLabel?: string;
+  secondaryCtaHref?: string;
+  bullets?: Array<string>;
+  showroomLabel?: string;
+  showroomDescription?: string;
+  showroomAddress?: string;
+};
+
 export type FeaturedProjectsSection = {
   _id: string;
   _type: 'featuredProjectsSection';
@@ -526,6 +554,7 @@ export type AllSanitySchemaTypes =
   | Project
   | SanityImageCrop
   | SanityImageHotspot
+  | BottomCtaSection
   | FeaturedProjectsSection
   | AboutSection
   | OfferSection
@@ -736,6 +765,37 @@ export type FeaturedProjectsSectionQueryResult = {
 } | null;
 
 // Source: sanity/lib/queries.ts
+// Variable: bottomCtaQuery
+// Query: *[_type == "bottomCtaSection"][0]
+export type BottomCtaQueryResult = {
+  _id: string;
+  _type: 'bottomCtaSection';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  backgroundImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: 'image';
+  };
+  eyebrow?: string;
+  headline: string;
+  headlineAccent?: string;
+  subheadline?: string;
+  primaryCtaLabel?: string;
+  primaryCtaHref?: string;
+  secondaryCtaLabel?: string;
+  secondaryCtaHref?: string;
+  bullets?: Array<string>;
+  showroomLabel?: string;
+  showroomDescription?: string;
+  showroomAddress?: string;
+} | null;
+
+// Source: sanity/lib/queries.ts
 // Variable: featuredProjectsQuery
 // Query: *[_type == "project" && isFeatured == true] | order(_createdAt desc){    _id,    title,    city,    category,    coverImage  }
 export type FeaturedProjectsQueryResult = Array<{
@@ -771,6 +831,7 @@ declare module '@sanity/client' {
     '*[_type == "offerSection"][0]': OfferQueryResult;
     '*[_type == "aboutSection"][0]': AboutQueryResult;
     '*[_type == "featuredProjectsSection"][0]': FeaturedProjectsSectionQueryResult;
+    '*[_type == "bottomCtaSection"][0]': BottomCtaQueryResult;
     '*[_type == "project" && isFeatured == true] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    coverImage\n  }': FeaturedProjectsQueryResult;
   }
 }

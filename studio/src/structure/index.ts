@@ -4,6 +4,7 @@ import {
   ImageIcon,
   ImagesIcon,
   MenuIcon,
+  RocketIcon,
   StarIcon,
   ThLargeIcon,
   UsersIcon,
@@ -51,6 +52,10 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
             .schemaType('featuredProjectsSection')
             .documentId('featuredProjectsSection'),
         ),
+      S.listItem()
+        .title('Sekcja CTA / Salon')
+        .icon(RocketIcon)
+        .child(S.document().schemaType('bottomCtaSection').documentId('bottomCtaSection')),
       S.divider(),
       S.listItem()
         .title('Realizacje')

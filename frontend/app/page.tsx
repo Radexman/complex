@@ -1,5 +1,6 @@
 import {
   aboutQuery,
+  bottomCtaQuery,
   featuredProjectsQuery,
   featuredProjectsSectionQuery,
   heroQuery,
@@ -12,6 +13,7 @@ import TrustSection from '@/app/components/sections/TrustSection';
 import OfferSection from './components/sections/OfferSection';
 import AboutSection from './components/sections/AboutSection';
 import FeaturedProjectsSection from './components/sections/FeaturedProjectsSection';
+import BottomCtaSection from './components/sections/BottomCtaSection';
 
 export default async function Page() {
   const [
@@ -21,6 +23,7 @@ export default async function Page() {
     { data: about },
     { data: featuredSection },
     { data: featuredProjects },
+    { data: bottomCta },
   ] = await Promise.all([
     sanityFetch({ query: heroQuery }),
     sanityFetch({ query: trustQuery }),
@@ -28,6 +31,7 @@ export default async function Page() {
     sanityFetch({ query: aboutQuery }),
     sanityFetch({ query: featuredProjectsSectionQuery }),
     sanityFetch({ query: featuredProjectsQuery }),
+    sanityFetch({ query: bottomCtaQuery }),
   ]);
 
   return (
@@ -39,6 +43,7 @@ export default async function Page() {
       {featuredSection && (
         <FeaturedProjectsSection data={featuredSection} projects={featuredProjects} />
       )}
+      {bottomCta && <BottomCtaSection data={bottomCta} />}
     </>
   );
 }
