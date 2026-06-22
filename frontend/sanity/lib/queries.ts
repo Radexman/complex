@@ -20,3 +20,13 @@ export const featuredProjectsQuery = defineQuery(
     coverImage
   }`,
 );
+export const allProjectsQuery = defineQuery(
+  `*[_type == "project"] | order(_createdAt desc){
+    _id,
+    title,
+    city,
+    category,
+    surface,
+    coverImage
+  }`,
+);

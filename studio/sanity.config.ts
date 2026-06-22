@@ -129,6 +129,10 @@ export default defineConfig({
             resolve: (doc) => ({
               locations: [
                 {
+                  title: 'Realizacje',
+                  href: '/realizacje',
+                },
+                {
                   title: doc?.title || 'Realizacja',
                   href: '/',
                 },

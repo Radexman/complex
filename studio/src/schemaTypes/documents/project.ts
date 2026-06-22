@@ -64,6 +64,13 @@ export const project = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'surface',
+      title: 'Powierzchnia (m²)',
+      description: 'Powierzchnia realizacji w metrach kwadratowych, np. 42. Pole opcjonalne.',
+      type: 'number',
+      validation: (rule) => rule.positive(),
+    }),
+    defineField({
       name: 'isFeatured',
       title: 'Wyróżniona na stronie głównej',
       description: 'Gdy zaznaczone, realizacja pojawia się w sekcji „Wybrane projekty” na stronie głównej.',
