@@ -14,6 +14,46 @@ Not Started
 
 ## History
 
+### Footer (2026-06-22)
+
+Site-wide **Footer**, CMS-managed, rendered at the bottom of every page via `layout.tsx`.
+Replaced a 7-line placeholder stub (`frontend/app/components/Footer.tsx`, which showed
+`© {year} Complex`). Built from a new `footer` fixed-id singleton — reconciled the spec's
+"embed in `siteSettings`" instruction to the repo's **singleton precedent** (navbar, also
+global, is already its own document; `settings` is metadata-only since the 2026-06-16
+split). First mix of two icon libraries in the repo.
+
+- **Studio:** `objects/footer.ts` — `footer` singleton (`ThListIcon`) with `logo`
+  (`logoImage`/`text`/`iconLetter`/`href` — mirrors `navbar.logo` incl. the optional
+  uploadable image), `tagline`, `socialLinks[]` (`platform` constrained `options.list`
+  select via exported `FOOTER_SOCIAL_PLATFORMS` + required `href` url), `contactName`/
+  `contactAddress`/`contactPhone`/`contactEmail`, `copyrightText` — all Polish
+  `initialValue`s, split into Marka/Kontakt/Stopka-dolna field groups. Registered in
+  `schemaTypes/index.ts`, **"Stopka"** entry in `structure/index.ts`, Presentation
+  `location` → home in `sanity.config.ts`.
+- **Frontend:** `app/components/layout/Footer.tsx` — an **async server component** (no
+  interactivity, so no `'use client'`; fetches `footerQuery` directly via `sanityFetch`
+  rather than the Header/Navbar server+client split). 5-col grid (brand + Oferta 7 /
+  Firma 4 / Narzędzia 4 wycena / Kontakt) → `md` 2-col → mobile stacked; brand logo
+  mirrors Navbar (image replaces square+text, else green letter-square + wordmark; no
+  `priority` since it's below the fold); Kontakt with inline accent `MapPin`/`Phone`/
+  `Mail` + `tel:`/`mailto:`; bottom bar copyright + 3 legal links. In-component Polish
+  fallbacks (initialValue doesn't backfill). Added `footerQuery`; types regenerated.
+- **Deps / gotcha 1 — brand icons:** lucide-react v1 **dropped all brand/logo icons**
+  (the spec's `Instagram`/`Facebook`/`Twitter`/etc. no longer exist). Added
+  `react-icons` and used `react-icons/fa6` brand glyphs (`FaInstagram`/`FaFacebookF`/
+  `FaLinkedinIn`/`FaYoutube`/`FaXTwitter`/`FaTiktok`); kept lucide for the generic
+  contact icons. `IconType` is the right map value type (accepts `aria-hidden` string).
+- **Gotcha 2 — stega (user-reported "Facebook icon not showing"):** the platform→icon
+  lookup `SOCIAL_ICONS[link.platform]` failed because Visual Editing embeds invisible
+  stega chars in the string. Fixed with `stegaClean(link.platform)` — same pattern
+  Trust/Offer/About already use on icon keys. Data was correct; the bug was mine.
+- **Seed:** the `footer` singleton exists in `production` (the client created it when
+  adding the Facebook social link). Hosted Studio still needs a **redeploy** to expose
+  the new "Stopka" sidebar entry + the `logoImage` upload field.
+- Verified: frontend `tsc` + `eslint` (only the pre-existing TrustSection warning),
+  studio `tsc`, `next build` all pass. No server actions/utils → no Vitest.
+
 ### Bottom CTA Section (2026-06-22)
 
 Home-page bottom lead-gen **CTA + showroom/map** section, built from a new `bottomCtaSection`
