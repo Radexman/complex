@@ -76,6 +76,60 @@ export type HeroStat = {
   label: string;
 };
 
+export type Project = {
+  _id: string;
+  _type: 'project';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  city: string;
+  category:
+    | 'zadaszenia-aluminiowe'
+    | 'zaluzje-tarasowe'
+    | 'tarasy-kompozytowe'
+    | 'tarasy-gresowe'
+    | 'tarasy-drewniane'
+    | 'elewacje-kompozytowe'
+    | 'schody-modulowe';
+  coverImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: 'image';
+  };
+  isFeatured?: boolean;
+};
+
+export type SanityImageCrop = {
+  _type: 'sanity.imageCrop';
+  top: number;
+  bottom: number;
+  left: number;
+  right: number;
+};
+
+export type SanityImageHotspot = {
+  _type: 'sanity.imageHotspot';
+  x: number;
+  y: number;
+  height: number;
+  width: number;
+};
+
+export type FeaturedProjectsSection = {
+  _id: string;
+  _type: 'featuredProjectsSection';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  headline: string;
+  subheadline?: string;
+};
+
 export type AboutSection = {
   _id: string;
   _type: 'aboutSection';
@@ -102,22 +156,6 @@ export type AboutSection = {
       _key: string;
     } & AboutBadge
   >;
-};
-
-export type SanityImageCrop = {
-  _type: 'sanity.imageCrop';
-  top: number;
-  bottom: number;
-  left: number;
-  right: number;
-};
-
-export type SanityImageHotspot = {
-  _type: 'sanity.imageHotspot';
-  x: number;
-  y: number;
-  height: number;
-  width: number;
 };
 
 export type OfferSection = {
@@ -485,9 +523,11 @@ export type AllSanitySchemaTypes =
   | OfferCard
   | TrustStat
   | HeroStat
-  | AboutSection
+  | Project
   | SanityImageCrop
   | SanityImageHotspot
+  | FeaturedProjectsSection
+  | AboutSection
   | OfferSection
   | TrustSection
   | HeroSection
