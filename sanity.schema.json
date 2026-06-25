@@ -557,6 +557,121 @@
           ]
         },
         "optional": false
+      },
+      "benefitsHeadline": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "benefitsDescription": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "benefits": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "object",
+            "attributes": {
+              "icon": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "union",
+                  "of": [
+                    {
+                      "type": "string",
+                      "value": "shield"
+                    },
+                    {
+                      "type": "string",
+                      "value": "clock"
+                    },
+                    {
+                      "type": "string",
+                      "value": "award"
+                    },
+                    {
+                      "type": "string",
+                      "value": "users"
+                    },
+                    {
+                      "type": "string",
+                      "value": "star"
+                    },
+                    {
+                      "type": "string",
+                      "value": "check"
+                    },
+                    {
+                      "type": "string",
+                      "value": "tool"
+                    },
+                    {
+                      "type": "string",
+                      "value": "map"
+                    },
+                    {
+                      "type": "string",
+                      "value": "sun"
+                    },
+                    {
+                      "type": "string",
+                      "value": "droplets"
+                    },
+                    {
+                      "type": "string",
+                      "value": "ruler"
+                    },
+                    {
+                      "type": "string",
+                      "value": "zap"
+                    }
+                  ]
+                },
+                "optional": false
+              },
+              "title": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": false
+              },
+              "description": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "_type": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string",
+                  "value": "benefit"
+                }
+              }
+            },
+            "rest": {
+              "type": "object",
+              "attributes": {
+                "_key": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "optional": true
       }
     }
   },

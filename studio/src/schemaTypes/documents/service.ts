@@ -1,5 +1,5 @@
 import { TagIcon } from '@sanity/icons';
-import { defineField, defineType } from 'sanity';
+import { defineArrayMember, defineField, defineType } from 'sanity';
 
 import { PROJECT_CATEGORIES } from './project';
 
@@ -10,12 +10,32 @@ export const RELATED_FORM_SLUGS = [
   { title: 'Formularz Wyceny Schodów', value: 'schody' },
 ] as const;
 
+// Icon identifiers for benefit cards — resolved to Lucide icons in
+// OfferBenefits.tsx (same options.list lookup pattern as trustStat).
+export const BENEFIT_ICONS = [
+  { title: 'Tarcza (ochrona / trwałość)', value: 'shield' },
+  { title: 'Zegar (czas)', value: 'clock' },
+  { title: 'Nagroda (jakość)', value: 'award' },
+  { title: 'Klienci', value: 'users' },
+  { title: 'Gwiazda', value: 'star' },
+  { title: 'Znacznik (gwarancja)', value: 'check' },
+  { title: 'Narzędzie (montaż)', value: 'tool' },
+  { title: 'Mapa (lokalizacja)', value: 'map' },
+  { title: 'Słońce', value: 'sun' },
+  { title: 'Krople (wilgoć)', value: 'droplets' },
+  { title: 'Linijka (wymiary)', value: 'ruler' },
+  { title: 'Błyskawica (szybkość)', value: 'zap' },
+] as const;
+
 export const service = defineType({
   name: 'service',
   title: 'Oferta (podstrona)',
   type: 'document',
   icon: TagIcon,
-  groups: [{ name: 'hero', title: 'Hero', default: true }],
+  groups: [
+    { name: 'hero', title: 'Hero', default: true },
+    { name: 'benefits', title: 'Zalety' },
+  ],
   fields: [
     defineField({
       name: 'title',
@@ -98,6 +118,58 @@ export const service = defineType({
         layout: 'dropdown',
       },
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'benefitsHeadline',
+      title: 'Nagłówek sekcji zalet',
+      description: 'Np. „Dlaczego warto wybrać zadaszenie aluminiowe?”.',
+      type: 'string',
+      group: 'benefits',
+    }),
+    defineField({
+      name: 'benefitsDescription',
+      title: 'Opis sekcji zalet',
+      description: 'Krótki akapit (2–3 zdania) pod nagłówkiem.',
+      type: 'text',
+      rows: 3,
+      group: 'benefits',
+    }),
+    defineField({
+      name: 'benefits',
+      title: 'Zalety',
+      description: 'Od 2 do 6 kart z ikoną, tytułem i krótkim opisem.',
+      type: 'array',
+      group: 'benefits',
+      validation: (rule) => rule.min(2).max(6),
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'benefit',
+          fields: [
+            defineField({
+              name: 'icon',
+              title: 'Ikona',
+              type: 'string',
+              options: { list: [...BENEFIT_ICONS], layout: 'dropdown' },
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: 'title',
+              title: 'Tytuł',
+              type: 'string',
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: 'description',
+              title: 'Opis',
+              type: 'string',
+            }),
+          ],
+          preview: {
+            select: { title: 'title', subtitle: 'icon' },
+          },
+        }),
+      ],
     }),
   ],
   preview: {
