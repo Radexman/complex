@@ -22,6 +22,7 @@ export default function OfferPage({ service }: { service: Service }) {
         relatedFormSlug={service.relatedFormSlug}
       />
       <OfferBenefits
+        benefitsEyebrow={service.benefitsEyebrow}
         benefitsHeadline={service.benefitsHeadline}
         benefitsDescription={service.benefitsDescription}
         benefits={service.benefits}

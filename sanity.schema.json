@@ -558,6 +558,13 @@
         },
         "optional": false
       },
+      "benefitsEyebrow": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "benefitsHeadline": {
         "type": "objectAttribute",
         "value": {
