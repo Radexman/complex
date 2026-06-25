@@ -104,6 +104,27 @@ export type Service = {
     | 'tarasy-drewniane'
     | 'elewacje-kompozytowe'
     | 'schody-modulowe';
+  benefitsHeadline?: string;
+  benefitsDescription?: string;
+  benefits?: Array<{
+    icon:
+      | 'shield'
+      | 'clock'
+      | 'award'
+      | 'users'
+      | 'star'
+      | 'check'
+      | 'tool'
+      | 'map'
+      | 'sun'
+      | 'droplets'
+      | 'ruler'
+      | 'zap';
+    title: string;
+    description?: string;
+    _type: 'benefit';
+    _key: string;
+  }>;
 };
 
 export type SanityImageCrop = {
@@ -979,7 +1000,7 @@ export type ServiceSlugsQueryResult = Array<{
 
 // Source: sanity/lib/queries.ts
 // Variable: serviceBySlugQuery
-// Query: *[_type == "service" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    seoDescription,    heroImage,    heroHeadline,    heroSubheadline,    relatedFormSlug,    category  }
+// Query: *[_type == "service" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    seoDescription,    heroImage,    heroHeadline,    heroSubheadline,    relatedFormSlug,    category,    benefitsHeadline,    benefitsDescription,    benefits[]{      _key,      icon,      title,      description    }  }
 export type ServiceBySlugQueryResult = {
   _id: string;
   title: string;
@@ -1004,6 +1025,26 @@ export type ServiceBySlugQueryResult = {
     | 'tarasy-kompozytowe'
     | 'zadaszenia-aluminiowe'
     | 'zaluzje-tarasowe';
+  benefitsHeadline: string | null;
+  benefitsDescription: string | null;
+  benefits: Array<{
+    _key: string;
+    icon:
+      | 'award'
+      | 'check'
+      | 'clock'
+      | 'droplets'
+      | 'map'
+      | 'ruler'
+      | 'shield'
+      | 'star'
+      | 'sun'
+      | 'tool'
+      | 'users'
+      | 'zap';
+    title: string;
+    description: string | null;
+  }> | null;
 } | null;
 
 // Query TypeMap
@@ -1023,6 +1064,6 @@ declare module '@sanity/client' {
     '*[_type == "project" && isFeatured == true] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    coverImage\n  }': FeaturedProjectsQueryResult;
     '*[_type == "project"] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    surface,\n    coverImage\n  }': AllProjectsQueryResult;
     '*[_type == "service" && defined(slug.current)]{ "slug": slug.current }': ServiceSlugsQueryResult;
-    '*[_type == "service" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    seoDescription,\n    heroImage,\n    heroHeadline,\n    heroSubheadline,\n    relatedFormSlug,\n    category\n  }': ServiceBySlugQueryResult;
+    '*[_type == "service" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    seoDescription,\n    heroImage,\n    heroHeadline,\n    heroSubheadline,\n    relatedFormSlug,\n    category,\n    benefitsHeadline,\n    benefitsDescription,\n    benefits[]{\n      _key,\n      icon,\n      title,\n      description\n    }\n  }': ServiceBySlugQueryResult;
   }
 }

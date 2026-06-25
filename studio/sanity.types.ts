@@ -76,6 +76,79 @@ export type HeroStat = {
   label: string;
 };
 
+export type Service = {
+  _id: string;
+  _type: 'service';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  seoDescription?: string;
+  heroImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: 'image';
+  };
+  heroHeadline: string;
+  heroSubheadline?: string;
+  relatedFormSlug?: 'zadaszenie' | 'zaluzje' | 'taras' | 'schody';
+  category:
+    | 'zadaszenia-aluminiowe'
+    | 'zaluzje-tarasowe'
+    | 'tarasy-kompozytowe'
+    | 'tarasy-gresowe'
+    | 'tarasy-drewniane'
+    | 'elewacje-kompozytowe'
+    | 'schody-modulowe';
+  benefitsHeadline?: string;
+  benefitsDescription?: string;
+  benefits?: Array<{
+    icon:
+      | 'shield'
+      | 'clock'
+      | 'award'
+      | 'users'
+      | 'star'
+      | 'check'
+      | 'tool'
+      | 'map'
+      | 'sun'
+      | 'droplets'
+      | 'ruler'
+      | 'zap';
+    title: string;
+    description?: string;
+    _type: 'benefit';
+    _key: string;
+  }>;
+};
+
+export type SanityImageCrop = {
+  _type: 'sanity.imageCrop';
+  top: number;
+  bottom: number;
+  left: number;
+  right: number;
+};
+
+export type SanityImageHotspot = {
+  _type: 'sanity.imageHotspot';
+  x: number;
+  y: number;
+  height: number;
+  width: number;
+};
+
+export type Slug = {
+  _type: 'slug';
+  current: string;
+  source?: string;
+};
+
 export type Project = {
   _id: string;
   _type: 'project';
@@ -100,23 +173,8 @@ export type Project = {
     alt?: string;
     _type: 'image';
   };
+  surface?: number;
   isFeatured?: boolean;
-};
-
-export type SanityImageCrop = {
-  _type: 'sanity.imageCrop';
-  top: number;
-  bottom: number;
-  left: number;
-  right: number;
-};
-
-export type SanityImageHotspot = {
-  _type: 'sanity.imageHotspot';
-  x: number;
-  y: number;
-  height: number;
-  width: number;
 };
 
 export type Footer = {
@@ -176,6 +234,17 @@ export type BottomCtaSection = {
   showroomLabel?: string;
   showroomDescription?: string;
   showroomAddress?: string;
+};
+
+export type RealizacjePage = {
+  _id: string;
+  _type: 'realizacjePage';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  headline: string;
+  subheadline?: string;
 };
 
 export type FeaturedProjectsSection = {
@@ -570,23 +639,20 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type Slug = {
-  _type: 'slug';
-  current: string;
-  source?: string;
-};
-
 export type AllSanitySchemaTypes =
   | AboutBadge
   | SanityImageAssetReference
   | OfferCard
   | TrustStat
   | HeroStat
-  | Project
+  | Service
   | SanityImageCrop
   | SanityImageHotspot
+  | Slug
+  | Project
   | Footer
   | BottomCtaSection
+  | RealizacjePage
   | FeaturedProjectsSection
   | AboutSection
   | OfferSection
@@ -614,5 +680,4 @@ export type AllSanitySchemaTypes =
   | SanityFileAsset
   | SanityAssetSourceData
   | SanityImageAsset
-  | Geopoint
-  | Slug;
+  | Geopoint;

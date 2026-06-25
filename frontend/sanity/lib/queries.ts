@@ -46,6 +46,14 @@ export const serviceBySlugQuery = defineQuery(
     heroHeadline,
     heroSubheadline,
     relatedFormSlug,
-    category
+    category,
+    benefitsHeadline,
+    benefitsDescription,
+    benefits[]{
+      _key,
+      icon,
+      title,
+      description
+    }
   }`,
 );
