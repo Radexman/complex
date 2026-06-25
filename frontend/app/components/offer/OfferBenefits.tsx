@@ -28,7 +28,7 @@ gsap.registerPlugin(ScrollTrigger);
 type Service = NonNullable<ServiceBySlugQueryResult>;
 type OfferBenefitsProps = Pick<
   Service,
-  'benefitsHeadline' | 'benefitsDescription' | 'benefits'
+  'benefitsEyebrow' | 'benefitsHeadline' | 'benefitsDescription' | 'benefits'
 >;
 
 const ICON_MAP: Record<string, LucideIcon> = {
@@ -47,6 +47,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
 };
 
 export default function OfferBenefits({
+  benefitsEyebrow,
   benefitsHeadline,
   benefitsDescription,
   benefits,
@@ -86,14 +87,18 @@ export default function OfferBenefits({
   if (!benefits || benefits.length === 0) return null;
 
   return (
-    <section ref={container} className="section-padding bg-bg-mid">
-      <div className="mx-auto max-w-7xl px-6 md:px-12">
+    <section ref={container} className="section-padding relative overflow-hidden bg-bg-mid">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-40 -top-40 h-150 w-150 rounded-full bg-[radial-gradient(circle,rgba(111,207,58,0.08),transparent_70%)] blur-2xl"
+      />
+      <div className="relative mx-auto max-w-7xl px-6 md:px-12">
         <div className="max-w-2xl">
           <p
             data-benefits-header
             className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent"
           >
-            Zalety produktu
+            {benefitsEyebrow || 'Zalety produktu'}
           </p>
           {benefitsHeadline && (
             <h2

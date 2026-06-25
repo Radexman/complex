@@ -120,6 +120,14 @@ export const service = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'benefitsEyebrow',
+      title: 'Etykieta sekcji zalet',
+      description: 'Mały tekst nad nagłówkiem. Domyślnie „Zalety produktu”.',
+      type: 'string',
+      group: 'benefits',
+      initialValue: 'Zalety produktu',
+    }),
+    defineField({
       name: 'benefitsHeadline',
       title: 'Nagłówek sekcji zalet',
       description: 'Np. „Dlaczego warto wybrać zadaszenie aluminiowe?”.',

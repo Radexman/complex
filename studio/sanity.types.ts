@@ -104,6 +104,7 @@ export type Service = {
     | 'tarasy-drewniane'
     | 'elewacje-kompozytowe'
     | 'schody-modulowe';
+  benefitsEyebrow?: string;
   benefitsHeadline?: string;
   benefitsDescription?: string;
   benefits?: Array<{

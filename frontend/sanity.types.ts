@@ -104,6 +104,7 @@ export type Service = {
     | 'tarasy-drewniane'
     | 'elewacje-kompozytowe'
     | 'schody-modulowe';
+  benefitsEyebrow?: string;
   benefitsHeadline?: string;
   benefitsDescription?: string;
   benefits?: Array<{
@@ -1000,7 +1001,7 @@ export type ServiceSlugsQueryResult = Array<{
 
 // Source: sanity/lib/queries.ts
 // Variable: serviceBySlugQuery
-// Query: *[_type == "service" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    seoDescription,    heroImage,    heroHeadline,    heroSubheadline,    relatedFormSlug,    category,    benefitsHeadline,    benefitsDescription,    benefits[]{      _key,      icon,      title,      description    }  }
+// Query: *[_type == "service" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    seoDescription,    heroImage,    heroHeadline,    heroSubheadline,    relatedFormSlug,    category,    benefitsEyebrow,    benefitsHeadline,    benefitsDescription,    benefits[]{      _key,      icon,      title,      description    }  }
 export type ServiceBySlugQueryResult = {
   _id: string;
   title: string;
@@ -1025,6 +1026,7 @@ export type ServiceBySlugQueryResult = {
     | 'tarasy-kompozytowe'
     | 'zadaszenia-aluminiowe'
     | 'zaluzje-tarasowe';
+  benefitsEyebrow: string | null;
   benefitsHeadline: string | null;
   benefitsDescription: string | null;
   benefits: Array<{
@@ -1064,6 +1066,6 @@ declare module '@sanity/client' {
     '*[_type == "project" && isFeatured == true] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    coverImage\n  }': FeaturedProjectsQueryResult;
     '*[_type == "project"] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    surface,\n    coverImage\n  }': AllProjectsQueryResult;
     '*[_type == "service" && defined(slug.current)]{ "slug": slug.current }': ServiceSlugsQueryResult;
-    '*[_type == "service" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    seoDescription,\n    heroImage,\n    heroHeadline,\n    heroSubheadline,\n    relatedFormSlug,\n    category,\n    benefitsHeadline,\n    benefitsDescription,\n    benefits[]{\n      _key,\n      icon,\n      title,\n      description\n    }\n  }': ServiceBySlugQueryResult;
+    '*[_type == "service" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    seoDescription,\n    heroImage,\n    heroHeadline,\n    heroSubheadline,\n    relatedFormSlug,\n    category,\n    benefitsEyebrow,\n    benefitsHeadline,\n    benefitsDescription,\n    benefits[]{\n      _key,\n      icon,\n      title,\n      description\n    }\n  }': ServiceBySlugQueryResult;
   }
 }
