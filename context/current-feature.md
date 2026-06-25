@@ -14,6 +14,49 @@ Not Started
 
 ## History
 
+### Offer Pages — Part 2: Benefits Section (2026-06-25)
+
+Second section on every `/oferta/[slug]` page — `OfferBenefits`, directly below the hero.
+Short value-prop description + a responsive grid of icon/text benefit cards, all CMS-managed.
+**Spec 2 of 7** (`context/features/offer-02-benefits-spec.md`). Reconciled the spec's `src/...` +
+`sanity/schemas/` paths → repo layout, same as Part 1.
+
+- **Studio:** appended `benefitsHeadline` (string), `benefitsDescription` (text) and `benefits[]`
+  (`array`, `min(2).max(6)`, inline `benefit` object `{icon, title, description}`) to
+  `documents/service.ts`, under a new **„Zalety”** field group. `icon` is a constrained
+  `options.list` dropdown driven by a new exported `BENEFIT_ICONS` (12 values:
+  `shield/clock/award/users/star/check/tool/map/sun/droplets/ruler/zap`) — same pattern as
+  `trustStat`. Added `defineArrayMember` import.
+- **Frontend:** `app/components/offer/OfferBenefits.tsx` (`'use client'`) — `bg-bg-mid` +
+  `.section-padding`, **left-aligned** header (`max-w-2xl`: hardcoded „Zalety produktu” accent
+  eyebrow → `benefitsHeadline` → `benefitsDescription`), responsive **3/2/1** card grid
+  (`grid-cols-1 md:grid-cols-2 lg:grid-cols-3`). Cards: `bg-bg-surface rounded-xl p-6 border
+  border-graphite` hover `hover:border-accent/40`, accent icon tile (`w-10 h-10 bg-accent/10`),
+  title + description. Icon string → Lucide via static `ICON_MAP` (TrustSection pattern +
+  `Sun`/`Droplets`/`Ruler`/`Zap`) with `stegaClean` on the key. GSAP scroll reveal via the safe
+  `gsap.set`+`.to` `useGSAP` pattern (header `y:30→0`, cards `y:40→0` `stagger 0.08`, trigger
+  `top 80%`), `dependencies: [benefits]`. Guarded: returns `null` when `benefits` empty. Wired as
+  `OfferPage`'s **second child** (after `<OfferHero>`), passing the three benefit props.
+- **Queries:** extended `serviceBySlugQuery` with `benefitsHeadline`/`benefitsDescription`/
+  `benefits[]{_key,icon,title,description}`; regenerated **both** frontend + studio types
+  (studio's `sanity.types.ts` was stale at session start — ran `studio` typegen too so the
+  committed generated file matches the new schema).
+- **Reconciliation:** GSAP uses the repo's safe `gsap.set`+`.to`/`useGSAP` convention rather than
+  the spec's literal `gsap.context()`/`gsap.from` (matches Trust/About/Featured-Projects).
+- **Seed + publish (per request):** patched `benefitsHeadline`/`benefitsDescription`/`benefits[]`
+  per the spec's 7 per-service content tables into all 7 `service` **drafts** via Sanity MCP
+  (non-destructive — never edits published directly). The drafts carried **pending client edits**
+  (e.g. `zadaszenia` title „Complex - …” → „Zadaszenia aluminiowe”, newly-uploaded hero images),
+  so flagged that publishing would also push those live; **user chose to publish all 7**, so
+  published them — benefits + the client's pending edits are now live. Hosted Studio still needs a
+  **redeploy** to expose the new „Zalety” fields in the editor.
+- **Left untouched:** the pre-existing uncommitted `Footer.tsx` refactor and the future-spec
+  markdowns (`offer-03`–`offer-07`) — excluded from the commit for their own features (same as
+  Part 1).
+- Verified: frontend `tsc` + `eslint` (only the pre-existing TrustSection warning), studio `tsc`,
+  `next build` all pass — `/oferta/[slug]` still SSG, prerenders all 7 slugs. No server
+  actions/utils → no Vitest. Not yet eyeballed in-browser.
+
 ### Realizacje page header → CMS + Presentation main document (2026-06-22)
 
 Fixed two issues on **`/realizacje`**: (1) Presentation showed „Missing a main document for
