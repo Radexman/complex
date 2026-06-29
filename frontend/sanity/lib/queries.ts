@@ -65,6 +65,17 @@ export const serviceBySlugQuery = defineQuery(
       icon,
       title,
       description
+    },
+    brandsEyebrow,
+    brandsHeadline,
+    brandsDescription,
+    brands[]{
+      _key,
+      name,
+      shortDescription,
+      fullDescription,
+      image,
+      specs
     }
   }`,
 );

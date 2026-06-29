@@ -4,6 +4,7 @@ import type { GalleryProjectsByCategoryQueryResult, ServiceBySlugQueryResult } f
 import { categoryLabel } from '@/app/lib/categories';
 
 import OfferBenefits from './OfferBenefits';
+import OfferBrands from './OfferBrands';
 import OfferGallery from './OfferGallery';
 import OfferHero from './OfferHero';
 
@@ -11,8 +12,8 @@ export type Service = NonNullable<ServiceBySlugQueryResult>;
 
 /**
  * Composition root for an offer subpage. Renders each section in order from the
- * shared `service` document. Specs 4–7 add the remaining sections below gallery:
- *   <OfferBrands />  <OfferTechSpecs />  <OfferFormCta />  <OfferContact />
+ * shared `service` document. Specs 5–7 add the remaining sections below brands:
+ *   <OfferTechSpecs />  <OfferFormCta />  <OfferContact />
  */
 export default function OfferPage({
   service,
@@ -39,6 +40,12 @@ export default function OfferPage({
       <OfferGallery
         projects={galleryProjects}
         categoryLabel={categoryLabel(stegaClean(service.category))}
+      />
+      <OfferBrands
+        brandsEyebrow={service.brandsEyebrow}
+        brandsHeadline={service.brandsHeadline}
+        brandsDescription={service.brandsDescription}
+        brands={service.brands}
       />
     </main>
   );

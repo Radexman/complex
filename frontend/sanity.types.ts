@@ -126,6 +126,25 @@ export type Service = {
     _type: 'benefit';
     _key: string;
   }>;
+  brandsEyebrow?: string;
+  brandsHeadline?: string;
+  brandsDescription?: string;
+  brands?: Array<{
+    name: string;
+    shortDescription?: string;
+    fullDescription?: string;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: 'image';
+    };
+    specs?: Array<string>;
+    _type: 'brand';
+    _key: string;
+  }>;
 };
 
 export type SanityImageCrop = {
@@ -1026,7 +1045,7 @@ export type ServiceSlugsQueryResult = Array<{
 
 // Source: sanity/lib/queries.ts
 // Variable: serviceBySlugQuery
-// Query: *[_type == "service" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    seoDescription,    heroImage,    heroHeadline,    heroSubheadline,    relatedFormSlug,    category,    benefitsEyebrow,    benefitsHeadline,    benefitsDescription,    benefits[]{      _key,      icon,      title,      description    }  }
+// Query: *[_type == "service" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    seoDescription,    heroImage,    heroHeadline,    heroSubheadline,    relatedFormSlug,    category,    benefitsEyebrow,    benefitsHeadline,    benefitsDescription,    benefits[]{      _key,      icon,      title,      description    },    brandsEyebrow,    brandsHeadline,    brandsDescription,    brands[]{      _key,      name,      shortDescription,      fullDescription,      image,      specs    }  }
 export type ServiceBySlugQueryResult = {
   _id: string;
   title: string;
@@ -1072,6 +1091,24 @@ export type ServiceBySlugQueryResult = {
     title: string;
     description: string | null;
   }> | null;
+  brandsEyebrow: string | null;
+  brandsHeadline: string | null;
+  brandsDescription: string | null;
+  brands: Array<{
+    _key: string;
+    name: string;
+    shortDescription: string | null;
+    fullDescription: string | null;
+    image: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: 'image';
+    } | null;
+    specs: Array<string> | null;
+  }> | null;
 } | null;
 
 // Query TypeMap
@@ -1092,6 +1129,6 @@ declare module '@sanity/client' {
     '*[_type == "project"] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    surface,\n    coverImage\n  }': AllProjectsQueryResult;
     '*[_type == "project" && category == $category] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    coverImage\n  }': GalleryProjectsByCategoryQueryResult;
     '*[_type == "service" && defined(slug.current)]{ "slug": slug.current }': ServiceSlugsQueryResult;
-    '*[_type == "service" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    seoDescription,\n    heroImage,\n    heroHeadline,\n    heroSubheadline,\n    relatedFormSlug,\n    category,\n    benefitsEyebrow,\n    benefitsHeadline,\n    benefitsDescription,\n    benefits[]{\n      _key,\n      icon,\n      title,\n      description\n    }\n  }': ServiceBySlugQueryResult;
+    '*[_type == "service" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    seoDescription,\n    heroImage,\n    heroHeadline,\n    heroSubheadline,\n    relatedFormSlug,\n    category,\n    benefitsEyebrow,\n    benefitsHeadline,\n    benefitsDescription,\n    benefits[]{\n      _key,\n      icon,\n      title,\n      description\n    },\n    brandsEyebrow,\n    brandsHeadline,\n    brandsDescription,\n    brands[]{\n      _key,\n      name,\n      shortDescription,\n      fullDescription,\n      image,\n      specs\n    }\n  }': ServiceBySlugQueryResult;
   }
 }
