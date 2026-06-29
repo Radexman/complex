@@ -14,6 +14,56 @@ Not Started
 
 ## History
 
+### Offer Pages — Part 4: Brands & Models Section (2026-06-29)
+
+Fourth section on every `/oferta/[slug]` page — `OfferBrands`, directly below `OfferGallery`:
+a **de-emphasized, optional** collapsed Ark UI `Accordion` of manufacturer brands/models (the
+client confirmed brand names aren't a primary decision factor). **Spec 4 of 7**
+(`context/features/offer-04-brands-spec.md`). Reconciled the spec's `src/...` + `sanity/schemas/`
+paths → repo layout, same as Parts 1–3.
+
+- **Studio:** appended a new **„Producenci"** field group to `documents/service.ts` with
+  `brandsEyebrow` (string, initialValue „Producenci i systemy"), `brandsHeadline` (string,
+  initialValue „Dostępne systemy i producenci"), `brandsDescription` (string, default sentence)
+  and `brands[]` — an **optional** array (no `min`/`max`) of inline `brand` objects
+  `{name (req), shortDescription, fullDescription (text), image (optional, hotspot+alt),
+  specs[] (array of string)}`. `brandsEyebrow` was added mid-feature per request so the eyebrow
+  is CMS-editable (was hardcoded) — mirrors `benefitsEyebrow`.
+- **Frontend:** `app/components/offer/OfferBrands.tsx` (`'use client'`) — `bg-bg-mid` +
+  `.section-padding`, left-aligned header (`{brandsEyebrow || 'Producenci i systemy'}` accent
+  eyebrow → `brandsHeadline` → `brandsDescription`), `max-w-4xl` `Accordion.Root`
+  (`collapsible multiple={false}` — one open at a time). Each item: trigger row = `name` +
+  `shortDescription` + `ChevronDown` rotating via `group-data-[state=open]:rotate-180`
+  (`hover:border-accent/40`, `data-[state=open]:border-accent/60`); expanded `ItemContent` =
+  `fullDescription` + optional „Specyfikacja" list (accent-dot `<li>`) + optional `next/image`
+  (400×280, `object-cover rounded-lg`) in a `md:grid-cols-2` layout **only when an image exists**,
+  else full-width. GSAP scroll reveal via the safe `gsap.set`+`.to` `useGSAP` pattern (header
+  `y:30→0`, items `y:20→0` stagger 0.08, `start: top 85%`), `dependencies: [brands]` — Ark owns
+  the expand/collapse. Guarded: returns `null` when `brands` empty. Wired as `OfferPage`'s
+  **fourth child** (`OfferBrands` import added; comment slot updated to specs 5–7).
+- **Queries:** extended `serviceBySlugQuery` with `brandsEyebrow`/`brandsHeadline`/
+  `brandsDescription`/`brands[]{_key,name,shortDescription,fullDescription,image,specs}`; types
+  regenerated (`ServiceBySlugQueryResult` now carries `brands[]`).
+- **Reconciliation:** GSAP uses the repo's safe `gsap.set`+`.to`/`useGSAP` convention rather than
+  the spec's literal `gsap.context()`/`gsap.from` (matches Trust/About/Benefits/Gallery). The
+  spec's seed tables give only name/short/specs, so `fullDescription`/`image` were left empty
+  (both optional → expanded view shows specs only). Eyebrow made CMS-editable (spec had it
+  hardcoded) per mid-feature request.
+- **Seed + publish (per request):** the 3 branded services (`zadaszenia-aluminiowe`,
+  `zaluzje-tarasowe`, `tarasy-kompozytowe`) had **no pending drafts** (verified first), so patching
+  the draft + publishing pushed **only** the brand data live (avoided the Part 2 clobber risk).
+  Patched `brandsHeadline`/`brandsDescription`/`brands[]` per the spec tables, then a second pass
+  set + published `brandsEyebrow`. The other 4 services have no brands → section hidden, per spec.
+  The big 3-doc patch initially **timed out** (large payload) without applying — retried one doc
+  at a time, which worked. Hosted Studio needs a **redeploy** to expose the new „Producenci" fields.
+- **Left untouched:** the pre-existing uncommitted `Footer.tsx` refactor and the future-spec
+  markdowns (`offer-05`–`offer-07`) — excluded from the commit for their own features (same as
+  Parts 1–3). The `offer-04` spec itself **was** committed with the feature (matching Part 3, which
+  committed `offer-03`).
+- Verified: frontend `tsc` + `eslint` (only the pre-existing TrustSection warning), studio `tsc`,
+  `next build` all pass — `/oferta/[slug]` still SSG, prerenders all 7 slugs. No server
+  actions/utils → no Vitest. Not yet eyeballed in-browser.
+
 ### Offer Pages — Part 3: Bento Gallery Section (2026-06-29)
 
 Third section on every `/oferta/[slug]` page — `OfferGallery`, directly below `OfferBenefits`:
