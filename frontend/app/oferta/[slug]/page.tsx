@@ -1,9 +1,14 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { stegaClean } from 'next-sanity';
 
 import { client } from '@/sanity/lib/client';
 import { sanityFetch } from '@/sanity/lib/live';
-import { serviceBySlugQuery, serviceSlugsQuery } from '@/sanity/lib/queries';
+import {
+  galleryProjectsByCategoryQuery,
+  serviceBySlugQuery,
+  serviceSlugsQuery,
+} from '@/sanity/lib/queries';
 import OfferPage from '@/app/components/offer/OfferPage';
 
 type PageProps = {
@@ -40,5 +45,11 @@ export default async function OfferRoutePage({ params }: PageProps) {
 
   if (!service) notFound();
 
-  return <OfferPage service={service} />;
+  // Gallery projects share the `project` pool, filtered to this service's category.
+  const { data: galleryProjects } = await sanityFetch({
+    query: galleryProjectsByCategoryQuery,
+    params: { category: stegaClean(service.category) },
+  });
+
+  return <OfferPage service={service} galleryProjects={galleryProjects} />;
 }

@@ -10,31 +10,14 @@ import { stegaClean } from 'next-sanity';
 
 import type { AllProjectsQueryResult, RealizacjePageQueryResult } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/utils';
+import { CATEGORY_ORDER, categoryLabel } from '@/app/lib/categories';
 import ProjectLightbox from '@/app/components/ui/ProjectLightbox';
 
 gsap.registerPlugin(ScrollTrigger);
 
 type Project = AllProjectsQueryResult[number];
-type ProjectCategory = Project['category'];
 
 const ALL = 'all';
-
-/** Polish labels keyed by category value. Order here drives the (static) tab order. */
-const CATEGORY_LABELS: Record<ProjectCategory, string> = {
-  'zadaszenia-aluminiowe': 'Zadaszenia aluminiowe',
-  'zaluzje-tarasowe': 'Żaluzje tarasowe',
-  'tarasy-kompozytowe': 'Tarasy kompozytowe',
-  'tarasy-gresowe': 'Tarasy z płyt gresowych',
-  'tarasy-drewniane': 'Tarasy drewniane',
-  'elewacje-kompozytowe': 'Elewacje kompozytowe',
-  'schody-modulowe': 'Schody modułowe',
-};
-
-const CATEGORY_ORDER = Object.keys(CATEGORY_LABELS) as ProjectCategory[];
-
-function categoryLabel(category: ProjectCategory): string {
-  return CATEGORY_LABELS[category] ?? category;
-}
 
 function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void }) {
   const imageUrl = project.coverImage?.asset

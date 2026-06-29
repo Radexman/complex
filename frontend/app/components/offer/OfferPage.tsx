@@ -1,17 +1,26 @@
-import type { ServiceBySlugQueryResult } from '@/sanity.types';
+import { stegaClean } from 'next-sanity';
+
+import type { GalleryProjectsByCategoryQueryResult, ServiceBySlugQueryResult } from '@/sanity.types';
+import { categoryLabel } from '@/app/lib/categories';
 
 import OfferBenefits from './OfferBenefits';
+import OfferGallery from './OfferGallery';
 import OfferHero from './OfferHero';
 
 export type Service = NonNullable<ServiceBySlugQueryResult>;
 
 /**
  * Composition root for an offer subpage. Renders each section in order from the
- * shared `service` document. Specs 3–7 add the remaining sections below benefits:
- *   <OfferGallery />  <OfferBrands />  <OfferTechSpecs />
- *   <OfferFormCta />  <OfferContact />
+ * shared `service` document. Specs 4–7 add the remaining sections below gallery:
+ *   <OfferBrands />  <OfferTechSpecs />  <OfferFormCta />  <OfferContact />
  */
-export default function OfferPage({ service }: { service: Service }) {
+export default function OfferPage({
+  service,
+  galleryProjects,
+}: {
+  service: Service;
+  galleryProjects: GalleryProjectsByCategoryQueryResult;
+}) {
   return (
     <main>
       <OfferHero
@@ -26,6 +35,10 @@ export default function OfferPage({ service }: { service: Service }) {
         benefitsHeadline={service.benefitsHeadline}
         benefitsDescription={service.benefitsDescription}
         benefits={service.benefits}
+      />
+      <OfferGallery
+        projects={galleryProjects}
+        categoryLabel={categoryLabel(stegaClean(service.category))}
       />
     </main>
   );

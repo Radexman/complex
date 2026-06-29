@@ -993,6 +993,31 @@ export type AllProjectsQueryResult = Array<{
 }>;
 
 // Source: sanity/lib/queries.ts
+// Variable: galleryProjectsByCategoryQuery
+// Query: *[_type == "project" && category == $category] | order(_createdAt desc){    _id,    title,    city,    category,    coverImage  }
+export type GalleryProjectsByCategoryQueryResult = Array<{
+  _id: string;
+  title: string;
+  city: string;
+  category:
+    | 'elewacje-kompozytowe'
+    | 'schody-modulowe'
+    | 'tarasy-drewniane'
+    | 'tarasy-gresowe'
+    | 'tarasy-kompozytowe'
+    | 'zadaszenia-aluminiowe'
+    | 'zaluzje-tarasowe';
+  coverImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: 'image';
+  };
+}>;
+
+// Source: sanity/lib/queries.ts
 // Variable: serviceSlugsQuery
 // Query: *[_type == "service" && defined(slug.current)]{ "slug": slug.current }
 export type ServiceSlugsQueryResult = Array<{
@@ -1065,6 +1090,7 @@ declare module '@sanity/client' {
     '*[_type == "footer"][0]': FooterQueryResult;
     '*[_type == "project" && isFeatured == true] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    coverImage\n  }': FeaturedProjectsQueryResult;
     '*[_type == "project"] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    surface,\n    coverImage\n  }': AllProjectsQueryResult;
+    '*[_type == "project" && category == $category] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    coverImage\n  }': GalleryProjectsByCategoryQueryResult;
     '*[_type == "service" && defined(slug.current)]{ "slug": slug.current }': ServiceSlugsQueryResult;
     '*[_type == "service" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    seoDescription,\n    heroImage,\n    heroHeadline,\n    heroSubheadline,\n    relatedFormSlug,\n    category,\n    benefitsEyebrow,\n    benefitsHeadline,\n    benefitsDescription,\n    benefits[]{\n      _key,\n      icon,\n      title,\n      description\n    }\n  }': ServiceBySlugQueryResult;
   }

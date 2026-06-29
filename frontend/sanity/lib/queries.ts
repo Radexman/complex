@@ -32,6 +32,16 @@ export const allProjectsQuery = defineQuery(
   }`,
 );
 
+export const galleryProjectsByCategoryQuery = defineQuery(
+  `*[_type == "project" && category == $category] | order(_createdAt desc){
+    _id,
+    title,
+    city,
+    category,
+    coverImage
+  }`,
+);
+
 export const serviceSlugsQuery = defineQuery(
   `*[_type == "service" && defined(slug.current)]{ "slug": slug.current }`,
 );
