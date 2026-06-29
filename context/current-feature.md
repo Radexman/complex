@@ -14,6 +14,52 @@ Not Started
 
 ## History
 
+### Offer Pages — Part 3: Bento Gallery Section (2026-06-29)
+
+Third section on every `/oferta/[slug]` page — `OfferGallery`, directly below `OfferBenefits`:
+a bento grid of project photos filtered by the current service's `category`, opening the shared
+`ProjectLightbox`. **Spec 3 of 7** (`context/features/offer-03-gallery-spec.md`). No new Sanity
+fields — driven entirely by the existing `project` pool + `service.category` (from spec 1).
+Reconciled the spec's `src/...` paths → repo layout, same as Parts 1 & 2.
+
+- **Frontend:** `app/components/offer/OfferGallery.tsx` (`'use client'`) — `bg-bg-deep` +
+  `.section-padding`, left-aligned header (hardcoded „Nasze realizacje" eyebrow → „Galeria —
+  {categoryLabel}"), `return null` when empty. GSAP scroll reveal via the safe `gsap.set`+`.to`
+  `useGSAP` timeline (header `y:30`, cells `y:50` stagger 0.06, `start: top 85%`),
+  `dependencies: [projects]`. Each cell = `<button>` → `next/image` `fill`/`object-cover`
+  `group-hover:scale-[1.03]`, hover-only gradient overlay + hover-only city label; click opens the
+  reused `ProjectLightbox` (no changes to it). Wired as `OfferPage`'s **third child**.
+- **Shared category labels:** extracted `CATEGORY_LABELS`/`CATEGORY_ORDER`/`categoryLabel` out of
+  `ProjectsGrid` into a new **non-client** module `app/lib/categories.ts`, imported by both the
+  client `ProjectsGrid` and the server `OfferPage`. Needed because importing a function from a
+  `'use client'` module into a Server Component turns it into a client-reference proxy that throws
+  when called server-side — so the label map can't live in `ProjectsGrid`. `OfferPage` derives
+  `categoryLabel(stegaClean(service.category))` and passes it down.
+- **Queries:** added `galleryProjectsByCategoryQuery` (`project` where `category == $category`,
+  ordered `_createdAt desc`); `page.tsx` does a secondary `sanityFetch` passing
+  `stegaClean(service.category)`, threads `galleryProjects` through `OfferPage` → `OfferGallery`.
+  Types regenerated (`GalleryProjectsByCategoryQueryResult`).
+- **Bento layout — reworked after feedback.** Spec's original (items 1 & 6 `aspect-video` span-2,
+  rest `aspect-[3/4]`, separate overflow grid) caused row-1 cells to misalign — two cells in one
+  row computing different heights from mismatched aspect ratios. **Fix:** every cell is now a
+  uniform `aspect-square`; the first cell is a 2×2 hero (`md:col-span-2 md:row-span-2
+  md:aspect-auto`, size from the grid span, not a ratio). Rows align deterministically at any
+  width, and 6 projects fill a perfect 3×3 (hero 4 cells + 5 squares). Collapsed the two grids into
+  one (7th+ just continue as squares — robust for any count, not only multiples of 6). Container
+  `max-w-6xl`, `gap-3`, `rounded-lg`, header `text-3xl md:text-4xl`.
+- **Seed (per request):** created + published **36** new `project` docs via Sanity MCP so every
+  category has **6** (5 added to each of the 6 existing categories, 6 new for `tarasy-drewniane`
+  which had none; total 42). Each new project **reuses its own category's existing cover image**
+  (`tarasy-drewniane` reuses the composite-deck photo) so the bento shows real images; all set
+  `isFeatured: false` so the home Featured section still shows only the original 6. Images repeat
+  within a category — placeholder demo content until the client uploads distinct photos.
+- **Left untouched:** the pre-existing uncommitted `Footer.tsx` refactor and the future-spec
+  markdowns (`offer-04`–`offer-07`) — excluded from the commit for their own features (same as
+  Parts 1 & 2).
+- Verified: frontend `tsc` + `eslint` (only the pre-existing TrustSection warning), `next build`
+  all pass — `/oferta/[slug]` still SSG, prerenders all 7 slugs. No schema change → studio
+  untouched. No server actions/utils → no Vitest. Not yet eyeballed in-browser.
+
 ### Offer Pages — Part 2: Benefits Section (2026-06-25)
 
 Second section on every `/oferta/[slug]` page — `OfferBenefits`, directly below the hero.
