@@ -35,6 +35,7 @@ export const service = defineType({
   groups: [
     { name: 'hero', title: 'Hero', default: true },
     { name: 'benefits', title: 'Zalety' },
+    { name: 'brands', title: 'Producenci' },
   ],
   fields: [
     defineField({
@@ -175,6 +176,91 @@ export const service = defineType({
           ],
           preview: {
             select: { title: 'title', subtitle: 'icon' },
+          },
+        }),
+      ],
+    }),
+    defineField({
+      name: 'brandsEyebrow',
+      title: 'Etykieta sekcji producentów',
+      description: 'Mały tekst nad nagłówkiem. Domyślnie „Producenci i systemy”.',
+      type: 'string',
+      group: 'brands',
+      initialValue: 'Producenci i systemy',
+    }),
+    defineField({
+      name: 'brandsHeadline',
+      title: 'Nagłówek sekcji producentów',
+      description: 'Np. „Dostępne systemy i producenci”.',
+      type: 'string',
+      group: 'brands',
+      initialValue: 'Dostępne systemy i producenci',
+    }),
+    defineField({
+      name: 'brandsDescription',
+      title: 'Opis sekcji producentów',
+      description: 'Jedno zdanie pod nagłówkiem.',
+      type: 'string',
+      group: 'brands',
+      initialValue:
+        'Współpracujemy z renomowanymi producentami, dobierając systemy do indywidualnych potrzeb każdej realizacji.',
+    }),
+    defineField({
+      name: 'brands',
+      title: 'Producenci i systemy',
+      description:
+        'Opcjonalna lista producentów / modeli. Pozostaw pustą, gdy oferta nie wymaga tej sekcji — wtedy sekcja się nie pojawi.',
+      type: 'array',
+      group: 'brands',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'brand',
+          fields: [
+            defineField({
+              name: 'name',
+              title: 'Nazwa',
+              description: 'Nazwa producenta lub modelu, np. „Deponti — Noble”.',
+              type: 'string',
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: 'shortDescription',
+              title: 'Krótki opis',
+              description: 'Jedno zdanie widoczne w zwiniętym wierszu.',
+              type: 'string',
+            }),
+            defineField({
+              name: 'fullDescription',
+              title: 'Pełny opis',
+              description: '2–4 zdania widoczne po rozwinięciu.',
+              type: 'text',
+              rows: 3,
+            }),
+            defineField({
+              name: 'image',
+              title: 'Zdjęcie',
+              description: 'Opcjonalne zdjęcie produktu / systemu (widoczne po rozwinięciu).',
+              type: 'image',
+              options: { hotspot: true },
+              fields: [
+                defineField({
+                  name: 'alt',
+                  title: 'Tekst alternatywny',
+                  type: 'string',
+                }),
+              ],
+            }),
+            defineField({
+              name: 'specs',
+              title: 'Specyfikacja',
+              description: 'Opcjonalne punkty specyfikacji widoczne po rozwinięciu.',
+              type: 'array',
+              of: [defineArrayMember({ type: 'string' })],
+            }),
+          ],
+          preview: {
+            select: { title: 'name', subtitle: 'shortDescription', media: 'image' },
           },
         }),
       ],
