@@ -5,6 +5,7 @@ import { stegaClean } from 'next-sanity';
 import { client } from '@/sanity/lib/client';
 import { sanityFetch } from '@/sanity/lib/live';
 import {
+  bottomCtaQuery,
   galleryProjectsByCategoryQuery,
   serviceBySlugQuery,
   serviceSlugsQuery,
@@ -46,10 +47,14 @@ export default async function OfferRoutePage({ params }: PageProps) {
   if (!service) notFound();
 
   // Gallery projects share the `project` pool, filtered to this service's category.
-  const { data: galleryProjects } = await sanityFetch({
-    query: galleryProjectsByCategoryQuery,
-    params: { category: stegaClean(service.category) },
-  });
+  // Contact/showroom data is shared with the home page (single `bottomCtaSection` source).
+  const [{ data: galleryProjects }, { data: contact }] = await Promise.all([
+    sanityFetch({
+      query: galleryProjectsByCategoryQuery,
+      params: { category: stegaClean(service.category) },
+    }),
+    sanityFetch({ query: bottomCtaQuery }),
+  ]);
 
-  return <OfferPage service={service} galleryProjects={galleryProjects} />;
+  return <OfferPage service={service} galleryProjects={galleryProjects} contact={contact} />;
 }
