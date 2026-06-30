@@ -1,7 +1,12 @@
 import { stegaClean } from 'next-sanity';
 
-import type { GalleryProjectsByCategoryQueryResult, ServiceBySlugQueryResult } from '@/sanity.types';
+import type {
+  BottomCtaQueryResult,
+  GalleryProjectsByCategoryQueryResult,
+  ServiceBySlugQueryResult,
+} from '@/sanity.types';
 import { categoryLabel } from '@/app/lib/categories';
+import ContactShowroom from '@/app/components/sections/ContactShowroom';
 
 import OfferBenefits from './OfferBenefits';
 import OfferBrands from './OfferBrands';
@@ -14,15 +19,18 @@ export type Service = NonNullable<ServiceBySlugQueryResult>;
 
 /**
  * Composition root for an offer subpage. Renders each section in order from the
- * shared `service` document. Spec 7 adds the remaining section below the form CTA:
- *   <OfferContact />
+ * shared `service` document. The final section (spec 7) is the shared
+ * `ContactShowroom` block — the same contact/showroom block as the home page,
+ * fed by the single `bottomCtaSection` source.
  */
 export default function OfferPage({
   service,
   galleryProjects,
+  contact,
 }: {
   service: Service;
   galleryProjects: GalleryProjectsByCategoryQueryResult;
+  contact: BottomCtaQueryResult;
 }) {
   return (
     <main>
@@ -61,6 +69,17 @@ export default function OfferPage({
           formCtaButtonLabel={service.formCtaButtonLabel}
           formCtaBullets={service.formCtaBullets}
           relatedFormSlug={service.relatedFormSlug}
+        />
+      )}
+      {contact && (
+        <ContactShowroom
+          contactEyebrow={contact.contactEyebrow}
+          contactNote={contact.contactNote}
+          contactPhone={contact.contactPhone}
+          contactEmail={contact.contactEmail}
+          showroomLabel={contact.showroomLabel}
+          showroomDescription={contact.showroomDescription}
+          showroomAddress={contact.showroomAddress}
         />
       )}
     </main>

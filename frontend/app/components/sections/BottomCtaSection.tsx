@@ -2,21 +2,18 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
 import { useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { stegaClean } from 'next-sanity';
-import { MapPin, Phone, Mail } from 'lucide-react';
 
 import type { BottomCtaQueryResult } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/utils';
 
-gsap.registerPlugin(ScrollTrigger);
+import ContactShowroom from './ContactShowroom';
 
-// Leaflet touches `window` at import time → load the map client-only.
-const ShowroomMap = dynamic(() => import('@/app/components/ShowroomMap'), { ssr: false });
+gsap.registerPlugin(ScrollTrigger);
 
 /**
  * Splits the headline so the `accent` substring renders in the accent color.
@@ -53,19 +50,7 @@ export default function BottomCtaSection({ data }: { data: NonNullable<BottomCta
     secondaryCtaLabel,
     secondaryCtaHref,
     bullets,
-    contactEyebrow,
-    contactNote,
-    contactPhone,
-    contactEmail,
-    showroomLabel,
-    showroomDescription,
-    showroomAddress,
   } = data;
-
-  const phone = contactPhone || '+48 661 242 507';
-  const email = contactEmail || 'biuro@ccomplex.pl';
-  // tel: links can't contain spaces; keep the leading + for international dialing.
-  const phoneHref = `tel:${phone.replace(/[^\d+]/g, '')}`;
 
   const bgUrl = backgroundImage?.asset
     ? urlForImage(backgroundImage).width(2400).quality(80).url()
@@ -85,32 +70,6 @@ export default function BottomCtaSection({ data }: { data: NonNullable<BottomCta
         scrollTrigger: {
           trigger: '[data-cta-block]',
           start: 'top 75%',
-          toggleActions: 'play none none none',
-        },
-      });
-
-      gsap.set('[data-showroom-reveal]', { y: 30, opacity: 0 });
-      gsap.to('[data-showroom-reveal]', {
-        y: 0,
-        opacity: 1,
-        duration: 0.7,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '[data-showroom-block]',
-          start: 'top 80%',
-          toggleActions: 'play none none none',
-        },
-      });
-
-      gsap.set('[data-map-reveal]', { x: 20, opacity: 0 });
-      gsap.to('[data-map-reveal]', {
-        x: 0,
-        opacity: 1,
-        duration: 0.8,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '[data-showroom-block]',
-          start: 'top 80%',
           toggleActions: 'play none none none',
         },
       });
@@ -196,59 +155,16 @@ export default function BottomCtaSection({ data }: { data: NonNullable<BottomCta
         </div>
       </div>
 
-      {/* Showroom / Map block */}
-      <div data-showroom-block className="bg-bg-mid py-20">
-        <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-16 px-6 md:grid-cols-2">
-          {/* Left: contact + showroom text */}
-          <div data-showroom-reveal>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent">
-              {contactEyebrow || 'Kontakt bezpośredni'}
-            </p>
-            {showroomLabel && (
-              <h3 className="font-heading text-3xl font-bold text-white">{showroomLabel}</h3>
-            )}
-            {contactNote && (
-              <p className="mt-4 font-body text-base text-silver">{contactNote}</p>
-            )}
-
-            {/* Preferred contact buttons */}
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <a
-                href={phoneHref}
-                className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3.5 text-base font-semibold text-black transition-colors hover:bg-accent-hover"
-              >
-                <Phone size={18} aria-hidden="true" />
-                {phone}
-              </a>
-              <a
-                href={`mailto:${email}`}
-                className="inline-flex items-center justify-center gap-2 rounded-lg border border-graphite bg-bg-surface px-6 py-3.5 text-base font-semibold text-white transition-colors hover:border-accent hover:text-accent"
-              >
-                <Mail size={18} aria-hidden="true" />
-                {email}
-              </a>
-            </div>
-
-            {showroomDescription && (
-              <p className="mt-8 font-body text-base text-silver">{showroomDescription}</p>
-            )}
-            {showroomAddress && (
-              <p className="mt-4 flex items-center gap-2 font-body text-sm text-white">
-                <MapPin size={16} className="text-accent" aria-hidden="true" />
-                {showroomAddress}
-              </p>
-            )}
-          </div>
-
-          {/* Right: Leaflet map */}
-          <div
-            data-map-reveal
-            className="h-80 w-full overflow-hidden rounded-xl border border-graphite"
-          >
-            <ShowroomMap />
-          </div>
-        </div>
-      </div>
+      {/* Showroom / Map block — shared with the offer pages */}
+      <ContactShowroom
+        contactEyebrow={data.contactEyebrow}
+        contactNote={data.contactNote}
+        contactPhone={data.contactPhone}
+        contactEmail={data.contactEmail}
+        showroomLabel={data.showroomLabel}
+        showroomDescription={data.showroomDescription}
+        showroomAddress={data.showroomAddress}
+      />
     </section>
   );
 }
