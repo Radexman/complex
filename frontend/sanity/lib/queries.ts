@@ -76,6 +76,14 @@ export const serviceBySlugQuery = defineQuery(
       fullDescription,
       image,
       specs
+    },
+    techSpecsHeadline,
+    techSpecsDescription,
+    techSpecs[]{
+      _key,
+      icon,
+      title,
+      content
     }
   }`,
 );

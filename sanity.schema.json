@@ -815,6 +815,137 @@
           }
         },
         "optional": true
+      },
+      "techSpecsHeadline": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "techSpecsDescription": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "techSpecs": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "object",
+            "attributes": {
+              "icon": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "union",
+                  "of": [
+                    {
+                      "type": "string",
+                      "value": "shield"
+                    },
+                    {
+                      "type": "string",
+                      "value": "clock"
+                    },
+                    {
+                      "type": "string",
+                      "value": "award"
+                    },
+                    {
+                      "type": "string",
+                      "value": "users"
+                    },
+                    {
+                      "type": "string",
+                      "value": "star"
+                    },
+                    {
+                      "type": "string",
+                      "value": "check"
+                    },
+                    {
+                      "type": "string",
+                      "value": "tool"
+                    },
+                    {
+                      "type": "string",
+                      "value": "map"
+                    },
+                    {
+                      "type": "string",
+                      "value": "sun"
+                    },
+                    {
+                      "type": "string",
+                      "value": "droplets"
+                    },
+                    {
+                      "type": "string",
+                      "value": "ruler"
+                    },
+                    {
+                      "type": "string",
+                      "value": "zap"
+                    },
+                    {
+                      "type": "string",
+                      "value": "home"
+                    },
+                    {
+                      "type": "string",
+                      "value": "euro"
+                    },
+                    {
+                      "type": "string",
+                      "value": "file"
+                    },
+                    {
+                      "type": "string",
+                      "value": "phone"
+                    }
+                  ]
+                },
+                "optional": false
+              },
+              "title": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": false
+              },
+              "content": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": false
+              },
+              "_type": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string",
+                  "value": "techSpec"
+                }
+              }
+            },
+            "rest": {
+              "type": "object",
+              "attributes": {
+                "_key": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "optional": true
       }
     }
   },

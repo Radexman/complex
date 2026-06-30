@@ -126,6 +126,50 @@ export type Service = {
     _type: 'benefit';
     _key: string;
   }>;
+  brandsEyebrow?: string;
+  brandsHeadline?: string;
+  brandsDescription?: string;
+  brands?: Array<{
+    name: string;
+    shortDescription?: string;
+    fullDescription?: string;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: 'image';
+    };
+    specs?: Array<string>;
+    _type: 'brand';
+    _key: string;
+  }>;
+  techSpecsHeadline?: string;
+  techSpecsDescription?: string;
+  techSpecs?: Array<{
+    icon:
+      | 'shield'
+      | 'clock'
+      | 'award'
+      | 'users'
+      | 'star'
+      | 'check'
+      | 'tool'
+      | 'map'
+      | 'sun'
+      | 'droplets'
+      | 'ruler'
+      | 'zap'
+      | 'home'
+      | 'euro'
+      | 'file'
+      | 'phone';
+    title: string;
+    content: string;
+    _type: 'techSpec';
+    _key: string;
+  }>;
 };
 
 export type SanityImageCrop = {

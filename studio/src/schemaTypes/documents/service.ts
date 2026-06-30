@@ -27,6 +27,16 @@ export const BENEFIT_ICONS = [
   { title: 'Błyskawica (szybkość)', value: 'zap' },
 ] as const;
 
+// Icon identifiers for technical-spec cards — the benefit icons plus a few
+// extras. Resolved to Lucide icons in OfferTechSpecs.tsx (same lookup pattern).
+export const TECH_SPEC_ICONS = [
+  ...BENEFIT_ICONS,
+  { title: 'Dom (realizacje)', value: 'home' },
+  { title: 'Euro (cena / VAT)', value: 'euro' },
+  { title: 'Dokument (umowa / gwarancja)', value: 'file' },
+  { title: 'Telefon (kontakt)', value: 'phone' },
+] as const;
+
 export const service = defineType({
   name: 'service',
   title: 'Oferta (podstrona)',
@@ -36,6 +46,7 @@ export const service = defineType({
     { name: 'hero', title: 'Hero', default: true },
     { name: 'benefits', title: 'Zalety' },
     { name: 'brands', title: 'Producenci' },
+    { name: 'techSpecs', title: 'Specyfikacja' },
   ],
   fields: [
     defineField({
@@ -261,6 +272,62 @@ export const service = defineType({
           ],
           preview: {
             select: { title: 'name', subtitle: 'shortDescription', media: 'image' },
+          },
+        }),
+      ],
+    }),
+    defineField({
+      name: 'techSpecsHeadline',
+      title: 'Nagłówek sekcji specyfikacji',
+      description: 'Np. „Informacje techniczne i montaż”.',
+      type: 'string',
+      group: 'techSpecs',
+      initialValue: 'Informacje techniczne i montaż',
+    }),
+    defineField({
+      name: 'techSpecsDescription',
+      title: 'Opis sekcji specyfikacji',
+      description: 'Opcjonalny krótki akapit (maks. 2 zdania) pod nagłówkiem.',
+      type: 'string',
+      group: 'techSpecs',
+    }),
+    defineField({
+      name: 'techSpecs',
+      title: 'Informacje techniczne',
+      description: 'Od 1 do 8 kart z ikoną, tytułem i treścią (montaż, gwarancja, VAT itp.).',
+      type: 'array',
+      group: 'techSpecs',
+      validation: (rule) => rule.min(1).max(8),
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'techSpec',
+          fields: [
+            defineField({
+              name: 'icon',
+              title: 'Ikona',
+              type: 'string',
+              options: { list: [...TECH_SPEC_ICONS], layout: 'dropdown' },
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: 'title',
+              title: 'Tytuł',
+              description: 'Nagłówek karty, np. „Montaż zadaszeń”.',
+              type: 'string',
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: 'content',
+              title: 'Treść',
+              description: 'Główna treść karty (2–4 zdania).',
+              type: 'text',
+              rows: 4,
+              validation: (rule) => rule.required(),
+            }),
+          ],
+          preview: {
+            select: { title: 'title', subtitle: 'icon' },
           },
         }),
       ],

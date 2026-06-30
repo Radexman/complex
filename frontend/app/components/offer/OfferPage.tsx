@@ -7,13 +7,14 @@ import OfferBenefits from './OfferBenefits';
 import OfferBrands from './OfferBrands';
 import OfferGallery from './OfferGallery';
 import OfferHero from './OfferHero';
+import OfferTechSpecs from './OfferTechSpecs';
 
 export type Service = NonNullable<ServiceBySlugQueryResult>;
 
 /**
  * Composition root for an offer subpage. Renders each section in order from the
- * shared `service` document. Specs 5–7 add the remaining sections below brands:
- *   <OfferTechSpecs />  <OfferFormCta />  <OfferContact />
+ * shared `service` document. Specs 6–7 add the remaining sections below tech specs:
+ *   <OfferFormCta />  <OfferContact />
  */
 export default function OfferPage({
   service,
@@ -46,6 +47,11 @@ export default function OfferPage({
         brandsHeadline={service.brandsHeadline}
         brandsDescription={service.brandsDescription}
         brands={service.brands}
+      />
+      <OfferTechSpecs
+        techSpecsHeadline={service.techSpecsHeadline}
+        techSpecsDescription={service.techSpecsDescription}
+        techSpecs={service.techSpecs}
       />
     </main>
   );
