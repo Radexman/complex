@@ -170,6 +170,10 @@ export type Service = {
     _type: 'techSpec';
     _key: string;
   }>;
+  formCtaHeadline?: string;
+  formCtaSubheadline?: string;
+  formCtaButtonLabel?: string;
+  formCtaBullets?: Array<string>;
 };
 
 export type SanityImageCrop = {

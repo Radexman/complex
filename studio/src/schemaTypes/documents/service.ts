@@ -47,6 +47,7 @@ export const service = defineType({
     { name: 'benefits', title: 'Zalety' },
     { name: 'brands', title: 'Producenci' },
     { name: 'techSpecs', title: 'Specyfikacja' },
+    { name: 'formCta', title: 'CTA formularza' },
   ],
   fields: [
     defineField({
@@ -331,6 +332,35 @@ export const service = defineType({
           },
         }),
       ],
+    }),
+    defineField({
+      name: 'formCtaHeadline',
+      title: 'Nagłówek CTA formularza',
+      description: 'Główny nagłówek banera, np. „Gotowy na bezpłatną wycenę?”.',
+      type: 'string',
+      group: 'formCta',
+    }),
+    defineField({
+      name: 'formCtaSubheadline',
+      title: 'Podtytuł CTA formularza',
+      description: 'Zdanie wspierające pod nagłówkiem.',
+      type: 'string',
+      group: 'formCta',
+    }),
+    defineField({
+      name: 'formCtaButtonLabel',
+      title: 'Etykieta przycisku CTA',
+      description: 'Tekst na przycisku, np. „Wypełnij formularz wyceny”.',
+      type: 'string',
+      group: 'formCta',
+    }),
+    defineField({
+      name: 'formCtaBullets',
+      title: 'Punkty zapewnienia',
+      description: 'Krótkie punkty pod przyciskiem (zalecane 3), np. „Bez zobowiązań”.',
+      type: 'array',
+      group: 'formCta',
+      of: [defineArrayMember({ type: 'string' })],
     }),
   ],
   preview: {
