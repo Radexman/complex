@@ -170,6 +170,10 @@ export type Service = {
     _type: 'techSpec';
     _key: string;
   }>;
+  formCtaHeadline?: string;
+  formCtaSubheadline?: string;
+  formCtaButtonLabel?: string;
+  formCtaBullets?: Array<string>;
 };
 
 export type SanityImageCrop = {
@@ -1078,7 +1082,7 @@ export type ServiceSlugsQueryResult = Array<{
 
 // Source: sanity/lib/queries.ts
 // Variable: serviceBySlugQuery
-// Query: *[_type == "service" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    seoDescription,    heroImage,    heroHeadline,    heroSubheadline,    relatedFormSlug,    category,    benefitsEyebrow,    benefitsHeadline,    benefitsDescription,    benefits[]{      _key,      icon,      title,      description    },    brandsEyebrow,    brandsHeadline,    brandsDescription,    brands[]{      _key,      name,      shortDescription,      fullDescription,      image,      specs    },    techSpecsHeadline,    techSpecsDescription,    techSpecs[]{      _key,      icon,      title,      content    }  }
+// Query: *[_type == "service" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    seoDescription,    heroImage,    heroHeadline,    heroSubheadline,    relatedFormSlug,    category,    benefitsEyebrow,    benefitsHeadline,    benefitsDescription,    benefits[]{      _key,      icon,      title,      description    },    brandsEyebrow,    brandsHeadline,    brandsDescription,    brands[]{      _key,      name,      shortDescription,      fullDescription,      image,      specs    },    techSpecsHeadline,    techSpecsDescription,    techSpecs[]{      _key,      icon,      title,      content    },    formCtaHeadline,    formCtaSubheadline,    formCtaButtonLabel,    formCtaBullets  }
 export type ServiceBySlugQueryResult = {
   _id: string;
   title: string;
@@ -1166,6 +1170,10 @@ export type ServiceBySlugQueryResult = {
     title: string;
     content: string;
   }> | null;
+  formCtaHeadline: string | null;
+  formCtaSubheadline: string | null;
+  formCtaButtonLabel: string | null;
+  formCtaBullets: Array<string> | null;
 } | null;
 
 // Query TypeMap
@@ -1186,6 +1194,6 @@ declare module '@sanity/client' {
     '*[_type == "project"] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    surface,\n    coverImage\n  }': AllProjectsQueryResult;
     '*[_type == "project" && category == $category] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    coverImage\n  }': GalleryProjectsByCategoryQueryResult;
     '*[_type == "service" && defined(slug.current)]{ "slug": slug.current }': ServiceSlugsQueryResult;
-    '*[_type == "service" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    seoDescription,\n    heroImage,\n    heroHeadline,\n    heroSubheadline,\n    relatedFormSlug,\n    category,\n    benefitsEyebrow,\n    benefitsHeadline,\n    benefitsDescription,\n    benefits[]{\n      _key,\n      icon,\n      title,\n      description\n    },\n    brandsEyebrow,\n    brandsHeadline,\n    brandsDescription,\n    brands[]{\n      _key,\n      name,\n      shortDescription,\n      fullDescription,\n      image,\n      specs\n    },\n    techSpecsHeadline,\n    techSpecsDescription,\n    techSpecs[]{\n      _key,\n      icon,\n      title,\n      content\n    }\n  }': ServiceBySlugQueryResult;
+    '*[_type == "service" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    seoDescription,\n    heroImage,\n    heroHeadline,\n    heroSubheadline,\n    relatedFormSlug,\n    category,\n    benefitsEyebrow,\n    benefitsHeadline,\n    benefitsDescription,\n    benefits[]{\n      _key,\n      icon,\n      title,\n      description\n    },\n    brandsEyebrow,\n    brandsHeadline,\n    brandsDescription,\n    brands[]{\n      _key,\n      name,\n      shortDescription,\n      fullDescription,\n      image,\n      specs\n    },\n    techSpecsHeadline,\n    techSpecsDescription,\n    techSpecs[]{\n      _key,\n      icon,\n      title,\n      content\n    },\n    formCtaHeadline,\n    formCtaSubheadline,\n    formCtaButtonLabel,\n    formCtaBullets\n  }': ServiceBySlugQueryResult;
   }
 }

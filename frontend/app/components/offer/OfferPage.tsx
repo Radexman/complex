@@ -5,6 +5,7 @@ import { categoryLabel } from '@/app/lib/categories';
 
 import OfferBenefits from './OfferBenefits';
 import OfferBrands from './OfferBrands';
+import OfferFormCta from './OfferFormCta';
 import OfferGallery from './OfferGallery';
 import OfferHero from './OfferHero';
 import OfferTechSpecs from './OfferTechSpecs';
@@ -13,8 +14,8 @@ export type Service = NonNullable<ServiceBySlugQueryResult>;
 
 /**
  * Composition root for an offer subpage. Renders each section in order from the
- * shared `service` document. Specs 6–7 add the remaining sections below tech specs:
- *   <OfferFormCta />  <OfferContact />
+ * shared `service` document. Spec 7 adds the remaining section below the form CTA:
+ *   <OfferContact />
  */
 export default function OfferPage({
   service,
@@ -53,6 +54,15 @@ export default function OfferPage({
         techSpecsDescription={service.techSpecsDescription}
         techSpecs={service.techSpecs}
       />
+      {service.relatedFormSlug && (
+        <OfferFormCta
+          formCtaHeadline={service.formCtaHeadline}
+          formCtaSubheadline={service.formCtaSubheadline}
+          formCtaButtonLabel={service.formCtaButtonLabel}
+          formCtaBullets={service.formCtaBullets}
+          relatedFormSlug={service.relatedFormSlug}
+        />
+      )}
     </main>
   );
 }

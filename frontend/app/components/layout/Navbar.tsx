@@ -31,6 +31,21 @@ const WYCENA_ITEMS: NavItem[] = [
   { label: 'Formularz Wyceny Schodów', href: '/wycena/schody' },
 ];
 
+/**
+ * Maps an offer slug to its specific quotation-form URL, so the navbar CTA on
+ * an offer page links straight to the relevant form (mirrors each service's
+ * relatedFormSlug). Offers without a form (Elewacje kompozytowe) are omitted
+ * and fall back to the CMS-configured ctaHref.
+ */
+const OFFER_FORM_HREFS: Record<string, string> = {
+  'zadaszenia-aluminiowe': '/wycena/zadaszenie',
+  'zaluzje-tarasowe': '/wycena/zaluzje',
+  'tarasy-kompozytowe': '/wycena/taras',
+  'tarasy-gresowe': '/wycena/taras',
+  'tarasy-drewniane': '/wycena/taras',
+  'schody-modulowe': '/wycena/schody',
+};
+
 /** Simple top-level links rendered after the Oferta dropdown. */
 const NAV_LINKS: NavItem[] = [
   { label: 'Realizacje', href: '/realizacje' },
@@ -137,6 +152,12 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
   const navLinkClass = (active: boolean) =>
     `text-sm transition-colors duration-200 ${active ? 'text-white' : 'text-silver hover:text-white'}`;
 
+  // On an offer page, point the CTA at that offer's specific quotation form.
+  // Falls back to the CMS-configured ctaHref everywhere else (incl. Elewacje,
+  // which has no form). Mirrors each service's relatedFormSlug.
+  const offerSlug = pathname.startsWith('/oferta/') ? pathname.split('/')[2] : undefined;
+  const resolvedCtaHref = (offerSlug && OFFER_FORM_HREFS[offerSlug]) || ctaHref;
+
   return (
     <header
       className={`fixed top-0 left-0 z-50 w-full animate-[nav-slide-down_0.45s_cubic-bezier(0.22,1,0.36,1)] transition-all duration-300 ${
@@ -186,9 +207,9 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
         </div>
         <div className="hidden shrink-0 items-center gap-3 lg:flex">
           <NavDropdown label="Formularze wycen" items={WYCENA_ITEMS} align="right" />
-          {ctaLabel && ctaHref && (
+          {ctaLabel && resolvedCtaHref && (
             <Link
-              href={ctaHref}
+              href={resolvedCtaHref}
               className="rounded-md bg-accent px-4 py-2 text-sm font-semibold text-black transition-colors hover:bg-accent-hover"
             >
               {ctaLabel}
@@ -290,9 +311,9 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
                   </Accordion.Root>
                 </div>
 
-                {ctaLabel && ctaHref && (
+                {ctaLabel && resolvedCtaHref && (
                   <Link
-                    href={ctaHref}
+                    href={resolvedCtaHref}
                     onClick={() => setMobileOpen(false)}
                     className="mt-4 rounded-md bg-accent px-4 py-3 text-center text-sm font-semibold text-black transition-colors hover:bg-accent-hover"
                   >

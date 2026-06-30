@@ -84,6 +84,10 @@ export const serviceBySlugQuery = defineQuery(
       icon,
       title,
       content
-    }
+    },
+    formCtaHeadline,
+    formCtaSubheadline,
+    formCtaButtonLabel,
+    formCtaBullets
   }`,
 );
