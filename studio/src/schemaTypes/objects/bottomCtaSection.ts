@@ -13,7 +13,7 @@ export const bottomCtaSection = defineType({
   icon: RocketIcon,
   groups: [
     { name: 'cta', title: 'Blok CTA', default: true },
-    { name: 'showroom', title: 'Blok salonu' },
+    { name: 'showroom', title: 'Blok kontaktu / salonu' },
   ],
   fields: [
     defineField({
@@ -103,6 +103,41 @@ export const bottomCtaSection = defineType({
       of: [{ type: 'string' }],
       group: 'cta',
       initialValue: ['Bez zobowiązań', 'Odpowiedź w ciągu 24h', 'Bezpłatna wizyta na miejscu'],
+    }),
+    defineField({
+      name: 'contactEyebrow',
+      title: 'Brew bloku kontaktu',
+      description: 'Mała etykieta nad nagłówkiem bloku kontaktu (np. „Kontakt bezpośredni”).',
+      type: 'string',
+      group: 'showroom',
+      initialValue: 'Kontakt bezpośredni',
+    }),
+    defineField({
+      name: 'contactNote',
+      title: 'Notatka o preferowanym kontakcie',
+      description:
+        'Krótkie zdanie informujące, że telefon i e-mail to preferowane formy kontaktu.',
+      type: 'text',
+      rows: 2,
+      group: 'showroom',
+      initialValue:
+        'Najszybciej skontaktujesz się z nami telefonicznie lub mailowo — to nasze preferowane formy kontaktu.',
+    }),
+    defineField({
+      name: 'contactPhone',
+      title: 'Telefon',
+      description: 'Numer telefonu wyświetlany jako przycisk (link tel:).',
+      type: 'string',
+      group: 'showroom',
+      initialValue: '+48 661 242 507',
+    }),
+    defineField({
+      name: 'contactEmail',
+      title: 'E-mail',
+      description: 'Adres e-mail wyświetlany jako przycisk (link mailto:).',
+      type: 'string',
+      group: 'showroom',
+      initialValue: 'biuro@ccomplex.pl',
     }),
     defineField({
       name: 'showroomLabel',

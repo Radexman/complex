@@ -276,6 +276,10 @@ export type BottomCtaSection = {
   secondaryCtaLabel?: string;
   secondaryCtaHref?: string;
   bullets?: Array<string>;
+  contactEyebrow?: string;
+  contactNote?: string;
+  contactPhone?: string;
+  contactEmail?: string;
   showroomLabel?: string;
   showroomDescription?: string;
   showroomAddress?: string;
