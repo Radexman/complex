@@ -14,6 +14,61 @@ Not Started
 
 ## History
 
+### Offer Pages — Part 6: Quotation Form CTA Section (2026-06-30)
+
+Sixth section on every `/oferta/[slug]` page — `OfferFormCta`, directly below `OfferTechSpecs`:
+a strong, centered lead-gen banner that points the visitor to the offer's quotation form.
+**Spec 6 of 7** (`context/features/offer-06-formcta-spec.md`). **Conditionally rendered** — only
+when `service.relatedFormSlug` is set (6 of 7; Elewacje kompozytowe has no form → section skipped).
+Reconciled the spec's `src/...` + `sanity/schemas/` paths → repo layout, same as Parts 1–5.
+
+- **Studio:** appended a new **„CTA formularza"** field group to `documents/service.ts` with
+  `formCtaHeadline` (string), `formCtaSubheadline` (string), `formCtaButtonLabel` (string) and
+  `formCtaBullets` (array of strings — 3 reassurance points). No new href field — the button URL
+  derives from the existing `relatedFormSlug` (spec 1).
+- **Frontend:** `app/components/offer/OfferFormCta.tsx` (`'use client'`) — `bg-bg-mid` + `py-24`,
+  centered `max-w-4xl`. Top/bottom architectural accent bars (`h-px` gradient lines), eyebrow pill
+  („Bezpłatna wycena", `BottomCtaSection` pattern), `formCtaHeadline`, `formCtaSubheadline`, one
+  large green CTA button (`formCtaButtonLabel` fallback „Wypełnij formularz wyceny" + lucide
+  `ArrowRight`) → `/wycena/[relatedFormSlug]` (`stegaClean` on the slug), and a wrap row of bullets
+  (green dot + silver text). GSAP scroll reveal via the safe `gsap.set`+`.to` `useGSAP` pattern —
+  accent bars animate `scaleX:0→1`, content staggers `y:40→0` at `start: top 80%`,
+  `dependencies: [formCtaBullets]`. Guarded: returns `null` when `relatedFormSlug` is falsy. Wired
+  as `OfferPage`'s **sixth child**, gated by `{service.relatedFormSlug && …}`.
+- **Mid-feature additions (per request):** (1) made the section **more prominent** — added a centered
+  accent radial glow (`bg-accent/10 blur-[120px]`) behind the content; (2) added a **form-target
+  label** under the button („Prowadzi do: <form name>") via a hardcoded `FORM_LABELS` map
+  (slug→Polish form name) so the visitor sees which form the button opens. The label text/wording is
+  in code; the form it names follows `relatedFormSlug`.
+- **Navbar „Darmowa wycena" CTA → per-offer form (per request):** on an offer page the global navbar
+  CTA now links straight to that offer's specific `/wycena/...` form via a hardcoded
+  `OFFER_FORM_HREFS` map (slug→form URL, mirroring `relatedFormSlug`); falls back to the CMS
+  `ctaHref` on Elewacje + every non-offer page. First explored a smooth-scroll-to-section approach
+  (DOM-presence check + `#wycena` anchor) but the user chose the **direct link** instead, so the
+  scroll machinery + anchor were removed. The map is hardcoded in the navbar — consistent with its
+  existing hardcoded `OFERTA_ITEMS`/`WYCENA_ITEMS`, but won't auto-track a CMS `relatedFormSlug`
+  change (flagged for sign-off).
+- **Reconciliation:** GSAP uses the repo's safe `gsap.set`+`.to`/`useGSAP` convention rather than the
+  spec's literal `gsap.context()`/`gsap.from` (matches Parts 1–5). Eyebrow („Bezpłatna wycena") left
+  **hardcoded** per spec (open question raised whether to make it CMS-editable like
+  `benefitsEyebrow`/`brandsEyebrow` — left as-is for now).
+- **Queries:** extended `serviceBySlugQuery` with `formCtaHeadline`/`formCtaSubheadline`/
+  `formCtaButtonLabel`/`formCtaBullets`; regenerated **both** frontend + studio types
+  (`ServiceBySlugQueryResult` now carries the 4 fields).
+- **Seed + publish (per request):** the 6 form-bearing services had **no pending drafts** (verified
+  first), so patching the draft + publishing pushed **only** the form-CTA data live (no clobber).
+  Seeded all 4 fields per the spec's per-service content tables on `zadaszenia-aluminiowe`,
+  `zaluzje-tarasowe`, `tarasy-kompozytowe`, `tarasy-gresowe`, `tarasy-drewniane`, `schody-modulowe`
+  in one transaction, then published all 6. Elewacje untouched (no form). Hosted Studio needs a
+  **redeploy** to expose the new „CTA formularza" fields.
+- **Left untouched:** the pre-existing uncommitted `Footer.tsx` refactor and the pre-existing
+  `OfferTechSpecs.tsx` edit (`flex-shrink-0`→`shrink-0`), plus the future-spec markdowns
+  (`offer-07`, `process-timeline-spec`) — excluded from the commit for their own work (same precedent
+  as Parts 1–5). The `offer-06` spec **was** committed with the feature (matching Parts 3–5).
+- Verified: frontend `tsc` + `eslint` (only the pre-existing TrustSection warning), studio `tsc`,
+  `next build` all pass — `/oferta/[slug]` still SSG, prerenders all 7 slugs. No server actions/utils
+  → no Vitest. Not yet eyeballed in-browser.
+
 ### Contact Section — Showroom refactor (2026-06-30)
 
 Refactored the home-page **showroom** sub-block of `BottomCtaSection` (the second,
