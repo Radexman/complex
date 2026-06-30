@@ -14,6 +14,48 @@ Not Started
 
 ## History
 
+### Contact Section — Showroom refactor (2026-06-30)
+
+Refactored the home-page **showroom** sub-block of `BottomCtaSection` (the second,
+`data-showroom-block` block) into a **contact section** with direct **phone** + **email**
+buttons, noting in copy that those are the company's **preferred** contact methods.
+Inline request (not a spec file) — treated as `/feature start`. Preserved the editor's
+existing showroom copy + map; contact added on top, nothing clobbered.
+
+- **Studio:** appended 4 fields to `objects/bottomCtaSection.ts` under the (renamed)
+  **„Blok kontaktu / salonu"** group, all with Polish `initialValue`s: `contactEyebrow`
+  (default „Kontakt bezpośredni" — replaces the previously hardcoded „Showroom" eyebrow),
+  `contactNote` (text — the „telefon i e-mail to nasze preferowane formy kontaktu"
+  sentence), `contactPhone` (default `+48 661 242 507`), `contactEmail` (default
+  `biuro@ccomplex.pl` — the **double-c** „ccomplex.pl" is the real domain, **not** a typo,
+  confirmed by the client). Left `showroomLabel`/`showroomDescription`/`showroomAddress`
+  untouched.
+- **Frontend:** `app/components/sections/BottomCtaSection.tsx` (`'use client'`) — the
+  left column of the showroom block now renders the CMS `contactEyebrow` (fallback
+  „Kontakt bezpośredni"), the showroom heading, the `contactNote`, then two prominent
+  buttons: a green **phone** button (`<a href="tel:…">`, lucide `Phone`) and a ghost
+  **email** button (`<a href="mailto:…">`, lucide `Mail`). `tel:` href is sanitized
+  (`replace(/[^\d+]/g, '')`) so spaces don't break dialing; the `+` is kept. In-component
+  fallbacks (`+48 661 242 507` / `biuro@ccomplex.pl`) so the block renders before seeding.
+  The editor's `showroomDescription`/`showroomAddress` and the Leaflet map sit below,
+  unchanged.
+- **Queries:** none — `bottomCtaQuery` selects the whole doc (`*[_type ==
+  "bottomCtaSection"][0]`, no projection), so the new fields flow through after a TypeGen
+  regen. Regenerated **both** frontend + studio types (`BottomCtaQueryResult` now carries
+  the 4 contact fields; studio's generated file caught up too).
+- **Seed + publish (per request):** the published `bottomCtaSection` doc had all 4 contact
+  fields `null` (initialValue doesn't backfill) and real editor content in `showroomLabel`/
+  `showroomDescription`/`showroomAddress`. No pending draft existed → patched **only** the
+  4 contact fields onto the draft and published, leaving the editor's showroom copy intact
+  (no clobber). Hosted Studio needs a **redeploy** to expose the new fields in the editor.
+- **Left untouched:** the long-standing pre-existing uncommitted `Footer.tsx` refactor, the
+  pre-existing `OfferTechSpecs.tsx` edit, and the future-spec markdowns (`offer-06`,
+  `offer-07`, `process-timeline-spec`) — excluded from the commit for their own work (same
+  precedent as the offer-pages parts). No inline spec file this time, so nothing spec-like
+  was committed.
+- Verified: frontend `tsc` + `eslint` (only the pre-existing TrustSection warning), studio
+  `tsc`, `next build` all pass — home still static. No server actions/utils → no Vitest.
+
 ### Offer Pages — Part 5: Technical Specs Section (2026-06-30)
 
 Fifth section on every `/oferta/[slug]` page — `OfferTechSpecs`, directly below `OfferBrands`:
