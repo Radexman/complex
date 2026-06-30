@@ -14,6 +14,59 @@ Not Started
 
 ## History
 
+### Offer Pages — Part 5: Technical Specs Section (2026-06-30)
+
+Fifth section on every `/oferta/[slug]` page — `OfferTechSpecs`, directly below `OfferBrands`:
+a two-column grid of glass „info cards" with practical install/spec info (montaż, gwarancja,
+VAT, wymiary, kontakt), replacing the old „Niezbędnik informacji" block. **Spec 5 of 7**
+(`context/features/offer-05-techspecs-spec.md`). Reconciled the spec's `src/...` +
+`sanity/schemas/` paths → repo layout, same as Parts 1–4.
+
+- **Studio:** appended a new **„Specyfikacja"** field group to `documents/service.ts` with
+  `techSpecsHeadline` (string, initialValue „Informacje techniczne i montaż"),
+  `techSpecsDescription` (string, optional) and `techSpecs[]` — a **min 1 / max 8** array of
+  inline `techSpec` objects `{icon, title, content (text)}`. `icon` is a constrained
+  `options.list` driven by a new exported `TECH_SPEC_ICONS` that **spreads** the existing
+  `BENEFIT_ICONS` and adds 4 values (`home`→`Home`, `euro`→`Euro`, `file`→`FileText`,
+  `phone`→`Phone`) rather than duplicating the list.
+- **Frontend:** `app/components/offer/OfferTechSpecs.tsx` (`'use client'`) — `bg-bg-deep` +
+  `.section-padding`, left-aligned header (hardcoded „Specyfikacja" accent eyebrow →
+  `techSpecsHeadline` → optional `techSpecsDescription` `max-w-2xl`),
+  `grid grid-cols-1 md:grid-cols-2 gap-4 mt-10`. Each card: `.glass rounded-xl p-6 border
+  border-graphite` + a thin green top accent line (`border-t-2 border-t-accent/30`,
+  `hover:border-accent/30`) to differentiate from benefit cards' full-border hover; top row =
+  accent icon tile (`w-10 h-10 bg-accent/10`) + title on one line, then `content` body. Icon
+  string → Lucide via a static `ICON_MAP` (benefits' 12 + the 4 new icons) with `stegaClean`
+  on the key and a `FileText` fallback. GSAP scroll reveal via the safe `gsap.set`+`.to`
+  `useGSAP` pattern (header `y:30→0`, cards `y:30→0` stagger 0.1, `start: top 85%`),
+  `dependencies: [techSpecs]`. Guarded: returns `null` when `techSpecs` empty. Wired as
+  `OfferPage`'s **fifth child** (after `OfferBrands`; comment slot updated to specs 6–7).
+- **Queries:** extended `serviceBySlugQuery` with `techSpecsHeadline`/`techSpecsDescription`/
+  `techSpecs[]{_key,icon,title,content}`; regenerated **both** frontend + studio types
+  (`studio/sanity.types.ts` had also drifted — it never picked up Part 4's brands — so the regen
+  caught up both brands and techSpecs; committed it to keep the generated file in sync).
+- **Reconciliation:** GSAP uses the repo's safe `gsap.set`+`.to`/`useGSAP` convention rather than
+  the spec's literal `gsap.context()`/`gsap.from` (matches Trust/About/Benefits/Gallery/Brands).
+- **Seed + publish (per request):** all 7 services get techSpecs (unlike Brands' 3 → section shows
+  on every offer page). The 3 „branded" services (`zadaszenia-aluminiowe`, `zaluzje-tarasowe`,
+  `tarasy-kompozytowe`) already carried their techSpecs in **clean drafts** from a prior pass —
+  verified per-doc that the draft differed from published **only** by techSpecs (no pending client
+  edits → no Part 2 clobber). The other 4 (`tarasy-gresowe`, `tarasy-drewniane`,
+  `elewacje-kompozytowe`, `schody-modulowe`) had no draft, so patching created a clean
+  techSpecs-only draft. Patched the 4 (one doc per call, per the Part 4 timeout lesson), then
+  published all 7 — only techSpecs went live. Hosted Studio needs a **redeploy** to expose the new
+  „Specyfikacja" fields.
+- **Dev-server hiccup (env, not the feature):** after the project folder was moved to
+  `d:\projects\complex`, `npm run dev` panicked with a Turbopack „Next.js package not found" /
+  stale `/posts/[slug]` error — the `.next` cache had baked-in absolute paths from the old
+  location. Fixed by deleting `frontend/.next` (node_modules was fine; `next build` had worked).
+- **Left untouched:** the pre-existing uncommitted `Footer.tsx` refactor and the future-spec
+  markdowns (`offer-06`, `offer-07`) — excluded from the commit for their own features (same as
+  Parts 1–4). The `offer-05` spec **was** committed with the feature (matching Parts 3–4).
+- Verified: frontend `tsc` + `eslint` (only the pre-existing TrustSection warning), studio `tsc`,
+  `next build` all pass — `/oferta/[slug]` still SSG, prerenders all 7 slugs. No server
+  actions/utils → no Vitest. Eyeballed in-browser after the `.next` fix (dev server healthy).
+
 ### Offer Pages — Part 4: Brands & Models Section (2026-06-29)
 
 Fourth section on every `/oferta/[slug]` page — `OfferBrands`, directly below `OfferGallery`:
