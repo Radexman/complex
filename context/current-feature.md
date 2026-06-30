@@ -14,6 +14,50 @@ Not Started
 
 ## History
 
+### Offer Pages — Part 7: Contact Section (2026-06-30)
+
+Seventh and **final** section on every `/oferta/[slug]` page — a contact/showroom block,
+**always rendered** (incl. Elewacje kompozytowe, which has no form). **Spec 7 of 7**
+(`context/features/offer-07-contact-spec.md`). **User overrode the spec's design:** instead
+of the spec's bespoke 3-column card grid + new `siteSettings.showroom*` root fields, the section
+**reuses the home page's contact/showroom block exactly**, fed by **one** CMS source — so the
+offer pages and the home page look identical and the client edits contact details in a single
+place.
+
+- **Single source of truth:** the existing `bottomCtaSection` singleton's contact/showroom fields
+  (`contactEyebrow`/`contactNote`/`contactPhone`/`contactEmail`/`showroomLabel`/
+  `showroomDescription`/`showroomAddress`). **No new schema fields, no `footer` changes, no
+  seeding** — reuses already-published data.
+- **Extraction (not copy-paste):** pulled the home page's „Showroom / Map block" out of
+  `BottomCtaSection.tsx` into a new shared `app/components/sections/ContactShowroom.tsx`
+  (`'use client'`). It owns its own GSAP reveal (showroom text `y:30→0`, map `x:20→0`, scoped to
+  its own ref, `gsap.set`+`.to`/`useGSAP`) and the `dynamic(() => import('@/app/components/
+  ShowroomMap'), { ssr: false })` Leaflet map. Keeps `bg-bg-mid py-20`, the in-component
+  fallbacks (`+48 661 242 507` / `biuro@ccomplex.pl`), the sanitized `tel:` href, the
+  phone/email buttons + address. The user suggested literal copy-paste; extraction is strictly
+  better for the „single source" goal (no duplicated markup) and still renders identically —
+  flagged and chosen.
+- **`BottomCtaSection` slimmed:** dropped the showroom JSX, the showroom/map GSAP tweens, the
+  `ShowroomMap`/`dynamic`/`MapPin`/`Phone`/`Mail` imports and the contact field destructuring +
+  phone/email vars; now renders `<ContactShowroom {...} />` for that block (keeps only the
+  CTA-block reveal). Home page visually unchanged.
+- **Offer wiring:** `OfferPage.tsx` takes a `contact: BottomCtaQueryResult` prop and renders
+  `<ContactShowroom>` as the **always-rendered final child** (after the conditional
+  `OfferFormCta`), guarded `{contact && …}`. `app/oferta/[slug]/page.tsx` fetches `bottomCtaQuery`
+  in parallel (`Promise.all`) with the gallery query and threads it through. Final composition:
+  Hero → Benefits → Gallery → Brands → TechSpecs → {relatedFormSlug && FormCta} → **Contact**.
+- **Queries:** none added — `bottomCtaQuery` already existed (home page). No new generated types.
+- **Path reconciliation (same as Parts 1–6):** spec's `src/...` + `sanity/schemas/siteSettings.ts`
+  → repo's `frontend/app/...`; the spec's `siteSettings.footer.*` contact assumption was replaced
+  by the repo's real `bottomCtaSection` source per the user's single-source decision.
+- **Left untouched:** the pre-existing uncommitted `Footer.tsx` refactor, the pre-existing
+  `OfferTechSpecs.tsx` edit, the line-ending-only `sanity.types.ts` drift, and the
+  `process-timeline-spec` markdown — excluded from the commit for their own work (same precedent
+  as Parts 1–6). The `offer-07` spec **was** committed with the feature (matching Parts 3–6).
+- Verified: frontend `tsc` + `eslint` (clean on all touched files), `next build` all pass —
+  `/oferta/[slug]` still SSG, prerenders all 7 slugs; home still static. No server actions/utils
+  → no Vitest. Not yet eyeballed in-browser.
+
 ### Offer Pages — Part 6: Quotation Form CTA Section (2026-06-30)
 
 Sixth section on every `/oferta/[slug]` page — `OfferFormCta`, directly below `OfferTechSpecs`:
