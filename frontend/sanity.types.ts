@@ -145,6 +145,31 @@ export type Service = {
     _type: 'brand';
     _key: string;
   }>;
+  techSpecsHeadline?: string;
+  techSpecsDescription?: string;
+  techSpecs?: Array<{
+    icon:
+      | 'shield'
+      | 'clock'
+      | 'award'
+      | 'users'
+      | 'star'
+      | 'check'
+      | 'tool'
+      | 'map'
+      | 'sun'
+      | 'droplets'
+      | 'ruler'
+      | 'zap'
+      | 'home'
+      | 'euro'
+      | 'file'
+      | 'phone';
+    title: string;
+    content: string;
+    _type: 'techSpec';
+    _key: string;
+  }>;
 };
 
 export type SanityImageCrop = {
@@ -1045,7 +1070,7 @@ export type ServiceSlugsQueryResult = Array<{
 
 // Source: sanity/lib/queries.ts
 // Variable: serviceBySlugQuery
-// Query: *[_type == "service" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    seoDescription,    heroImage,    heroHeadline,    heroSubheadline,    relatedFormSlug,    category,    benefitsEyebrow,    benefitsHeadline,    benefitsDescription,    benefits[]{      _key,      icon,      title,      description    },    brandsEyebrow,    brandsHeadline,    brandsDescription,    brands[]{      _key,      name,      shortDescription,      fullDescription,      image,      specs    }  }
+// Query: *[_type == "service" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    seoDescription,    heroImage,    heroHeadline,    heroSubheadline,    relatedFormSlug,    category,    benefitsEyebrow,    benefitsHeadline,    benefitsDescription,    benefits[]{      _key,      icon,      title,      description    },    brandsEyebrow,    brandsHeadline,    brandsDescription,    brands[]{      _key,      name,      shortDescription,      fullDescription,      image,      specs    },    techSpecsHeadline,    techSpecsDescription,    techSpecs[]{      _key,      icon,      title,      content    }  }
 export type ServiceBySlugQueryResult = {
   _id: string;
   title: string;
@@ -1109,6 +1134,30 @@ export type ServiceBySlugQueryResult = {
     } | null;
     specs: Array<string> | null;
   }> | null;
+  techSpecsHeadline: string | null;
+  techSpecsDescription: string | null;
+  techSpecs: Array<{
+    _key: string;
+    icon:
+      | 'award'
+      | 'check'
+      | 'clock'
+      | 'droplets'
+      | 'euro'
+      | 'file'
+      | 'home'
+      | 'map'
+      | 'phone'
+      | 'ruler'
+      | 'shield'
+      | 'star'
+      | 'sun'
+      | 'tool'
+      | 'users'
+      | 'zap';
+    title: string;
+    content: string;
+  }> | null;
 } | null;
 
 // Query TypeMap
@@ -1129,6 +1178,6 @@ declare module '@sanity/client' {
     '*[_type == "project"] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    surface,\n    coverImage\n  }': AllProjectsQueryResult;
     '*[_type == "project" && category == $category] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    coverImage\n  }': GalleryProjectsByCategoryQueryResult;
     '*[_type == "service" && defined(slug.current)]{ "slug": slug.current }': ServiceSlugsQueryResult;
-    '*[_type == "service" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    seoDescription,\n    heroImage,\n    heroHeadline,\n    heroSubheadline,\n    relatedFormSlug,\n    category,\n    benefitsEyebrow,\n    benefitsHeadline,\n    benefitsDescription,\n    benefits[]{\n      _key,\n      icon,\n      title,\n      description\n    },\n    brandsEyebrow,\n    brandsHeadline,\n    brandsDescription,\n    brands[]{\n      _key,\n      name,\n      shortDescription,\n      fullDescription,\n      image,\n      specs\n    }\n  }': ServiceBySlugQueryResult;
+    '*[_type == "service" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    seoDescription,\n    heroImage,\n    heroHeadline,\n    heroSubheadline,\n    relatedFormSlug,\n    category,\n    benefitsEyebrow,\n    benefitsHeadline,\n    benefitsDescription,\n    benefits[]{\n      _key,\n      icon,\n      title,\n      description\n    },\n    brandsEyebrow,\n    brandsHeadline,\n    brandsDescription,\n    brands[]{\n      _key,\n      name,\n      shortDescription,\n      fullDescription,\n      image,\n      specs\n    },\n    techSpecsHeadline,\n    techSpecsDescription,\n    techSpecs[]{\n      _key,\n      icon,\n      title,\n      content\n    }\n  }': ServiceBySlugQueryResult;
   }
 }
