@@ -15,6 +15,14 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: ../sanity.schema.json
+export type ProcessStep = {
+  _type: 'processStep';
+  number: string;
+  icon: 'mail' | 'calculator' | 'file-check' | 'file-signature' | 'hammer' | 'shield-check';
+  title: string;
+  description?: string;
+};
+
 export type AboutBadge = {
   _type: 'aboutBadge';
   icon: 'gem' | 'target' | 'wrench' | 'award';
@@ -255,6 +263,22 @@ export type Footer = {
   contactPhone?: string;
   contactEmail?: string;
   copyrightText?: string;
+};
+
+export type ProcessTimeline = {
+  _id: string;
+  _type: 'processTimeline';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  headline: string;
+  subheadline?: string;
+  steps: Array<
+    {
+      _key: string;
+    } & ProcessStep
+  >;
 };
 
 export type BottomCtaSection = {
@@ -693,6 +717,7 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+  | ProcessStep
   | AboutBadge
   | SanityImageAssetReference
   | OfferCard
@@ -704,6 +729,7 @@ export type AllSanitySchemaTypes =
   | Slug
   | Project
   | Footer
+  | ProcessTimeline
   | BottomCtaSection
   | RealizacjePage
   | FeaturedProjectsSection
@@ -964,6 +990,25 @@ export type BottomCtaQueryResult = {
 } | null;
 
 // Source: sanity/lib/queries.ts
+// Variable: processTimelineQuery
+// Query: *[_type == "processTimeline"][0]
+export type ProcessTimelineQueryResult = {
+  _id: string;
+  _type: 'processTimeline';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  headline: string;
+  subheadline?: string;
+  steps: Array<
+    {
+      _key: string;
+    } & ProcessStep
+  >;
+} | null;
+
+// Source: sanity/lib/queries.ts
 // Variable: footerQuery
 // Query: *[_type == "footer"][0]
 export type FooterQueryResult = {
@@ -1189,6 +1234,7 @@ declare module '@sanity/client' {
     '*[_type == "featuredProjectsSection"][0]': FeaturedProjectsSectionQueryResult;
     '*[_type == "realizacjePage"][0]': RealizacjePageQueryResult;
     '*[_type == "bottomCtaSection"][0]': BottomCtaQueryResult;
+    '*[_type == "processTimeline"][0]': ProcessTimelineQueryResult;
     '*[_type == "footer"][0]': FooterQueryResult;
     '*[_type == "project" && isFeatured == true] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    coverImage\n  }': FeaturedProjectsQueryResult;
     '*[_type == "project"] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    surface,\n    coverImage\n  }': AllProjectsQueryResult;

@@ -15,6 +15,14 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: ../sanity.schema.json
+export type ProcessStep = {
+  _type: 'processStep';
+  number: string;
+  icon: 'mail' | 'calculator' | 'file-check' | 'file-signature' | 'hammer' | 'shield-check';
+  title: string;
+  description?: string;
+};
+
 export type AboutBadge = {
   _type: 'aboutBadge';
   icon: 'gem' | 'target' | 'wrench' | 'award';
@@ -255,6 +263,22 @@ export type Footer = {
   contactPhone?: string;
   contactEmail?: string;
   copyrightText?: string;
+};
+
+export type ProcessTimeline = {
+  _id: string;
+  _type: 'processTimeline';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  headline: string;
+  subheadline?: string;
+  steps: Array<
+    {
+      _key: string;
+    } & ProcessStep
+  >;
 };
 
 export type BottomCtaSection = {
@@ -693,6 +717,7 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+  | ProcessStep
   | AboutBadge
   | SanityImageAssetReference
   | OfferCard
@@ -704,6 +729,7 @@ export type AllSanitySchemaTypes =
   | Slug
   | Project
   | Footer
+  | ProcessTimeline
   | BottomCtaSection
   | RealizacjePage
   | FeaturedProjectsSection
