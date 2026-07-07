@@ -132,6 +132,11 @@ export default defineConfig({
             message: 'Sekcja CTA / Salon jest używana na stronie głównej',
             tone: 'positive',
           }),
+          processTimeline: defineLocations({
+            locations: [homeLocation],
+            message: 'Sekcja Proces jest używana na stronie głównej i podstronach oferty',
+            tone: 'positive',
+          }),
           footer: defineLocations({
             locations: [homeLocation],
             message: 'Stopka jest używana na wszystkich stronach',

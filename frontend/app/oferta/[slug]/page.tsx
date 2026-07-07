@@ -7,6 +7,7 @@ import { sanityFetch } from '@/sanity/lib/live';
 import {
   bottomCtaQuery,
   galleryProjectsByCategoryQuery,
+  processTimelineQuery,
   serviceBySlugQuery,
   serviceSlugsQuery,
 } from '@/sanity/lib/queries';
@@ -47,14 +48,24 @@ export default async function OfferRoutePage({ params }: PageProps) {
   if (!service) notFound();
 
   // Gallery projects share the `project` pool, filtered to this service's category.
-  // Contact/showroom data is shared with the home page (single `bottomCtaSection` source).
-  const [{ data: galleryProjects }, { data: contact }] = await Promise.all([
-    sanityFetch({
-      query: galleryProjectsByCategoryQuery,
-      params: { category: stegaClean(service.category) },
-    }),
-    sanityFetch({ query: bottomCtaQuery }),
-  ]);
+  // Process timeline + contact/showroom data are shared with the home page
+  // (single `processTimeline` / `bottomCtaSection` sources).
+  const [{ data: galleryProjects }, { data: processTimeline }, { data: contact }] =
+    await Promise.all([
+      sanityFetch({
+        query: galleryProjectsByCategoryQuery,
+        params: { category: stegaClean(service.category) },
+      }),
+      sanityFetch({ query: processTimelineQuery }),
+      sanityFetch({ query: bottomCtaQuery }),
+    ]);
 
-  return <OfferPage service={service} galleryProjects={galleryProjects} contact={contact} />;
+  return (
+    <OfferPage
+      service={service}
+      galleryProjects={galleryProjects}
+      processTimeline={processTimeline}
+      contact={contact}
+    />
+  );
 }

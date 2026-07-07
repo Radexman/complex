@@ -4,6 +4,7 @@ import {
   ImageIcon,
   ImagesIcon,
   MenuIcon,
+  OlistIcon,
   RocketIcon,
   StarIcon,
   TagIcon,
@@ -54,6 +55,10 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
             .schemaType('featuredProjectsSection')
             .documentId('featuredProjectsSection'),
         ),
+      S.listItem()
+        .title('Sekcja Proces')
+        .icon(OlistIcon)
+        .child(S.document().schemaType('processTimeline').documentId('processTimeline')),
       S.listItem()
         .title('Sekcja CTA / Salon')
         .icon(RocketIcon)

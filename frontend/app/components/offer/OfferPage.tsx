@@ -3,10 +3,12 @@ import { stegaClean } from 'next-sanity';
 import type {
   BottomCtaQueryResult,
   GalleryProjectsByCategoryQueryResult,
+  ProcessTimelineQueryResult,
   ServiceBySlugQueryResult,
 } from '@/sanity.types';
 import { categoryLabel } from '@/app/lib/categories';
 import ContactShowroom from '@/app/components/sections/ContactShowroom';
+import ProcessTimeline from '@/app/components/sections/ProcessTimeline';
 
 import OfferBenefits from './OfferBenefits';
 import OfferBrands from './OfferBrands';
@@ -26,10 +28,12 @@ export type Service = NonNullable<ServiceBySlugQueryResult>;
 export default function OfferPage({
   service,
   galleryProjects,
+  processTimeline,
   contact,
 }: {
   service: Service;
   galleryProjects: GalleryProjectsByCategoryQueryResult;
+  processTimeline: ProcessTimelineQueryResult;
   contact: BottomCtaQueryResult;
 }) {
   return (
@@ -47,6 +51,7 @@ export default function OfferPage({
         benefitsDescription={service.benefitsDescription}
         benefits={service.benefits}
       />
+      {processTimeline && <ProcessTimeline data={processTimeline} />}
       <OfferGallery
         projects={galleryProjects}
         categoryLabel={categoryLabel(stegaClean(service.category))}

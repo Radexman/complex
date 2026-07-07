@@ -5,6 +5,7 @@ import {
   featuredProjectsSectionQuery,
   heroQuery,
   offerQuery,
+  processTimelineQuery,
   trustQuery,
 } from '@/sanity/lib/queries';
 import { sanityFetch } from '@/sanity/lib/live';
@@ -13,6 +14,7 @@ import TrustSection from '@/app/components/sections/TrustSection';
 import OfferSection from './components/sections/OfferSection';
 import AboutSection from './components/sections/AboutSection';
 import FeaturedProjectsSection from './components/sections/FeaturedProjectsSection';
+import ProcessTimeline from './components/sections/ProcessTimeline';
 import BottomCtaSection from './components/sections/BottomCtaSection';
 
 export default async function Page() {
@@ -23,6 +25,7 @@ export default async function Page() {
     { data: about },
     { data: featuredSection },
     { data: featuredProjects },
+    { data: processTimeline },
     { data: bottomCta },
   ] = await Promise.all([
     sanityFetch({ query: heroQuery }),
@@ -31,6 +34,7 @@ export default async function Page() {
     sanityFetch({ query: aboutQuery }),
     sanityFetch({ query: featuredProjectsSectionQuery }),
     sanityFetch({ query: featuredProjectsQuery }),
+    sanityFetch({ query: processTimelineQuery }),
     sanityFetch({ query: bottomCtaQuery }),
   ]);
 
@@ -43,6 +47,7 @@ export default async function Page() {
       {featuredSection && (
         <FeaturedProjectsSection data={featuredSection} projects={featuredProjects} />
       )}
+      {processTimeline && <ProcessTimeline data={processTimeline} />}
       {bottomCta && <BottomCtaSection data={bottomCta} />}
     </>
   );

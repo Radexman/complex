@@ -11,6 +11,8 @@ import { aboutBadge } from './objects/aboutBadge';
 import { featuredProjectsSection } from './objects/featuredProjectsSection';
 import { realizacjePage } from './objects/realizacjePage';
 import { bottomCtaSection } from './objects/bottomCtaSection';
+import { processTimeline } from './objects/processTimeline';
+import { processStep } from './objects/processStep';
 import { footer } from './objects/footer';
 import { project } from './documents/project';
 import { service } from './documents/service';
@@ -28,6 +30,7 @@ export const schemaTypes = [
   featuredProjectsSection,
   realizacjePage,
   bottomCtaSection,
+  processTimeline,
   footer,
   // Collections (multiple documents)
   project,
@@ -37,4 +40,5 @@ export const schemaTypes = [
   trustStat,
   offerCard,
   aboutBadge,
+  processStep,
 ];
