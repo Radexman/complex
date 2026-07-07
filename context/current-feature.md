@@ -14,6 +14,61 @@ Not Started
 
 ## History
 
+### Process Timeline — shared 6-step journey (2026-07-07)
+
+Shared **`ProcessTimeline`** section — Complex's fixed 6-step customer journey (zapytanie →
+wycena wstępna → wycena końcowa → umowa → montaż → gwarancja) as a vertical numbered timeline,
+rendered on the **home page** (after `FeaturedProjectsSection`, before `BottomCtaSection`) and on
+**every offer page** (between `OfferBenefits` and `OfferGallery`). Spec:
+`context/features/process-timeline-spec.md`. Content is CMS-managed from **one central source** so
+the process reads identically everywhere.
+
+- **Content location — deviated from spec (confirmed at start).** Spec said add a `processTimeline`
+  object to `siteSettings`; instead created a **new `processTimeline` fixed-id singleton**
+  (own „Sekcja Proces" sidebar entry) — matches the repo's split-singleton precedent
+  (Navbar/Hero/Trust/Offer/Bottom-CTA); `siteSettings` is metadata/SEO only here.
+- **Studio:** `objects/processStep.ts` — inline `processStep` object (`number`/`icon`/`title`/
+  `description`), `icon` a constrained `options.list` dropdown driven by exported
+  `PROCESS_STEP_ICONS` (6 values: `mail`/`calculator`/`file-check`/`file-signature`/`hammer`/
+  `shield-check`). `objects/processTimeline.ts` — singleton (`OlistIcon`, „Sekcja Proces") with
+  `eyebrow`/`headline`/`subheadline` + `steps[]` (`min 1 / max 6`), all Polish `initialValue`s incl.
+  the full 6-step seed. Registered both in `schemaTypes/index.ts`, added the „Sekcja Proces" entry
+  in `structure/index.ts`, and a Presentation `locations` resolver (home) in `sanity.config.ts`.
+- **Frontend:** `app/components/sections/ProcessTimeline.tsx` (`'use client'`) — `bg-bg-mid` +
+  `.section-padding`, centered header, `max-w-3xl` timeline. Icon string → Lucide via `ICON_MAP` +
+  `stegaClean`. GSAP via the repo's safe `useGSAP` + `gsap.set`/`.to`/`fromTo` convention
+  (`scope: container`, `dependencies: [steps]`): header reveal, per-row independent reveal
+  (`x:-20→0`), scroll-scrubbed accent progress fill, and per-node activation
+  (`border-accent`/`bg-accent/10`/`text-accent`) via `ScrollTrigger.create` `onEnter`/`onLeaveBack`.
+- **Vertical line — iterated on feedback.** (1) Original `left-7` sat off-center and the base line
+  ran the full container height, overshooting past the last node into its description. Fixed:
+  centered on the nodes (`left-5 sm:left-6 -translate-x-1/2`) and **JS-measured** (a `ResizeObserver`
+  on the timeline sets the track `top`/`height` to span exactly first-node-center → last-node-center;
+  measurement is layout-relative so it's scroll-independent). Progress fill switched from animating
+  `height:%` to **`scaleY` of a `h-full` child** (origin-top) so it stays correct after
+  measurement/resize. (2) **Scroll jank** („shrinks on scroll") was a `ScrollTrigger.refresh()` call
+  inside the `ResizeObserver` — on scroll the browser fires resize (scrollbar/URL-bar/width), the
+  observer fired, and `refresh()` yanked every trigger mid-scrub. Removed it (unnecessary — the scrub
+  trigger's geometry is the `timeline` container, independent of the decorative line's height).
+- **Data threading:** added `processTimelineQuery` (`defineQuery`, whole-doc select); fetched in
+  `app/page.tsx` (parallel `Promise.all`, rendered `{processTimeline && …}`) and in
+  `app/oferta/[slug]/page.tsx` (parallel with the gallery/bottomCta fetches), threaded through
+  `OfferPage` (new `processTimeline` prop, rendered guarded between Benefits and Gallery). New offer
+  composition: Hero → Benefits → **ProcessTimeline** → Gallery → Brands → TechSpecs →
+  {relatedFormSlug && FormCta} → Contact. Regenerated **both** frontend + studio types
+  (`ProcessTimelineQueryResult`, `ProcessStep`; studio types were stale — Part 5 precedent, regen
+  caught them up).
+- **Seed + publish (per request):** no prior `processTimeline` doc existed → created + published the
+  singleton (fixed id `processTimeline`) with the spec's exact Polish eyebrow/headline/subheadline +
+  all 6 steps in one transaction (non-destructive, nothing to clobber). Hosted Studio needs a
+  **redeploy** to expose the new „Sekcja Proces" sidebar entry.
+- **Left untouched (same precedent as Parts 1–7):** the pre-existing uncommitted `Footer.tsx` /
+  `OfferTechSpecs.tsx` edits and the untracked future-spec markdown were excluded from the commit;
+  the `process-timeline-spec` **was** committed with the feature (matching Parts 3–7).
+- Verified: frontend `tsc` + `eslint` (clean on touched files), studio `tsc`, `next build` all pass —
+  `/oferta/[slug]` still SSG (all 7 slugs), home still static. No server actions/utils → no Vitest.
+  Line alignment + scroll-jank fix eyeballed via user feedback during the session.
+
 ### Offer Pages — Part 7: Contact Section (2026-06-30)
 
 Seventh and **final** section on every `/oferta/[slug]` page — a contact/showroom block,
