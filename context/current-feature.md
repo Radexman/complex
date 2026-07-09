@@ -14,6 +14,67 @@ Not Started
 
 ## History
 
+### Formularz Wyceny Tarasu — `/wycena/taras` (2026-07-08)
+
+First of the four quotation forms — the terrace form — establishing the shared **react-hook-form
++ Zod + Ark UI** foundation the other three (`zadaszenie`/`zaluzje`/`schody`) will reuse. Spec:
+`context/features/tarrace-quotation-spec.md`. Reconciled the spec's `src/...` paths → repo's
+`frontend/app/...` + `studio/src/...`, same as every prior feature.
+
+- **Decisions confirmed at start:** (1) shape diagrams → a **dedicated `tarasFormConfig` fixed-id
+  singleton** (deviation from the spec's „add to `siteSettings`"), matching the repo's
+  split-singleton precedent; (2) **added Vitest** (repo had no runner) + wrote unit tests for the
+  schema and action — the test setup the other 3 forms inherit; (3) installed
+  `react-hook-form` + `zod` + `@hookform/resolvers` (first repo use).
+- **Studio:** `objects/tarasShape.ts` (inline object — `shapeNumber` 1–4, `label`, `image`+alt,
+  `sides[]`) + `objects/tarasFormConfig.ts` (singleton, `ComponentIcon`, „Formularz Tarasu",
+  `shapes[]` validated `length(4)` with a 4-shape `initialValue`). Registered both, added the
+  „Formularz Tarasu" structure entry, a Presentation `locations` resolver + a `/wycena/taras`
+  `mainDocuments` route.
+- **Validation (`app/lib/validations/tarasForm.ts`):** Zod v4 schema. Dimension fields use a
+  `preprocess` that maps empty strings → `undefined` so optional sides don't false-fail
+  `.positive()`. **Sides are CMS-driven:** the form sends the selected shape's `sides` as
+  `requiredSides` and `.superRefine` enforces exactly those (falling back to a static
+  `REQUIRED_SIDES` map only for direct/API calls) — so rendered inputs and validation can never
+  diverge. Dropped `.default(false)` on the two booleans so Zod's *input* types stay clean
+  `boolean` for `FieldPathByValue`.
+- **Action (`app/lib/actions/submitTarasForm.ts`, `'use server'`):** `formDataToObject` rebuilds a
+  typed object from multipart FormData (`getAll` for arrays, `=== 'true'` for booleans, raw strings
+  for coerced numbers), `safeParse`, then console-logs structured data (Resend is a later spec).
+  `as const` returns give the client a discriminated union without exporting a type from a server
+  file (Next.js restriction).
+- **Shared primitives (`components/forms/shared/`):** `FormInput`, `FormSelect`, `FormTextarea`,
+  `FormCheckbox` (Ark `Checkbox` + Controller), `FormRadioGroup` (Ark `RadioGroup`, for future
+  forms), `FormFileDropzone` (Ark `FileUpload`, 3 files/10 MB), and `FormNumberInput` (Ark
+  `NumberInput` with themed chevron steppers — replaces the browser's default spinner arrows). Plus
+  `ShapeSelector` (Ark `RadioGroup` image cards) + `DimensionInputs`.
+- **`TarasForm.tsx`:** `useForm<Input, unknown, Output>` + `zodResolver`, `mode: 'onBlur'`,
+  `shouldUnregister: true`. **Shape 1 pre-selected by default.** `useWatch('shape')` derives
+  `activeSides` from CMS `sides`; a `useEffect` mirrors them into the `requiredSides` field so client
+  + server validate identically. Building-position checkboxes are a `Controller`-managed array
+  (reconciliation — the spec's boolean `FormCheckbox` can't produce an array). Photo dropzone,
+  RODO/marketing consents, success panel.
+- **Page (`app/wycena/taras/page.tsx`):** server component, `sanityFetch(tarasFormConfigQuery)`,
+  simple hero (`pt-28` to clear the fixed navbar), renders `<TarasForm>`. Static + live-updating.
+  Returns a `<div>` (layout already provides `<main>`).
+- **In-browser fixes (per feedback):** (1) shape image was cropped — the URL requested a fixed
+  `240×200` box; switched to width-only `fit('max')` + `fill`/`object-contain` in a fixed box so the
+  whole diagram shows; (2) **shape 1 corrected to 2 sides (A, B)** — patched + published the live
+  `tarasFormConfig` doc's `shape1.sides` (preserving the uploaded image) and updated the fallback
+  map + tests; the CMS-driven `requiredSides` design means shapes 2–4 can't hit this mismatch.
+- **Seed + publish (per request):** created + published the `tarasFormConfig` singleton (4 shapes,
+  no images) so the selector renders immediately. Hosted Studio needs a **redeploy** to expose the
+  „Formularz Tarasu" entry; the client uploads the 4 diagram images there.
+- **Queries/types:** added `tarasFormConfigQuery` (`defineQuery`); regenerated frontend types
+  (`TarasFormConfigQueryResult`); studio types already carried the new types.
+- **Left untouched (same precedent as prior parts):** the pre-existing uncommitted `Footer.tsx` /
+  `OfferTechSpecs.tsx` edits — excluded from the commit. The `tarras-quotation-spec` **was**
+  committed with the feature.
+- Verified: **29 Vitest tests pass**, frontend `type-check` (next typegen + tsc) + studio `tsc`
+  clean, `eslint` clean (only the pre-existing TrustSection warning), `next build` passes —
+  `/wycena/taras` prerenders static, all 7 offer slugs still SSG. Eyeballed in-browser (image +
+  shape-1 fixes applied from user feedback); form submit drives the console-logging action.
+
 ### Process Timeline — shared 6-step journey (2026-07-07)
 
 Shared **`ProcessTimeline`** section — Complex's fixed 6-step customer journey (zapytanie →
