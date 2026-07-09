@@ -165,9 +165,11 @@ export default function TrustSection({ data }: { data?: TrustSectionType }) {
                       aria-hidden="true"
                     />
                   </div>
-                  <p className="mt-4 font-heading text-5xl font-bold text-white">
-                    <StatValue raw={stat.value} triggered={countersTriggered} />
-                  </p>
+                  {stegaClean(stat.value ?? '').trim() && (
+                    <p className="mt-4 font-heading text-5xl font-bold text-white">
+                      <StatValue raw={stat.value} triggered={countersTriggered} />
+                    </p>
+                  )}
                   <p className="mt-2 font-body text-sm font-semibold text-white">{stat.label}</p>
                   {stat.description && (
                     <p className="mt-1 font-body text-sm text-silver">{stat.description}</p>

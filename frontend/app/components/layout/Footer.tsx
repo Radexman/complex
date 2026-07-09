@@ -19,10 +19,6 @@ import { urlForImage } from '@/sanity/lib/utils';
 
 type NavLink = { label: string; href: string };
 
-/**
- * Map a Sanity social-platform value to its brand glyph. lucide-react dropped
- * brand icons in v1, so the social logos come from react-icons (Font Awesome 6).
- */
 const SOCIAL_ICONS: Record<string, IconType> = {
   instagram: FaInstagram,
   facebook: FaFacebookF,
@@ -45,7 +41,6 @@ const OFERTA_LINKS: NavLink[] = [
 const FIRMA_LINKS: NavLink[] = [
   { label: 'O nas', href: '/o-nas' },
   { label: 'Realizacje', href: '/realizacje' },
-  { label: 'Kierownik budowy', href: '/kierownik-budowy' },
   { label: 'Kontakt', href: '/kontakt' },
 ];
 
@@ -61,21 +56,6 @@ const LEGAL_LINKS: NavLink[] = [
   { label: 'Regulamin', href: '/regulamin' },
   { label: 'Polityka cookies', href: '/polityka-cookies' },
 ];
-
-// In-component Polish fallbacks — `initialValue` only seeds a freshly created
-// document, so the rendered footer stays populated before an editor saves one.
-const FALLBACK = {
-  logoText: 'Complex',
-  logoLetter: 'C',
-  logoHref: '/',
-  tagline:
-    'Aluminiowe zadaszenia i nowoczesne przestrzenie zewnętrzne. Wykonane z precyzją dla wymagających klientów.',
-  contactName: 'Complex sp. z o.o.',
-  contactAddress: 'Kępska 12, 46-020 Opole',
-  contactPhone: '+48 000 000 000',
-  contactEmail: 'biuro@complex.pl',
-  copyrightText: '© 2026 Complex sp. z o.o. Wszelkie prawa zastrzeżone.',
-};
 
 function LinkColumn({ heading, links }: { heading: string; links: NavLink[] }) {
   return (
@@ -100,31 +80,28 @@ function LinkColumn({ heading, links }: { heading: string; links: NavLink[] }) {
 export default async function Footer() {
   const { data: footer } = await sanityFetch({ query: footerQuery });
 
-  const logoText = footer?.logo?.text ?? FALLBACK.logoText;
-  const logoLetter = footer?.logo?.iconLetter ?? FALLBACK.logoLetter;
-  const logoHref = footer?.logo?.href ?? FALLBACK.logoHref;
-  const logoImageUrl = footer?.logo?.logoImage?.asset
+  if (!footer) return null;
+
+  const logoText = footer.logo?.text;
+  const logoLetter = footer.logo?.iconLetter;
+  const logoHref = footer.logo?.href ?? '/';
+  const logoImageUrl = footer.logo?.logoImage?.asset
     ? urlForImage(footer.logo.logoImage)?.height(96).fit('max').url()
     : undefined;
-  const tagline = footer?.tagline ?? FALLBACK.tagline;
-  const contactName = footer?.contactName ?? FALLBACK.contactName;
-  const contactAddress = footer?.contactAddress ?? FALLBACK.contactAddress;
-  const contactPhone = footer?.contactPhone ?? FALLBACK.contactPhone;
-  const contactEmail = footer?.contactEmail ?? FALLBACK.contactEmail;
-  const copyrightText = footer?.copyrightText ?? FALLBACK.copyrightText;
-  const socialLinks = (footer?.socialLinks ?? []).filter((link) => link?.platform && link?.href);
+  const tagline = footer.tagline;
+  const contactName = footer.contactName;
+  const contactAddress = footer.contactAddress;
+  const contactPhone = footer.contactPhone;
+  const contactEmail = footer.contactEmail;
+  const copyrightText = footer.copyrightText;
+  const socialLinks = (footer.socialLinks ?? []).filter((link) => link?.platform && link?.href);
 
   return (
     <footer className="border-t border-graphite bg-bg-deep">
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid grid-cols-1 gap-12 pt-16 pb-12 md:grid-cols-2 lg:grid-cols-5">
-          {/* Column 1 — Brand */}
           <div className="lg:col-span-1">
-            <Link
-              href={logoHref}
-              className="flex w-fit items-center gap-2.5"
-              aria-label={logoText}
-            >
+            <Link href={logoHref} className="flex w-fit items-center gap-2.5" aria-label={logoText}>
               {logoImageUrl ? (
                 <Image
                   src={logoImageUrl}
@@ -148,12 +125,14 @@ export default async function Footer() {
                 )
               )}
             </Link>
-            <p className="mt-4 max-w-xs font-body text-sm leading-relaxed text-silver">{tagline}</p>
+            {tagline && (
+              <p className="mt-4 max-w-xs font-body text-sm leading-relaxed text-silver">
+                {tagline}
+              </p>
+            )}
             {socialLinks.length > 0 && (
               <div className="mt-6 flex flex-wrap gap-2">
                 {socialLinks.map((link, index) => {
-                  // stegaClean strips Visual Editing watermark chars so the
-                  // platform value matches a SOCIAL_ICONS key (Trust/Offer pattern).
                   const Icon = SOCIAL_ICONS[stegaClean(link.platform)];
                   if (!Icon) return null;
                   return (
@@ -172,40 +151,40 @@ export default async function Footer() {
               </div>
             )}
           </div>
-
-          {/* Columns 2–4 — Nav groups */}
           <LinkColumn heading="Oferta" links={OFERTA_LINKS} />
           <LinkColumn heading="Firma" links={FIRMA_LINKS} />
           <LinkColumn heading="Narzędzia" links={NARZEDZIA_LINKS} />
-
-          {/* Column 5 — Kontakt */}
           <div>
             <h3 className="mb-4 font-heading text-sm font-semibold text-white">Kontakt</h3>
             <div className="font-body text-sm leading-relaxed text-silver">
-              <p className="font-medium text-white">{contactName}</p>
-              <p className="mt-3 flex items-start gap-2">
-                <MapPin size={14} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
-                <span>{contactAddress}</span>
-              </p>
-              <a
-                href={`tel:${contactPhone.replace(/\s+/g, '')}`}
-                className="mt-3 flex items-start gap-2 transition-colors hover:text-white"
-              >
-                <Phone size={14} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
-                <span>{contactPhone}</span>
-              </a>
-              <a
-                href={`mailto:${contactEmail}`}
-                className="mt-3 flex items-start gap-2 transition-colors hover:text-white"
-              >
-                <Mail size={14} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
-                <span>{contactEmail}</span>
-              </a>
+              {contactName && <p className="font-medium text-white">{contactName}</p>}
+              {contactAddress && (
+                <p className="mt-3 flex items-start gap-2">
+                  <MapPin size={14} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
+                  <span>{contactAddress}</span>
+                </p>
+              )}
+              {contactPhone && (
+                <a
+                  href={`tel:${contactPhone.replace(/\s+/g, '')}`}
+                  className="mt-3 flex items-start gap-2 transition-colors hover:text-white"
+                >
+                  <Phone size={14} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
+                  <span>{contactPhone}</span>
+                </a>
+              )}
+              {contactEmail && (
+                <a
+                  href={`mailto:${contactEmail}`}
+                  className="mt-3 flex items-start gap-2 transition-colors hover:text-white"
+                >
+                  <Mail size={14} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
+                  <span>{contactEmail}</span>
+                </a>
+              )}
             </div>
           </div>
         </div>
-
-        {/* Bottom bar */}
         <div className="flex flex-col items-center justify-between gap-4 border-t border-graphite py-6 md:flex-row">
           <p className="font-body text-xs text-silver">{copyrightText}</p>
           <div className="flex gap-6">

@@ -2,15 +2,35 @@
 
 ## Status
 
-Not Started
+In Progress
 
 ## Goals
 
-<!-- Bullet points of what success looks like -->
+Client feedback pass (source: `context/feedback/ZMIANY STRONA.docx`) — the **easy-win**
+subset only. The medium / discussion items from the same doc are tracked separately.
+
+- **#1 Logo bigger (+~25%)** — enlarge the navbar logo within the existing header bar.
+- **#3a Hero CTA swap** — primary (green, first) = „Darmowa wycena"; secondary (gray, second)
+  = „Nasze realizacje". Currently reversed. CMS-content fix on the `heroSection` singleton.
+- **#3b Trust — drop the placeholder numbers** — the four `trustSection` cards show a big
+  „1/2/3/4" (the client only typed numbers because `value` was required). Make `trustStat.value`
+  optional, hide the number block when empty, and clear the four values.
+- **#5 Remove „Kierownik budowy"** — drop the nav link (Navbar) + footer link (Footer). No
+  route exists, so nothing else to remove.
+- **#9 Map pin label** — add a „CCOMPLEX ZADASZENIA I TARASY" title line to the showroom map
+  popup (currently address-only).
 
 ## Notes
 
-<!-- Additional context, constraints, or details from spec -->
+- Deferred to their own pass (NOT in this branch): #2 logo redesign (designer task), #4 emphasize
+  „C" in body copy (needs scope decision), #6 rename „zadaszenia aluminiowe → tarasowe",
+  #7 rename „tarasy z płyt gresowych → gresowe", #8 add „pomiar" step to Process Timeline,
+  #10 split office info in Contact.
+- Content-only fixes (#3a, plus clearing #3b values) are applied via Sanity MCP patch+publish
+  (hosted Studio still needs a redeploy) — live immediately, independent of the code merge.
+- Pre-existing uncommitted `Footer.tsx` / `OfferTechSpecs.tsx` edits: `Footer.tsx` is genuinely
+  touched here (#5), so its pending refactor rides along in this commit; `OfferTechSpecs.tsx`
+  stays excluded (unrelated).
 
 ## History
 
