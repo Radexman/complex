@@ -1,6 +1,7 @@
 import {
   CheckmarkCircleIcon,
   CogIcon,
+  ComponentIcon,
   ImageIcon,
   ImagesIcon,
   MenuIcon,
@@ -80,6 +81,12 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .title('Realizacje')
         .icon(ImageIcon)
         .child(S.documentTypeList('project').title('Realizacje')),
+      S.listItem()
+        .title('Formularz Tarasu')
+        .icon(ComponentIcon)
+        .child(
+          S.document().schemaType('tarasFormConfig').documentId('tarasFormConfig'),
+        ),
       S.divider(),
       // Settings Singleton in order to view/edit the one particular document for Settings.  Learn more about Singletons: https://www.sanity.io/docs/create-a-link-to-a-single-edit-page-in-your-main-document-type-list
       S.listItem()
