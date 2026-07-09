@@ -14,6 +14,8 @@ import { bottomCtaSection } from './objects/bottomCtaSection';
 import { processTimeline } from './objects/processTimeline';
 import { processStep } from './objects/processStep';
 import { footer } from './objects/footer';
+import { tarasFormConfig } from './objects/tarasFormConfig';
+import { tarasShape } from './objects/tarasShape';
 import { project } from './documents/project';
 import { service } from './documents/service';
 
@@ -32,6 +34,7 @@ export const schemaTypes = [
   bottomCtaSection,
   processTimeline,
   footer,
+  tarasFormConfig,
   // Collections (multiple documents)
   project,
   service,
@@ -41,4 +44,5 @@ export const schemaTypes = [
   offerCard,
   aboutBadge,
   processStep,
+  tarasShape,
 ];

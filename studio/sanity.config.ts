@@ -77,6 +77,10 @@ export default defineConfig({
             filter: `_type == "service" && slug.current == $slug || _id == $slug`,
           },
           {
+            route: '/wycena/taras',
+            filter: `_type == "tarasFormConfig" && _id == "tarasFormConfig"`,
+          },
+          {
             route: '/:slug',
             filter: `_type == "page" && slug.current == $slug || _id == $slug`,
           },
@@ -140,6 +144,11 @@ export default defineConfig({
           footer: defineLocations({
             locations: [homeLocation],
             message: 'Stopka jest używana na wszystkich stronach',
+            tone: 'positive',
+          }),
+          tarasFormConfig: defineLocations({
+            locations: [{ title: 'Formularz Wyceny Tarasu', href: '/wycena/taras' }],
+            message: 'Kształty tarasu są używane w formularzu wyceny tarasu',
             tone: 'positive',
           }),
           service: defineLocations({

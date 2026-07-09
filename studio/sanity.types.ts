@@ -15,6 +15,28 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: ../sanity.schema.json
+export type SanityImageAssetReference = {
+  _ref: string;
+  _type: 'reference';
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+};
+
+export type TarasShape = {
+  _type: 'tarasShape';
+  shapeNumber: '1' | '2' | '3' | '4';
+  label: string;
+  image?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: 'image';
+  };
+  sides: Array<string>;
+};
+
 export type ProcessStep = {
   _type: 'processStep';
   number: string;
@@ -28,13 +50,6 @@ export type AboutBadge = {
   icon: 'gem' | 'target' | 'wrench' | 'award';
   title: string;
   description: string;
-};
-
-export type SanityImageAssetReference = {
-  _ref: string;
-  _type: 'reference';
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
 };
 
 export type OfferCard = {
@@ -232,6 +247,19 @@ export type Project = {
   };
   surface?: number;
   isFeatured?: boolean;
+};
+
+export type TarasFormConfig = {
+  _id: string;
+  _type: 'tarasFormConfig';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  shapes: Array<
+    {
+      _key: string;
+    } & TarasShape
+  >;
 };
 
 export type Footer = {
@@ -717,9 +745,10 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+  | SanityImageAssetReference
+  | TarasShape
   | ProcessStep
   | AboutBadge
-  | SanityImageAssetReference
   | OfferCard
   | TrustStat
   | HeroStat
@@ -728,6 +757,7 @@ export type AllSanitySchemaTypes =
   | SanityImageHotspot
   | Slug
   | Project
+  | TarasFormConfig
   | Footer
   | ProcessTimeline
   | BottomCtaSection
