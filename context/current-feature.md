@@ -2,37 +2,54 @@
 
 ## Status
 
-In Progress
+Not Started
 
 ## Goals
 
-Client feedback pass (source: `context/feedback/ZMIANY STRONA.docx`) — the **easy-win**
-subset only. The medium / discussion items from the same doc are tracked separately.
-
-- **#1 Logo bigger (+~25%)** — enlarge the navbar logo within the existing header bar.
-- **#3a Hero CTA swap** — primary (green, first) = „Darmowa wycena"; secondary (gray, second)
-  = „Nasze realizacje". Currently reversed. CMS-content fix on the `heroSection` singleton.
-- **#3b Trust — drop the placeholder numbers** — the four `trustSection` cards show a big
-  „1/2/3/4" (the client only typed numbers because `value` was required). Make `trustStat.value`
-  optional, hide the number block when empty, and clear the four values.
-- **#5 Remove „Kierownik budowy"** — drop the nav link (Navbar) + footer link (Footer). No
-  route exists, so nothing else to remove.
-- **#9 Map pin label** — add a „CCOMPLEX ZADASZENIA I TARASY" title line to the showroom map
-  popup (currently address-only).
+<!-- Bullet points of what success looks like -->
 
 ## Notes
 
-- Deferred to their own pass (NOT in this branch): #2 logo redesign (designer task), #4 emphasize
-  „C" in body copy (needs scope decision), #6 rename „zadaszenia aluminiowe → tarasowe",
-  #7 rename „tarasy z płyt gresowych → gresowe", #8 add „pomiar" step to Process Timeline,
-  #10 split office info in Contact.
-- Content-only fixes (#3a, plus clearing #3b values) are applied via Sanity MCP patch+publish
-  (hosted Studio still needs a redeploy) — live immediately, independent of the code merge.
-- Pre-existing uncommitted `Footer.tsx` / `OfferTechSpecs.tsx` edits: `Footer.tsx` is genuinely
-  touched here (#5), so its pending refactor rides along in this commit; `OfferTechSpecs.tsx`
-  stays excluded (unrelated).
+<!-- Additional context, constraints, or details from spec -->
 
 ## History
+
+### Client Feedback — Easy Wins (2026-07-09)
+
+First pass over the client's post-launch review (`context/feedback/ZMIANY STRONA.docx`, a 10-row
+Polish table). Comprehended + triaged all 10 into easy / medium / discussion; this branch shipped
+only the **easy-win** subset (#1, #3a, #3b, #5, #9). The medium items (#6, #7, #8, #10) go on a
+follow-up branch; the discussion items (#2 logo redesign, #4 emphasize „C" in copy) await client
+decisions.
+
+- **#1 Logo bigger** — navbar logo enlarged ~+25%: image `h-12`→`h-15` (source req `height(96)`
+  →`height(160)` for crispness) and the letter/text fallback bumped (square `h-10`→`h-12`, text
+  `text-xl`→`text-2xl`). Stays within the existing `h-16` header bar; footer logo left as-is.
+- **#3a Hero CTA swap** — CMS-content fix on the `heroSection` singleton (code already maps
+  primary=green/first, secondary=gray/second): primary → „Darmowa wycena" `/wycena/zadaszenie`,
+  secondary → „Nasze realizacje" `/realizacje`. Patched + **published** (no pending draft, clean).
+- **#3b Trust — drop placeholder numbers** — the four `trustSection` cards showed a meaningless big
+  „1/2/3/4" (client typed them only because `value` was `required`). Made `trustStat.value`
+  **optional** (schema), hid the number block when empty (`TrustSection.tsx`), and unset the four
+  values. `trustSection` had a **pending client draft** (eyebrow „Dlaczego CComplex?" →
+  „Zaufanie budowane doświadczeniem"); per the user's call, **published** it — so both the number
+  removal and that eyebrow edit went live together.
+- **#5 Remove „Kierownik budowy"** — dropped from `Navbar` `NAV_LINKS` + `Footer` `FIRMA_LINKS`.
+  No `/kierownik-budowy` route existed, so nothing else to remove.
+- **#9 Map pin label** — added a bold „CCOMPLEX ZADASZENIA I TARASY" title line above the address
+  in the `ShowroomMap` Leaflet popup (hardcoded, like the existing address).
+- **Content vs. code:** #3a and clearing #3b's values are **live now** via Sanity publish
+  (independent of the merge); the hosted **Studio still needs a redeploy** so the client sees the
+  now-optional Trust `value` field and can self-edit.
+- **Dev-server caching gotcha:** after publishing the hero swap, the SSR curl kept showing old CTAs
+  — traced to Next's data cache (not a bug; a real browser's `<SanityLive>` invalidates it).
+  Confirmed correct after a full `.next` clear + restart; CDN + live API both returned fresh data.
+- **Pre-existing edits:** `Footer.tsx` carried a long-standing uncommitted refactor (drops
+  fallbacks / early-returns null) — since #5 genuinely edits it, that refactor rode along in this
+  commit. `OfferTechSpecs.tsx` (unrelated `flex-shrink-0`→`shrink-0`) stayed **excluded**.
+- Verified: `type-check` (both workspaces), `eslint` (only the pre-existing TrustSection warning),
+  **29/29 Vitest**, `next build` (all pages prerender) all pass. Hero swap + Kierownik removal +
+  logo size eyeballed via served HTML; map popup is client-only Leaflet (trivial string).
 
 ### Formularz Wyceny Tarasu — `/wycena/taras` (2026-07-08)
 
