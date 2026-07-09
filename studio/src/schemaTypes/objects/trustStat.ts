@@ -34,9 +34,9 @@ export const trustStat = defineType({
     defineField({
       name: 'value',
       title: 'Wartość',
-      description: 'Duża liczba lub tekst, np. "1200+", "15", "98%".',
+      description:
+        'Opcjonalna duża liczba lub tekst, np. "1200+", "15", "98%". Zostaw puste, aby ukryć liczbę i pokazać samą etykietę z opisem.',
       type: 'string',
-      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'label',

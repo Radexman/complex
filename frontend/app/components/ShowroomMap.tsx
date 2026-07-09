@@ -14,6 +14,7 @@ L.Icon.Default.mergeOptions({
 
 // Kępska 12, 46-020 Opole — hardcoded, not from Sanity.
 const SHOWROOM_COORDS: [number, number] = [50.6751, 17.9213];
+const SHOWROOM_NAME = 'CCOMPLEX ZADASZENIA I TARASY';
 const SHOWROOM_ADDRESS = 'Kępska 12, 46-020 Opole';
 const DIRECTIONS_URL =
   'https://www.google.com/maps/dir/?api=1&destination=K%C4%99pska+12%2C+46-020+Opole';
@@ -41,7 +42,8 @@ export default function ShowroomMap() {
       />
       <Marker position={SHOWROOM_COORDS} icon={greenIcon}>
         <Popup>
-          <span className="font-body text-sm font-semibold text-black">{SHOWROOM_ADDRESS}</span>
+          <span className="block font-heading text-sm font-bold text-black">{SHOWROOM_NAME}</span>
+          <span className="mt-1 block font-body text-sm text-black">{SHOWROOM_ADDRESS}</span>
           <a
             href={DIRECTIONS_URL}
             target="_blank"

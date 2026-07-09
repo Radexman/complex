@@ -88,7 +88,7 @@ export type OfferCard = {
 export type TrustStat = {
   _type: 'trustStat';
   icon: 'shield' | 'clock' | 'award' | 'users' | 'star' | 'check' | 'tool' | 'map';
-  value: string;
+  value?: string;
   label: string;
   description?: string;
 };

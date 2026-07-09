@@ -50,7 +50,6 @@ const OFFER_FORM_HREFS: Record<string, string> = {
 const NAV_LINKS: NavItem[] = [
   { label: 'Realizacje', href: '/realizacje' },
   { label: 'O nas', href: '/o-nas' },
-  { label: 'Kierownik budowy', href: '/kierownik-budowy' },
   { label: 'Kontakt', href: '/kontakt' },
 ];
 
@@ -144,7 +143,7 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
   const logoLetter = navbar?.logo?.iconLetter;
   const logoHref = navbar?.logo?.href ?? '/';
   const logoImageUrl = navbar?.logo?.logoImage?.asset
-    ? urlForImage(navbar.logo.logoImage)?.height(96).fit('max').url()
+    ? urlForImage(navbar.logo.logoImage)?.height(160).fit('max').url()
     : undefined;
   const ctaLabel = navbar?.ctaButton?.label;
   const ctaHref = navbar?.ctaButton?.href;
@@ -170,21 +169,21 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
             <Image
               src={logoImageUrl}
               alt={logoText ?? ''}
-              width={240}
-              height={48}
-              className="h-12 w-auto object-contain"
+              width={300}
+              height={60}
+              className="h-15 w-auto object-contain"
               priority
             />
           ) : (
             (logoLetter || logoText) && (
               <>
                 {logoLetter && (
-                  <span className="flex h-10 w-10 items-center justify-center rounded-md bg-accent font-heading text-xl font-bold text-black">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-md bg-accent font-heading text-2xl font-bold text-black">
                     {logoLetter}
                   </span>
                 )}
                 {logoText && (
-                  <span className="font-heading text-xl font-bold text-white">{logoText}</span>
+                  <span className="font-heading text-2xl font-bold text-white">{logoText}</span>
                 )}
               </>
             )
