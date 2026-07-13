@@ -14,6 +14,55 @@ Not Started
 
 ## History
 
+### Formularz Wyceny Żaluzji — `/wycena/zaluzje` (2026-07-13)
+
+Third of the four quotation forms — the terrace blinds form and the **simplest**: no shape
+selector, no dropdowns, no CMS content. Reuses the **react-hook-form + Zod + Ark UI** foundation
+from `/wycena/taras` (2026-07-08) and `/wycena/zadaszenie` (2026-07-13) wholesale. Spec:
+`context/features/blinds-quotation-spec.md`. Reconciled the spec's `src/...` paths → repo's
+`frontend/app/...`, same as every prior feature. **No Sanity work** — every field is a fixed value,
+so nothing to seed, no Studio redeploy, no type regen. **Zero new shared primitives** — all five
+inputs come from `forms/shared/`.
+
+- **Validation (`app/lib/validations/zaluzjeForm.ts`):** Zod v4 schema — `openingHeight` (≤ 500 cm)
+  and `openingWidth` (≤ 1000 cm) in **centimetres** (the other two forms use metres), plus the
+  standard contact block, `installationService`, `notes`, `photo` and the two consents. Both
+  dimensions reuse Taras's `preprocess` that maps `''` → `undefined` before coercion, so the
+  „required" message wins over a coercion error. **Dropped `.default(false)`** on the booleans (the
+  spec had it) — same call as the prior two forms, so Zod's _input_ types stay a clean `boolean`.
+- **Action (`app/lib/actions/submitZaluzjeForm.ts`, `'use server'`):** same shape as
+  `submitZadaszenieForm` — a `formDataToObject` that rebuilds a typed object from the multipart
+  FormData (`=== 'true'` for booleans, raw strings for the coerced numbers), `safeParse`, then a
+  structured `console.log` (Resend is a later spec). Deviates from the spec's bare
+  `Object.fromEntries`, which would have left the checkboxes as the string `'true'`.
+- **Dimensions use `FormNumberInput`, not the spec's `FormInput type="number"`** — same reasoning as
+  Zadaszenie: that component exists precisely because Taras replaced the browser's default spinner
+  arrows with themed chevron steppers. Its `error` prop needs a `FieldError` cast (the `preprocess`
+  makes the RHF **input** type `unknown`).
+- **`ZaluzjeForm.tsx`:** `useForm<Input, unknown, Output>` + `zodResolver`, `mode: 'onBlur'`,
+  `shouldUnregister: true`. Two-column `max-w-6xl` grid (single column on mobile): **left** = the
+  section label + helper, the two dimension inputs, and a glass „Jak mierzyć otwór?" info card
+  (`Info` icon, purely informational — the spec called for it because the left column is otherwise
+  nearly empty); **right** = contact + postal code, install service, notes, photo dropzone,
+  RODO/marketing consents, submit. Success panel, submit copy and consent block are identical to the
+  other two forms. **User tweak during the session:** `md:mt-10` on the dimension stack so its first
+  input lines up with „Imię i nazwisko" in the right column.
+- **Page (`app/wycena/zaluzje/page.tsx`):** plain server component, static metadata, the same hero as
+  the other two form pages (`pt-28` to clear the fixed navbar). No `sanityFetch`.
+- **Route was already wired:** `/wycena/zaluzje` existed in the Navbar mega-menu, the Footer, and the
+  `zaluzje-tarasowe` offer page's `OFFER_FORM_HREFS` CTA — those links were dead until this branch.
+- **Left untouched (same precedent as the prior forms):** the pre-existing uncommitted
+  `OfferTechSpecs.tsx` + `FeaturedProjectsSection.tsx` edits, the line-ending-only `sanity.types.ts` /
+  `sanity.schema.json` drift, and the three untracked future specs (`about-us`, `contact-page`,
+  `stairs-quotation`) — excluded from the commit. The `blinds-quotation-spec` **was** committed with
+  the feature.
+- Verified: **72/72 Vitest** (53 existing + 19 new), `type-check` (both workspaces), `eslint` (only
+  the pre-existing TrustSection warning), `next build` — `/wycena/zaluzje` prerenders static, all 7
+  offer slugs still SSG. Served HTML checked (hero, both dimension labels, info card, every
+  right-column field). ⚠️ The form's **interactive** behavior (on-blur validation, dropzone, a real
+  submit through the action) was **not** driven in a browser — worth a click-through, same caveat as
+  Zadaszenie.
+
 ### Formularz Wyceny Zadaszenia — `/wycena/zadaszenie` (2026-07-13)
 
 Second of the four quotation forms — the canopy/roof form — reusing the **react-hook-form + Zod +
