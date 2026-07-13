@@ -5,7 +5,7 @@ import { useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import { MapPin, Phone, Mail } from 'lucide-react';
+import { Building2, MapPin, Phone, Mail } from 'lucide-react';
 
 import type { BottomCtaQueryResult } from '@/sanity.types';
 
@@ -29,6 +29,8 @@ export type ContactShowroomData = Pick<
   | 'showroomLabel'
   | 'showroomDescription'
   | 'showroomAddress'
+  | 'officeLabel'
+  | 'officeDescription'
 >;
 
 export default function ContactShowroom({
@@ -39,6 +41,8 @@ export default function ContactShowroom({
   showroomLabel,
   showroomDescription,
   showroomAddress,
+  officeLabel,
+  officeDescription,
 }: ContactShowroomData) {
   const container = useRef<HTMLDivElement>(null);
 
@@ -119,6 +123,21 @@ export default function ContactShowroom({
               <MapPin size={16} className="text-accent" aria-hidden="true" />
               {showroomAddress}
             </p>
+          )}
+
+          {/* Office — a separate entry below the showroom (meetings are by appointment). */}
+          {(officeLabel || officeDescription) && (
+            <div className="mt-8 border-t border-graphite pt-6">
+              {officeLabel && (
+                <h4 className="flex items-center gap-2 font-heading text-lg font-bold text-white">
+                  <Building2 size={18} className="text-accent" aria-hidden="true" />
+                  {officeLabel}
+                </h4>
+              )}
+              {officeDescription && (
+                <p className="mt-2 font-body text-base text-silver">{officeDescription}</p>
+              )}
+            </div>
           )}
         </div>
 

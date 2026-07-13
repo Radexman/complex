@@ -40,7 +40,14 @@ export type TarasShape = {
 export type ProcessStep = {
   _type: 'processStep';
   number: string;
-  icon: 'mail' | 'calculator' | 'file-check' | 'file-signature' | 'hammer' | 'shield-check';
+  icon:
+    | 'mail'
+    | 'calculator'
+    | 'ruler'
+    | 'file-check'
+    | 'file-signature'
+    | 'hammer'
+    | 'shield-check';
   title: string;
   description?: string;
 };
@@ -76,7 +83,7 @@ export type OfferCard = {
   featured?: boolean;
   badges?: Array<string>;
   offerSlug?:
-    | 'zadaszenia-aluminiowe'
+    | 'zadaszenia-tarasowe'
     | 'zaluzje-tarasowe'
     | 'tarasy-kompozytowe'
     | 'tarasy-gresowe'
@@ -88,7 +95,7 @@ export type OfferCard = {
 export type TrustStat = {
   _type: 'trustStat';
   icon: 'shield' | 'clock' | 'award' | 'users' | 'star' | 'check' | 'tool' | 'map';
-  value: string;
+  value?: string;
   label: string;
   description?: string;
 };
@@ -120,7 +127,7 @@ export type Service = {
   heroSubheadline?: string;
   relatedFormSlug?: 'zadaszenie' | 'zaluzje' | 'taras' | 'schody';
   category:
-    | 'zadaszenia-aluminiowe'
+    | 'zadaszenia-tarasowe'
     | 'zaluzje-tarasowe'
     | 'tarasy-kompozytowe'
     | 'tarasy-gresowe'
@@ -230,7 +237,7 @@ export type Project = {
   title: string;
   city: string;
   category:
-    | 'zadaszenia-aluminiowe'
+    | 'zadaszenia-tarasowe'
     | 'zaluzje-tarasowe'
     | 'tarasy-kompozytowe'
     | 'tarasy-gresowe'
@@ -339,6 +346,8 @@ export type BottomCtaSection = {
   showroomLabel?: string;
   showroomDescription?: string;
   showroomAddress?: string;
+  officeLabel?: string;
+  officeDescription?: string;
 };
 
 export type RealizacjePage = {

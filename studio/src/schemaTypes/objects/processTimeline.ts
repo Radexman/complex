@@ -32,10 +32,10 @@ export const processTimeline = defineType({
     defineField({
       name: 'steps',
       title: 'Kroki',
-      description: 'Kolejne etapy współpracy (6 kroków stałego procesu).',
+      description: 'Kolejne etapy współpracy (7 kroków stałego procesu).',
       type: 'array',
       of: [defineArrayMember({ type: 'processStep' })],
-      validation: (rule) => rule.required().min(1).max(6),
+      validation: (rule) => rule.required().min(1).max(7),
       initialValue: [
         {
           _type: 'processStep',
@@ -56,14 +56,22 @@ export const processTimeline = defineType({
         {
           _type: 'processStep',
           number: '03',
-          icon: 'file-check',
-          title: 'Wycena końcowa',
+          icon: 'ruler',
+          title: 'Pomiar',
           description:
-            'Po bezpłatnej wizycie pomiarowej na miejscu inwestycji przygotowujemy szczegółową, ostateczną wycenę uwzględniającą wszystkie ustalenia.',
+            'Umawiamy bezpłatną wizytę pomiarową na miejscu inwestycji. Dokładnie mierzymy przestrzeń i weryfikujemy warunki montażu.',
         },
         {
           _type: 'processStep',
           number: '04',
+          icon: 'file-check',
+          title: 'Wycena końcowa',
+          description:
+            'Na podstawie wykonanych pomiarów przygotowujemy szczegółową, ostateczną wycenę uwzględniającą wszystkie ustalenia.',
+        },
+        {
+          _type: 'processStep',
+          number: '05',
           icon: 'file-signature',
           title: 'Umowa',
           description:
@@ -71,7 +79,7 @@ export const processTimeline = defineType({
         },
         {
           _type: 'processStep',
-          number: '05',
+          number: '06',
           icon: 'hammer',
           title: 'Montaż',
           description:
@@ -79,7 +87,7 @@ export const processTimeline = defineType({
         },
         {
           _type: 'processStep',
-          number: '06',
+          number: '07',
           icon: 'shield-check',
           title: 'Gwarancja',
           description:

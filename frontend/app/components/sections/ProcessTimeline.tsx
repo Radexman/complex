@@ -11,6 +11,7 @@ import {
   FileSignature,
   Hammer,
   Mail,
+  Ruler,
   ShieldCheck,
   type LucideIcon,
 } from 'lucide-react';
@@ -22,6 +23,7 @@ gsap.registerPlugin(ScrollTrigger);
 const ICON_MAP: Record<string, LucideIcon> = {
   'mail': Mail,
   'calculator': Calculator,
+  'ruler': Ruler,
   'file-check': FileCheck,
   'file-signature': FileSignature,
   'hammer': Hammer,

@@ -61,12 +61,12 @@ export const offerSection = defineType({
           icon: 'layers',
           featured: true,
           badges: ['Powłoka proszkowa', '10 lat gwarancji', 'Wymiary na zamówienie'],
-          offerSlug: 'zadaszenia-aluminiowe',
+          offerSlug: 'zadaszenia-tarasowe',
         },
         {
-          title: 'Tarasy z płyt gresowych',
+          title: 'Tarasy gresowe',
           description:
-            'Tarasy z płyt gresowych są jednym z najbardziej wytrzymałych rozwiązań w zakresie konstrukcji ogrodowych',
+            'Tarasy gresowe są jednym z najbardziej wytrzymałych rozwiązań w zakresie konstrukcji ogrodowych',
           icon: 'sliders-horizontal',
         },
         {
@@ -75,8 +75,8 @@ export const offerSection = defineType({
           icon: 'sparkles',
         },
         {
-          title: 'Zadaszenia aluminiowe',
-          description: 'Zadaszenia aluminiowe na taras - trwałe, stabilne i praktyczne!',
+          title: 'Zadaszenia tarasowe',
+          description: 'Zadaszenia tarasowe - trwałe, stabilne i praktyczne!',
           icon: 'sun',
         },
         {

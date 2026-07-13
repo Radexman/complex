@@ -176,6 +176,10 @@
               },
               {
                 "type": "string",
+                "value": "ruler"
+              },
+              {
+                "type": "string",
                 "value": "file-check"
               },
               {
@@ -412,7 +416,7 @@
             "of": [
               {
                 "type": "string",
-                "value": "zadaszenia-aluminiowe"
+                "value": "zadaszenia-tarasowe"
               },
               {
                 "type": "string",
@@ -710,7 +714,7 @@
           "of": [
             {
               "type": "string",
-              "value": "zadaszenia-aluminiowe"
+              "value": "zadaszenia-tarasowe"
             },
             {
               "type": "string",
@@ -1336,7 +1340,7 @@
           "of": [
             {
               "type": "string",
-              "value": "zadaszenia-aluminiowe"
+              "value": "zadaszenia-tarasowe"
             },
             {
               "type": "string",
@@ -1992,6 +1996,20 @@
         "optional": true
       },
       "showroomAddress": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "officeLabel": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "officeDescription": {
         "type": "objectAttribute",
         "value": {
           "type": "string"

@@ -26,10 +26,10 @@ const ALL = 'all';
 
 /** Polish labels keyed by category value. Order here drives the tab order. */
 const CATEGORY_LABELS: Record<ProjectCategory, string> = {
-  'zadaszenia-aluminiowe': 'Zadaszenia aluminiowe',
+  'zadaszenia-tarasowe': 'Zadaszenia tarasowe',
   'zaluzje-tarasowe': 'Żaluzje tarasowe',
   'tarasy-kompozytowe': 'Tarasy kompozytowe',
-  'tarasy-gresowe': 'Tarasy z płyt gresowych',
+  'tarasy-gresowe': 'Tarasy gresowe',
   'tarasy-drewniane': 'Tarasy drewniane',
   'elewacje-kompozytowe': 'Elewacje kompozytowe',
   'schody-modulowe': 'Schody modułowe',
