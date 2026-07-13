@@ -24,6 +24,11 @@ export const tarasFormConfigQuery = defineQuery(
     }
   }`,
 );
+export const schodyFormConfigQuery = defineQuery(
+  `*[_type == "schodyFormConfig"][0]{
+    diagram
+  }`,
+);
 export const featuredProjectsQuery = defineQuery(
   `*[_type == "project" && isFeatured == true] | order(_createdAt desc){
     _id,

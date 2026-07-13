@@ -256,6 +256,22 @@ export type Project = {
   isFeatured?: boolean;
 };
 
+export type SchodyFormConfig = {
+  _id: string;
+  _type: 'schodyFormConfig';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  diagram?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    _type: 'image';
+  };
+};
+
 export type TarasFormConfig = {
   _id: string;
   _type: 'tarasFormConfig';
@@ -766,6 +782,7 @@ export type AllSanitySchemaTypes =
   | SanityImageHotspot
   | Slug
   | Project
+  | SchodyFormConfig
   | TarasFormConfig
   | Footer
   | ProcessTimeline

@@ -16,6 +16,7 @@ import { processStep } from './objects/processStep';
 import { footer } from './objects/footer';
 import { tarasFormConfig } from './objects/tarasFormConfig';
 import { tarasShape } from './objects/tarasShape';
+import { schodyFormConfig } from './objects/schodyFormConfig';
 import { project } from './documents/project';
 import { service } from './documents/service';
 
@@ -35,6 +36,7 @@ export const schemaTypes = [
   processTimeline,
   footer,
   tarasFormConfig,
+  schodyFormConfig,
   // Collections (multiple documents)
   project,
   service,

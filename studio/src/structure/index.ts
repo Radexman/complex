@@ -87,6 +87,12 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .child(
           S.document().schemaType('tarasFormConfig').documentId('tarasFormConfig'),
         ),
+      S.listItem()
+        .title('Formularz Schodów')
+        .icon(ComponentIcon)
+        .child(
+          S.document().schemaType('schodyFormConfig').documentId('schodyFormConfig'),
+        ),
       S.divider(),
       // Settings Singleton in order to view/edit the one particular document for Settings.  Learn more about Singletons: https://www.sanity.io/docs/create-a-link-to-a-single-edit-page-in-your-main-document-type-list
       S.listItem()
