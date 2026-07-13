@@ -1,6 +1,27 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import type { SendQuoteEmailsOptions } from '@/app/lib/email/sendQuoteEmails';
+import { sendQuoteEmails } from '@/app/lib/email/sendQuoteEmails';
 import { submitTarasForm } from './submitTarasForm';
+
+vi.mock('@/app/lib/email/sendQuoteEmails', () => ({
+  sendQuoteEmails: vi.fn(async () => ({ ok: true })),
+}));
+
+// Stubbed so the action's diagram lookup needs neither a Sanity project nor env vars.
+vi.mock('@/sanity/lib/client', () => ({ client: { fetch: vi.fn(async () => null) } }));
+vi.mock('@/sanity/lib/utils', () => ({
+  urlForImage: () => ({ width: () => ({ fit: () => ({ url: () => 'https://cdn/shape.png' }) }) }),
+}));
+
+const sendMock = vi.mocked(sendQuoteEmails);
+
+/** The options the action passed to the email layer on its last call. */
+function lastEmail(): SendQuoteEmailsOptions {
+  const call = sendMock.mock.calls.at(-1);
+  if (!call) throw new Error('sendQuoteEmails was not called');
+  return call[0];
+}
 
 interface FormValues {
   shape?: string;
@@ -63,69 +84,94 @@ function buildFormData(values: FormValues = {}): FormData {
   return formData;
 }
 
+beforeEach(() => {
+  sendMock.mockResolvedValue({ ok: true });
+});
+
 afterEach(() => {
-  vi.restoreAllMocks();
+  vi.clearAllMocks();
 });
 
 describe('submitTarasForm', () => {
-  it('returns success for a valid submission', async () => {
-    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+  it('returns success and sends the quote email for a valid submission', async () => {
     const result = await submitTarasForm(buildFormData());
+
     expect(result.success).toBe(true);
-    expect(logSpy).toHaveBeenCalled();
+    expect(sendMock).toHaveBeenCalledTimes(1);
+    expect(lastEmail().subject).toContain('Jan Kowalski');
+    expect(lastEmail().customer).toEqual({ name: 'Jan Kowalski', email: 'jan@example.com' });
   });
 
   it('reconstructs the multi-value building position from FormData', async () => {
-    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     await submitTarasForm(buildFormData({ buildingPosition: ['A', 'C'] }));
-    expect(logSpy).toHaveBeenCalledWith('Położenie budynku:', ['A', 'C']);
+    expect(lastEmail().html).toContain('A, C');
   });
 
-  it('coerces the installationService "true" string to a boolean', async () => {
-    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+  it('renders the installationService boolean as Polish', async () => {
     await submitTarasForm(buildFormData({ installationService: 'true' }));
-    expect(logSpy).toHaveBeenCalledWith('Montaż:', true);
+    expect(lastEmail().html).toContain('Tak');
   });
 
   it('treats a non-"true" installationService value as false', async () => {
-    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     await submitTarasForm(buildFormData({ installationService: 'false' }));
-    expect(logSpy).toHaveBeenCalledWith('Montaż:', false);
+    expect(lastEmail().html).toContain('Nie');
+  });
+
+  it('leaves the sides the selected shape does not use out of the email', async () => {
+    await submitTarasForm(buildFormData({ shape: '1', sides: { A: '3', B: '4' } }));
+    const { html } = lastEmail();
+
+    expect(html).toContain('Bok A');
+    expect(html).toContain('Bok B');
+    expect(html).not.toContain('Bok C');
+    expect(html).not.toContain('undefined');
+  });
+
+  it('attaches the uploaded photos and lists them in the email', async () => {
+    const photo = new File(['x'], 'ogrod.jpg', { type: 'image/jpeg' });
+    await submitTarasForm(buildFormData({ photos: [photo] }));
+
+    expect(lastEmail().attachments).toEqual([expect.objectContaining({ filename: 'ogrod.jpg' })]);
+    expect(lastEmail().html).toContain('ogrod.jpg');
   });
 
   it('fails and returns field errors when a required side is missing', async () => {
     const result = await submitTarasForm(
       buildFormData({ sides: { A: '3' }, requiredSides: ['A', 'B'] }),
     );
+
     expect(result.success).toBe(false);
     if (!result.success) {
-      expect(result.errors.fieldErrors.sideB).toBeDefined();
+      expect(result.errors?.fieldErrors.sideB).toBeDefined();
     }
+    expect(sendMock).not.toHaveBeenCalled();
   });
 
   it('fails when the RODO consent is not accepted', async () => {
     const result = await submitTarasForm(buildFormData({ consentRodo: 'false' }));
+
     expect(result.success).toBe(false);
     if (!result.success) {
-      expect(result.errors.fieldErrors.consentRodo).toBeDefined();
+      expect(result.errors?.fieldErrors.consentRodo).toBeDefined();
     }
   });
 
   it('fails on an invalid postal code', async () => {
     const result = await submitTarasForm(buildFormData({ postalCode: '44100' }));
+
     expect(result.success).toBe(false);
     if (!result.success) {
-      expect(result.errors.fieldErrors.postalCode).toBeDefined();
+      expect(result.errors?.fieldErrors.postalCode).toBeDefined();
     }
   });
 
-  it('logs attached photo metadata', async () => {
-    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
-    const photo = new File(['x'], 'ogrod.jpg', { type: 'image/jpeg' });
-    await submitTarasForm(buildFormData({ photos: [photo] }));
-    expect(logSpy).toHaveBeenCalledWith(
-      'Zdjęcia:',
-      expect.arrayContaining([expect.stringContaining('ogrod.jpg')]),
-    );
+  it('surfaces a failed send as an error instead of a silent success', async () => {
+    sendMock.mockResolvedValue({ ok: false, error: 'Nie udało się wysłać zapytania.' });
+    const result = await submitTarasForm(buildFormData());
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error).toBe('Nie udało się wysłać zapytania.');
+    }
   });
 });

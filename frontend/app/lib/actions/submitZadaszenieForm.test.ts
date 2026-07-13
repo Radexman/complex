@@ -1,7 +1,22 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import type { SendQuoteEmailsOptions } from '@/app/lib/email/sendQuoteEmails';
+import { sendQuoteEmails } from '@/app/lib/email/sendQuoteEmails';
 import { submitZadaszenieForm } from './submitZadaszenieForm';
 import { ROOF_TYPES } from '@/app/lib/validations/zadaszenieForm';
+
+vi.mock('@/app/lib/email/sendQuoteEmails', () => ({
+  sendQuoteEmails: vi.fn(async () => ({ ok: true })),
+}));
+
+const sendMock = vi.mocked(sendQuoteEmails);
+
+/** The options the action passed to the email layer on its last call. */
+function lastEmail(): SendQuoteEmailsOptions {
+  const call = sendMock.mock.calls.at(-1);
+  if (!call) throw new Error('sendQuoteEmails was not called');
+  return call[0];
+}
 
 interface FormValues {
   roofType?: string;
@@ -63,87 +78,106 @@ function buildFormData(values: FormValues = {}): FormData {
   return formData;
 }
 
+beforeEach(() => {
+  sendMock.mockResolvedValue({ ok: true });
+});
+
 afterEach(() => {
-  vi.restoreAllMocks();
+  vi.clearAllMocks();
 });
 
 describe('submitZadaszenieForm', () => {
-  it('returns success for a valid submission', async () => {
-    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+  it('returns success and sends the quote email for a valid submission', async () => {
     const result = await submitZadaszenieForm(buildFormData());
+
     expect(result.success).toBe(true);
-    expect(logSpy).toHaveBeenCalled();
+    expect(sendMock).toHaveBeenCalledTimes(1);
+    expect(lastEmail().subject).toContain('Jan Kowalski');
+    expect(lastEmail().customer).toEqual({ name: 'Jan Kowalski', email: 'jan@example.com' });
   });
 
   it('coerces the dimension strings to numbers', async () => {
-    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     await submitZadaszenieForm(buildFormData({ width: '5.5', depth: '3' }));
-    expect(logSpy).toHaveBeenCalledWith('Wymiary:', { szerokość: 5.5, głębokość: 3 });
+    const { html } = lastEmail();
+
+    expect(html).toContain('>5.5<');
+    expect(html).toContain('>3<');
   });
 
-  it('logs only the selected equipment, by label', async () => {
-    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+  it('lists only the selected equipment, by label', async () => {
     await submitZadaszenieForm(
       buildFormData({ equipment: ['equipLedLighting', 'equipGlasslessDoorsSlidingFront'] }),
     );
-    expect(logSpy).toHaveBeenCalledWith('Wyposażenie dodatkowe:', [
-      'Oświetlenie punktowe LED + pilot',
-      'Szyby bezramowe, drzwi przesuwne / front',
-    ]);
+    const { html } = lastEmail();
+
+    expect(html).toContain('Oświetlenie punktowe LED + pilot');
+    expect(html).toContain('Szyby bezramowe, drzwi przesuwne / front');
+    expect(html).not.toContain('Trójkąt boczny');
   });
 
-  it('logs an empty equipment list when nothing is selected', async () => {
-    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+  it('omits the equipment row entirely when nothing is selected', async () => {
     await submitZadaszenieForm(buildFormData());
-    expect(logSpy).toHaveBeenCalledWith('Wyposażenie dodatkowe:', []);
+    expect(lastEmail().html).not.toContain('Wyposażenie dodatkowe');
   });
 
-  it('coerces the installationService "true" string to a boolean', async () => {
-    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+  it('renders the installationService boolean as Polish', async () => {
     await submitZadaszenieForm(buildFormData({ installationService: 'false' }));
-    expect(logSpy).toHaveBeenCalledWith('Montaż:', false);
+    expect(lastEmail().html).toContain('Nie');
   });
 
   it('fails and returns field errors when the dimensions are missing', async () => {
     const result = await submitZadaszenieForm(buildFormData({ width: '', depth: '' }));
+
     expect(result.success).toBe(false);
     if (!result.success) {
-      expect(result.errors.fieldErrors.width).toBeDefined();
-      expect(result.errors.fieldErrors.depth).toBeDefined();
+      expect(result.errors?.fieldErrors.width).toBeDefined();
+      expect(result.errors?.fieldErrors.depth).toBeDefined();
     }
+    expect(sendMock).not.toHaveBeenCalled();
   });
 
   it('fails when the width exceeds 20 m', async () => {
     const result = await submitZadaszenieForm(buildFormData({ width: '25' }));
+
     expect(result.success).toBe(false);
     if (!result.success) {
-      expect(result.errors.fieldErrors.width).toBeDefined();
+      expect(result.errors?.fieldErrors.width).toBeDefined();
     }
   });
 
   it('fails when the RODO consent is not accepted', async () => {
     const result = await submitZadaszenieForm(buildFormData({ consentRodo: 'false' }));
+
     expect(result.success).toBe(false);
     if (!result.success) {
-      expect(result.errors.fieldErrors.consentRodo).toBeDefined();
+      expect(result.errors?.fieldErrors.consentRodo).toBeDefined();
     }
   });
 
   it('fails on an invalid postal code', async () => {
     const result = await submitZadaszenieForm(buildFormData({ postalCode: '44100' }));
+
     expect(result.success).toBe(false);
     if (!result.success) {
-      expect(result.errors.fieldErrors.postalCode).toBeDefined();
+      expect(result.errors?.fieldErrors.postalCode).toBeDefined();
     }
   });
 
-  it('logs attached photo metadata', async () => {
-    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+  it('attaches the uploaded photos and lists them in the email', async () => {
     const photo = new File(['x'], 'taras.jpg', { type: 'image/jpeg' });
     await submitZadaszenieForm(buildFormData({ photos: [photo] }));
-    expect(logSpy).toHaveBeenCalledWith(
-      'Zdjęcia:',
-      expect.arrayContaining([expect.stringContaining('taras.jpg')]),
-    );
+
+    expect(lastEmail().attachments).toEqual([expect.objectContaining({ filename: 'taras.jpg' })]);
+    expect(lastEmail().html).toContain('taras.jpg');
+  });
+
+  it('surfaces a failed send as an error instead of a silent success', async () => {
+    sendMock.mockResolvedValue({ ok: false, error: 'Nie udało się wysłać zapytania.' });
+    const result = await submitZadaszenieForm(buildFormData());
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error).toBe('Nie udało się wysłać zapytania.');
+    }
   });
 });

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import type { FieldError } from 'react-hook-form';
-import { CheckCircle, Loader2, Send } from 'lucide-react';
+import { AlertCircle, CheckCircle, Loader2, Send } from 'lucide-react';
 
 import {
   EQUIPMENT_OPTIONS,
@@ -28,6 +28,7 @@ const FRAME_COLOR_OPTIONS = FRAME_COLORS.map((value) => ({ value, label: value }
 
 export default function ZadaszenieForm() {
   const [isSuccess, setIsSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [photos, setPhotos] = useState<File[]>([]);
 
   const {
@@ -83,10 +84,14 @@ export default function ZadaszenieForm() {
       formData.append('photo', photo);
     }
 
+    setSubmitError(null);
     const result = await submitZadaszenieForm(formData);
+
     if (result.success) {
       setIsSuccess(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (result.error) {
+      setSubmitError(result.error);
     }
   };
 
@@ -267,6 +272,16 @@ export default function ZadaszenieForm() {
             name="consentMarketing"
             label="Wyrażam zgodę na przetwarzanie moich danych w celach marketingowych i przesyłanie ofert drogą e-mailową lub telefoniczną."
           />
+
+          {submitError && (
+            <div
+              role="alert"
+              className="flex items-start gap-2 rounded-lg border border-red-500/40 bg-red-500/10 p-3 text-sm text-red-400"
+            >
+              <AlertCircle size={18} className="mt-0.5 shrink-0" aria-hidden="true" />
+              <p>{submitError}</p>
+            </div>
+          )}
 
           <button
             type="submit"
