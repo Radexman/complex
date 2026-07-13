@@ -14,6 +14,56 @@ Not Started
 
 ## History
 
+### Formularz Wyceny Zadaszenia — `/wycena/zadaszenie` (2026-07-13)
+
+Second of the four quotation forms — the canopy/roof form — reusing the **react-hook-form + Zod +
+Ark UI** foundation `/wycena/taras` established (2026-07-08). Spec:
+`context/features/canopy-quotation-spec.md`. Reconciled the spec's `src/...` paths → repo's
+`frontend/app/...`, same as every prior feature. **No Sanity work** — unlike Taras (which needed the
+`tarasFormConfig` singleton for the shape diagrams), every option here is a fixed list, so it lives
+in code; nothing to seed, no Studio redeploy, no type regen.
+
+- **Validation (`app/lib/validations/zadaszenieForm.ts`):** Zod v4 schema plus the three option
+  lists exported as the **single source of truth** — `ROOF_TYPES` (7 models), `FRAME_COLORS`
+  (antracyt / czarny / biały krem) and `EQUIPMENT_OPTIONS` (the 7 add-ons as `{name, label}`). The
+  form renders its checkbox group from `EQUIPMENT_OPTIONS` and the action logs from the same array,
+  so a new add-on is a one-line change rather than an edit in three files. `width` (≤ 20 m) and
+  `depth` (≤ 10 m) reuse Taras's `preprocess` that maps `''` → `undefined` before coercion, so the
+  „required" message wins over a coercion error.
+- **Renamed the equipment fields** from the spec's `equip_ledLighting` snake_case to
+  `equipLedLighting` — snake_case keys would have been the only ones in the codebase.
+- **Action (`app/lib/actions/submitZadaszenieForm.ts`, `'use server'`):** same shape as
+  `submitTarasForm` — `formDataToObject` rebuilds a typed object from multipart FormData
+  (`=== 'true'` for booleans, raw strings for the coerced numbers), `safeParse`, then a structured
+  `console.log` (Resend is a later spec). Logs the **selected add-ons as a list of Polish labels**
+  rather than the spec's object of seven booleans — reads far better once it becomes an email.
+- **`ZadaszenieForm.tsx`:** `useForm<Input, unknown, Output>` + `zodResolver`, `mode: 'onBlur'`,
+  `shouldUnregister: true`. Two-column `max-w-6xl` grid (single column on mobile): **left** = roof
+  type, ALUM colour, width, depth, the 7-checkbox equipment group, terrace-blind dimensions
+  (separated by a `border-t`); **right** = contact + postal code, install service, notes, photo
+  dropzone, RODO/marketing consents, submit. Success panel, submit copy and consent block are
+  identical to `TarasForm`. **Zero new shared primitives** — all six come from `forms/shared/`.
+- **Width/depth use `FormNumberInput`, not the spec's `FormInput type="number"`** — that component
+  exists precisely because Taras replaced the browser's default spinner arrows with themed chevron
+  steppers; a raw number input would look off next to every other form field. Its `error` prop needs
+  a `FieldError` cast (the `preprocess` makes the RHF **input** type `unknown`) — same cast
+  `DimensionInputs` already does.
+- **Dropped `.default(false)`** on the booleans (the spec had it) — Taras dropped it deliberately so
+  Zod's _input_ types stay a clean `boolean` for `FieldPathByValue`.
+- **Page (`app/wycena/zadaszenie/page.tsx`):** plain server component, static metadata, the same hero
+  as `/wycena/taras` (`pt-28` to clear the fixed navbar). No `sanityFetch` — simpler than the Taras
+  page, which needed the shape config.
+- **Copy fix:** the spec's „wraz z zadaszenie**i**em" typo shipped as „wraz z zadaszeniem".
+- **Left untouched (same precedent as prior forms):** the pre-existing uncommitted `OfferTechSpecs.tsx`
+  edit, the line-ending-only `sanity.types.ts` / `sanity.schema.json` drift, and the two untracked
+  future specs (`blinds-quotation-spec`, `stairs-quotation-spec`) — excluded from the commit. The
+  `canopy-quotation-spec` **was** committed with the feature.
+- Verified: **53/53 Vitest** (29 existing + 24 new), `type-check` (both workspaces), `eslint` (only
+  the pre-existing TrustSection warning), `next build` — `/wycena/zadaszenie` prerenders static, all
+  7 offer slugs still SSG. Served HTML checked (hero copy, all 7 roof models, equipment checkboxes).
+  ⚠️ The form's **interactive** behavior (on-blur validation, dropzone, a real submit through the
+  action) was **not** driven in a browser — worth a click-through.
+
 ### Client Feedback — Medium Items (2026-07-13)
 
 Second pass over the client's post-launch review (`context/feedback/ZMIANY STRONA.docx`) — the
