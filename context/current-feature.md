@@ -2,13 +2,23 @@
 
 ## Status
 
-Not Started
+In Progress — implemented and verified in the browser; awaiting review + commit.
 
 ## Goals
 
-<!-- Bullet points of what success looks like -->
+Wysyłka wycen mailem (Resend) — spec: `context/features/quote-email-spec.md`.
+
+- Replace the four forms' `console.log` with a real HTML email to the company inbox.
+- Format the data properly: drop empty fields, `true/false` → „Tak"/„Nie", join arrays, escape user text.
+- Attach the customer's photos and the technical diagram (Taras shape / Schody drawing) from Sanity.
+- Send a confirmation email back to the customer.
+- Surface a failed send as an inline form error instead of a false success.
 
 ## Notes
+
+- Branch: `feature/quote-emails`.
+- Test sender `onboarding@resend.dev` → Resend only delivers to the account owner's address until
+  `ccomplex.pl` is verified under Resend → Domains. Both emails land in the dev inbox for now.
 
 <!-- Additional context, constraints, or details from spec -->
 

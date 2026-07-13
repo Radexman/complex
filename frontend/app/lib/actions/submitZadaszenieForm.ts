@@ -1,6 +1,10 @@
 'use server';
 
 import { z } from 'zod';
+
+import { photosToAttachments } from '@/app/lib/email/attachments';
+import { renderQuoteEmail, type Section } from '@/app/lib/email/renderQuoteEmail';
+import { sendQuoteEmails } from '@/app/lib/email/sendQuoteEmails';
 import { EQUIPMENT_OPTIONS, zadaszenieFormSchema } from '@/app/lib/validations/zadaszenieForm';
 
 /**
@@ -40,27 +44,63 @@ export async function submitZadaszenieForm(formData: FormData) {
 
   const data = result.data;
   const photos = formData.getAll('photo').filter((f): f is File => f instanceof File);
+  const { attachments, skipped, filenames } = await photosToAttachments(photos);
+
+  // Sent as Polish labels rather than seven booleans — it reads as a shopping list.
   const equipment = EQUIPMENT_OPTIONS.filter((option) => data[option.name]).map(
     (option) => option.label,
   );
 
-  // TODO: Replace with Resend HTML email (future spec)
-  console.log('=== FORMULARZ WYCENY ZADASZENIA ===');
-  console.log('Rodzaj zadaszenia:', data.roofType);
-  console.log('Kolor konstrukcji:', data.frameColor);
-  console.log('Wymiary:', { szerokość: data.width, głębokość: data.depth });
-  console.log('Wyposażenie dodatkowe:', equipment);
-  console.log('Żaluzje tarasowe:', data.terraceBlinds);
-  console.log('Montaż:', data.installationService);
-  console.log('Kontakt:', { name: data.name, phone: data.phone, email: data.email });
-  console.log('Kod pocztowy:', data.postalCode);
-  console.log('Uwagi:', data.notes);
-  console.log(
-    'Zdjęcia:',
-    photos.map((f) => `${f.name} (${Math.round(f.size / 1024)} KB)`),
-  );
-  console.log('Zgody:', { rodo: data.consentRodo, marketing: data.consentMarketing });
-  console.log('===================================');
+  const sections: Section[] = [
+    {
+      title: 'Zadaszenie',
+      rows: [
+        { label: 'Rodzaj zadaszenia', value: data.roofType },
+        { label: 'Kolor konstrukcji', value: data.frameColor },
+        { label: 'Szerokość [m]', value: data.width },
+        { label: 'Głębokość [m]', value: data.depth },
+        { label: 'Wyposażenie dodatkowe', value: equipment },
+        { label: 'Żaluzje tarasowe', value: data.terraceBlinds },
+        { label: 'Usługa montażu', value: data.installationService },
+      ],
+    },
+    {
+      title: 'Kontakt',
+      rows: [
+        { label: 'Imię i nazwisko', value: data.name },
+        { label: 'Telefon', value: data.phone },
+        { label: 'E-mail', value: data.email },
+        { label: 'Kod pocztowy', value: data.postalCode },
+      ],
+    },
+    {
+      title: 'Dodatkowe',
+      rows: [
+        { label: 'Uwagi', value: data.notes },
+        { label: 'Zdjęcia', value: filenames },
+        { label: 'Zgoda RODO', value: data.consentRodo },
+        { label: 'Zgoda marketingowa', value: data.consentMarketing },
+      ],
+    },
+  ];
+
+  const email = await sendQuoteEmails({
+    subject: `Wycena zadaszenia — ${data.name}`,
+    html: renderQuoteEmail({
+      heading: 'Formularz wyceny zadaszenia',
+      sections,
+      warning: skipped
+        ? 'Zdjęcia przekroczyły limit załączników i nie zostały dołączone — poproś klienta o przesłanie ich mailem.'
+        : undefined,
+    }),
+    attachments,
+    customer: { name: data.name, email: data.email },
+    formLabel: 'formularza wyceny zadaszenia',
+  });
+
+  if (!email.ok) {
+    return { success: false as const, error: email.error };
+  }
 
   return { success: true as const };
 }

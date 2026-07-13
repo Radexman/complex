@@ -1,6 +1,10 @@
 'use server';
 
 import { z } from 'zod';
+
+import { photosToAttachments } from '@/app/lib/email/attachments';
+import { renderQuoteEmail, type Section } from '@/app/lib/email/renderQuoteEmail';
+import { sendQuoteEmails } from '@/app/lib/email/sendQuoteEmails';
 import { zaluzjeFormSchema } from '@/app/lib/validations/zaluzjeForm';
 
 /**
@@ -32,20 +36,54 @@ export async function submitZaluzjeForm(formData: FormData) {
 
   const data = result.data;
   const photos = formData.getAll('photo').filter((f): f is File => f instanceof File);
+  const { attachments, skipped, filenames } = await photosToAttachments(photos);
 
-  // TODO: Replace with Resend HTML email (future spec)
-  console.log('=== FORMULARZ WYCENY ŻALUZJI ===');
-  console.log('Wymiary otworu:', { wysokość: data.openingHeight, szerokość: data.openingWidth });
-  console.log('Montaż:', data.installationService);
-  console.log('Kontakt:', { name: data.name, phone: data.phone, email: data.email });
-  console.log('Kod pocztowy:', data.postalCode);
-  console.log('Uwagi:', data.notes);
-  console.log(
-    'Zdjęcia:',
-    photos.map((f) => `${f.name} (${Math.round(f.size / 1024)} KB)`),
-  );
-  console.log('Zgody:', { rodo: data.consentRodo, marketing: data.consentMarketing });
-  console.log('================================');
+  const sections: Section[] = [
+    {
+      title: 'Żaluzje tarasowe',
+      rows: [
+        { label: 'Wysokość otworu [cm]', value: data.openingHeight },
+        { label: 'Szerokość otworu [cm]', value: data.openingWidth },
+        { label: 'Usługa montażu', value: data.installationService },
+      ],
+    },
+    {
+      title: 'Kontakt',
+      rows: [
+        { label: 'Imię i nazwisko', value: data.name },
+        { label: 'Telefon', value: data.phone },
+        { label: 'E-mail', value: data.email },
+        { label: 'Kod pocztowy', value: data.postalCode },
+      ],
+    },
+    {
+      title: 'Dodatkowe',
+      rows: [
+        { label: 'Uwagi', value: data.notes },
+        { label: 'Zdjęcia', value: filenames },
+        { label: 'Zgoda RODO', value: data.consentRodo },
+        { label: 'Zgoda marketingowa', value: data.consentMarketing },
+      ],
+    },
+  ];
+
+  const email = await sendQuoteEmails({
+    subject: `Wycena żaluzji — ${data.name}`,
+    html: renderQuoteEmail({
+      heading: 'Formularz wyceny żaluzji',
+      sections,
+      warning: skipped
+        ? 'Zdjęcia przekroczyły limit załączników i nie zostały dołączone — poproś klienta o przesłanie ich mailem.'
+        : undefined,
+    }),
+    attachments,
+    customer: { name: data.name, email: data.email },
+    formLabel: 'formularza wyceny żaluzji',
+  });
+
+  if (!email.ok) {
+    return { success: false as const, error: email.error };
+  }
 
   return { success: true as const };
 }
