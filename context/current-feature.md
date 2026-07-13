@@ -14,6 +14,74 @@ Not Started
 
 ## History
 
+### Formularz Wyceny Schodów — `/wycena/schody` (2026-07-13)
+
+**Fourth and final** quotation form — modular stairs. Reuses the **react-hook-form + Zod + Ark UI**
+foundation from `/wycena/taras` (2026-07-08) wholesale; **zero new shared primitives** — all inputs
+come from `forms/shared/`. Spec: `context/features/stairs-quotation-spec.md`. Reconciled the spec's
+`src/...` paths → repo's `frontend/app/...` + `studio/src/...`, same as every prior feature.
+
+- **Named after the route, not the spec.** Spec said `SchodForm`/`SchodForms.tsx` (inconsistent with
+  itself); shipped `SchodyForm` / `schodyForm.ts` / `submitSchodyForm.ts` to match
+  `TarasForm`/`ZadaszenieForm`/`ZaluzjeForm`, which are all named after their `/wycena/[type]` route.
+- **Diagram lives in a new `schodyFormConfig` singleton — deviation from the spec (confirmed at
+  start).** Spec said add a `schodDiagram` object to `siteSettings`; instead created a fixed-id
+  singleton („Formularz Schodów", `ComponentIcon`) holding `diagram` (image + required `alt`),
+  matching the **`tarasFormConfig` precedent** — `siteSettings` has been metadata/SEO-only since the
+  2026-06-16 split. Registered in `schemaTypes/index.ts`, added the structure entry, plus a
+  Presentation `locations` resolver **and** a `/wycena/schody` `mainDocuments` route.
+- **Validation (`app/lib/validations/schodyForm.ts`):** Zod v4. `isInsulated` is a `z.enum(['tak',
+'nie'])`; the seven dimensions are exported as **`SCHODY_DIMENSIONS`** — a single source of truth
+  carrying each field's `name`, its form `label` and its `logLabel`, so the form renders its inputs
+  and the action builds its log from the same array (a label change is one edit, not three).
+  **`dimH` and `dimh` are two distinct measurements** (height incl. ceiling vs. height to ceiling) —
+  the case difference is meaningful and preserved end-to-end. Dimensions reuse Taras's `preprocess`
+  mapping `''` → `undefined` so the „required" message wins over a coercion error. **No max caps** —
+  unlike Żaluzje, the spec sets none and inventing them wasn't warranted. **Dropped `.default(false)`**
+  on the consent booleans (spec had it), same call as the prior three forms.
+- **Action (`app/lib/actions/submitSchodyForm.ts`, `'use server'`):** same shape as the other three —
+  a `formDataToObject` rebuilding a typed object from the multipart FormData (`=== 'true'` for
+  booleans, raw strings for the coerced numbers), `safeParse`, then a structured `console.log` keyed
+  by the diagram labels (Resend is a later spec). Deviates from the spec's bare `Object.fromEntries`,
+  which would leave the checkboxes as the string `'true'`.
+- **Dimensions use `FormNumberInput`, not the spec's `FormInput type="number"`** — same reasoning as
+  Zadaszenie/Żaluzje (themed chevron steppers instead of the browser's spinner arrows). Its `error`
+  prop needs a `FieldError` cast (the `preprocess` makes the RHF **input** type `unknown`).
+- **First real use of `FormRadioGroup`** — it was written during the Taras feature for „future forms"
+  and had sat unused until now (the insulation tak/nie pills).
+- **`SchodyForm.tsx`:** `useForm<Input, unknown, Output>` + `zodResolver`, `mode: 'onBlur'`,
+  `shouldUnregister: true`. Two-column `max-w-6xl` grid (single column on mobile): **left** = the
+  diagram (guarded — omitted entirely until the client uploads one), the insulation question, and the
+  7 dimension inputs rendered by mapping `SCHODY_DIMENSIONS`; **right** = contact + postal code,
+  notes, photo dropzone, RODO/marketing consents, submit. **No `installationService` checkbox** (per
+  spec — stairs are always installed). Success panel, submit copy and consent block identical to the
+  other three forms.
+- **Page (`app/wycena/schody/page.tsx`):** server component, static metadata, `sanityFetch(
+schodyFormConfigQuery)`, same hero as the other form pages (`pt-28` to clear the fixed navbar).
+- **Seeded + published** the empty `schodyFormConfig` singleton so the Studio entry resolves. **No
+  diagram image** — the stair drawing the spec references isn't in `context/screenshots/`, so the
+  client uploads it in the Studio. Hosted Studio needs a **redeploy** to expose the new „Formularz
+  Schodów" entry.
+- **Route was already wired:** `/wycena/schody` existed in the Navbar mega-menu, the Footer, and the
+  `schody-modulowe` offer page's `OFFER_FORM_HREFS` CTA — those links were dead until this branch.
+- **Verified in a real browser this time** (Playwright/Chromium against the dev server — the prior
+  two forms shipped with this as an open caveat). Empty submit → **13 inline errors** (insulation, all
+  7 dimensions, name, phone, email, postal, RODO); `441-00` → „Format: 00-000"; `0` in a dimension →
+  the `positive()` message, not a coercion error; chevron steppers increment; a fully-filled submit
+  reaches the success panel with no console errors. **Bug found + fixed during verification:** the
+  `border-t` divider above „Dane do wyceny" was unconditional, so with no diagram uploaded it rendered
+  as a **dangling line at the top of the left column** — now applied only when a diagram exists.
+- **Noted, not changed:** `FormNumberInput` allows 2 decimal places even at `step={1}`, so `320.5` cm
+  passes — same across all four forms, and the spec sets no integer constraint.
+- **Left untouched (same precedent as the prior forms):** the pre-existing uncommitted
+  `OfferTechSpecs.tsx` + `FeaturedProjectsSection.tsx` edits and the four untracked future specs
+  (`about-us`, `contact-page`, `form-success-state`, `offer-index`) — excluded from the commit. The
+  `stairs-quotation-spec` **was** committed with the feature. `studio/sanity.types.ts` had gone stale
+  (never picked up this schema) → regenerated both workspaces.
+- Verified: **91/91 Vitest** (72 existing + 19 new), `type-check` (both workspaces), `eslint` (only
+  the pre-existing TrustSection warning), `next build` — `/wycena/schody` prerenders static, all 7
+  offer slugs still SSG.
+
 ### Formularz Wyceny Żaluzji — `/wycena/zaluzje` (2026-07-13)
 
 Third of the four quotation forms — the terrace blinds form and the **simplest**: no shape
