@@ -1,83 +1,62 @@
-# Current Feature: Client Feedback — Medium Items
+# Current Feature
 
 ## Status
 
-In Progress
+Not Started
 
 ## Goals
 
-Second pass over the client's post-launch review (`context/feedback/ZMIANY STRONA.docx`) — the
-**medium-difficulty** subset (#6, #7, #8, #10). The easy wins (#1, #3a, #3b, #5, #9) already
-shipped; #2 (logo redesign) and #4 (emphasize „C") remain blocked on client decisions.
-
-- **#6 Rename „Zadaszenia aluminiowe" → „Zadaszenia tarasowe"** („Bardzo ważne"). Client explicitly
-  calls out: the offer subpage, the gallery category, and the offer list in the footer. Name is
-  spread across `Navbar` `OFERTA_ITEMS`, `Footer` `OFERTA_LINKS`, the `service` doc `title`,
-  and `CATEGORY_LABELS` (`app/lib/categories.ts`). **Blocked on a slug decision — see Notes.**
-- **#7 Rename „Tarasy z płyt gresowych" → „Tarasy gresowe"** („Bardzo ważne"). **Display-name only** —
-  the slug/category value is already `tarasy-gresowe`, so no URL impact. Same 4 locations as #6.
-- **#8 Add a „Pomiar" step to the Process Timeline** at position 3, before „Wycena końcowa".
-  New order: Zapytanie → Wycena wstępna → **Pomiar** → Wycena końcowa → Umowa → Montaż → Gwarancja.
-- **#10 Split the office info out of the Contact section** — „Biuro – spotkania odbywają się…"
-  should be its own block *below* the „Odwiedź naszą ekspozycję" block, not merged into it.
+<!-- Bullet points of what success looks like -->
 
 ## Notes
 
-### Decision (#6) — **thorough / Option B, confirmed by the user**
-
-Rename the **slug too**: `/oferta/zadaszenia-aluminiowe` → `/oferta/zadaszenia-tarasowe`. Cascade:
-
-- `PROJECT_CATEGORIES` enum value (`documents/project.ts`) + `service.category`
-- every existing `project` doc's `category` value (Sanity content migration)
-- the `service` doc's `slug` + `title`
-- `CATEGORY_LABELS` key + label (`app/lib/categories.ts`)
-- `OFFER_FORM_HREFS` key + `OFERTA_ITEMS` (Navbar), `OFERTA_LINKS` (Footer)
-- a **permanent redirect** old → new so existing links/SEO don't 404
-
-### Implementation outcome (all 4 done, content published)
-
-- **#6/#7 renames** — code: `PROJECT_CATEGORIES` (`documents/project.ts`), `OFFER_SLUGS`
-  (`objects/offerCard.ts`), `offerSection` initialValues, `service.title` field description,
-  `CATEGORY_LABELS` (`app/lib/categories.ts`) **and** the duplicate map inside
-  `FeaturedProjectsSection.tsx` (⚠️ the label map is duplicated in two places — worth
-  consolidating onto `app/lib/categories.ts` later), `OFERTA_ITEMS` + `OFFER_FORM_HREFS` (Navbar),
-  `OFERTA_LINKS` (Footer). Content: `service` slug/title/category/seo/hero/benefits copy, 6 `project`
-  docs' `category`, and the `offerSection` card's `offerSlug`. **0 stragglers** on the old value.
-- **Redirect:** added `redirects()` to `next.config.ts` — `/oferta/zadaszenia-aluminiowe` →
-  `/oferta/zadaszenia-tarasowe`, `permanent: true` (verified **308**).
-- **Renamed the product name only** — legitimate *material* references („konstrukcja z aluminium",
-  „Płyty gresowe 2 cm") were deliberately left intact.
-- **#8 Pomiar** — schema cap `max(6)`→`max(7)`, new `ruler` icon in `PROCESS_STEP_ICONS` +
-  frontend `ICON_MAP` (Lucide `Ruler`), initialValue seed rewritten. Content: inserted „Pomiar" at
-  index 2 and renumbered `01…07`. Also reworded „Wycena końcowa" (it previously absorbed the
-  measurement: „Po bezpłatnej wizycie pomiarowej…" → „Na podstawie wykonanych pomiarów…").
-- **#10 Office split** — new `officeLabel` / `officeDescription` fields on `bottomCtaSection`;
-  `ContactShowroom.tsx` renders them as a separate block (divider + `Building2` icon) below the
-  showroom. Content: `showroomAddress` cleaned back to just „Kępska 12, 45-130 Opole".
-- Verified: type-check (both workspaces), eslint (only the pre-existing TrustSection warning),
-  **29/29 Vitest**, `next build`, plus in-browser — new slug 200, old slug 308→new, zero old names
-  on the home page, 7 timeline steps in order, „Biuro" block renders.
-
-### Constraints found while planning
-
-- **#8 is not content-only.** `processTimeline.steps[]` is validated `min 1 / max 6` — a 7th step
-  needs the schema cap raised. Also needs a new measurement icon (e.g. `ruler` → Lucide `Ruler`)
-  added to `PROCESS_STEP_ICONS` + the frontend `ICON_MAP`, plus renumbering `01…07`. Note the
-  existing „Wycena końcowa" copy already mentions „Po bezpłatnej wizycie pomiarowej…" — that phrasing
-  should be revisited once „Pomiar" is its own step.
-- **#10 needs a schema change.** Today `bottomCtaSection.showroomAddress` is a single overloaded
-  field holding the address *and* the office text jammed together („Kępska 12, 45-130 Opole   Biuro
-  Spotkania odbywają się po wcześniejszym umówieniu…"). Split into new `officeLabel` /
-  `officeDescription` fields + a separate block in `ContactShowroom.tsx`, then clean
-  `showroomAddress` back to just the address.
-- **Hosted Studio still needs a redeploy** for the client to see any new/changed fields.
-
-### ⚠️ Data inconsistency to confirm with the client (independent of these items)
-
-The CMS showroom address says **„Kępska 12, 45-130 Opole"**, but `ShowroomMap.tsx` hardcodes
-**„46-020 Opole"** (and its pin coordinates + directions URL). One postal code is wrong.
+<!-- Additional context, constraints, or details from spec -->
 
 ## History
+
+### Client Feedback — Medium Items (2026-07-13)
+
+Second pass over the client's post-launch review (`context/feedback/ZMIANY STRONA.docx`) — the
+**medium-difficulty** subset (#6, #7, #8, #10). The easy wins (#1, #3a, #3b, #5, #9) shipped on the
+previous branch; #2 (logo redesign — a designer task) and #4 (emphasize „C" in body copy — needs a
+scope decision) remain open pending client input.
+
+- **#6 „Zadaszenia aluminiowe" → „Zadaszenia tarasowe" (slug included).** User chose the **thorough**
+  option, so the slug moved too: `/oferta/zadaszenia-aluminiowe` → `/oferta/zadaszenia-tarasowe`.
+  Code: `PROJECT_CATEGORIES` (`documents/project.ts`), `OFFER_SLUGS` (`objects/offerCard.ts`),
+  `offerSection` initialValues, the `service.title` field description, `CATEGORY_LABELS`
+  (`app/lib/categories.ts`), `OFERTA_ITEMS` + `OFFER_FORM_HREFS` (Navbar), `OFERTA_LINKS` (Footer).
+- **#7 „Tarasy z płyt gresowych" → „Tarasy gresowe".** Display-name only — the slug/category value
+  was already `tarasy-gresowe`, so no URL impact.
+- **Redirect:** added a `redirects()` block to `next.config.ts` (the repo's first) mapping the old
+  offer URL → the new one with `permanent: true`. Verified **308**.
+- **Renamed the product name, not the material.** Copy such as „konstrukcja z aluminium" and
+  „Płyty gresowe 2 cm" was deliberately left intact — those describe the actual material; only the
+  product _name_ changed. Applied to `title`/`seoDescription`/`heroHeadline`/`benefits*`.
+- **#8 „Pomiar" step.** Not content-only: `processTimeline.steps[]` was capped at `max(6)`, so the
+  7th step needed the cap raised to `max(7)`; added a `ruler` icon to `PROCESS_STEP_ICONS` + the
+  frontend `ICON_MAP` (Lucide `Ruler`) and rewrote the initialValue seed. Content: inserted „Pomiar"
+  at index 2, renumbered `01…07`. Also **reworded „Wycena końcowa"** — it had absorbed the
+  measurement („Po bezpłatnej wizycie pomiarowej…" → „Na podstawie wykonanych pomiarów…"), which
+  read as redundant once „Pomiar" became its own step.
+- **#10 Office split.** `bottomCtaSection.showroomAddress` was a single overloaded field holding the
+  address _and_ the office text jammed together. Added `officeLabel` / `officeDescription` fields,
+  rendered them as a separate block (divider + `Building2` icon) below the showroom in
+  `ContactShowroom.tsx`, and cleaned `showroomAddress` back to just „Kępska 12, 45-130 Opole".
+- **Content migration (published):** 2 `service` docs, 6 `project` docs' `category`, the
+  `offerSection` card's `offerSlug`, `processTimeline`, `bottomCtaSection`. Verified **0 stragglers**
+  on the old slug/category. None of these had pending client drafts, so only our changes went live.
+- **Duplication found (left as-is):** the category-label map exists **twice** — `app/lib/categories.ts`
+  _and_ a private copy inside `FeaturedProjectsSection.tsx`. Both were updated, but this duplication
+  is exactly what makes a rename error-prone; worth consolidating onto the shared module later.
+- **⚠️ Open data inconsistency:** the CMS showroom address says „Kępska 12, **45-130** Opole" while
+  `ShowroomMap.tsx` hardcodes „**46-020** Opole" (plus pin coords + directions URL). One is wrong —
+  the pin may literally be in the wrong place. Not guessed; needs the client.
+- **Hosted Studio still needs a redeploy** for the client to see the new office fields / 7-step cap.
+- **Pre-existing edit:** `OfferTechSpecs.tsx` (unrelated `flex-shrink-0`→`shrink-0`) stayed excluded.
+- Verified: `type-check` (both workspaces), `eslint` (only the pre-existing TrustSection warning),
+  **29/29 Vitest**, `next build`, plus in-browser — new slug 200, old slug 308→new, zero old names
+  on the home page, 7 timeline steps in order, „Biuro" block renders.
 
 ### Client Feedback — Easy Wins (2026-07-09)
 
@@ -118,61 +97,62 @@ decisions.
 
 ### Formularz Wyceny Tarasu — `/wycena/taras` (2026-07-08)
 
-First of the four quotation forms — the terrace form — establishing the shared **react-hook-form
-+ Zod + Ark UI** foundation the other three (`zadaszenie`/`zaluzje`/`schody`) will reuse. Spec:
-`context/features/tarrace-quotation-spec.md`. Reconciled the spec's `src/...` paths → repo's
-`frontend/app/...` + `studio/src/...`, same as every prior feature.
+First of the four quotation forms — the terrace form — establishing the shared \*\*react-hook-form
 
-- **Decisions confirmed at start:** (1) shape diagrams → a **dedicated `tarasFormConfig` fixed-id
+- Zod + Ark UI\*\* foundation the other three (`zadaszenie`/`zaluzje`/`schody`) will reuse. Spec:
+  `context/features/tarrace-quotation-spec.md`. Reconciled the spec's `src/...` paths → repo's
+  `frontend/app/...` + `studio/src/...`, same as every prior feature.
+
+* **Decisions confirmed at start:** (1) shape diagrams → a **dedicated `tarasFormConfig` fixed-id
   singleton** (deviation from the spec's „add to `siteSettings`"), matching the repo's
   split-singleton precedent; (2) **added Vitest** (repo had no runner) + wrote unit tests for the
   schema and action — the test setup the other 3 forms inherit; (3) installed
   `react-hook-form` + `zod` + `@hookform/resolvers` (first repo use).
-- **Studio:** `objects/tarasShape.ts` (inline object — `shapeNumber` 1–4, `label`, `image`+alt,
+* **Studio:** `objects/tarasShape.ts` (inline object — `shapeNumber` 1–4, `label`, `image`+alt,
   `sides[]`) + `objects/tarasFormConfig.ts` (singleton, `ComponentIcon`, „Formularz Tarasu",
   `shapes[]` validated `length(4)` with a 4-shape `initialValue`). Registered both, added the
   „Formularz Tarasu" structure entry, a Presentation `locations` resolver + a `/wycena/taras`
   `mainDocuments` route.
-- **Validation (`app/lib/validations/tarasForm.ts`):** Zod v4 schema. Dimension fields use a
+* **Validation (`app/lib/validations/tarasForm.ts`):** Zod v4 schema. Dimension fields use a
   `preprocess` that maps empty strings → `undefined` so optional sides don't false-fail
   `.positive()`. **Sides are CMS-driven:** the form sends the selected shape's `sides` as
   `requiredSides` and `.superRefine` enforces exactly those (falling back to a static
   `REQUIRED_SIDES` map only for direct/API calls) — so rendered inputs and validation can never
-  diverge. Dropped `.default(false)` on the two booleans so Zod's *input* types stay clean
+  diverge. Dropped `.default(false)` on the two booleans so Zod's _input_ types stay clean
   `boolean` for `FieldPathByValue`.
-- **Action (`app/lib/actions/submitTarasForm.ts`, `'use server'`):** `formDataToObject` rebuilds a
+* **Action (`app/lib/actions/submitTarasForm.ts`, `'use server'`):** `formDataToObject` rebuilds a
   typed object from multipart FormData (`getAll` for arrays, `=== 'true'` for booleans, raw strings
   for coerced numbers), `safeParse`, then console-logs structured data (Resend is a later spec).
   `as const` returns give the client a discriminated union without exporting a type from a server
   file (Next.js restriction).
-- **Shared primitives (`components/forms/shared/`):** `FormInput`, `FormSelect`, `FormTextarea`,
+* **Shared primitives (`components/forms/shared/`):** `FormInput`, `FormSelect`, `FormTextarea`,
   `FormCheckbox` (Ark `Checkbox` + Controller), `FormRadioGroup` (Ark `RadioGroup`, for future
   forms), `FormFileDropzone` (Ark `FileUpload`, 3 files/10 MB), and `FormNumberInput` (Ark
   `NumberInput` with themed chevron steppers — replaces the browser's default spinner arrows). Plus
   `ShapeSelector` (Ark `RadioGroup` image cards) + `DimensionInputs`.
-- **`TarasForm.tsx`:** `useForm<Input, unknown, Output>` + `zodResolver`, `mode: 'onBlur'`,
+* **`TarasForm.tsx`:** `useForm<Input, unknown, Output>` + `zodResolver`, `mode: 'onBlur'`,
   `shouldUnregister: true`. **Shape 1 pre-selected by default.** `useWatch('shape')` derives
   `activeSides` from CMS `sides`; a `useEffect` mirrors them into the `requiredSides` field so client
-  + server validate identically. Building-position checkboxes are a `Controller`-managed array
-  (reconciliation — the spec's boolean `FormCheckbox` can't produce an array). Photo dropzone,
-  RODO/marketing consents, success panel.
-- **Page (`app/wycena/taras/page.tsx`):** server component, `sanityFetch(tarasFormConfigQuery)`,
+  - server validate identically. Building-position checkboxes are a `Controller`-managed array
+    (reconciliation — the spec's boolean `FormCheckbox` can't produce an array). Photo dropzone,
+    RODO/marketing consents, success panel.
+* **Page (`app/wycena/taras/page.tsx`):** server component, `sanityFetch(tarasFormConfigQuery)`,
   simple hero (`pt-28` to clear the fixed navbar), renders `<TarasForm>`. Static + live-updating.
   Returns a `<div>` (layout already provides `<main>`).
-- **In-browser fixes (per feedback):** (1) shape image was cropped — the URL requested a fixed
+* **In-browser fixes (per feedback):** (1) shape image was cropped — the URL requested a fixed
   `240×200` box; switched to width-only `fit('max')` + `fill`/`object-contain` in a fixed box so the
   whole diagram shows; (2) **shape 1 corrected to 2 sides (A, B)** — patched + published the live
   `tarasFormConfig` doc's `shape1.sides` (preserving the uploaded image) and updated the fallback
   map + tests; the CMS-driven `requiredSides` design means shapes 2–4 can't hit this mismatch.
-- **Seed + publish (per request):** created + published the `tarasFormConfig` singleton (4 shapes,
+* **Seed + publish (per request):** created + published the `tarasFormConfig` singleton (4 shapes,
   no images) so the selector renders immediately. Hosted Studio needs a **redeploy** to expose the
   „Formularz Tarasu" entry; the client uploads the 4 diagram images there.
-- **Queries/types:** added `tarasFormConfigQuery` (`defineQuery`); regenerated frontend types
+* **Queries/types:** added `tarasFormConfigQuery` (`defineQuery`); regenerated frontend types
   (`TarasFormConfigQueryResult`); studio types already carried the new types.
-- **Left untouched (same precedent as prior parts):** the pre-existing uncommitted `Footer.tsx` /
+* **Left untouched (same precedent as prior parts):** the pre-existing uncommitted `Footer.tsx` /
   `OfferTechSpecs.tsx` edits — excluded from the commit. The `tarras-quotation-spec` **was**
   committed with the feature.
-- Verified: **29 Vitest tests pass**, frontend `type-check` (next typegen + tsc) + studio `tsc`
+* Verified: **29 Vitest tests pass**, frontend `type-check` (next typegen + tsc) + studio `tsc`
   clean, `eslint` clean (only the pre-existing TrustSection warning), `next build` passes —
   `/wycena/taras` prerenders static, all 7 offer slugs still SSG. Eyeballed in-browser (image +
   shape-1 fixes applied from user feedback); form submit drives the console-logging action.
@@ -250,7 +230,7 @@ place.
   `BottomCtaSection.tsx` into a new shared `app/components/sections/ContactShowroom.tsx`
   (`'use client'`). It owns its own GSAP reveal (showroom text `y:30→0`, map `x:20→0`, scoped to
   its own ref, `gsap.set`+`.to`/`useGSAP`) and the `dynamic(() => import('@/app/components/
-  ShowroomMap'), { ssr: false })` Leaflet map. Keeps `bg-bg-mid py-20`, the in-component
+ShowroomMap'), { ssr: false })` Leaflet map. Keeps `bg-bg-mid py-20`, the in-component
   fallbacks (`+48 661 242 507` / `biuro@ccomplex.pl`), the sanitized `tel:` href, the
   phone/email buttons + address. The user suggested literal copy-paste; extraction is strictly
   better for the „single source" goal (no duplicated markup) and still renders identically —
@@ -357,7 +337,7 @@ existing showroom copy + map; contact added on top, nothing clobbered.
   The editor's `showroomDescription`/`showroomAddress` and the Leaflet map sit below,
   unchanged.
 - **Queries:** none — `bottomCtaQuery` selects the whole doc (`*[_type ==
-  "bottomCtaSection"][0]`, no projection), so the new fields flow through after a TypeGen
+"bottomCtaSection"][0]`, no projection), so the new fields flow through after a TypeGen
   regen. Regenerated **both** frontend + studio types (`BottomCtaQueryResult` now carries
   the 4 contact fields; studio's generated file caught up too).
 - **Seed + publish (per request):** the published `bottomCtaSection` doc had all 4 contact
@@ -392,7 +372,7 @@ VAT, wymiary, kontakt), replacing the old „Niezbędnik informacji" block. **Sp
   `.section-padding`, left-aligned header (hardcoded „Specyfikacja" accent eyebrow →
   `techSpecsHeadline` → optional `techSpecsDescription` `max-w-2xl`),
   `grid grid-cols-1 md:grid-cols-2 gap-4 mt-10`. Each card: `.glass rounded-xl p-6 border
-  border-graphite` + a thin green top accent line (`border-t-2 border-t-accent/30`,
+border-graphite` + a thin green top accent line (`border-t-2 border-t-accent/30`,
   `hover:border-accent/30`) to differentiate from benefit cards' full-border hover; top row =
   accent icon tile (`w-10 h-10 bg-accent/10`) + title on one line, then `content` body. Icon
   string → Lucide via a static `ICON_MAP` (benefits' 12 + the 4 new icons) with `stegaClean`
@@ -439,7 +419,7 @@ paths → repo layout, same as Parts 1–3.
   initialValue „Dostępne systemy i producenci"), `brandsDescription` (string, default sentence)
   and `brands[]` — an **optional** array (no `min`/`max`) of inline `brand` objects
   `{name (req), shortDescription, fullDescription (text), image (optional, hotspot+alt),
-  specs[] (array of string)}`. `brandsEyebrow` was added mid-feature per request so the eyebrow
+specs[] (array of string)}`. `brandsEyebrow` was added mid-feature per request so the eyebrow
   is CMS-editable (was hardcoded) — mirrors `benefitsEyebrow`.
 - **Frontend:** `app/components/offer/OfferBrands.tsx` (`'use client'`) — `bg-bg-mid` +
   `.section-padding`, left-aligned header (`{brandsEyebrow || 'Producenci i systemy'}` accent
@@ -505,7 +485,7 @@ Reconciled the spec's `src/...` paths → repo layout, same as Parts 1 & 2.
   rest `aspect-[3/4]`, separate overflow grid) caused row-1 cells to misalign — two cells in one
   row computing different heights from mismatched aspect ratios. **Fix:** every cell is now a
   uniform `aspect-square`; the first cell is a 2×2 hero (`md:col-span-2 md:row-span-2
-  md:aspect-auto`, size from the grid span, not a ratio). Rows align deterministically at any
+md:aspect-auto`, size from the grid span, not a ratio). Rows align deterministically at any
   width, and 6 projects fill a perfect 3×3 (hero 4 cells + 5 squares). Collapsed the two grids into
   one (7th+ just continue as squares — robust for any count, not only multiples of 6). Container
   `max-w-6xl`, `gap-3`, `rounded-lg`, header `text-3xl md:text-4xl`.
@@ -539,7 +519,7 @@ Short value-prop description + a responsive grid of icon/text benefit cards, all
   `.section-padding`, **left-aligned** header (`max-w-2xl`: hardcoded „Zalety produktu” accent
   eyebrow → `benefitsHeadline` → `benefitsDescription`), responsive **3/2/1** card grid
   (`grid-cols-1 md:grid-cols-2 lg:grid-cols-3`). Cards: `bg-bg-surface rounded-xl p-6 border
-  border-graphite` hover `hover:border-accent/40`, accent icon tile (`w-10 h-10 bg-accent/10`),
+border-graphite` hover `hover:border-accent/40`, accent icon tile (`w-10 h-10 bg-accent/10`),
   title + description. Icon string → Lucide via static `ICON_MAP` (TrustSection pattern +
   `Sun`/`Droplets`/`Ruler`/`Zap`) with `stegaClean` on the key. GSAP scroll reveal via the safe
   `gsap.set`+`.to` `useGSAP` pattern (header `y:30→0`, cards `y:40→0` `stagger 0.08`, trigger
@@ -574,7 +554,7 @@ fixed-id singleton that doubles as the route's main document.
 
 - **Studio:** `objects/realizacjePage.ts` — `realizacjePage` singleton (`ImagesIcon`, „Strona
   Realizacje”) with `eyebrow` / `headline` (required) / `subheadline`, Polish `initialValue`s
-  mirroring the old hardcoded copy. Distinct from `featuredProjectsSection` (that's the *home*
+  mirroring the old hardcoded copy. Distinct from `featuredProjectsSection` (that's the _home_
   section header; this is the standalone listing page). Registered in `schemaTypes/index.ts`,
   added a **„Strona Realizacje”** entry in `structure/index.ts` (above the „Realizacje”
   collection list), and wired Presentation in `sanity.config.ts` — a `/realizacje`
@@ -663,7 +643,7 @@ to the repo's `frontend/app/...` layout and `sanityFetch` (Live Content API) con
   effect; the original had sidestepped it by resetting in the click handler.
 - **Frontend — page + grid:** `app/realizacje/page.tsx` (async Server Component, static
   `metadata`, fetches `allProjectsQuery` via `sanityFetch`). `app/components/sections/
-  ProjectsGrid.tsx` (`'use client'`): centered header (h1 „Realizacje”), **static** 8-tab
+ProjectsGrid.tsx` (`'use client'`): centered header (h1 „Realizacje”), **static** 8-tab
   Ark `Tabs` (`activationMode="manual"`, all categories always shown in fixed order — unlike
   the home section's dynamic tabs), results count „Wyświetlono {n} realizacji", 3-col grid.
   Cards = category badge top-left + city/`surface` „42 m²" bottom row (surface omitted when
