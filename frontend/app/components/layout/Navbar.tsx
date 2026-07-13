@@ -14,10 +14,10 @@ type NavItem = { label: string; href: string };
 
 /** Offer categories — mirrors the project's information architecture. */
 const OFERTA_ITEMS: NavItem[] = [
-  { label: 'Zadaszenia aluminiowe', href: '/oferta/zadaszenia-aluminiowe' },
+  { label: 'Zadaszenia tarasowe', href: '/oferta/zadaszenia-tarasowe' },
   { label: 'Żaluzje tarasowe', href: '/oferta/zaluzje-tarasowe' },
   { label: 'Tarasy kompozytowe', href: '/oferta/tarasy-kompozytowe' },
-  { label: 'Tarasy z płyt gresowych', href: '/oferta/tarasy-gresowe' },
+  { label: 'Tarasy gresowe', href: '/oferta/tarasy-gresowe' },
   { label: 'Tarasy drewniane', href: '/oferta/tarasy-drewniane' },
   { label: 'Elewacje kompozytowe', href: '/oferta/elewacje-kompozytowe' },
   { label: 'Schody modułowe', href: '/oferta/schody-modulowe' },
@@ -38,7 +38,7 @@ const WYCENA_ITEMS: NavItem[] = [
  * and fall back to the CMS-configured ctaHref.
  */
 const OFFER_FORM_HREFS: Record<string, string> = {
-  'zadaszenia-aluminiowe': '/wycena/zadaszenie',
+  'zadaszenia-tarasowe': '/wycena/zadaszenie',
   'zaluzje-tarasowe': '/wycena/zaluzje',
   'tarasy-kompozytowe': '/wycena/taras',
   'tarasy-gresowe': '/wycena/taras',

@@ -159,10 +159,28 @@ export const bottomCtaSection = defineType({
     defineField({
       name: 'showroomAddress',
       title: 'Adres salonu',
-      description: 'Adres wyświetlany w dymku na mapie.',
+      description: 'Sam adres — bez informacji o biurze (te podaj w polach poniżej).',
       type: 'string',
       group: 'showroom',
       initialValue: 'Kępska 12, 46-020 Opole',
+    }),
+    defineField({
+      name: 'officeLabel',
+      title: 'Nagłówek biura',
+      description: 'Nagłówek osobnego bloku o biurze, pod ekspozycją.',
+      type: 'string',
+      group: 'showroom',
+      initialValue: 'Biuro',
+    }),
+    defineField({
+      name: 'officeDescription',
+      title: 'Opis biura',
+      description: 'Informacja o umawianiu spotkań w biurze.',
+      type: 'text',
+      rows: 3,
+      group: 'showroom',
+      initialValue:
+        'Spotkania odbywają się po wcześniejszym umówieniu telefonicznym, ponieważ większość czasu pracujemy u klientów oraz na realizacjach. Umów dogodny termin spotkania.',
     }),
   ],
   preview: {

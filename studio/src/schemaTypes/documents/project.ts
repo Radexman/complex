@@ -7,10 +7,10 @@ import { defineField, defineType } from 'sanity';
  * the offer section. Titles are the Polish labels shown to editors and on the site.
  */
 export const PROJECT_CATEGORIES = [
-  { title: 'Zadaszenia aluminiowe', value: 'zadaszenia-aluminiowe' },
+  { title: 'Zadaszenia tarasowe', value: 'zadaszenia-tarasowe' },
   { title: 'Żaluzje tarasowe', value: 'zaluzje-tarasowe' },
   { title: 'Tarasy kompozytowe', value: 'tarasy-kompozytowe' },
-  { title: 'Tarasy z płyt gresowych', value: 'tarasy-gresowe' },
+  { title: 'Tarasy gresowe', value: 'tarasy-gresowe' },
   { title: 'Tarasy drewniane', value: 'tarasy-drewniane' },
   { title: 'Elewacje kompozytowe', value: 'elewacje-kompozytowe' },
   { title: 'Schody modułowe', value: 'schody-modulowe' },

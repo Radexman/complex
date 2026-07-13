@@ -1,16 +1,81 @@
-# Current Feature
+# Current Feature: Client Feedback — Medium Items
 
 ## Status
 
-Not Started
+In Progress
 
 ## Goals
 
-<!-- Bullet points of what success looks like -->
+Second pass over the client's post-launch review (`context/feedback/ZMIANY STRONA.docx`) — the
+**medium-difficulty** subset (#6, #7, #8, #10). The easy wins (#1, #3a, #3b, #5, #9) already
+shipped; #2 (logo redesign) and #4 (emphasize „C") remain blocked on client decisions.
+
+- **#6 Rename „Zadaszenia aluminiowe" → „Zadaszenia tarasowe"** („Bardzo ważne"). Client explicitly
+  calls out: the offer subpage, the gallery category, and the offer list in the footer. Name is
+  spread across `Navbar` `OFERTA_ITEMS`, `Footer` `OFERTA_LINKS`, the `service` doc `title`,
+  and `CATEGORY_LABELS` (`app/lib/categories.ts`). **Blocked on a slug decision — see Notes.**
+- **#7 Rename „Tarasy z płyt gresowych" → „Tarasy gresowe"** („Bardzo ważne"). **Display-name only** —
+  the slug/category value is already `tarasy-gresowe`, so no URL impact. Same 4 locations as #6.
+- **#8 Add a „Pomiar" step to the Process Timeline** at position 3, before „Wycena końcowa".
+  New order: Zapytanie → Wycena wstępna → **Pomiar** → Wycena końcowa → Umowa → Montaż → Gwarancja.
+- **#10 Split the office info out of the Contact section** — „Biuro – spotkania odbywają się…"
+  should be its own block *below* the „Odwiedź naszą ekspozycję" block, not merged into it.
 
 ## Notes
 
-<!-- Additional context, constraints, or details from spec -->
+### Decision (#6) — **thorough / Option B, confirmed by the user**
+
+Rename the **slug too**: `/oferta/zadaszenia-aluminiowe` → `/oferta/zadaszenia-tarasowe`. Cascade:
+
+- `PROJECT_CATEGORIES` enum value (`documents/project.ts`) + `service.category`
+- every existing `project` doc's `category` value (Sanity content migration)
+- the `service` doc's `slug` + `title`
+- `CATEGORY_LABELS` key + label (`app/lib/categories.ts`)
+- `OFFER_FORM_HREFS` key + `OFERTA_ITEMS` (Navbar), `OFERTA_LINKS` (Footer)
+- a **permanent redirect** old → new so existing links/SEO don't 404
+
+### Implementation outcome (all 4 done, content published)
+
+- **#6/#7 renames** — code: `PROJECT_CATEGORIES` (`documents/project.ts`), `OFFER_SLUGS`
+  (`objects/offerCard.ts`), `offerSection` initialValues, `service.title` field description,
+  `CATEGORY_LABELS` (`app/lib/categories.ts`) **and** the duplicate map inside
+  `FeaturedProjectsSection.tsx` (⚠️ the label map is duplicated in two places — worth
+  consolidating onto `app/lib/categories.ts` later), `OFERTA_ITEMS` + `OFFER_FORM_HREFS` (Navbar),
+  `OFERTA_LINKS` (Footer). Content: `service` slug/title/category/seo/hero/benefits copy, 6 `project`
+  docs' `category`, and the `offerSection` card's `offerSlug`. **0 stragglers** on the old value.
+- **Redirect:** added `redirects()` to `next.config.ts` — `/oferta/zadaszenia-aluminiowe` →
+  `/oferta/zadaszenia-tarasowe`, `permanent: true` (verified **308**).
+- **Renamed the product name only** — legitimate *material* references („konstrukcja z aluminium",
+  „Płyty gresowe 2 cm") were deliberately left intact.
+- **#8 Pomiar** — schema cap `max(6)`→`max(7)`, new `ruler` icon in `PROCESS_STEP_ICONS` +
+  frontend `ICON_MAP` (Lucide `Ruler`), initialValue seed rewritten. Content: inserted „Pomiar" at
+  index 2 and renumbered `01…07`. Also reworded „Wycena końcowa" (it previously absorbed the
+  measurement: „Po bezpłatnej wizycie pomiarowej…" → „Na podstawie wykonanych pomiarów…").
+- **#10 Office split** — new `officeLabel` / `officeDescription` fields on `bottomCtaSection`;
+  `ContactShowroom.tsx` renders them as a separate block (divider + `Building2` icon) below the
+  showroom. Content: `showroomAddress` cleaned back to just „Kępska 12, 45-130 Opole".
+- Verified: type-check (both workspaces), eslint (only the pre-existing TrustSection warning),
+  **29/29 Vitest**, `next build`, plus in-browser — new slug 200, old slug 308→new, zero old names
+  on the home page, 7 timeline steps in order, „Biuro" block renders.
+
+### Constraints found while planning
+
+- **#8 is not content-only.** `processTimeline.steps[]` is validated `min 1 / max 6` — a 7th step
+  needs the schema cap raised. Also needs a new measurement icon (e.g. `ruler` → Lucide `Ruler`)
+  added to `PROCESS_STEP_ICONS` + the frontend `ICON_MAP`, plus renumbering `01…07`. Note the
+  existing „Wycena końcowa" copy already mentions „Po bezpłatnej wizycie pomiarowej…" — that phrasing
+  should be revisited once „Pomiar" is its own step.
+- **#10 needs a schema change.** Today `bottomCtaSection.showroomAddress` is a single overloaded
+  field holding the address *and* the office text jammed together („Kępska 12, 45-130 Opole   Biuro
+  Spotkania odbywają się po wcześniejszym umówieniu…"). Split into new `officeLabel` /
+  `officeDescription` fields + a separate block in `ContactShowroom.tsx`, then clean
+  `showroomAddress` back to just the address.
+- **Hosted Studio still needs a redeploy** for the client to see any new/changed fields.
+
+### ⚠️ Data inconsistency to confirm with the client (independent of these items)
+
+The CMS showroom address says **„Kępska 12, 45-130 Opole"**, but `ShowroomMap.tsx` hardcodes
+**„46-020 Opole"** (and its pin coordinates + directions URL). One postal code is wrong.
 
 ## History
 

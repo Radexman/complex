@@ -29,10 +29,10 @@ const SOCIAL_ICONS: Record<string, IconType> = {
 };
 
 const OFERTA_LINKS: NavLink[] = [
-  { label: 'Zadaszenia aluminiowe', href: '/oferta/zadaszenia-aluminiowe' },
+  { label: 'Zadaszenia tarasowe', href: '/oferta/zadaszenia-tarasowe' },
   { label: 'Żaluzje tarasowe', href: '/oferta/zaluzje-tarasowe' },
   { label: 'Tarasy kompozytowe', href: '/oferta/tarasy-kompozytowe' },
-  { label: 'Tarasy z płyt gresowych', href: '/oferta/tarasy-gresowe' },
+  { label: 'Tarasy gresowe', href: '/oferta/tarasy-gresowe' },
   { label: 'Tarasy drewniane', href: '/oferta/tarasy-drewniane' },
   { label: 'Elewacje kompozytowe', href: '/oferta/elewacje-kompozytowe' },
   { label: 'Schody modułowe', href: '/oferta/schody-modulowe' },

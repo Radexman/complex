@@ -4,6 +4,7 @@ import { defineField, defineType } from 'sanity';
 export const PROCESS_STEP_ICONS = [
   { title: 'Koperta (zapytanie)', value: 'mail' },
   { title: 'Kalkulator (wycena wstępna)', value: 'calculator' },
+  { title: 'Linijka (pomiar)', value: 'ruler' },
   { title: 'Dokument zatwierdzony (wycena końcowa)', value: 'file-check' },
   { title: 'Dokument z podpisem (umowa)', value: 'file-signature' },
   { title: 'Młotek (montaż)', value: 'hammer' },

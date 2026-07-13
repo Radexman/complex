@@ -53,7 +53,7 @@ export const service = defineType({
     defineField({
       name: 'title',
       title: 'Tytuł',
-      description: 'Nazwa oferty, np. „Zadaszenia aluminiowe”. Używana w tytule strony i menu.',
+      description: 'Nazwa oferty, np. „Zadaszenia tarasowe”. Używana w tytule strony i menu.',
       type: 'string',
       group: 'hero',
       validation: (rule) => rule.required(),
