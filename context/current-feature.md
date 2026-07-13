@@ -2,27 +2,77 @@
 
 ## Status
 
-In Progress — implemented and verified in the browser; awaiting review + commit.
+Not Started
 
 ## Goals
 
-Wysyłka wycen mailem (Resend) — spec: `context/features/quote-email-spec.md`.
-
-- Replace the four forms' `console.log` with a real HTML email to the company inbox.
-- Format the data properly: drop empty fields, `true/false` → „Tak"/„Nie", join arrays, escape user text.
-- Attach the customer's photos and the technical diagram (Taras shape / Schody drawing) from Sanity.
-- Send a confirmation email back to the customer.
-- Surface a failed send as an inline form error instead of a false success.
+<!-- Bullet points of what success looks like -->
 
 ## Notes
-
-- Branch: `feature/quote-emails`.
-- Test sender `onboarding@resend.dev` → Resend only delivers to the account owner's address until
-  `ccomplex.pl` is verified under Resend → Domains. Both emails land in the dev inbox for now.
 
 <!-- Additional context, constraints, or details from spec -->
 
 ## History
+
+### Wysyłka wycen mailem — Resend (2026-07-13)
+
+Replaced the four quotation forms' `console.log` placeholder with real transactional email. Spec:
+`context/features/quote-email-spec.md` (written this session from an inline request, not a
+pre-existing spec file). Each submission now sends **two** emails: an HTML **lead** to the company
+(`QUOTE_TO_EMAIL`) and a short **confirmation** back to the customer. First use of **Resend** in the
+repo (`resend@^6`).
+
+- **Stayed on the existing server actions — no `/api/quote` route** (the project overview lists one;
+  confirmed with the user that a route only earns its keep for webhooks / non-web clients).
+- **`app/lib/email/` — one shared layer, four thin callers.** `renderQuoteEmail.ts` is **pure** and
+  owns *every* formatting rule, so the four forms cannot drift: `Section[] → HTML`, where
+  `formatRowValue` **drops empty rows entirely** (`undefined`/`null`/`''`/`[]` — so shape 1 shows only
+  sides A and B, no `C: undefined`), maps booleans to **„Tak"/„Nie"**, joins arrays („A, B"), and
+  **escapes** user text (`notes`, `name`) while preserving its line breaks. A section whose every row
+  was dropped is skipped, header and all. All styles are **inline** — mail clients drop `<style>`
+  blocks. Plus `renderConfirmationEmail.ts`, `attachments.ts`, and `sendQuoteEmails.ts` (the only
+  module that touches the network).
+- Each action now just describes its own submission as `Section[]`. Zadaszenie sends its add-ons as
+  **Polish labels** (not 7 booleans); Schody keys its dimensions off `SCHODY_DIMENSIONS` (H and h stay
+  distinct).
+- **`replyTo` = the customer's address** on the lead email — the company hits Reply and lands in the
+  lead's inbox. The single detail that makes the email usable day-to-day.
+- **Diagrams are re-fetched from Sanity server-side** (`tarasFormConfig` shape / `schodyFormConfig`
+  drawing) via `client.fetch` + `urlForImage` — a client-supplied image URL is not something to
+  forward into an email. Embedded as `<img src>` (Sanity's CDN is public) **and** passed to Resend as
+  a remote attachment (`{ path }`) so it survives a mail client that blocks remote images. Zadaszenie
+  and Żaluzje have no diagram.
+- **Photos** attach as Buffers. Resend caps attachments at **40 MB after base64** (~30 MB raw) and the
+  dropzone allows 3 × 10 MB — right at the line. `attachments.ts` caps the total at **20 MB raw** and,
+  when exceeded, **drops the photos and notes it in the email body** rather than failing the send: the
+  lead is worth more than the pictures.
+- **A failed send is no longer silent.** The Resend SDK returns `{data, error}` (never throws); the
+  actions return `{success: false, error}` and the four forms render an inline red notice by the
+  submit button. They previously ignored a non-success result entirely.
+- **TS gotcha:** the actions' two failure shapes (`{errors}` from Zod vs `{error}` from a failed send)
+  get normalized by TS into optional props, so `'error' in result` does **not** narrow — the forms use
+  a truthiness check and the tests use `result.errors?.fieldErrors`.
+- **Env (server-only):** `RESEND_API_KEY`, `QUOTE_FROM_EMAIL`, `QUOTE_TO_EMAIL`, read **lazily** so a
+  missing key doesn't break `next build`. Added to `.env.example`. ⚠️ **Still on the
+  `onboarding@resend.dev` test sender**, which only delivers to the Resend account owner's address —
+  so the customer confirmation currently reaches the dev inbox, not a real customer. **Client action
+  required:** verify `ccomplex.pl` under Resend → Domains, then switch `QUOTE_FROM_EMAIL` (and
+  `QUOTE_TO_EMAIL` → `biuro@ccomplex.pl`). No code change needed.
+- **Verified with a real submission in Chromium** against the dev server: `/wycena/taras`, shape 1,
+  4 m × 2.5 m, a photo, notes containing `<b>` tags, both consents → success panel, and Resend
+  accepted both emails (no `[email]` errors in the server log). **Playwright gotchas:** `networkidle`
+  never settles (`<SanityLive>` holds an SSE connection — wait on a selector instead), and the Ark UI
+  Checkbox/NumberInput are Controller-managed, so `.check()`/`.fill()` on the underlying input never
+  reaches RHF — must click the visible control and `pressSequentially` the numbers.
+- The failure path (Resend down) is **unit-tested only** — not forced in a browser.
+- **Left untouched (same precedent as the four form features):** the pre-existing uncommitted
+  `OfferTechSpecs.tsx` + `FeaturedProjectsSection.tsx` edits, the user's `.mcp.json` Playwright entry,
+  the line-ending-only `sanity.types.ts` / `sanity.schema.json` drift, and the four untracked future
+  specs (`about-us`, `contact-page`, `form-success-state`, `offer-index`). The `quote-email-spec`
+  **was** committed with the feature.
+- Verified: **116/116 Vitest** (91 existing + 25 new — the render/attachment modules are pure, so they
+  test cleanly), `type-check` (both workspaces), `eslint` (only the pre-existing TrustSection
+  warning), `next build` — all four `/wycena/*` routes still prerender static.
 
 ### Formularz Wyceny Schodów — `/wycena/schody` (2026-07-13)
 
