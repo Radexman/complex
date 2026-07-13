@@ -81,6 +81,10 @@ export default defineConfig({
             filter: `_type == "tarasFormConfig" && _id == "tarasFormConfig"`,
           },
           {
+            route: '/wycena/schody',
+            filter: `_type == "schodyFormConfig" && _id == "schodyFormConfig"`,
+          },
+          {
             route: '/:slug',
             filter: `_type == "page" && slug.current == $slug || _id == $slug`,
           },
@@ -149,6 +153,11 @@ export default defineConfig({
           tarasFormConfig: defineLocations({
             locations: [{ title: 'Formularz Wyceny Tarasu', href: '/wycena/taras' }],
             message: 'Kształty tarasu są używane w formularzu wyceny tarasu',
+            tone: 'positive',
+          }),
+          schodyFormConfig: defineLocations({
+            locations: [{ title: 'Formularz Wyceny Schodów', href: '/wycena/schody' }],
+            message: 'Schemat wymiarów jest używany w formularzu wyceny schodów',
             tone: 'positive',
           }),
           service: defineLocations({

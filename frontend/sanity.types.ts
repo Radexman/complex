@@ -256,6 +256,22 @@ export type Project = {
   isFeatured?: boolean;
 };
 
+export type SchodyFormConfig = {
+  _id: string;
+  _type: 'schodyFormConfig';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  diagram?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    _type: 'image';
+  };
+};
+
 export type TarasFormConfig = {
   _id: string;
   _type: 'tarasFormConfig';
@@ -766,6 +782,7 @@ export type AllSanitySchemaTypes =
   | SanityImageHotspot
   | Slug
   | Project
+  | SchodyFormConfig
   | TarasFormConfig
   | Footer
   | ProcessTimeline
@@ -1104,6 +1121,20 @@ export type TarasFormConfigQueryResult = {
 } | null;
 
 // Source: sanity/lib/queries.ts
+// Variable: schodyFormConfigQuery
+// Query: *[_type == "schodyFormConfig"][0]{    diagram  }
+export type SchodyFormConfigQueryResult = {
+  diagram: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    _type: 'image';
+  } | null;
+} | null;
+
+// Source: sanity/lib/queries.ts
 // Variable: featuredProjectsQuery
 // Query: *[_type == "project" && isFeatured == true] | order(_createdAt desc){    _id,    title,    city,    category,    coverImage  }
 export type FeaturedProjectsQueryResult = Array<{
@@ -1298,6 +1329,7 @@ declare module '@sanity/client' {
     '*[_type == "processTimeline"][0]': ProcessTimelineQueryResult;
     '*[_type == "footer"][0]': FooterQueryResult;
     '*[_type == "tarasFormConfig"][0]{\n    shapes[]{\n      _key,\n      shapeNumber,\n      label,\n      image,\n      sides\n    }\n  }': TarasFormConfigQueryResult;
+    '*[_type == "schodyFormConfig"][0]{\n    diagram\n  }': SchodyFormConfigQueryResult;
     '*[_type == "project" && isFeatured == true] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    coverImage\n  }': FeaturedProjectsQueryResult;
     '*[_type == "project"] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    surface,\n    coverImage\n  }': AllProjectsQueryResult;
     '*[_type == "project" && category == $category] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    coverImage\n  }': GalleryProjectsByCategoryQueryResult;
