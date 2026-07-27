@@ -366,6 +366,17 @@ export type BottomCtaSection = {
   officeDescription?: string;
 };
 
+export type TarasyPage = {
+  _id: string;
+  _type: 'tarasyPage';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  headline: string;
+  subheadline?: string;
+};
+
 export type RealizacjePage = {
   _id: string;
   _type: 'realizacjePage';
@@ -787,6 +798,7 @@ export type AllSanitySchemaTypes =
   | Footer
   | ProcessTimeline
   | BottomCtaSection
+  | TarasyPage
   | RealizacjePage
   | FeaturedProjectsSection
   | AboutSection
