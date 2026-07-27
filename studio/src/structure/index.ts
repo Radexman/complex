@@ -78,6 +78,10 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .icon(ImagesIcon)
         .child(S.document().schemaType('realizacjePage').documentId('realizacjePage')),
       S.listItem()
+        .title('Strona Tarasy')
+        .icon(ThLargeIcon)
+        .child(S.document().schemaType('tarasyPage').documentId('tarasyPage')),
+      S.listItem()
         .title('Realizacje')
         .icon(ImageIcon)
         .child(S.documentTypeList('project').title('Realizacje')),

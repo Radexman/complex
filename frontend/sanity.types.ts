@@ -366,6 +366,17 @@ export type BottomCtaSection = {
   officeDescription?: string;
 };
 
+export type TarasyPage = {
+  _id: string;
+  _type: 'tarasyPage';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  headline: string;
+  subheadline?: string;
+};
+
 export type RealizacjePage = {
   _id: string;
   _type: 'realizacjePage';
@@ -787,6 +798,7 @@ export type AllSanitySchemaTypes =
   | Footer
   | ProcessTimeline
   | BottomCtaSection
+  | TarasyPage
   | RealizacjePage
   | FeaturedProjectsSection
   | AboutSection
@@ -1009,6 +1021,46 @@ export type RealizacjePageQueryResult = {
   headline: string;
   subheadline?: string;
 } | null;
+
+// Source: sanity/lib/queries.ts
+// Variable: tarasyPageQuery
+// Query: *[_type == "tarasyPage"][0]
+export type TarasyPageQueryResult = {
+  _id: string;
+  _type: 'tarasyPage';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  headline: string;
+  subheadline?: string;
+} | null;
+
+// Source: sanity/lib/queries.ts
+// Variable: terraceServicesQuery
+// Query: *[_type == "service" && slug.current in ["tarasy-kompozytowe", "tarasy-gresowe", "tarasy-drewniane"]]{    _id,    title,    "slug": slug.current,    heroImage,    heroSubheadline,    category  }
+export type TerraceServicesQueryResult = Array<{
+  _id: string;
+  title: string;
+  slug: string;
+  heroImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: 'image';
+  } | null;
+  heroSubheadline: string | null;
+  category:
+    | 'elewacje-kompozytowe'
+    | 'schody-modulowe'
+    | 'tarasy-drewniane'
+    | 'tarasy-gresowe'
+    | 'tarasy-kompozytowe'
+    | 'zadaszenia-tarasowe'
+    | 'zaluzje-tarasowe';
+}>;
 
 // Source: sanity/lib/queries.ts
 // Variable: bottomCtaQuery
@@ -1325,6 +1377,8 @@ declare module '@sanity/client' {
     '*[_type == "aboutSection"][0]': AboutQueryResult;
     '*[_type == "featuredProjectsSection"][0]': FeaturedProjectsSectionQueryResult;
     '*[_type == "realizacjePage"][0]': RealizacjePageQueryResult;
+    '*[_type == "tarasyPage"][0]': TarasyPageQueryResult;
+    '*[_type == "service" && slug.current in ["tarasy-kompozytowe", "tarasy-gresowe", "tarasy-drewniane"]]{\n    _id,\n    title,\n    "slug": slug.current,\n    heroImage,\n    heroSubheadline,\n    category\n  }': TerraceServicesQueryResult;
     '*[_type == "bottomCtaSection"][0]': BottomCtaQueryResult;
     '*[_type == "processTimeline"][0]': ProcessTimelineQueryResult;
     '*[_type == "footer"][0]': FooterQueryResult;

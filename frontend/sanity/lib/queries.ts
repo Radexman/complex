@@ -10,6 +10,19 @@ export const featuredProjectsSectionQuery = defineQuery(
   `*[_type == "featuredProjectsSection"][0]`,
 );
 export const realizacjePageQuery = defineQuery(`*[_type == "realizacjePage"][0]`);
+export const tarasyPageQuery = defineQuery(`*[_type == "tarasyPage"][0]`);
+
+/** The three terrace offers shown on the `/tarasy` landing page (order applied in code). */
+export const terraceServicesQuery = defineQuery(
+  `*[_type == "service" && slug.current in ["tarasy-kompozytowe", "tarasy-gresowe", "tarasy-drewniane"]]{
+    _id,
+    title,
+    "slug": slug.current,
+    heroImage,
+    heroSubheadline,
+    category
+  }`,
+);
 export const bottomCtaQuery = defineQuery(`*[_type == "bottomCtaSection"][0]`);
 export const processTimelineQuery = defineQuery(`*[_type == "processTimeline"][0]`);
 export const footerQuery = defineQuery(`*[_type == "footer"][0]`);

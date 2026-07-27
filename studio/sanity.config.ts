@@ -73,6 +73,10 @@ export default defineConfig({
             filter: `_type == "realizacjePage" && _id == "realizacjePage"`,
           },
           {
+            route: '/tarasy',
+            filter: `_type == "tarasyPage" && _id == "tarasyPage"`,
+          },
+          {
             route: '/oferta/:slug',
             filter: `_type == "service" && slug.current == $slug || _id == $slug`,
           },
@@ -133,6 +137,11 @@ export default defineConfig({
           realizacjePage: defineLocations({
             locations: [{ title: 'Realizacje', href: '/realizacje' }],
             message: 'Nagłówek strony „Realizacje”',
+            tone: 'positive',
+          }),
+          tarasyPage: defineLocations({
+            locations: [{ title: 'Tarasy', href: '/tarasy' }],
+            message: 'Nagłówek strony „Tarasy”',
             tone: 'positive',
           }),
           bottomCtaSection: defineLocations({

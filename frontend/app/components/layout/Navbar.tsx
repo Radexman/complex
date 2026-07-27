@@ -10,15 +10,21 @@ import { ChevronDown, Menu as MenuIcon, X } from 'lucide-react';
 import type { Navbar as NavbarType } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/utils';
 
-type NavItem = { label: string; href: string };
+type NavItem = { label: string; href: string; children?: NavItem[] };
 
 /** Offer categories — mirrors the project's information architecture. */
 const OFERTA_ITEMS: NavItem[] = [
   { label: 'Zadaszenia tarasowe', href: '/oferta/zadaszenia-tarasowe' },
   { label: 'Żaluzje tarasowe', href: '/oferta/zaluzje-tarasowe' },
-  { label: 'Tarasy kompozytowe', href: '/oferta/tarasy-kompozytowe' },
-  { label: 'Tarasy gresowe', href: '/oferta/tarasy-gresowe' },
-  { label: 'Tarasy drewniane', href: '/oferta/tarasy-drewniane' },
+  {
+    label: 'Tarasy',
+    href: '/tarasy',
+    children: [
+      { label: 'Tarasy kompozytowe', href: '/oferta/tarasy-kompozytowe' },
+      { label: 'Tarasy gresowe', href: '/oferta/tarasy-gresowe' },
+      { label: 'Tarasy drewniane', href: '/oferta/tarasy-drewniane' },
+    ],
+  },
   { label: 'Elewacje kompozytowe', href: '/oferta/elewacje-kompozytowe' },
   { label: 'Schody modułowe', href: '/oferta/schody-modulowe' },
 ];
@@ -55,6 +61,55 @@ const NAV_LINKS: NavItem[] = [
 
 function isActivePath(pathname: string, href: string) {
   return href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
+}
+
+/**
+ * A dropdown entry that has sub-items (e.g. „Tarasy"): the label links to the
+ * parent page, the chevron toggles the nested children inline.
+ */
+function DropdownGroup({ item, onNavigate }: { item: NavItem; onNavigate: () => void }) {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <div>
+      <div className="flex items-center">
+        <Link
+          href={item.href}
+          onClick={onNavigate}
+          className="flex-1 rounded-l-lg px-4 py-2 text-sm whitespace-nowrap text-silver transition-colors hover:bg-white/10 hover:text-white"
+        >
+          {item.label}
+        </Link>
+        <button
+          type="button"
+          onClick={() => setExpanded((value) => !value)}
+          aria-expanded={expanded}
+          aria-label={`Rozwiń ${item.label}`}
+          className="px-3 py-2 text-silver transition-colors hover:text-white"
+        >
+          <ChevronDown
+            size={14}
+            className={`transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
+            aria-hidden="true"
+          />
+        </button>
+      </div>
+      {expanded && (
+        <div className="flex flex-col">
+          {item.children?.map((child) => (
+            <Link
+              key={child.href}
+              href={child.href}
+              onClick={onNavigate}
+              className="block py-2 pr-4 pl-8 text-sm whitespace-nowrap text-silver transition-colors hover:bg-white/10 hover:text-white"
+            >
+              {child.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }
 
 /**
@@ -107,18 +162,68 @@ function NavDropdown({
       </button>
       {open && (
         <div
-          className={`glass absolute top-full mt-3 min-w-56 rounded-lg animate-[nav-fade-in_0.15s_ease-out] ${
+          className={`absolute top-full mt-3 min-w-56 rounded-lg border border-graphite bg-bg-mid/95 shadow-xl shadow-black/50 backdrop-blur-md animate-[nav-fade-in_0.15s_ease-out] ${
             align === 'right' ? 'right-0' : 'left-0'
           }`}
         >
-          {items.map((item) => (
+          {items.map((item) =>
+            item.children ? (
+              <DropdownGroup key={item.href} item={item} onNavigate={() => setOpen(false)} />
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className="block px-4 py-2 text-sm whitespace-nowrap text-silver transition-colors hover:bg-white/10 hover:text-white"
+              >
+                {item.label}
+              </Link>
+            ),
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** Mobile drawer variant of a nav entry with sub-items — label links, chevron expands. */
+function MobileNavGroup({ item, onNavigate }: { item: NavItem; onNavigate: () => void }) {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <div>
+      <div className="flex items-center justify-between">
+        <Link
+          href={item.href}
+          onClick={onNavigate}
+          className="flex-1 py-2 text-sm text-silver transition-colors hover:text-white"
+        >
+          {item.label}
+        </Link>
+        <button
+          type="button"
+          onClick={() => setExpanded((value) => !value)}
+          aria-expanded={expanded}
+          aria-label={`Rozwiń ${item.label}`}
+          className="p-2 text-silver transition-colors hover:text-white"
+        >
+          <ChevronDown
+            size={16}
+            className={`transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
+            aria-hidden="true"
+          />
+        </button>
+      </div>
+      {expanded && (
+        <div className="ml-1 flex flex-col border-l border-graphite pl-3">
+          {item.children?.map((child) => (
             <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setOpen(false)}
-              className="block px-4 py-2 text-sm whitespace-nowrap text-silver transition-colors hover:bg-white/10 hover:text-white"
+              key={child.href}
+              href={child.href}
+              onClick={onNavigate}
+              className="py-2 text-sm text-silver transition-colors hover:text-white"
             >
-              {item.label}
+              {child.label}
             </Link>
           ))}
         </div>
@@ -256,16 +361,24 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
                       </Accordion.ItemTrigger>
                       <Accordion.ItemContent className="overflow-hidden">
                         <div className="flex flex-col border-l border-graphite pl-3">
-                          {OFERTA_ITEMS.map((item) => (
-                            <Link
-                              key={item.href}
-                              href={item.href}
-                              onClick={() => setMobileOpen(false)}
-                              className="py-2 text-sm text-silver transition-colors hover:text-white"
-                            >
-                              {item.label}
-                            </Link>
-                          ))}
+                          {OFERTA_ITEMS.map((item) =>
+                            item.children ? (
+                              <MobileNavGroup
+                                key={item.href}
+                                item={item}
+                                onNavigate={() => setMobileOpen(false)}
+                              />
+                            ) : (
+                              <Link
+                                key={item.href}
+                                href={item.href}
+                                onClick={() => setMobileOpen(false)}
+                                className="py-2 text-sm text-silver transition-colors hover:text-white"
+                              >
+                                {item.label}
+                              </Link>
+                            ),
+                          )}
                         </div>
                       </Accordion.ItemContent>
                     </Accordion.Item>
