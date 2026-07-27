@@ -18,7 +18,10 @@ export function resolveOpenGraphImage(
   width = 1200,
   height = 627,
 ) {
-  if (!image) return;
+  // An image with alt text but no uploaded asset (a half-filled Studio field)
+  // is still a truthy object, but `urlForImage` throws on it — so guard on the
+  // asset, not just the image, or `generateMetadata` takes the whole page down.
+  if (!image || !(image as { asset?: unknown }).asset) return;
   const url = urlForImage(image)?.width(1200).height(627).fit('crop').url();
   if (!url) return;
   return { url, alt: (image as { alt?: string })?.alt || '', width, height };
