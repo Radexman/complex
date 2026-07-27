@@ -135,7 +135,7 @@ export default function BottomCtaSection({ data }: { data: NonNullable<BottomCta
             {secondaryCtaLabel && secondaryCtaHref && (
               <Link
                 href={secondaryCtaHref}
-                className="inline-flex items-center rounded-lg border border-graphite bg-bg-surface px-8 py-4 text-base font-semibold text-white transition-colors hover:border-accent hover:text-accent"
+                className="inline-flex items-center rounded-lg border border-white/15 bg-white/5 px-8 py-4 text-base font-semibold text-white backdrop-blur-md transition-colors hover:border-white/25 hover:bg-white/10"
               >
                 {secondaryCtaLabel}
               </Link>
@@ -164,6 +164,8 @@ export default function BottomCtaSection({ data }: { data: NonNullable<BottomCta
         showroomLabel={data.showroomLabel}
         showroomDescription={data.showroomDescription}
         showroomAddress={data.showroomAddress}
+        officeLabel={data.officeLabel}
+        officeDescription={data.officeDescription}
       />
     </section>
   );

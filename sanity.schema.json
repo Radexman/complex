@@ -545,7 +545,7 @@
           "value": {
             "type": "string"
           },
-          "optional": false
+          "optional": true
         },
         "label": {
           "type": "objectAttribute",

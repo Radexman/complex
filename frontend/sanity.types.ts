@@ -102,7 +102,7 @@ export type TrustStat = {
 
 export type HeroStat = {
   _type: 'heroStat';
-  value: string;
+  value?: string;
   label: string;
 };
 

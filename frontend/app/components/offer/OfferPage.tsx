@@ -85,6 +85,8 @@ export default function OfferPage({
           showroomLabel={contact.showroomLabel}
           showroomDescription={contact.showroomDescription}
           showroomAddress={contact.showroomAddress}
+          officeLabel={contact.officeLabel}
+          officeDescription={contact.officeDescription}
         />
       )}
     </main>

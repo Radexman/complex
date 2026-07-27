@@ -5,7 +5,7 @@ import { useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import { Building2, MapPin, Phone, Mail } from 'lucide-react';
+import { CalendarClock, MapPin, Phone, Mail } from 'lucide-react';
 
 import type { BottomCtaQueryResult } from '@/sanity.types';
 
@@ -125,18 +125,18 @@ export default function ContactShowroom({
             </p>
           )}
 
-          {/* Office — a separate entry below the showroom (meetings are by appointment). */}
+          {/* Office — a prominent notice that visits are by prior appointment only. */}
           {(officeLabel || officeDescription) && (
-            <div className="mt-8 border-t border-graphite pt-6">
-              {officeLabel && (
-                <h4 className="flex items-center gap-2 font-heading text-lg font-bold text-white">
-                  <Building2 size={18} className="text-accent" aria-hidden="true" />
-                  {officeLabel}
-                </h4>
-              )}
-              {officeDescription && (
-                <p className="mt-2 font-body text-base text-silver">{officeDescription}</p>
-              )}
+            <div className="mt-8 flex gap-3 rounded-lg border border-accent/30 bg-accent/10 p-4">
+              <CalendarClock size={20} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
+              <div>
+                {officeLabel && (
+                  <h4 className="font-heading text-base font-bold text-white">{officeLabel}</h4>
+                )}
+                {officeDescription && (
+                  <p className="mt-1 font-body text-sm text-silver">{officeDescription}</p>
+                )}
+              </div>
             </div>
           )}
         </div>
