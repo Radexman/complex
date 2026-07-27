@@ -5,30 +5,12 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { stegaClean } from 'next-sanity';
-import {
-  Calculator,
-  FileCheck,
-  FileSignature,
-  Hammer,
-  Mail,
-  Ruler,
-  ShieldCheck,
-  type LucideIcon,
-} from 'lucide-react';
+import { Mail } from 'lucide-react';
 
 import type { ProcessTimelineQueryResult } from '@/sanity.types';
+import { PROCESS_STEP_ICON_MAP } from '@/app/lib/processStepIcons';
 
 gsap.registerPlugin(ScrollTrigger);
-
-const ICON_MAP: Record<string, LucideIcon> = {
-  'mail': Mail,
-  'calculator': Calculator,
-  'ruler': Ruler,
-  'file-check': FileCheck,
-  'file-signature': FileSignature,
-  'hammer': Hammer,
-  'shield-check': ShieldCheck,
-};
 
 type ProcessTimelineData = NonNullable<ProcessTimelineQueryResult>;
 
@@ -177,7 +159,7 @@ export default function ProcessTimeline({ data }: { data: ProcessTimelineData })
             </div>
             <div className="flex flex-col gap-6 sm:gap-8">
               {steps.map((step) => {
-                const Icon = ICON_MAP[stegaClean(step.icon ?? '')] ?? Mail;
+                const Icon = PROCESS_STEP_ICON_MAP[stegaClean(step.icon ?? '')] ?? Mail;
                 return (
                   <div key={step._key} data-step-row className="relative flex items-start gap-6">
                     <div className="relative z-10 shrink-0">

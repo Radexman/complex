@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 
 import ZaluzjeForm from '@/app/components/forms/ZaluzjeForm';
+import { processTimelineQuery } from '@/sanity/lib/queries';
+import { sanityFetch } from '@/sanity/lib/live';
 
 export const metadata: Metadata = {
   title: 'Formularz Wyceny Żaluzji — Complex',
@@ -8,7 +10,9 @@ export const metadata: Metadata = {
     'Wypełnij formularz wyceny żaluzji tarasowych i otrzymaj bezpłatną ofertę w ciągu 24 godzin.',
 };
 
-export default function WycenaZaluzjePage() {
+export default async function WycenaZaluzjePage() {
+  const { data: processTimeline } = await sanityFetch({ query: processTimelineQuery });
+
   return (
     <div className="bg-bg-deep">
       <section className="border-b border-graphite bg-bg-mid pt-28 pb-16">
@@ -25,7 +29,7 @@ export default function WycenaZaluzjePage() {
           </p>
         </div>
       </section>
-      <ZaluzjeForm />
+      <ZaluzjeForm steps={processTimeline?.steps ?? []} />
     </div>
   );
 }
