@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import type { FieldError } from 'react-hook-form';
-import { AlertCircle, CheckCircle, Info, Loader2, Send } from 'lucide-react';
+import { AlertCircle, Info, Loader2, Send } from 'lucide-react';
 
 import {
   zaluzjeFormSchema,
@@ -18,9 +18,15 @@ import { FormFileDropzone } from './shared/FormFileDropzone';
 import { FormInput } from './shared/FormInput';
 import { FormNumberInput } from './shared/FormNumberInput';
 import { FormTextarea } from './shared/FormTextarea';
+import FormSuccessState, { type ProcessStepData } from './shared/FormSuccessState';
 
-export default function ZaluzjeForm() {
+interface ZaluzjeFormProps {
+  steps: ProcessStepData[];
+}
+
+export default function ZaluzjeForm({ steps }: ZaluzjeFormProps) {
   const [isSuccess, setIsSuccess] = useState(false);
+  const [submittedEmail, setSubmittedEmail] = useState('');
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [photos, setPhotos] = useState<File[]>([]);
 
@@ -65,6 +71,7 @@ export default function ZaluzjeForm() {
     const result = await submitZaluzjeForm(formData);
 
     if (result.success) {
+      setSubmittedEmail(data.email);
       setIsSuccess(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (result.error) {
@@ -73,24 +80,7 @@ export default function ZaluzjeForm() {
   };
 
   if (isSuccess) {
-    return (
-      <div className="mx-auto max-w-xl px-6 py-24 text-center">
-        <CheckCircle size={48} className="mx-auto text-accent" aria-hidden="true" />
-        <h2 className="mt-4 font-heading text-2xl font-bold text-white">
-          Dziękujemy za zapytanie!
-        </h2>
-        <p className="mt-2 font-body text-base text-silver">
-          Skontaktujemy się z Tobą w ciągu 24 godzin roboczych na podany adres e-mail lub numer
-          telefonu.
-        </p>
-        <Link
-          href="/"
-          className="mt-6 inline-block text-sm text-accent transition-colors hover:text-accent-hover"
-        >
-          Wróć na stronę główną
-        </Link>
-      </div>
-    );
+    return <FormSuccessState formType="zaluzje" submittedEmail={submittedEmail} steps={steps} />;
   }
 
   return (

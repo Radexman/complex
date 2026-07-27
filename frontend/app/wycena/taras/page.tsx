@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 import TarasForm from '@/app/components/forms/TarasForm';
-import { tarasFormConfigQuery } from '@/sanity/lib/queries';
+import { processTimelineQuery, tarasFormConfigQuery } from '@/sanity/lib/queries';
 import { sanityFetch } from '@/sanity/lib/live';
 
 export const metadata: Metadata = {
@@ -11,7 +11,10 @@ export const metadata: Metadata = {
 };
 
 export default async function WycenaTarasPage() {
-  const { data: config } = await sanityFetch({ query: tarasFormConfigQuery });
+  const [{ data: config }, { data: processTimeline }] = await Promise.all([
+    sanityFetch({ query: tarasFormConfigQuery }),
+    sanityFetch({ query: processTimelineQuery }),
+  ]);
   const shapes = config?.shapes ?? [];
 
   return (
@@ -31,7 +34,7 @@ export default async function WycenaTarasPage() {
         </div>
       </section>
 
-      <TarasForm shapes={shapes} />
+      <TarasForm shapes={shapes} steps={processTimeline?.steps ?? []} />
     </div>
   );
 }
