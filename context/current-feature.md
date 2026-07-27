@@ -14,6 +14,51 @@ Not Started
 
 ## History
 
+### Terrace Landing Page `/tarasy` + nested Oferta nav (2026-07-27)
+
+A dedicated **`/tarasy`** landing page — the target of the company's existing Google Ads — presenting
+the three terrace categories as a bento grid, each card linking to its `/oferta/tarasy-*` subpage.
+Defined inline via `/feature start` (no separate spec file). Decisions confirmed up front with the
+user: URL exactly **`/tarasy`** (top-level, matches the ad destination); the **3 terrace offers**;
+**CMS-editable header + auto-derived cards**.
+
+- **`tarasyPage` singleton** (new, fixed id) holds only the header copy (`eyebrow`/`headline`/
+  `subheadline`) — mirrors the `realizacjePage` precedent. Registered in `schemaTypes/index.ts`, added
+  a „Strona Tarasy" structure entry, and wired Presentation (a `/tarasy` `mainDocuments` route + a
+  `locations` resolver). **Seeded + published** the singleton; hosted Studio needs a **redeploy** to
+  expose the new entry.
+- **Cards auto-derive from the 3 terrace `service` docs** (`terraceServicesQuery`, filtered by the
+  three `tarasy-*` slugs, ordered in code) — no card content duplicated into a new schema. Header via
+  `tarasyPageQuery`.
+- **`app/tarasy/page.tsx`** (SSR, static) fetches both in parallel and renders **`TarasyLanding.tsx`**
+  (`'use client'`): a hero (eyebrow/headline/intro) + a bento grid — first card a 2×2 hero on `md`+,
+  the other two stacked (the OfferGallery square-alignment pattern), each a `<Link>` to `/oferta/
+[slug]` with an `?.asset`-guarded `urlForImage`, title, subheadline, hover CTA. Reused the shared
+  `categories.ts` conceptually; titles come straight from the service docs.
+- **Metadata:** page title deliberately omits the brand — the root layout's `title.template`
+  (`%s | <site title>`) appends it, so including „| CComplex" here double-printed the brand.
+- **Navbar — „Tarasy" is a collapsible group in the Oferta menu.** New optional `children` on the
+  `NavItem` type; the „Tarasy" entry links to `/tarasy` and its **chevron toggles** the three terrace
+  subpages inline (new `DropdownGroup` desktop + `MobileNavGroup` drawer components; the label is a
+  `<Link>`, the chevron a sibling `<button>` — no nested interactive elements). Collapsed by default.
+- **Dropdown contrast fix (same change set):** the shared `.glass` utility is only 60% opaque, so the
+  Oferta/Formularze dropdowns bled scrolled content through. Swapped the panel for `bg-bg-mid/95` +
+  `border-graphite` + shadow (blur kept) — readable over the hero now. Both dropdowns benefit.
+- **Verified in a real browser (Playwright/Chromium):** `/tarasy` renders the CMS headline + 3 cards
+  in order with correct `/oferta/*` hrefs and images (0 console errors); the Oferta „Tarasy" group is
+  collapsed by default and its chevron reveals exactly the 3 subpages; dropdown panel now 95% opaque.
+  **Playwright gotcha:** the custom `NavDropdown` toggles on click, so `el.click()` across separate
+  `evaluate` calls double-toggles — drive it off `aria-expanded` and read `btn.nextElementSibling`.
+- **Left untouched (same precedent as prior features):** the pre-existing uncommitted `.mcp.json`,
+  `OfferTechSpecs.tsx`, `FeaturedProjectsSection.tsx`, and the user's `renderConfirmationEmail.ts`
+  copy edit (24h → 7 dni), plus the four untracked future specs (`about-us`, `contact-page`,
+  `form-success-state`, `offer-index`). `offer-index-spec.md` specs a broader `/oferta` index of all
+  7 services — used only as a pattern reference here.
+- ⚠️ **Confirm the ad's exact destination is `/tarasy`** (no trailing slash / query) before relying
+  on it. Sitemap left as-is (it currently lists only the root), so `/tarasy` isn't in it yet.
+- Verified: **119/119 Vitest**, `type-check` (both workspaces), `next build` — `/tarasy` prerenders
+  static, all offer slugs still SSG.
+
 ### Wysyłka wycen mailem — Resend (2026-07-13)
 
 Replaced the four quotation forms' `console.log` placeholder with real transactional email. Spec:
