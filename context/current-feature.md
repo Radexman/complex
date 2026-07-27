@@ -14,6 +14,61 @@ Not Started
 
 ## History
 
+### Form Success State — shared confirmation panel (2026-07-27)
+
+Replaced the four quotation forms' minimal inline success message with a shared **`FormSuccessState`**
+panel: a `CheckCircle` header, a contextual Polish headline per form type, the customer's submitted
+email echoed back, an inline „Co dalej?" recap of the process-timeline steps, and two navigation CTAs.
+Spec: `context/features/form-success-state-spec.md` (committed with the feature).
+
+- **Scoped to 4 forms, not the spec's 5.** The spec lists `ContactForm` / `/kontakt`, but **neither
+  exists in the repo yet** (confirmed by glob — no `kontakt` route, no contact form). Wired
+  `FormSuccessState` into `TarasForm` / `ZadaszenieForm` / `ZaluzjeForm` / `SchodyForm` only. The
+  `kontakt` `formType` + its copy are **already baked into the component**, so the contact page (a
+  separate untracked spec) is a one-line wire-up when it lands.
+- **`FormSuccessState.tsx`** (`components/forms/shared/`, `'use client'` for the GSAP mount): props
+  `formType` (`taras`/`zadaszenie`/`zaluzje`/`schody`/`kontakt`), `submittedEmail`, `steps[]`, and
+  optional `primaryCtaLabel`/`primaryCtaHref` (default „Wróć na stronę główną" → `/`). Secondary CTA
+  („Zobacz nasze realizacje" → `/realizacje`) is fixed. Centered `max-w-2xl` panel; email rendered as
+  an accent inline `<span>`; the 7-dni + śląskie/opolskie notes match the recent
+  `renderConfirmationEmail.ts` copy. GSAP staggered entrance (header → divider → step rows → CTAs) via
+  the repo's `useGSAP` convention (spec said `gsap.context()`/`useEffect`; reconciled to the repo
+  pattern, same as every prior section).
+- **„First 3 steps" reconciled to steps 2–4.** The spec's „first 3 steps" wording contradicts its own
+  narrative + its `steps[1]` reference; the intent (skip the just-completed „Zapytanie", show what's
+  next) is unambiguous, so `steps.slice(1, 4)` with the first shown step highlighted. Because it's
+  CMS-driven, the live timeline (which the client expanded to 7 steps with „Pomiar" inserted) now
+  yields **Wycena wstępna → Pomiar → Wycena końcowa** — a correct „what happens next" window that
+  self-updates with the CMS.
+- **Icon map extracted, not duplicated.** The spec referenced a shared `src/lib/iconMap.ts`; the repo
+  had the Lucide lookup **inline in `ProcessTimeline.tsx`**. Pulled it into
+  **`app/lib/processStepIcons.ts`** (`PROCESS_STEP_ICON_MAP`) and pointed both `ProcessTimeline` and
+  `FormSuccessState` at it — one source, no duplication.
+- **No new Sanity schema/query.** Reused the existing standalone **`processTimeline` singleton**
+  (`processTimelineQuery`), *not* `siteSettings.processTimeline` as the spec's phrasing assumed (this
+  repo split section configs into fixed-id singletons long ago). Each `/wycena/*` page now fetches
+  `processTimelineQuery` — `taras`/`schody` already `await`, so added it to their `Promise.all`;
+  `zadaszenie`/`zaluzje` were sync, made them `async` — and threads `steps={processTimeline?.steps ??
+  []}` to the form. Each form captures `submittedEmail` from `data.email` **before** flipping to the
+  success state.
+- **Removed the now-unused `CheckCircle` import** from all four forms (it moved into the shared
+  component); `Link` stayed (still used for the RODO/Polityka-prywatności consent links).
+- **No tests added** — the change is presentational + prop-threading, with no new server action or
+  utility (matches the coding-standards test scope). No typegen needed (no schema/query change).
+- **Verified with a real in-browser submission** (Playwright/Chromium, existing dev server on :3000):
+  filled `/wycena/zaluzje` (Ark `NumberInput`s via `pressSequentially`, contact fields, RODO), submit
+  → Resend accepted → the success panel rendered „Zapytanie o żaluzje wysłane!", the email inline, the
+  three CMS steps (02 Wycena wstępna highlighted / 03 Pomiar / 04 Wycena końcowa), the 7-dni note, and
+  both CTAs — **0 console errors**. The other three forms share the identical wiring (not each
+  clicked through).
+- **Left untouched (same precedent as prior features):** the pre-existing uncommitted `.mcp.json`,
+  `OfferTechSpecs.tsx`, `FeaturedProjectsSection.tsx`, the user's `renderConfirmationEmail.ts` edit,
+  the line-ending-only `sanity.types.ts` / `sanity.schema.json` drift, and the three untracked future
+  specs (`about-us`, `contact-page`, `offer-index`) — all excluded from the commit. The
+  `form-success-state-spec` **was** committed with the feature.
+- Verified: **`type-check`** (both workspaces), **`lint`** (only the pre-existing TrustSection
+  warning), **`next build`** — all four `/wycena/*` routes still prerender static.
+
 ### Terrace Landing Page `/tarasy` + nested Oferta nav (2026-07-27)
 
 A dedicated **`/tarasy`** landing page — the target of the company's existing Google Ads — presenting
