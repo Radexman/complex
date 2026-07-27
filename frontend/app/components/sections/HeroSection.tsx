@@ -141,7 +141,9 @@ export default function HeroSection({ data }: { data: HeroSectionType }) {
                 key={stat._key}
                 className="glass flex flex-col items-center justify-center rounded-lg px-8 py-6 text-center"
               >
-                <span className="font-heading text-4xl font-bold text-accent">{stat.value}</span>
+                {stat.value && (
+                  <span className="font-heading text-4xl font-bold text-accent">{stat.value}</span>
+                )}
                 <span className="mt-1 text-sm text-white">{stat.label}</span>
               </div>
             ))}

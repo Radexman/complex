@@ -10,9 +10,9 @@ export const heroStat = defineType({
     defineField({
       name: 'value',
       title: 'Wartość',
-      description: 'Np. "1200+", "15", "98%".',
+      description:
+        'Opcjonalna duża liczba lub tekst, np. "1200+", "15", "98%". Zostaw puste, aby ukryć liczbę i pokazać samą etykietę.',
       type: 'string',
-      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'label',

@@ -40,7 +40,13 @@ export default function ShowroomMap() {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={SHOWROOM_COORDS} icon={greenIcon}>
+      <Marker
+        position={SHOWROOM_COORDS}
+        icon={greenIcon}
+        // Open the popup as soon as the marker is added to the map, so the
+        // address card shows by default without a click.
+        eventHandlers={{ add: (e) => e.target.openPopup() }}
+      >
         <Popup>
           <span className="block font-heading text-sm font-bold text-black">{SHOWROOM_NAME}</span>
           <span className="mt-1 block font-body text-sm text-black">{SHOWROOM_ADDRESS}</span>
