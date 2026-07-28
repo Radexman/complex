@@ -85,6 +85,10 @@ export default defineConfig({
             filter: `_type == "tarasyPage" && _id == "tarasyPage"`,
           },
           {
+            route: '/oferta',
+            filter: `_type == "ofertaPage" && _id == "ofertaPage"`,
+          },
+          {
             route: '/oferta/:slug',
             filter: `_type == "service" && slug.current == $slug || _id == $slug`,
           },
@@ -152,6 +156,11 @@ export default defineConfig({
             message: 'Nagłówek strony „Tarasy”',
             tone: 'positive',
           }),
+          ofertaPage: defineLocations({
+            locations: [{ title: 'Oferta', href: '/oferta' }],
+            message: 'Nagłówek strony „Oferta”',
+            tone: 'positive',
+          }),
           bottomCtaSection: defineLocations({
             locations: [homeLocation],
             message: 'Sekcja CTA / Salon jest używana na stronie głównej',
@@ -185,6 +194,8 @@ export default defineConfig({
                   title: doc?.title || 'Oferta',
                   href: doc?.slug ? `/oferta/${doc.slug}` : '/',
                 },
+                // Every service also appears as a card on the offer index page.
+                { title: 'Oferta', href: '/oferta' },
               ],
             }),
           }),

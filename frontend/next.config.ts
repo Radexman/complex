@@ -13,6 +13,13 @@ const nextConfig: NextConfig = {
         destination: '/oferta/zadaszenia-tarasowe',
         permanent: true,
       },
+      // Same again: „Żaluzje tarasowe” → „Akcesoria do zadaszeń”. The quotation form
+      // itself (/wycena/zaluzje) keeps its name — only the offer was renamed.
+      {
+        source: '/oferta/zaluzje-tarasowe',
+        destination: '/oferta/akcesoria-do-zadaszen',
+        permanent: true,
+      },
     ];
   },
 };

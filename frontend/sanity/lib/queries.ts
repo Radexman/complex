@@ -11,6 +11,23 @@ export const featuredProjectsSectionQuery = defineQuery(
 );
 export const realizacjePageQuery = defineQuery(`*[_type == "realizacjePage"][0]`);
 export const tarasyPageQuery = defineQuery(`*[_type == "tarasyPage"][0]`);
+export const ofertaPageQuery = defineQuery(`*[_type == "ofertaPage"][0]`);
+
+/**
+ * Every offer, ordered by the editor-controlled `order` field, for the `/oferta`
+ * index grid. Services without an `order` sort last (99 is the schema default).
+ */
+export const allServicesQuery = defineQuery(
+  `*[_type == "service" && defined(slug.current)] | order(coalesce(order, 99) asc, title asc){
+    _id,
+    title,
+    "slug": slug.current,
+    heroImage,
+    heroSubheadline,
+    category,
+    relatedFormSlug
+  }`,
+);
 
 /** The three terrace offers shown on the `/tarasy` landing page (order applied in code). */
 export const terraceServicesQuery = defineQuery(

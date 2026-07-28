@@ -15,8 +15,9 @@ type NavItem = { label: string; href: string; children?: NavItem[] };
 
 /** Offer categories — mirrors the project's information architecture. */
 const OFERTA_ITEMS: NavItem[] = [
+  { label: 'Cała oferta', href: '/oferta' },
   { label: 'Zadaszenia tarasowe', href: '/oferta/zadaszenia-tarasowe' },
-  { label: 'Żaluzje tarasowe', href: '/oferta/zaluzje-tarasowe' },
+  { label: 'Akcesoria do zadaszeń', href: '/oferta/akcesoria-do-zadaszen' },
   {
     label: 'Tarasy',
     href: '/tarasy',
@@ -46,7 +47,7 @@ const WYCENA_ITEMS: NavItem[] = [
  */
 const OFFER_FORM_HREFS: Record<string, string> = {
   'zadaszenia-tarasowe': '/wycena/zadaszenie',
-  'zaluzje-tarasowe': '/wycena/zaluzje',
+  'akcesoria-do-zadaszen': '/wycena/zaluzje',
   'tarasy-kompozytowe': '/wycena/taras',
   'tarasy-gresowe': '/wycena/taras',
   'tarasy-drewniane': '/wycena/taras',

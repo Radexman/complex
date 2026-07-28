@@ -420,7 +420,7 @@
               },
               {
                 "type": "string",
-                "value": "zaluzje-tarasowe"
+                "value": "akcesoria-do-zadaszen"
               },
               {
                 "type": "string",
@@ -607,6 +607,13 @@
         },
         "optional": false
       },
+      "order": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "number"
+        },
+        "optional": true
+      },
       "seoDescription": {
         "type": "objectAttribute",
         "value": {
@@ -718,7 +725,7 @@
             },
             {
               "type": "string",
-              "value": "zaluzje-tarasowe"
+              "value": "akcesoria-do-zadaszen"
             },
             {
               "type": "string",
@@ -1344,7 +1351,7 @@
             },
             {
               "type": "string",
-              "value": "zaluzje-tarasowe"
+              "value": "akcesoria-do-zadaszen"
             },
             {
               "type": "string",
@@ -2182,6 +2189,64 @@
         "value": {
           "type": "string",
           "value": "realizacjePage"
+        }
+      },
+      "_createdAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_updatedAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_rev": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "eyebrow": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "headline": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": false
+      },
+      "subheadline": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      }
+    }
+  },
+  {
+    "name": "ofertaPage",
+    "type": "document",
+    "attributes": {
+      "_id": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_type": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string",
+          "value": "ofertaPage"
         }
       },
       "_createdAt": {

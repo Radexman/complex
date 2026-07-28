@@ -16,30 +16,13 @@ import type {
 } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/utils';
 import ProjectLightbox from '@/app/components/ui/ProjectLightbox';
+import { CATEGORY_ORDER, categoryLabel } from '@/app/lib/categories';
 
 gsap.registerPlugin(ScrollTrigger);
 
 type Project = FeaturedProjectsQueryResult[number];
-type ProjectCategory = Project['category'];
 
 const ALL = 'all';
-
-/** Polish labels keyed by category value. Order here drives the tab order. */
-const CATEGORY_LABELS: Record<ProjectCategory, string> = {
-  'zadaszenia-tarasowe': 'Zadaszenia tarasowe',
-  'zaluzje-tarasowe': 'Żaluzje tarasowe',
-  'tarasy-kompozytowe': 'Tarasy kompozytowe',
-  'tarasy-gresowe': 'Tarasy gresowe',
-  'tarasy-drewniane': 'Tarasy drewniane',
-  'elewacje-kompozytowe': 'Elewacje kompozytowe',
-  'schody-modulowe': 'Schody modułowe',
-};
-
-const CATEGORY_ORDER = Object.keys(CATEGORY_LABELS) as ProjectCategory[];
-
-function categoryLabel(category: ProjectCategory): string {
-  return CATEGORY_LABELS[category] ?? category;
-}
 
 function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void }) {
   const imageUrl = project.coverImage?.asset
@@ -191,7 +174,7 @@ export default function FeaturedProjectsSection({
           <Tabs.List data-fp-reveal className="flex flex-wrap gap-2">
             <Tabs.Trigger
               value={ALL}
-              className="cursor-pointer rounded-full border border-graphite bg-bg-surface px-4 py-2 text-sm font-medium text-silver transition-all duration-200 hover:text-white data-[selected]:border-accent data-[selected]:bg-accent data-[selected]:text-black"
+              className="cursor-pointer rounded-full border border-graphite bg-bg-surface px-4 py-2 text-sm font-medium text-silver transition-all duration-200 hover:text-white data-selected:border-accent data-selected:bg-accent data-selected:text-black"
             >
               Wszystkie
             </Tabs.Trigger>
@@ -199,7 +182,7 @@ export default function FeaturedProjectsSection({
               <Tabs.Trigger
                 key={category}
                 value={category}
-                className="cursor-pointer rounded-full border border-graphite bg-bg-surface px-4 py-2 text-sm font-medium text-silver transition-all duration-200 hover:text-white data-[selected]:border-accent data-[selected]:bg-accent data-[selected]:text-black"
+                className="cursor-pointer rounded-full border border-graphite bg-bg-surface px-4 py-2 text-sm font-medium text-silver transition-all duration-200 hover:text-white data-selected:border-accent data-selected:bg-accent data-selected:text-black"
               >
                 {categoryLabel(category)}
               </Tabs.Trigger>

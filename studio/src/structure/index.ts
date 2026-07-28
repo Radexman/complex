@@ -70,9 +70,13 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .child(S.document().schemaType('footer').documentId('footer')),
       S.divider(),
       S.listItem()
+        .title('Strona Oferta')
+        .icon(TagIcon)
+        .child(S.document().schemaType('ofertaPage').documentId('ofertaPage')),
+      S.listItem()
         .title('Oferta')
         .icon(TagIcon)
-        .child(S.documentTypeList('service').title('Oferta')),
+        .child(S.documentTypeList('service').title('Oferta').defaultOrdering([{ field: 'order', direction: 'asc' }])),
       S.listItem()
         .title('Strona Realizacje')
         .icon(ImagesIcon)
