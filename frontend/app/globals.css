@@ -50,12 +50,36 @@ body {
   }
 }
 
+@keyframes nav-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 @keyframes nav-slide-in-right {
   from {
     transform: translateX(100%);
   }
   to {
     transform: translateX(0);
+  }
+}
+
+/*
+ * Exit counterpart of nav-slide-in-right. Ark UI's presence machine only keeps
+ * a closing element mounted when its computed animation-name differs from the
+ * one recorded while open — so the drawer needs a distinctly named keyframe
+ * (not a reversed reuse of the enter animation) to animate all the way out.
+ */
+@keyframes nav-slide-out-right {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
   }
 }
 

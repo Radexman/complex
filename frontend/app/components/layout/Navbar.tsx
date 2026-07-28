@@ -197,7 +197,7 @@ function MobileNavGroup({ item, onNavigate }: { item: NavItem; onNavigate: () =>
         <Link
           href={item.href}
           onClick={onNavigate}
-          className="flex-1 py-2 text-sm text-silver transition-colors hover:text-white"
+          className="flex-1 py-2.5 text-base text-silver transition-colors hover:text-white"
         >
           {item.label}
         </Link>
@@ -222,7 +222,7 @@ function MobileNavGroup({ item, onNavigate }: { item: NavItem; onNavigate: () =>
               key={child.href}
               href={child.href}
               onClick={onNavigate}
-              className="py-2 text-sm text-silver transition-colors hover:text-white"
+              className="py-2.5 text-base text-silver transition-colors hover:text-white"
             >
               {child.label}
             </Link>
@@ -331,11 +331,11 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
             <MenuIcon size={24} aria-hidden="true" />
           </Dialog.Trigger>
           <Portal>
-            <Dialog.Backdrop className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm animate-[nav-fade-in_0.2s_ease-out]" />
+            <Dialog.Backdrop className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm data-[state=closed]:animate-[nav-fade-out_0.3s_ease-in] data-[state=open]:animate-[nav-fade-in_0.2s_ease-out]" />
             <Dialog.Positioner className="fixed inset-0 z-50">
-              <Dialog.Content className="ml-auto flex h-full w-80 max-w-[85vw] flex-col bg-bg-mid px-6 py-5 animate-[nav-slide-in-right_0.3s_ease-out]">
+              <Dialog.Content className="flex h-full w-full flex-col bg-bg-mid px-6 py-5 data-[state=closed]:animate-[nav-slide-out-right_0.3s_ease-in] data-[state=open]:animate-[nav-slide-in-right_0.3s_ease-out]">
                 <div className="flex items-center justify-between">
-                  <Dialog.Title className="font-heading text-lg font-bold text-white">
+                  <Dialog.Title className="pr-4 font-heading text-lg font-bold text-white">
                     {logoText}
                   </Dialog.Title>
                   <Dialog.CloseTrigger
@@ -349,13 +349,13 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
                   <Link
                     href="/"
                     onClick={() => setMobileOpen(false)}
-                    className="py-2.5 text-base text-silver transition-colors hover:text-white"
+                    className="py-3 text-lg text-silver transition-colors hover:text-white"
                   >
                     Strona główna
                   </Link>
                   <Accordion.Root collapsible>
                     <Accordion.Item value="oferta">
-                      <Accordion.ItemTrigger className="group flex w-full items-center justify-between py-2.5 text-base text-silver transition-colors outline-none hover:text-white">
+                      <Accordion.ItemTrigger className="group flex w-full items-center justify-between py-3 text-lg text-silver transition-colors outline-none hover:text-white">
                         Oferta
                         <Accordion.ItemIndicator>
                           <ChevronDown
@@ -379,7 +379,7 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
                                 key={item.href}
                                 href={item.href}
                                 onClick={() => setMobileOpen(false)}
-                                className="py-2 text-sm text-silver transition-colors hover:text-white"
+                                className="py-2.5 text-base text-silver transition-colors hover:text-white"
                               >
                                 {item.label}
                               </Link>
@@ -394,14 +394,14 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
                       key={item.href}
                       href={item.href}
                       onClick={() => setMobileOpen(false)}
-                      className="py-2.5 text-base text-silver transition-colors hover:text-white"
+                      className="py-3 text-lg text-silver transition-colors hover:text-white"
                     >
                       {item.label}
                     </Link>
                   ))}
                   <Accordion.Root collapsible>
                     <Accordion.Item value="wycena">
-                      <Accordion.ItemTrigger className="group flex w-full items-center justify-between py-2.5 text-base text-silver transition-colors outline-none hover:text-white">
+                      <Accordion.ItemTrigger className="group flex w-full items-center justify-between py-3 text-lg text-silver transition-colors outline-none hover:text-white">
                         Formularze wycen
                         <Accordion.ItemIndicator>
                           <ChevronDown
@@ -418,7 +418,7 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
                               key={item.href}
                               href={item.href}
                               onClick={() => setMobileOpen(false)}
-                              className="py-2 text-sm text-silver transition-colors hover:text-white"
+                              className="py-2.5 text-base text-silver transition-colors hover:text-white"
                             >
                               {item.label}
                             </Link>
@@ -433,7 +433,7 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
                   <Link
                     href={resolvedCtaHref}
                     onClick={() => setMobileOpen(false)}
-                    className="mt-4 rounded-md bg-accent px-4 py-3 text-center text-sm font-semibold text-black transition-colors hover:bg-accent-hover"
+                    className="mt-4 rounded-md bg-accent px-4 py-3.5 text-center text-base font-semibold text-black transition-colors hover:bg-accent-hover"
                   >
                     {ctaLabel}
                   </Link>
