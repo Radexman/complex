@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import type { FieldError } from 'react-hook-form';
@@ -13,20 +14,16 @@ import {
   type ZaluzjeFormInput,
 } from '@/app/lib/validations/zaluzjeForm';
 import { submitZaluzjeForm } from '@/app/lib/actions/submitZaluzjeForm';
+import { markFormSubmitted } from '@/app/lib/formSubmissionSession';
 import { FormCheckbox } from './shared/FormCheckbox';
 import { FormFileDropzone } from './shared/FormFileDropzone';
 import { FormInput } from './shared/FormInput';
 import { FormNumberInput } from './shared/FormNumberInput';
 import { FormTextarea } from './shared/FormTextarea';
-import FormSuccessState, { type ProcessStepData } from './shared/FormSuccessState';
 
-interface ZaluzjeFormProps {
-  steps: ProcessStepData[];
-}
-
-export default function ZaluzjeForm({ steps }: ZaluzjeFormProps) {
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [submittedEmail, setSubmittedEmail] = useState('');
+export default function ZaluzjeForm() {
+  const router = useRouter();
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [photos, setPhotos] = useState<File[]>([]);
 
@@ -71,17 +68,15 @@ export default function ZaluzjeForm({ steps }: ZaluzjeFormProps) {
     const result = await submitZaluzjeForm(formData);
 
     if (result.success) {
-      setSubmittedEmail(data.email);
-      setIsSuccess(true);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Recorded before navigating so the thank-you page can confirm this
+      // visitor really submitted, and echo their address back.
+      markFormSubmitted('zaluzje', data.email);
+      setIsRedirecting(true);
+      router.push('/wycena/zaluzje/przeslany-formularz');
     } else if (result.error) {
       setSubmitError(result.error);
     }
   };
-
-  if (isSuccess) {
-    return <FormSuccessState formType="zaluzje" submittedEmail={submittedEmail} steps={steps} />;
-  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mx-auto max-w-6xl px-6 py-16" noValidate>
@@ -225,10 +220,10 @@ export default function ZaluzjeForm({ steps }: ZaluzjeFormProps) {
 
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || isRedirecting}
             className="mt-2 flex w-full items-center justify-center gap-2 rounded-lg bg-accent py-4 text-base font-semibold text-black transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {isSubmitting ? (
+            {isSubmitting || isRedirecting ? (
               <>
                 <Loader2 size={18} className="animate-spin" /> Wysyłanie…
               </>

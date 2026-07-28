@@ -9,10 +9,9 @@ import { CheckCircle } from 'lucide-react';
 
 import type { ProcessTimelineQueryResult } from '@/sanity.types';
 import { PROCESS_STEP_ICON_MAP } from '@/app/lib/processStepIcons';
+import type { FormType } from '@/app/lib/formSubmissionSession';
 
 export type ProcessStepData = NonNullable<ProcessTimelineQueryResult>['steps'][number];
-
-type FormType = 'taras' | 'zadaszenie' | 'zaluzje' | 'schody' | 'kontakt';
 
 const HEADLINES: Record<FormType, string> = {
   taras: 'Zapytanie o taras wysłane!',

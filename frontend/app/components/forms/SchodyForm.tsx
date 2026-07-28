@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import type { FieldError } from 'react-hook-form';
@@ -15,6 +16,7 @@ import {
   type SchodyFormInput,
 } from '@/app/lib/validations/schodyForm';
 import { submitSchodyForm } from '@/app/lib/actions/submitSchodyForm';
+import { markFormSubmitted } from '@/app/lib/formSubmissionSession';
 import type { SchodyFormConfigQueryResult } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/utils';
 import { FormCheckbox } from './shared/FormCheckbox';
@@ -23,7 +25,6 @@ import { FormInput } from './shared/FormInput';
 import { FormNumberInput } from './shared/FormNumberInput';
 import { FormRadioGroup } from './shared/FormRadioGroup';
 import { FormTextarea } from './shared/FormTextarea';
-import FormSuccessState, { type ProcessStepData } from './shared/FormSuccessState';
 
 const INSULATION_OPTIONS = [
   { value: 'tak', label: 'Tak' },
@@ -32,12 +33,11 @@ const INSULATION_OPTIONS = [
 
 interface SchodyFormProps {
   diagram: NonNullable<SchodyFormConfigQueryResult>['diagram'];
-  steps: ProcessStepData[];
 }
 
-export default function SchodyForm({ diagram, steps }: SchodyFormProps) {
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [submittedEmail, setSubmittedEmail] = useState('');
+export default function SchodyForm({ diagram }: SchodyFormProps) {
+  const router = useRouter();
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [photos, setPhotos] = useState<File[]>([]);
 
@@ -82,17 +82,15 @@ export default function SchodyForm({ diagram, steps }: SchodyFormProps) {
     const result = await submitSchodyForm(formData);
 
     if (result.success) {
-      setSubmittedEmail(data.email);
-      setIsSuccess(true);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Recorded before navigating so the thank-you page can confirm this
+      // visitor really submitted, and echo their address back.
+      markFormSubmitted('schody', data.email);
+      setIsRedirecting(true);
+      router.push('/wycena/schody/przeslany-formularz');
     } else if (result.error) {
       setSubmitError(result.error);
     }
   };
-
-  if (isSuccess) {
-    return <FormSuccessState formType="schody" submittedEmail={submittedEmail} steps={steps} />;
-  }
 
   const diagramUrl = diagram?.asset
     ? urlForImage(diagram)?.width(1200).fit('max').url()
@@ -242,10 +240,10 @@ export default function SchodyForm({ diagram, steps }: SchodyFormProps) {
 
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || isRedirecting}
             className="mt-2 flex w-full items-center justify-center gap-2 rounded-lg bg-accent py-4 text-base font-semibold text-black transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {isSubmitting ? (
+            {isSubmitting || isRedirecting ? (
               <>
                 <Loader2 size={18} className="animate-spin" /> Wysyłanie…
               </>

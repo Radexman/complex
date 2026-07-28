@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import type { FieldError } from 'react-hook-form';
@@ -16,24 +17,20 @@ import {
   type ZadaszenieFormInput,
 } from '@/app/lib/validations/zadaszenieForm';
 import { submitZadaszenieForm } from '@/app/lib/actions/submitZadaszenieForm';
+import { markFormSubmitted } from '@/app/lib/formSubmissionSession';
 import { FormCheckbox } from './shared/FormCheckbox';
 import { FormFileDropzone } from './shared/FormFileDropzone';
 import { FormInput } from './shared/FormInput';
 import { FormNumberInput } from './shared/FormNumberInput';
 import { FormSelect } from './shared/FormSelect';
 import { FormTextarea } from './shared/FormTextarea';
-import FormSuccessState, { type ProcessStepData } from './shared/FormSuccessState';
 
 const ROOF_TYPE_OPTIONS = ROOF_TYPES.map((value) => ({ value, label: value }));
 const FRAME_COLOR_OPTIONS = FRAME_COLORS.map((value) => ({ value, label: value }));
 
-interface ZadaszenieFormProps {
-  steps: ProcessStepData[];
-}
-
-export default function ZadaszenieForm({ steps }: ZadaszenieFormProps) {
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [submittedEmail, setSubmittedEmail] = useState('');
+export default function ZadaszenieForm() {
+  const router = useRouter();
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [photos, setPhotos] = useState<File[]>([]);
 
@@ -94,17 +91,15 @@ export default function ZadaszenieForm({ steps }: ZadaszenieFormProps) {
     const result = await submitZadaszenieForm(formData);
 
     if (result.success) {
-      setSubmittedEmail(data.email);
-      setIsSuccess(true);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Recorded before navigating so the thank-you page can confirm this
+      // visitor really submitted, and echo their address back.
+      markFormSubmitted('zadaszenie', data.email);
+      setIsRedirecting(true);
+      router.push('/wycena/zadaszenie/przeslany-formularz');
     } else if (result.error) {
       setSubmitError(result.error);
     }
   };
-
-  if (isSuccess) {
-    return <FormSuccessState formType="zadaszenie" submittedEmail={submittedEmail} steps={steps} />;
-  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mx-auto max-w-6xl px-6 py-16" noValidate>
@@ -275,10 +270,10 @@ export default function ZadaszenieForm({ steps }: ZadaszenieFormProps) {
 
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || isRedirecting}
             className="mt-2 flex w-full items-center justify-center gap-2 rounded-lg bg-accent py-4 text-base font-semibold text-black transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {isSubmitting ? (
+            {isSubmitting || isRedirecting ? (
               <>
                 <Loader2 size={18} className="animate-spin" /> Wysyłanie…
               </>
