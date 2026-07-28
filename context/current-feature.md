@@ -14,6 +14,69 @@ Not Started
 
 ## History
 
+### Thank-You Subpages for Quotation Forms (2026-07-28)
+
+Each of the four quotation forms now **navigates to its own URL** on a successful submission
+(`/wycena/[type]/przeslany-formularz`) instead of swapping itself out for the inline
+`FormSuccessState` panel. Reason: an inline state change isn't countable, so **Google Analytics had
+no way to measure how many visitors actually complete a form**. Defined inline via `/feature load`
+(no spec file). Decisions confirmed up front: nested per-form routes, `sessionStorage` for the echoed
+email, and a guard against direct visits.
+
+- **Route shape — nested per form**, four page files: `/wycena/{taras,zadaszenie,zaluzje,schody}/
+przeslany-formularz`. Chosen over one shared page so GA gets a **distinct URL per product form**
+  and can tell which form converts, with no query-param setup on the GA side. Segment is the
+  URL-safe `przeslany-formularz` (the user's wording, diacritics stripped).
+- **`app/lib/formSubmissionSession.ts` (new)** carries `formType → email` across the navigation.
+  Deliberately **not** a query param — the address would land in every GA pageview URL (RODO/PII).
+  **Two layers, because neither alone is enough:** a module-level `Map` that survives the client-side
+  `router.push` (same JS context) and keeps working when storage is blocked (Safari private mode,
+  hardened settings — property access *throws*, hence the `try/catch` around it), plus
+  `sessionStorage` so a **refresh** of the thank-you page still renders. Keyed per form, so a
+  `taras` submission does not unlock the `schody` confirmation.
+- **Guarded.** `FormThankYouPanel` reads the record on mount; absent → `router.replace` back to the
+  form. Bookmarks, shared links and crawlers therefore can't register as conversions. The pages also
+  carry `robots: { index: false, follow: false }` (verified in the served HTML); `sitemap.ts` lists
+  only the root, so there was nothing to exclude there.
+- **The panel is client-only, by necessity — the one non-obvious call.** Reading storage in a
+  `useEffect` trips this repo's **`react-hooks/set-state-in-effect` as an _error_** (not a warning),
+  and `useSyncExternalStore` would **race the redirect against hydration**: the hook's internal
+  effect re-reads the client snapshot *after* a sibling effect already fired with the server
+  snapshot, so a legitimate submitter would get bounced back to the form. Resolved by mounting the
+  panel through **`next/dynamic` with `ssr: false`** — no server render, so the guard can read
+  storage in a lazy `useState` initializer with no hydration ambiguity. That's the reason for the
+  three-file split: `ThankYouPageContent` (server, fetches) → `FormThankYou` (dynamic wrapper) →
+  `FormThankYouPanel` (guard + panel).
+- **The forms no longer need the process timeline.** With the panel gone from the form, the `steps`
+  prop is dead — so all four `/wycena/*` pages **dropped their `processTimelineQuery` fetch**
+  (`zaluzje`/`zadaszenie` became synchronous server components again; `taras`/`schody` lost their
+  `Promise.all`). The fetch moved to the thank-you page, where the panel actually lives — one fewer
+  Sanity round-trip per form page view.
+- **`FormSuccessState` itself is unchanged** apart from importing its `FormType` from the new module
+  instead of declaring a second copy. The `kontakt` variant stays baked in for the future contact
+  page — which will need its own thank-you route when it lands.
+- **New `isRedirecting` state** keeps each submit button in its „Wysyłanie…" state while the
+  navigation runs, so the form can't be double-submitted in the gap between the action resolving and
+  the route changing.
+- **Verified in a real browser** (Playwright/Chromium, existing dev server on :3000): a real
+  `/wycena/zaluzje` submission → URL became `/wycena/zaluzje/przeslany-formularz`, panel rendered
+  with the echoed address and the three CMS steps (02 Wycena wstępna / 03 Pomiar / 04 Wycena
+  końcowa); a **direct visit** redirected to the form; a **hard reload** of the thank-you page still
+  rendered (the `sessionStorage` layer); and `/wycena/schody/przeslany-formularz` **still redirected**
+  after the żaluzje submission (cross-form isolation). **0 console errors** across the session.
+- ⚠️ **No GA/GTM tag exists in the repo** (`grep` for `gtag`/`dataLayer`/`GoogleAnalytics` → 0 hits).
+  This feature creates the trackable URLs; installing the analytics tag is still an open job.
+- **Note on the guard's tradeoff:** the record is *not* cleared after reading, so a refresh works but
+  a second pageview is possible within the same session. Tied to a real submission either way.
+- **Left untouched (same precedent as prior features):** the pre-existing uncommitted `.mcp.json`,
+  `OfferTechSpecs.tsx`, `FeaturedProjectsSection.tsx`, the user's `renderConfirmationEmail.ts` edit,
+  the line-ending-only `sanity.types.ts` / `sanity.schema.json` drift, and the three untracked future
+  specs (`about-us`, `contact-page`, `offer-index`). No spec file this time (inline feature).
+- Verified: **126/126 Vitest** (119 existing + 7 new for the session module — it's a pure utility, so
+  it tests cleanly with a stubbed `sessionStorage`), `type-check` (both workspaces), `lint` (only the
+  pre-existing TrustSection warning), `next build` — all four new routes prerender **static**, all
+  offer slugs still SSG.
+
 ### Form Success State — shared confirmation panel (2026-07-27)
 
 Replaced the four quotation forms' minimal inline success message with a shared **`FormSuccessState`**
