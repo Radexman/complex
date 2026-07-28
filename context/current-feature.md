@@ -10,6 +10,94 @@ Not Started
 
 ## History
 
+### Offer Index Page `/oferta` + „Akcesoria do zadaszeń" rename (2026-07-28)
+
+The **`/oferta`** overview — all 7 `service` docs as a bento grid of cards linking to their
+subpages — plus a **client-mandated category rename** that grew out of it mid-session. Spec:
+`context/features/offer-index-spec.md` (committed with the feature). Branch
+`feature/offer-index-page`. Four decisions confirmed up front, one more mid-session.
+
+- **The parent route was 404ing.** `OfferHero`'s breadcrumb („Oferta") and the home Oferta
+  section's CMS `ctaHref` (**already** `/oferta`) both pointed at a page that didn't exist. This
+  feature makes those live; the user also asked mid-session for an explicit **„Cała oferta"** entry,
+  now first in both the Navbar Oferta dropdown and the Footer's Oferta column.
+- **Bento — deliberately not the spec's map.** The spec mixes per-cell aspect ratios
+  (`16/7` beside `3/4`, `21/6`), which is exactly the row-height mismatch **already reworked out of
+  `OfferGallery`**, and it leaves a hole in row 3. Shipped the proven pattern instead: uniform
+  `aspect-square` cells + grid spans — 2×2 hero, two squares beside it, a row of three, then a
+  full-width `21/6` banner. Tiles 7 cards with **zero empty cells**. `bentoSpan(index, total)`
+  generalizes it: the trailing card only goes full-width when it would otherwise sit alone on its
+  row (`cellsBefore % 3 === 0`, hero counting as 4 cells).
+- ⚠️ **Two competing `md:aspect-*` utilities resolve by stylesheet order, not specificity.** A base
+  `md:aspect-square` silently beat the banner's `md:aspect-21/6` → the finale rendered **square
+  (1184×1184)**. Caught by measuring in-browser, not by reading the class list. Fix: the `md:` ratio
+  lives **only** in `SPAN_CLASSES`, never on the base. Comment records it.
+- **Nested anchors avoided.** The spec wraps the quotation-form pill in its own `<Link>` *inside*
+  the card `<Link>` with `stopPropagation` — invalid HTML. Card link is now a **stretched
+  `after:absolute after:inset-0` overlay** on the title anchor (so the accessible name stays the
+  title) with the pill as a `z-10` sibling. Measured **0 nested anchors** on all 7 cards.
+- **Header is CMS-driven** via a new **`ofertaPage` fixed-id singleton** (spec had it hardcoded) —
+  matches the `realizacjePage`/`tarasyPage` precedent. Structure entry „Strona Oferta",
+  Presentation `mainDocuments` route + `locations`; `service`'s resolver now also lists `/oferta`.
+- **New `order` number field on `service`** (`initialValue: 99` so new offers land last) seeded 1–7,
+  with `allServicesQuery` ordering on `coalesce(order, 99)` and a matching Studio `orderings` entry
+  so the sidebar list reads in page order.
+- **Metadata title is just „Oferta"** — the layout's `%s | <site>` template appends the brand, so
+  the spec's „Oferta — Complex" would double-print it (the `/tarasy` lesson). Note `/realizacje`
+  still has this bug. `/oferta` added to `sitemap.ts` (which still lists **only** the root
+  otherwise).
+- **The category badge was dropped** (spec had it). After the rename below, the badge duplicated the
+  card title **verbatim on all 7 cards** — it only ever made sense while category ≠ title.
+
+**The rename — „Żaluzje tarasowe" → „Akcesoria do zadaszeń" (client, imperative).** Surfaced while
+seeding: the client had already retitled the service and changed its slug to `akcesoria-do-zadaszen`
+in the Studio, leaving **`/oferta/zaluzje-tarasowe` dead in the Navbar and Footer**. User's call was
+to carry it through everywhere, so the **category value** moved too (slug === category holds for all
+7 again).
+
+- **Code:** `PROJECT_CATEGORIES`, `OFFER_SLUGS`, the `offerSection` initialValue, `categories.ts`,
+  Navbar (`OFERTA_ITEMS` + the `OFFER_FORM_HREFS` key), Footer. Permanent redirect added to
+  `next.config.ts` (verified **308**), second entry after the `zadaszenia-aluminiowe` one.
+- **Content, published:** 7 realizations + the service doc → `akcesoria-do-zadaszen`.
+- **Also finished the stalled feedback #6 migration.** Its „0 stragglers" check had missed
+  **2 realizations, the service doc itself, and two `offerSlug` values** on the home Oferta cards —
+  so that service was filtering its gallery on a category almost nothing had, and one home card
+  linked to a 404. All patched to `zadaszenia-tarasowe`; re-verified **0 stragglers**.
+- **`FeaturedProjectsSection`'s duplicate label map is gone** — consolidated onto
+  `app/lib/categories.ts`. That duplication (flagged as a risk back on 2026-07-13) is precisely what
+  let the two copies drift. Its pre-existing uncommitted `data-[selected]:`→`data-selected:` tidy-up
+  rode along, same precedent as the Easy Wins branch.
+- **The żaluzje *form* is untouched** — `/wycena/zaluzje`, „Formularz Wyceny Żaluzji" and the blinds
+  add-on inside the canopy form all still say Żaluzje (they describe the physical product). ⚠️ Worth
+  confirming with the client, since the offer those lead to is now called Akcesoria. Two migrated
+  realizations are still *titled* „Żaluzje…" — category moved, titles left alone (they describe
+  specific installed jobs).
+- **Studio redeployed** (`npm run deploy` from `studio/`) — in place via the pinned `appId`, same
+  URL, `Deployed 1/1 schemas`. **Verified against the deployed schema via MCP**, not assumed:
+  `ofertaPage` live, `service.order` live with its `orderAsc` ordering, and **`zaluzje-tarasowe` is
+  gone from both category dropdowns**. That last part was the urgent bit — a stale bundle would have
+  let an editor reintroduce the value just migrated away. ⚠️ The Studio **UI** is unverified (the
+  Playwright browser isn't logged in to Sanity — same limitation as prior sessions).
+- ⚠️ **A stale build cache produced a false verification.** The first `next build` reused cached
+  fetch results and prerendered the **old** category values (galleries 6/6 cells). Only after
+  `rm -rf .next` did the build show the truth: **0** old-value occurrences, galleries **5** and **7**
+  cells matching the migrated docs. Third time this repo has been bitten by `.next` staleness —
+  after a content migration, **clear `.next` before trusting build output**. Deleting it also
+  killed the running dev server mid-session (dev and build share the directory); it recovered and
+  the replacement `next dev` exited on its own („Another next dev server is already running").
+- **Verified in-browser** (Playwright/Chromium): **0 console errors, 0 warnings**; grid geometry
+  measured at 1440 (hero 784², squares 384², banner 1184×338, all reveals reaching opacity 1) and at
+  390 (single column, uniform 327×245, subheadlines on every card, **no horizontal overflow**);
+  `/realizacje` tabs show „Akcesoria do zadaszeń"; that offer page's gallery reconnected to its 7
+  projects. Added `priority` to the hero card's image after Next flagged it as the LCP element.
+- **Left untouched (same precedent as prior features):** the pre-existing uncommitted `.mcp.json`,
+  `OfferTechSpecs.tsx`, the user's `renderConfirmationEmail.ts` edit, the two remaining untracked
+  specs (`about-us`, `contact-page`), `.claude/settings.local.json` and `.playwright-mcp/`.
+- Verified: **131/131 Vitest**, `type-check` (both workspaces), `lint` (only the pre-existing
+  `useCountUp` warning at `TrustSection.tsx:65`), clean `next build` — `/oferta` prerenders static,
+  all 7 offer slugs still SSG. No new server actions/utilities → no new tests (the bento function is
+  presentational and lives in the component, matching `OfferGallery`/`TarasyLanding`).
+
 ### Mobile Nav Drawer — full width, larger type, exit animation (2026-07-28)
 
 The mobile navigation drawer now spans the **full viewport width**, uses a larger typeface
