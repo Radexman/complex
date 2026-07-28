@@ -6,13 +6,70 @@ Not Started
 
 ## Goals
 
-<!-- Bullet points of what success looks like -->
-
 ## Notes
 
-<!-- Additional context, constraints, or details from spec -->
-
 ## History
+
+### Mobile Nav Drawer — full width, larger type, exit animation (2026-07-28)
+
+The mobile navigation drawer now spans the **full viewport width**, uses a larger typeface
+throughout, and **slides back out on close** instead of vanishing instantly. Defined inline via
+`/feature load` (no spec file). Branch `feature/mobile-nav-drawer`. **Two files changed:**
+`frontend/app/components/layout/Navbar.tsx` and `frontend/app/globals.css`. No schema, no GROQ, no
+TypeGen regen, no new server actions/utilities → no new tests.
+
+- **Full width.** `Dialog.Content`: `ml-auto … w-80 max-w-[85vw]` → `w-full`. Measured live at a
+  390 px viewport: panel width **390**, `left: 0`.
+- **Typography.** Top-level links + both `Accordion.ItemTrigger`s 16 → **18 px** (`py-2.5`→`py-3`);
+  every sub-link — including the nested „Tarasy" group inside `MobileNavGroup` — and the drawer CTA
+  14 → **16 px** (`py-2`→`py-2.5`, CTA `py-3`→`py-3.5`). Desktop nav verified **unchanged at 14 px**
+  with the hamburger still hidden at `lg`. `MobileNavGroup` is drawer-only, so its restyle can't
+  leak to the desktop dropdowns — the near-identical `DropdownGroup` (desktop) was left alone.
+- **Why the drawer never animated out — the whole point of the feature.** Zag's presence machine
+  (`node_modules/@zag-js/presence/dist/presence.machine.js`, `syncPresence`) unmounts the node
+  **immediately** when the computed `animation-name` on close equals `prevAnimationName` (the one
+  recorded while open); only a mismatch sends `UNMOUNT.SUSPEND` and waits for `animationend`. The old
+  code applied `animate-[nav-slide-in-right_0.3s_ease-out]` **unconditionally**, so both states
+  reported the same name → instant unmount. Fixed with **distinctly named** exit keyframes
+  (`nav-slide-out-right`, `nav-fade-out`) applied via `data-[state=closed]:`, with the enter
+  animations moved behind `data-[state=open]:`. ⚠️ **Reversing the enter animation
+  (`animation-direction: reverse`) would NOT work** — the name would be unchanged and the machine
+  would still unmount instantly. A comment above the keyframe records this.
+- **The backdrop needed its own fix.** `Dialog.Backdrop` calls `usePresence` itself (its own machine
+  + its own node ref), whereas `Dialog.Content`/`Positioner` share the root's presence context — so
+  the backdrop had the identical same-name bug and got its own `nav-fade-out`. Without it the page
+  would flash un-dimmed the moment the panel started sliding.
+- **Traced the close frame-by-frame** rather than eyeballing it: panel `x: 0 → 12 → 62 → 137 → 232
+→ 344` (of 390) while backdrop opacity ran `1.00 → 0.08`, then settled `hidden` / `display:none`
+  with **nothing tabbable** (18 links present but `offsetParent === null`) — that mounted-but-hidden
+  resting state is Ark's normal behavior, not a leak. Reopening animates back in (`303 → 0`), so
+  `prevAnimationName` bookkeeping survives the round trip.
+- ⚠️ **Dev-server gotcha worth remembering — a CSS-only edit can silently not apply.** The exit
+  animation appeared dead at first: `data-state="closed"` and `animation-name:
+nav-slide-out-right` were both correct, but `getAnimations()` was **empty** and `transform: none`
+  — Chromium won't create an animation for an unknown keyframe name. The served CSS chunk *did*
+  contain the string (Turbopack had rebuilt it for the new **utility class** from `Navbar.tsx`) but
+  held only the **three old** `@keyframes` blocks from `globals.css`. **A hard reload did not fix
+  it**; touching `globals.css` did. Same stale-cache family as the earlier `.next` incident. Probe
+  for this with `getAnimations().length` on a throwaway element, not by grepping the chunk text —
+  the class reference and the keyframe block both match a naive `includes`.
+- **Self-correction during the session:** initially bumped `Dialog.Title` to `text-xl`, which made
+  the long CMS brand string („CComplex - Zadaszenia Tarasowe i Tarasy") wrap into the close button.
+  Reverted to `text-lg` + `pr-4` — the goal was bigger *nav links*, not the title.
+- **Playwright gotcha:** `document.querySelectorAll('[data-scope="accordion"][data-part="item-trigger"]')[0]`
+  matched an accordion **elsewhere on the page**, not the drawer's — scope drawer queries under
+  `[data-scope="dialog"][data-part="content"]`. Also, an MCP click round-trip exceeds the 300 ms
+  animation, so sampling an entrance requires triggering **and** sampling inside one `evaluate`.
+- **Left untouched (same precedent as prior features):** the pre-existing uncommitted `.mcp.json`,
+  `OfferTechSpecs.tsx`, `FeaturedProjectsSection.tsx`, the user's `renderConfirmationEmail.ts` edit,
+  the three untracked future specs (`about-us`, `contact-page`, `offer-index`),
+  `.claude/settings.local.json` and the untracked `.playwright-mcp/` artifacts. The
+  `sanity.types.ts` / `sanity.schema.json` line-ending drift **resolved itself** when `type-check`
+  re-ran TypeGen. Scratch screenshots were deleted.
+- Verified: **131/131 Vitest**, `type-check` (both workspaces), `lint` (only the pre-existing
+  `useCountUp` exhaustive-deps warning at `TrustSection.tsx:65`), `next build` — all routes
+  prerender as before. **0 console errors and 0 warnings** in-browser; both nesting levels of the
+  Oferta menu expand correctly at full width.
 
 ### Presentation „Blocked preview URL" — explicit `allowOrigins` (2026-07-28)
 
