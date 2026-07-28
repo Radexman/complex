@@ -1,72 +1,78 @@
-# Current Feature: Fix Presentation „Blocked preview URL" in the deployed Studio
+# Current Feature
 
 ## Status
 
-In Progress
+Not Started
 
 ## Goals
 
-- Opening **Presentation** in the deployed Studio no longer shows the „Blocked preview URL" error
-  toast — the preview iframe loads `https://complex-puce.vercel.app` and click-to-edit works.
-- Allowed preview origins are **declared explicitly** in `presentationTool`, not inferred from a
-  build-time env var, so local dev (`localhost:3000`) and production (Vercel) both work from one
-  config.
-- The deprecated `previewUrl.origin` option is migrated to the current `previewUrl.initial`.
-- Hosted Studio is redeployed so the client actually gets the fixed bundle.
+<!-- Bullet points of what success looks like -->
 
 ## Notes
 
-**Reported symptom** (deployed Studio → Presentation):
-
-> Blocked preview URL — The router wants to navigate to `https://complex-puce.vercel.app/`, but the
-> origin `https://complex-puce.vercel.app` is not allowed. Update your
-> `presentationTool.allowOrigins` configuration to allow it.
-
-**Diagnosis.** Presentation trusts exactly one origin for the preview iframe — the Comlink
-(`postMessage`) channel that drives click-to-edit, plus any navigation requested through the Studio
-URL's `?preview=…` param. Current config (`studio/sanity.config.ts:58-63`) passes
-`previewUrl: { origin: SANITY_STUDIO_PREVIEW_URL, … }` and sets **no `allowOrigins` at all**, so the
-allow list is inferred from the resolved initial URL. Two issues:
-
-1. `previewUrl.origin` is **deprecated** in `sanity@5.31` (`@deprecated - use 'initial' instead`);
-   the documented default allow list derives from `previewUrl.initial`.
-2. The origin is **build-time only** — `studio/.env` = `http://localhost:3000`,
-   `studio/.env.production` = the Vercel URL — so the allow list flips depending on how the bundle
-   was built and can never cover both.
-
-**Verified while diagnosing (don't redo):**
-
-- Deployed bundle *does* contain `https://complex-puce.vercel.app` (fetched
-  `complex.sanity.studio/static/sanity.config-BeIsjVeh.js`, used as `previewUrl.origin`) — so this
-  is **not** a stale-deploy problem like the 2026-07-28 `processTimeline` issue.
-- Deployed Studio runs **sanity 5.31.1** (`autoUpdates: true` resolves within `^5.31.1`, confirmed
-  via the module CDN's `x-resolved-version`) — same version as local, so no version skew.
-- `complex.sanity.studio` now 302s to the Dashboard-hosted app
-  (`www.sanity.io/@or787Vn1q/studio/q9nxij5bpmiuzzjy6swyivcq`, appId pinned in `sanity.cli.ts`).
-- Error string traced to `preview-search-param.configuration.error` in
-  `sanity/lib/_chunks-es/PresentationToolGrantsCheck.js` (`useReportInvalidPreviewSearchParam`);
-  default allow list = `[new URLPattern(initialUrl.origin)]`.
-
-**Planned change** — `studio/sanity.config.ts` only:
-
-- `previewUrl.origin` → `previewUrl.initial` (keep the `SANITY_STUDIO_PREVIEW_URL` env default).
-- Add top-level `allowOrigins: ['http://localhost:*', 'https://complex-puce.vercel.app']`
-  (`allowOrigins` is a `presentationTool` option, requires `sanity` ≥ 3.85 — we're on 5.31).
-- Wildcard-only hostnames are rejected by Sanity as insecure; list real origins only.
-
-**Constraints:**
-
-- The hosted Studio is a static bundle → the fix is invisible to the client until
-  `npm run deploy` is run from `studio/`. Same in-place redeploy as 2026-07-28 (appId pinned → same
-  URL, no new studio).
-- No schema change → no TypeGen regen, no frontend change expected.
-- When the site moves to a real domain (e.g. `ccomplex.pl`), that origin must be added to
-  `allowOrigins` too — worth a comment in the config.
-- Leave untouched (standing precedent): uncommitted `.mcp.json`, `OfferTechSpecs.tsx`,
-  `FeaturedProjectsSection.tsx`, `renderConfirmationEmail.ts`, the line-ending-only
-  `sanity.types.ts` / `sanity.schema.json` drift, and the three untracked future specs.
+<!-- Additional context, constraints, or details from spec -->
 
 ## History
+
+### Presentation „Blocked preview URL" — explicit `allowOrigins` (2026-07-28)
+
+The deployed Studio's **Presentation** tool refused the preview iframe with „Blocked preview URL —
+The router wants to navigate to `https://complex-puce.vercel.app/`, but the origin
+`https://complex-puce.vercel.app` is not allowed." Defined inline via `/feature load` (no spec file).
+Branch `fix/presentation-allow-origins`. **One file changed:** `studio/sanity.config.ts`.
+
+- **What the error actually gates.** Presentation trusts exactly **one** origin — that allow list
+  guards the Comlink (`postMessage`) channel behind click-to-edit *and* any navigation requested via
+  the Studio URL's `?preview=…` param. Traced the string to
+  `preview-search-param.configuration.error` in `sanity/lib/_chunks-es/PresentationToolGrantsCheck.js`
+  (`useReportInvalidPreviewSearchParam`); with no `allowOrigins` configured the default list is
+  `[new URLPattern(initialUrl.origin)]`, derived from **`previewUrl.initial`**.
+- **Root cause — two compounding issues in one option.** The config passed
+  `previewUrl: { origin: SANITY_STUDIO_PREVIEW_URL, … }` and **no `allowOrigins` at all**.
+  (1) `previewUrl.origin` is **deprecated** in `sanity@5.31` (`@deprecated - use 'initial' instead`),
+  and the documented default allow list comes from `initial`. (2) The origin was **build-time only**
+  — `studio/.env` = `http://localhost:3000`, `studio/.env.production` = the Vercel URL — so the allow
+  list flipped with whatever built the bundle and could never cover both.
+- **Fix:** `origin` → `initial` (still fed by `SANITY_STUDIO_PREVIEW_URL`, so the env var keeps
+  deciding which URL Presentation *opens*), plus a top-level
+  `allowOrigins: ['http://localhost:*', 'https://complex-puce.vercel.app']` held in a named
+  `PREVIEW_ALLOW_ORIGINS` const. **Deliberately decoupled from the env var** — trusting an origin and
+  opening it are different concerns, so every build now trusts both and the list can't silently
+  change. `allowOrigins` is a top-level `presentationTool` option (needs `sanity` ≥ 3.85).
+- **Ruled out first, so nobody re-runs this:** *not* the accumulated stale-Studio debt from earlier
+  in the day — fetched the then-live `complex.sanity.studio/static/sanity.config-BeIsjVeh.js` and it
+  **did** contain the Vercel URL (as `previewUrl.origin`); and *not* version skew — `autoUpdates: true`
+  resolves within `^5.31.1`, and the module CDN's `x-resolved-version` header confirmed the deployed
+  Studio runs **5.31.1**, identical to local. Also noted: `complex.sanity.studio` now **302s** to the
+  Dashboard-hosted app (`www.sanity.io/@or787Vn1q/studio/<appId>`), but its `/static/*` assets are
+  still fetchable directly — which is what made byte-level verification of the live bundle possible.
+- **Verified the matching algorithm, not just the config.** Replayed Sanity's actual check
+  (`URLPattern.test(origin)` + its `hostname === '*'` insecurity rejection) against both patterns via
+  the `urlpattern-polyfill`: Vercel ✔, `localhost:3000` ✔, `localhost:3333` ✔, unrelated origin ✘ —
+  so neither pattern is rejected as insecure and the port wildcard resolves as intended.
+- **Redeployed** (`npm run deploy` from `studio/`) — in place as before (appId pinned in
+  `sanity.cli.ts` → same URL, no second studio), `Deployed 1/1 schemas`. Confirmed by **re-fetching
+  the new live chunk** (`sanity.config-BhUUOhsC.js`, HTTP 200): `xE="https://complex-puce.vercel.app"`,
+  `SE=["http://localhost:*","https://complex-puce.vercel.app"]`, wired as
+  `previewUrl:{initial:xE}` + `allowOrigins:SE`.
+- ⚠️ **Not verified: the Studio UI itself.** The Playwright browser isn't logged in to Sanity (same
+  limitation as the earlier redeploy session), so the toast being gone and click-to-edit working were
+  **not** observed in a browser — the evidence is the live bundle's contents plus the replayed
+  matching algorithm. If it still misbehaves, a **different** message (`Preview URL origin mismatch`,
+  which names a *reported* origin) would mean the frontend answers from another origin — a different
+  fix. Editors should hard-reload: the old bundle may be cached and the previous toast has
+  `duration: Infinity`, so it survives soft navigation.
+- **When the site moves to a real domain** (e.g. `ccomplex.pl`), that origin **must** be added to
+  `PREVIEW_ALLOW_ORIGINS` or Presentation will refuse to open it — flagged in a code comment above
+  the const.
+- **No schema change** → no TypeGen regen; **no frontend change**; no new tests (config only, nothing
+  unit-testable). `tsc --noEmit` on `studio/` clean, and `sanity build` succeeds with both origins
+  baked in.
+- **Left untouched (same precedent as prior features):** the pre-existing uncommitted `.mcp.json`,
+  `OfferTechSpecs.tsx`, `FeaturedProjectsSection.tsx`, the user's `renderConfirmationEmail.ts` edit,
+  the line-ending-only `sanity.types.ts` / `sanity.schema.json` drift, the three untracked future
+  specs (`about-us`, `contact-page`, `offer-index`), `.claude/settings.local.json` and the untracked
+  `.playwright-mcp/` artifacts.
 
 ### GSAP Target Warnings, Logo Aspect Ratio + Hosted Studio Redeploy (2026-07-28)
 
