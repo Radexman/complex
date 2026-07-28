@@ -30,8 +30,9 @@ const SOCIAL_ICONS: Record<string, IconType> = {
 };
 
 const OFERTA_LINKS: NavLink[] = [
+  { label: 'Cała oferta', href: '/oferta' },
   { label: 'Zadaszenia tarasowe', href: '/oferta/zadaszenia-tarasowe' },
-  { label: 'Żaluzje tarasowe', href: '/oferta/zaluzje-tarasowe' },
+  { label: 'Akcesoria do zadaszeń', href: '/oferta/akcesoria-do-zadaszen' },
   { label: 'Tarasy kompozytowe', href: '/oferta/tarasy-kompozytowe' },
   { label: 'Tarasy gresowe', href: '/oferta/tarasy-gresowe' },
   { label: 'Tarasy drewniane', href: '/oferta/tarasy-drewniane' },

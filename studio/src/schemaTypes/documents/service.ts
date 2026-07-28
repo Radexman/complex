@@ -68,6 +68,16 @@ export const service = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'order',
+      title: 'Kolejność',
+      description:
+        'Kolejność wyświetlania na stronie „Oferta” (/oferta) — od najmniejszej liczby. Zmień numer, aby przestawić kafelek.',
+      type: 'number',
+      group: 'hero',
+      initialValue: 99,
+      validation: (rule) => rule.integer().positive(),
+    }),
+    defineField({
       name: 'seoDescription',
       title: 'Opis SEO',
       description: 'Opis meta strony (wyświetlany w wynikach wyszukiwania).',
@@ -362,6 +372,14 @@ export const service = defineType({
       group: 'formCta',
       of: [defineArrayMember({ type: 'string' })],
     }),
+  ],
+  // Mirrors the order the cards appear in on /oferta, so the Studio list reads the same way.
+  orderings: [
+    {
+      title: 'Kolejność na stronie Oferta',
+      name: 'orderAsc',
+      by: [{ field: 'order', direction: 'asc' }],
+    },
   ],
   preview: {
     select: { title: 'title', slug: 'slug.current', media: 'heroImage' },

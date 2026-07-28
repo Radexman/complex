@@ -80,8 +80,8 @@ export const offerSection = defineType({
           icon: 'sun',
         },
         {
-          title: 'Żaluzje tarasowe',
-          description: 'Żaluzje tarasowe - idealne do osłony tarasu',
+          title: 'Akcesoria do zadaszeń',
+          description: 'Akcesoria do zadaszeń - idealne do osłony tarasu',
           icon: 'wind',
         },
         {

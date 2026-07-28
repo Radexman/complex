@@ -84,7 +84,7 @@ export type OfferCard = {
   badges?: Array<string>;
   offerSlug?:
     | 'zadaszenia-tarasowe'
-    | 'zaluzje-tarasowe'
+    | 'akcesoria-do-zadaszen'
     | 'tarasy-kompozytowe'
     | 'tarasy-gresowe'
     | 'tarasy-drewniane'
@@ -114,6 +114,7 @@ export type Service = {
   _rev: string;
   title: string;
   slug: Slug;
+  order?: number;
   seoDescription?: string;
   heroImage?: {
     asset?: SanityImageAssetReference;
@@ -128,7 +129,7 @@ export type Service = {
   relatedFormSlug?: 'zadaszenie' | 'zaluzje' | 'taras' | 'schody';
   category:
     | 'zadaszenia-tarasowe'
-    | 'zaluzje-tarasowe'
+    | 'akcesoria-do-zadaszen'
     | 'tarasy-kompozytowe'
     | 'tarasy-gresowe'
     | 'tarasy-drewniane'
@@ -238,7 +239,7 @@ export type Project = {
   city: string;
   category:
     | 'zadaszenia-tarasowe'
-    | 'zaluzje-tarasowe'
+    | 'akcesoria-do-zadaszen'
     | 'tarasy-kompozytowe'
     | 'tarasy-gresowe'
     | 'tarasy-drewniane'
@@ -380,6 +381,17 @@ export type TarasyPage = {
 export type RealizacjePage = {
   _id: string;
   _type: 'realizacjePage';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  headline: string;
+  subheadline?: string;
+};
+
+export type OfertaPage = {
+  _id: string;
+  _type: 'ofertaPage';
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -800,6 +812,7 @@ export type AllSanitySchemaTypes =
   | BottomCtaSection
   | TarasyPage
   | RealizacjePage
+  | OfertaPage
   | FeaturedProjectsSection
   | AboutSection
   | OfferSection

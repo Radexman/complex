@@ -6,7 +6,7 @@ export type ProjectCategory = AllProjectsQueryResult[number]['category'];
 /** Polish labels keyed by category value. Order here drives the (static) tab order. */
 export const CATEGORY_LABELS: Record<ProjectCategory, string> = {
   'zadaszenia-tarasowe': 'Zadaszenia tarasowe',
-  'zaluzje-tarasowe': 'Żaluzje tarasowe',
+  'akcesoria-do-zadaszen': 'Akcesoria do zadaszeń',
   'tarasy-kompozytowe': 'Tarasy kompozytowe',
   'tarasy-gresowe': 'Tarasy gresowe',
   'tarasy-drewniane': 'Tarasy drewniane',

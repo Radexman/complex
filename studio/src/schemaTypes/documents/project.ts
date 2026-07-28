@@ -8,7 +8,7 @@ import { defineField, defineType } from 'sanity';
  */
 export const PROJECT_CATEGORIES = [
   { title: 'Zadaszenia tarasowe', value: 'zadaszenia-tarasowe' },
-  { title: 'Żaluzje tarasowe', value: 'zaluzje-tarasowe' },
+  { title: 'Akcesoria do zadaszeń', value: 'akcesoria-do-zadaszen' },
   { title: 'Tarasy kompozytowe', value: 'tarasy-kompozytowe' },
   { title: 'Tarasy gresowe', value: 'tarasy-gresowe' },
   { title: 'Tarasy drewniane', value: 'tarasy-drewniane' },

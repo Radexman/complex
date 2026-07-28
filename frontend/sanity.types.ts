@@ -84,7 +84,7 @@ export type OfferCard = {
   badges?: Array<string>;
   offerSlug?:
     | 'zadaszenia-tarasowe'
-    | 'zaluzje-tarasowe'
+    | 'akcesoria-do-zadaszen'
     | 'tarasy-kompozytowe'
     | 'tarasy-gresowe'
     | 'tarasy-drewniane'
@@ -114,6 +114,7 @@ export type Service = {
   _rev: string;
   title: string;
   slug: Slug;
+  order?: number;
   seoDescription?: string;
   heroImage?: {
     asset?: SanityImageAssetReference;
@@ -128,7 +129,7 @@ export type Service = {
   relatedFormSlug?: 'zadaszenie' | 'zaluzje' | 'taras' | 'schody';
   category:
     | 'zadaszenia-tarasowe'
-    | 'zaluzje-tarasowe'
+    | 'akcesoria-do-zadaszen'
     | 'tarasy-kompozytowe'
     | 'tarasy-gresowe'
     | 'tarasy-drewniane'
@@ -238,7 +239,7 @@ export type Project = {
   city: string;
   category:
     | 'zadaszenia-tarasowe'
-    | 'zaluzje-tarasowe'
+    | 'akcesoria-do-zadaszen'
     | 'tarasy-kompozytowe'
     | 'tarasy-gresowe'
     | 'tarasy-drewniane'
@@ -380,6 +381,17 @@ export type TarasyPage = {
 export type RealizacjePage = {
   _id: string;
   _type: 'realizacjePage';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  headline: string;
+  subheadline?: string;
+};
+
+export type OfertaPage = {
+  _id: string;
+  _type: 'ofertaPage';
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -800,6 +812,7 @@ export type AllSanitySchemaTypes =
   | BottomCtaSection
   | TarasyPage
   | RealizacjePage
+  | OfertaPage
   | FeaturedProjectsSection
   | AboutSection
   | OfferSection
@@ -1037,6 +1050,47 @@ export type TarasyPageQueryResult = {
 } | null;
 
 // Source: sanity/lib/queries.ts
+// Variable: ofertaPageQuery
+// Query: *[_type == "ofertaPage"][0]
+export type OfertaPageQueryResult = {
+  _id: string;
+  _type: 'ofertaPage';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  headline: string;
+  subheadline?: string;
+} | null;
+
+// Source: sanity/lib/queries.ts
+// Variable: allServicesQuery
+// Query: *[_type == "service" && defined(slug.current)] | order(coalesce(order, 99) asc, title asc){    _id,    title,    "slug": slug.current,    heroImage,    heroSubheadline,    category,    relatedFormSlug  }
+export type AllServicesQueryResult = Array<{
+  _id: string;
+  title: string;
+  slug: string;
+  heroImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: 'image';
+  } | null;
+  heroSubheadline: string | null;
+  category:
+    | 'akcesoria-do-zadaszen'
+    | 'elewacje-kompozytowe'
+    | 'schody-modulowe'
+    | 'tarasy-drewniane'
+    | 'tarasy-gresowe'
+    | 'tarasy-kompozytowe'
+    | 'zadaszenia-tarasowe';
+  relatedFormSlug: 'schody' | 'taras' | 'zadaszenie' | 'zaluzje' | null;
+}>;
+
+// Source: sanity/lib/queries.ts
 // Variable: terraceServicesQuery
 // Query: *[_type == "service" && slug.current in ["tarasy-kompozytowe", "tarasy-gresowe", "tarasy-drewniane"]]{    _id,    title,    "slug": slug.current,    heroImage,    heroSubheadline,    category  }
 export type TerraceServicesQueryResult = Array<{
@@ -1053,13 +1107,13 @@ export type TerraceServicesQueryResult = Array<{
   } | null;
   heroSubheadline: string | null;
   category:
+    | 'akcesoria-do-zadaszen'
     | 'elewacje-kompozytowe'
     | 'schody-modulowe'
     | 'tarasy-drewniane'
     | 'tarasy-gresowe'
     | 'tarasy-kompozytowe'
-    | 'zadaszenia-tarasowe'
-    | 'zaluzje-tarasowe';
+    | 'zadaszenia-tarasowe';
 }>;
 
 // Source: sanity/lib/queries.ts
@@ -1194,13 +1248,13 @@ export type FeaturedProjectsQueryResult = Array<{
   title: string;
   city: string;
   category:
+    | 'akcesoria-do-zadaszen'
     | 'elewacje-kompozytowe'
     | 'schody-modulowe'
     | 'tarasy-drewniane'
     | 'tarasy-gresowe'
     | 'tarasy-kompozytowe'
-    | 'zadaszenia-tarasowe'
-    | 'zaluzje-tarasowe';
+    | 'zadaszenia-tarasowe';
   coverImage: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -1219,13 +1273,13 @@ export type AllProjectsQueryResult = Array<{
   title: string;
   city: string;
   category:
+    | 'akcesoria-do-zadaszen'
     | 'elewacje-kompozytowe'
     | 'schody-modulowe'
     | 'tarasy-drewniane'
     | 'tarasy-gresowe'
     | 'tarasy-kompozytowe'
-    | 'zadaszenia-tarasowe'
-    | 'zaluzje-tarasowe';
+    | 'zadaszenia-tarasowe';
   surface: number | null;
   coverImage: {
     asset?: SanityImageAssetReference;
@@ -1245,13 +1299,13 @@ export type GalleryProjectsByCategoryQueryResult = Array<{
   title: string;
   city: string;
   category:
+    | 'akcesoria-do-zadaszen'
     | 'elewacje-kompozytowe'
     | 'schody-modulowe'
     | 'tarasy-drewniane'
     | 'tarasy-gresowe'
     | 'tarasy-kompozytowe'
-    | 'zadaszenia-tarasowe'
-    | 'zaluzje-tarasowe';
+    | 'zadaszenia-tarasowe';
   coverImage: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -1289,13 +1343,13 @@ export type ServiceBySlugQueryResult = {
   heroSubheadline: string | null;
   relatedFormSlug: 'schody' | 'taras' | 'zadaszenie' | 'zaluzje' | null;
   category:
+    | 'akcesoria-do-zadaszen'
     | 'elewacje-kompozytowe'
     | 'schody-modulowe'
     | 'tarasy-drewniane'
     | 'tarasy-gresowe'
     | 'tarasy-kompozytowe'
-    | 'zadaszenia-tarasowe'
-    | 'zaluzje-tarasowe';
+    | 'zadaszenia-tarasowe';
   benefitsEyebrow: string | null;
   benefitsHeadline: string | null;
   benefitsDescription: string | null;
@@ -1378,6 +1432,8 @@ declare module '@sanity/client' {
     '*[_type == "featuredProjectsSection"][0]': FeaturedProjectsSectionQueryResult;
     '*[_type == "realizacjePage"][0]': RealizacjePageQueryResult;
     '*[_type == "tarasyPage"][0]': TarasyPageQueryResult;
+    '*[_type == "ofertaPage"][0]': OfertaPageQueryResult;
+    '*[_type == "service" && defined(slug.current)] | order(coalesce(order, 99) asc, title asc){\n    _id,\n    title,\n    "slug": slug.current,\n    heroImage,\n    heroSubheadline,\n    category,\n    relatedFormSlug\n  }': AllServicesQueryResult;
     '*[_type == "service" && slug.current in ["tarasy-kompozytowe", "tarasy-gresowe", "tarasy-drewniane"]]{\n    _id,\n    title,\n    "slug": slug.current,\n    heroImage,\n    heroSubheadline,\n    category\n  }': TerraceServicesQueryResult;
     '*[_type == "bottomCtaSection"][0]': BottomCtaQueryResult;
     '*[_type == "processTimeline"][0]': ProcessTimelineQueryResult;
