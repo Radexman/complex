@@ -77,38 +77,53 @@ export default function TrustSection({ data }: { data?: TrustSectionType }) {
 
   useGSAP(
     () => {
-      if (!container.current) return;
+      const scope = container.current;
+      if (!scope) return;
 
-      gsap.set('[data-trust-header]', { y: 30, opacity: 0 });
-      gsap.set('[data-trust-card]', { y: 40, opacity: 0 });
-      gsap.set('[data-trust-badges]', { y: 20, opacity: 0 });
+      // Query the targets instead of passing selector strings: the header, stat cards and badge
+      // row are each conditionally rendered from CMS data, and GSAP warns for every selector that
+      // matches nothing.
+      const headers = scope.querySelectorAll('[data-trust-header]');
+      const cards = scope.querySelectorAll('[data-trust-card]');
+      const badges = scope.querySelectorAll('[data-trust-badges]');
+
+      if (!headers.length && !cards.length && !badges.length) return;
+
+      if (headers.length) gsap.set(headers, { y: 30, opacity: 0 });
+      if (cards.length) gsap.set(cards, { y: 40, opacity: 0 });
+      if (badges.length) gsap.set(badges, { y: 20, opacity: 0 });
 
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: container.current,
+          trigger: scope,
           start: 'top 80%',
           toggleActions: 'play none none none',
         },
       });
 
-      tl.to('[data-trust-header]', {
-        y: 0,
-        opacity: 1,
-        duration: 0.7,
-        ease: 'power3.out',
-        stagger: 0.1,
-      })
-        .to(
-          '[data-trust-card]',
+      if (headers.length) {
+        tl.to(headers, {
+          y: 0,
+          opacity: 1,
+          duration: 0.7,
+          ease: 'power3.out',
+          stagger: 0.1,
+        });
+      }
+
+      if (cards.length) {
+        tl.to(
+          cards,
           { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out', stagger: 0.1 },
           '-=0.4',
-        )
-        .add(() => setCountersTriggered(true), '<')
-        .to(
-          '[data-trust-badges]',
-          { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' },
-          '-=0.2',
         );
+      }
+
+      tl.add(() => setCountersTriggered(true), '<');
+
+      if (badges.length) {
+        tl.to(badges, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, '-=0.2');
+      }
     },
     { scope: container, dependencies: [data] },
   );

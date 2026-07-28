@@ -16,6 +16,7 @@ import { stegaClean } from 'next-sanity';
 import { sanityFetch } from '@/sanity/lib/live';
 import { footerQuery } from '@/sanity/lib/queries';
 import { urlForImage } from '@/sanity/lib/utils';
+import { getImageDimensions } from '@/app/lib/sanityImageDimensions';
 
 type NavLink = { label: string; href: string };
 
@@ -88,6 +89,8 @@ export default async function Footer() {
   const logoImageUrl = footer.logo?.logoImage?.asset
     ? urlForImage(footer.logo.logoImage)?.height(96).fit('max').url()
     : undefined;
+  // Intrinsic size of the uploaded logo — a hardcoded pair would misstate the aspect ratio.
+  const logoDimensions = getImageDimensions(footer.logo?.logoImage) ?? { width: 240, height: 48 };
   const tagline = footer.tagline;
   const contactName = footer.contactName;
   const contactAddress = footer.contactAddress;
@@ -106,8 +109,8 @@ export default async function Footer() {
                 <Image
                   src={logoImageUrl}
                   alt={logoText ?? ''}
-                  width={240}
-                  height={48}
+                  width={logoDimensions.width}
+                  height={logoDimensions.height}
                   className="h-12 w-auto object-contain"
                 />
               ) : (

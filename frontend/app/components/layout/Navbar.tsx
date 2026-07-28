@@ -9,6 +9,7 @@ import { ChevronDown, Menu as MenuIcon, X } from 'lucide-react';
 
 import type { Navbar as NavbarType } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/utils';
+import { getImageDimensions } from '@/app/lib/sanityImageDimensions';
 
 type NavItem = { label: string; href: string; children?: NavItem[] };
 
@@ -250,6 +251,11 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
   const logoImageUrl = navbar?.logo?.logoImage?.asset
     ? urlForImage(navbar.logo.logoImage)?.height(160).fit('max').url()
     : undefined;
+  // Intrinsic size of the uploaded logo — a hardcoded pair would misstate the aspect ratio.
+  const logoDimensions = getImageDimensions(navbar?.logo?.logoImage) ?? {
+    width: 300,
+    height: 60,
+  };
   const ctaLabel = navbar?.ctaButton?.label;
   const ctaHref = navbar?.ctaButton?.href;
 
@@ -274,8 +280,8 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
             <Image
               src={logoImageUrl}
               alt={logoText ?? ''}
-              width={300}
-              height={60}
+              width={logoDimensions.width}
+              height={logoDimensions.height}
               className="h-15 w-auto object-contain"
               priority
             />
