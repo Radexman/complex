@@ -14,6 +14,78 @@ Not Started
 
 ## History
 
+### GSAP Target Warnings, Logo Aspect Ratio + Hosted Studio Redeploy (2026-07-28)
+
+Two reported issues (plus a third found mid-session), defined inline via `/feature load` (no spec
+file). Branch `fix/trust-gsap-and-studio-redeploy`.
+
+- **Issue 1 — `GSAP target [data-trust-badges] not found`, twice on every page load.**
+  `TrustSection.tsx` passed GSAP three **selector strings** (`[data-trust-header]` /
+  `[data-trust-card]` / `[data-trust-badges]`) in its `useGSAP` callback, but all three blocks are
+  **conditionally rendered from CMS data**. The live `trustSection` singleton has **no badges**, so
+  the element never existed and GSAP warned once for the `gsap.set` (:84) and once for the timeline
+  `.to` (:107). Fixed by resolving each target with `scope.querySelectorAll` and tweening only what
+  matched. **Also covers `[data-trust-card]`** — same latent bug, it simply has data today.
+  The `useGSAP` hook runs **before** the `if (!data) return null` guard (hooks can't be conditional),
+  so the fix had to live inside the callback, not in an early return.
+- **Issue 2 — „Schema type for 'processTimeline' not found" in the deployed Studio.** **Not a schema
+  bug** — the type was correct locally (defined, registered, structure entry present) and the
+  document was published in `production`. The **hosted Studio bundle was stale**:
+  `get_project_studios` showed one studio created **2026-06-15**, three weeks before `processTimeline`
+  was added (2026-07-07). The old bundle still served the structure entry, so „Sekcja Proces" was
+  clickable but had no schema to render a form from — hence the error and the frozen fields.
+  - **This was the accumulated „hosted Studio needs a redeploy" debt** flagged in ~10 consecutive
+    history entries, and it was blocking the client. **Everything** since 2026-06-15 was missing, not
+    just the reported type: `project`, `featuredProjectsSection`, `realizacjePage`, `service` (all
+    four field groups: Zalety / Producenci / Specyfikacja / CTA formularza), `footer`,
+    `bottomCtaSection`, `tarasFormConfig`, `schodyFormConfig`, `tarasyPage`, the optional Trust
+    `value`, and the 7-step timeline cap.
+  - **Fixed by `npm run deploy` from `studio/`** → **https://complex.sanity.studio/**. Because
+    `deployment.appId` is pinned in `sanity.cli.ts`, it **redeployed in place** — same URL, no second
+    studio, no hostname prompt. Also reported `Deployed 1/1 schemas`. Verified via MCP `get_schema`:
+    `processTimeline` live with its 7 steps + `ruler` icon, and **all 16 types** present.
+- **Issue 3 (found mid-session, user asked for it too) — `next/image` aspect-ratio warning.**
+  `Navbar.tsx` declared `width={300} height={60}` and `Footer.tsx` `width={240} height={48}` — both
+  **5:1** — while the uploaded logo is **262×134 (~1.96:1)**. Next compares the rendered box against
+  the ratio implied by the attributes; with `h-15 w-auto` the height matched but the width didn't,
+  which is exactly its „one modified, not the other" condition.
+  - Fixed with a new pure util **`app/lib/sanityImageDimensions.ts`** — `getImageDimensions()` reads
+    the intrinsic size out of the Sanity asset reference (`image-<hash>-<width>x<height>-<format>`),
+    `stegaClean`ed first so Visual Editing metadata can't break the parse. Both components pass real
+    dimensions now, falling back to the old hardcoded pair if a ref is ever unparseable.
+    **Deliberately not hardcoding the current logo's numbers** — CMS-uploaded images have no fixed
+    ratio, so the warning would return with the next upload.
+- **Presentation preview URL checked** (it bundles at build time, and `studio/.env` sets it to
+  `localhost:3000` — which would have pointed the client's Presentation tool at a dev machine).
+  **No action needed:** `studio/.env.production` overrides it with `https://complex-puce.vercel.app`,
+  and the built bundle contains that with **zero** `localhost:3000` hits.
+- **The `/oferta/taras/formularz-przeslany` 404** pasted alongside the GSAP output was **a hand-typed
+  URL**, confirmed: the build route table lists `/wycena/*/przeslany-formularz` (segment reversed,
+  and under `/wycena`, not `/oferta`) and `taras` is not a valid offer slug.
+- **Verified in a real browser** (Playwright/Chromium, existing dev server on :3000): a fresh load of
+  `/` with **0 console errors and 0 warnings**, header + footer logos rendered and the Trust section
+  scrolled through. Instrumented the DOM to confirm the diagnosis — **badges: 0**, headers: 3,
+  cards: 4 — and that all headers/cards still reach `opacity: 1`, so the reveal was not broken by the
+  fix. Both logos now declare `262×134` and render at `117×60` / `94×48`, preserving the true ratio.
+- **Not verified:** the hosted Studio UI itself — the Playwright browser isn't logged in to Sanity
+  (it redirected to the login screen; no attempt to authenticate). The deployed-schema check via MCP
+  is the evidence.
+- **Commit-message gotcha:** the Bash tool is Git Bash, so the PowerShell here-string form
+  `@'…'@` was passed through literally and prefixed the subject with a stray `@`. Amended using a
+  heredoc-written `-F` file instead.
+- **Left untouched (same precedent as prior features):** the pre-existing uncommitted `.mcp.json`,
+  `OfferTechSpecs.tsx`, `FeaturedProjectsSection.tsx`, the user's `renderConfirmationEmail.ts` edit,
+  the line-ending-only `sanity.types.ts` / `sanity.schema.json` drift (**verified content-identical**
+  with `git diff --ignore-all-space` — zero diff), the three untracked future specs (`about-us`,
+  `contact-page`, `offer-index`), `.claude/settings.local.json` and the untracked `.playwright-mcp/`
+  artifacts.
+- ⚠️ **Still open:** whether a Studio-redeploy step should be added to the workflow / CLAUDE.md so
+  this debt stops accumulating. Any future schema change needs `npm run deploy` from `studio/` before
+  the client can see it.
+- Verified: **131/131 Vitest** (126 existing + 5 new for the pure dimension parser), `type-check`
+  (both workspaces), `lint` (only the pre-existing `useCountUp` exhaustive-deps warning at
+  `TrustSection.tsx:65`), `next build` — all routes prerender as before.
+
 ### Thank-You Subpages for Quotation Forms (2026-07-28)
 
 Each of the four quotation forms now **navigates to its own URL** on a successful submission
