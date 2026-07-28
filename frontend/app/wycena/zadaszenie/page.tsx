@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 
 import ZadaszenieForm from '@/app/components/forms/ZadaszenieForm';
-import { processTimelineQuery } from '@/sanity/lib/queries';
-import { sanityFetch } from '@/sanity/lib/live';
 
 export const metadata: Metadata = {
   title: 'Formularz Wyceny Zadaszenia — Complex',
@@ -10,9 +8,7 @@ export const metadata: Metadata = {
     'Wypełnij formularz wyceny zadaszenia aluminiowego i otrzymaj bezpłatną ofertę w ciągu 24 godzin.',
 };
 
-export default async function WycenaZadaszeniePage() {
-  const { data: processTimeline } = await sanityFetch({ query: processTimelineQuery });
-
+export default function WycenaZadaszeniePage() {
   return (
     <div className="bg-bg-deep">
       <section className="border-b border-graphite bg-bg-mid pt-28 pb-16">
@@ -30,7 +26,7 @@ export default async function WycenaZadaszeniePage() {
         </div>
       </section>
 
-      <ZadaszenieForm steps={processTimeline?.steps ?? []} />
+      <ZadaszenieForm />
     </div>
   );
 }

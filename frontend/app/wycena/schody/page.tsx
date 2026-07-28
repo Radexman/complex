@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 import SchodyForm from '@/app/components/forms/SchodyForm';
-import { processTimelineQuery, schodyFormConfigQuery } from '@/sanity/lib/queries';
+import { schodyFormConfigQuery } from '@/sanity/lib/queries';
 import { sanityFetch } from '@/sanity/lib/live';
 
 export const metadata: Metadata = {
@@ -11,10 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default async function WycenaSchodyPage() {
-  const [{ data: config }, { data: processTimeline }] = await Promise.all([
-    sanityFetch({ query: schodyFormConfigQuery }),
-    sanityFetch({ query: processTimelineQuery }),
-  ]);
+  const { data: config } = await sanityFetch({ query: schodyFormConfigQuery });
 
   return (
     <div className="bg-bg-deep">
@@ -33,7 +30,7 @@ export default async function WycenaSchodyPage() {
         </div>
       </section>
 
-      <SchodyForm diagram={config?.diagram ?? null} steps={processTimeline?.steps ?? []} />
+      <SchodyForm diagram={config?.diagram ?? null} />
     </div>
   );
 }
