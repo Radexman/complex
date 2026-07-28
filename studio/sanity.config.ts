@@ -24,6 +24,13 @@ const dataset = process.env.SANITY_STUDIO_DATASET || 'production';
 // URL for preview functionality, defaults to localhost:3000 if not set
 const SANITY_STUDIO_PREVIEW_URL = process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:3000';
 
+// Origins the Presentation tool is allowed to load in its preview iframe and exchange
+// postMessage events with. Declared explicitly so one bundle works for both local development
+// and the deployed frontend — relying on the build-time preview URL alone allows only one of
+// them. Add any new frontend domain here (e.g. a future ccomplex.pl) or Presentation will
+// refuse to open it.
+const PREVIEW_ALLOW_ORIGINS = ['http://localhost:*', 'https://complex-puce.vercel.app'];
+
 // Define the home location for the presentation tool
 const homeLocation = {
   title: 'Strona główna',
@@ -56,11 +63,12 @@ export default defineConfig({
     // Presentation tool configuration for Visual Editing
     presentationTool({
       previewUrl: {
-        origin: SANITY_STUDIO_PREVIEW_URL,
+        initial: SANITY_STUDIO_PREVIEW_URL,
         previewMode: {
           enable: '/api/draft-mode/enable',
         },
       },
+      allowOrigins: PREVIEW_ALLOW_ORIGINS,
       resolve: {
         // The Main Document Resolver API provides a method of resolving a main document from a given route or route pattern. https://www.sanity.io/docs/visual-editing/presentation-resolver-api#57720a5678d9
         mainDocuments: defineDocuments([
