@@ -93,7 +93,7 @@ export default function FormSuccessState({
             <>
               Dziękujemy! Twoje zapytanie zostało przyjęte. Skontaktujemy się z Tobą na adres{' '}
               <span className="font-medium text-accent">{submittedEmail}</span> lub telefonicznie w
-              ciągu 24 godzin roboczych.
+              ciągu 5 dni roboczych.
             </>
           )}
         </p>

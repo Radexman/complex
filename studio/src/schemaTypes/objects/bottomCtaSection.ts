@@ -104,7 +104,11 @@ export const bottomCtaSection = defineType({
       type: 'array',
       of: [{ type: 'string' }],
       group: 'cta',
-      initialValue: ['Bez zobowiązań', 'Odpowiedź w ciągu 24h', 'Bezpłatna wizyta na miejscu'],
+      initialValue: [
+        'Bez zobowiązań',
+        'Odpowiedź w ciągu 5 dni roboczych',
+        'Bezpłatna wizyta na miejscu',
+      ],
     }),
     defineField({
       name: 'contactEyebrow',
