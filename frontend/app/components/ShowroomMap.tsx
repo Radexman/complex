@@ -12,12 +12,12 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 });
 
-// Kępska 12, 46-020 Opole — hardcoded, not from Sanity.
+// Kępska 12, 45-130 Opole — hardcoded, not from Sanity.
 const SHOWROOM_COORDS: [number, number] = [50.6751, 17.9213];
 const SHOWROOM_NAME = 'CCOMPLEX ZADASZENIA I TARASY';
-const SHOWROOM_ADDRESS = 'Kępska 12, 46-020 Opole';
+const SHOWROOM_ADDRESS = 'Kępska 12, 45-130 Opole';
 const DIRECTIONS_URL =
-  'https://www.google.com/maps/dir/?api=1&destination=K%C4%99pska+12%2C+46-020+Opole';
+  'https://www.google.com/maps/dir/?api=1&destination=K%C4%99pska+12%2C+45-130+Opole';
 
 // Simple green filled circle marker styled with the brand accent.
 const greenIcon = L.divIcon({
