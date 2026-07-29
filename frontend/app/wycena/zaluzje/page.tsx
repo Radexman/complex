@@ -5,7 +5,7 @@ import ZaluzjeForm from '@/app/components/forms/ZaluzjeForm';
 export const metadata: Metadata = {
   title: 'Formularz Wyceny Żaluzji — Complex',
   description:
-    'Wypełnij formularz wyceny żaluzji tarasowych i otrzymaj bezpłatną ofertę w ciągu 24 godzin.',
+    'Wypełnij formularz wyceny żaluzji tarasowych i otrzymaj bezpłatną ofertę w ciągu 5 dni roboczych.',
 };
 
 export default function WycenaZaluzjePage() {
@@ -21,7 +21,7 @@ export default function WycenaZaluzjePage() {
           </h1>
           <p className="mt-3 max-w-xl font-body text-base text-silver">
             Wypełnij poniższy formularz, a my przygotujemy bezpłatną wycenę i skontaktujemy się z
-            Tobą w ciągu 24 godzin roboczych.
+            Tobą w ciągu 5 dni roboczych.
           </p>
         </div>
       </section>
