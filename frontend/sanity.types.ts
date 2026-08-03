@@ -22,6 +22,52 @@ export type SanityImageAssetReference = {
   [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
 };
 
+export type WycenaFormCard = {
+  _type: 'wycenaFormCard';
+  formSlug: 'taras' | 'zadaszenie' | 'zaluzje' | 'schody';
+  title: string;
+  description?: string;
+  badge?: string;
+  image?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: 'image';
+  };
+};
+
+export type VatRate = {
+  _type: 'vatRate';
+  rate: string;
+  label: string;
+  description?: string;
+  isAdvantage?: boolean;
+};
+
+export type BeforeAfterItem = {
+  _type: 'beforeAfterItem';
+  title: string;
+  location?: string;
+  beforeImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    _type: 'image';
+  };
+  afterImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    _type: 'image';
+  };
+};
+
 export type TarasShape = {
   _type: 'tarasShape';
   shapeNumber: '1' | '2' | '3' | '4';
@@ -363,8 +409,27 @@ export type BottomCtaSection = {
   showroomLabel?: string;
   showroomDescription?: string;
   showroomAddress?: string;
+  mapAddress?: string;
+  serviceAreaLabel?: string;
+  serviceAreaDescription?: string;
   officeLabel?: string;
   officeDescription?: string;
+};
+
+export type WycenaPage = {
+  _id: string;
+  _type: 'wycenaPage';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  headline: string;
+  subheadline?: string;
+  forms?: Array<
+    {
+      _key: string;
+    } & WycenaFormCard
+  >;
 };
 
 export type TarasyPage = {
@@ -398,6 +463,41 @@ export type OfertaPage = {
   eyebrow?: string;
   headline: string;
   subheadline?: string;
+};
+
+export type VatHighlightSection = {
+  _id: string;
+  _type: 'vatHighlightSection';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  headline: string;
+  description?: string;
+  rates?: Array<
+    {
+      _key: string;
+    } & VatRate
+  >;
+  footnote?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+};
+
+export type BeforeAfterSection = {
+  _id: string;
+  _type: 'beforeAfterSection';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  headline: string;
+  subheadline?: string;
+  items?: Array<
+    {
+      _key: string;
+    } & BeforeAfterItem
+  >;
 };
 
 export type FeaturedProjectsSection = {
@@ -794,6 +894,9 @@ export type Geopoint = {
 
 export type AllSanitySchemaTypes =
   | SanityImageAssetReference
+  | WycenaFormCard
+  | VatRate
+  | BeforeAfterItem
   | TarasShape
   | ProcessStep
   | AboutBadge
@@ -810,9 +913,12 @@ export type AllSanitySchemaTypes =
   | Footer
   | ProcessTimeline
   | BottomCtaSection
+  | WycenaPage
   | TarasyPage
   | RealizacjePage
   | OfertaPage
+  | VatHighlightSection
+  | BeforeAfterSection
   | FeaturedProjectsSection
   | AboutSection
   | OfferSection
@@ -1064,6 +1170,25 @@ export type OfertaPageQueryResult = {
 } | null;
 
 // Source: sanity/lib/queries.ts
+// Variable: wycenaPageQuery
+// Query: *[_type == "wycenaPage"][0]
+export type WycenaPageQueryResult = {
+  _id: string;
+  _type: 'wycenaPage';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  headline: string;
+  subheadline?: string;
+  forms?: Array<
+    {
+      _key: string;
+    } & WycenaFormCard
+  >;
+} | null;
+
+// Source: sanity/lib/queries.ts
 // Variable: allServicesQuery
 // Query: *[_type == "service" && defined(slug.current)] | order(coalesce(order, 99) asc, title asc){    _id,    title,    "slug": slug.current,    heroImage,    heroSubheadline,    category,    relatedFormSlug  }
 export type AllServicesQueryResult = Array<{
@@ -1117,6 +1242,47 @@ export type TerraceServicesQueryResult = Array<{
 }>;
 
 // Source: sanity/lib/queries.ts
+// Variable: beforeAfterQuery
+// Query: *[_type == "beforeAfterSection"][0]
+export type BeforeAfterQueryResult = {
+  _id: string;
+  _type: 'beforeAfterSection';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  headline: string;
+  subheadline?: string;
+  items?: Array<
+    {
+      _key: string;
+    } & BeforeAfterItem
+  >;
+} | null;
+
+// Source: sanity/lib/queries.ts
+// Variable: vatHighlightQuery
+// Query: *[_type == "vatHighlightSection"][0]
+export type VatHighlightQueryResult = {
+  _id: string;
+  _type: 'vatHighlightSection';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  headline: string;
+  description?: string;
+  rates?: Array<
+    {
+      _key: string;
+    } & VatRate
+  >;
+  footnote?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+} | null;
+
+// Source: sanity/lib/queries.ts
 // Variable: bottomCtaQuery
 // Query: *[_type == "bottomCtaSection"][0]
 export type BottomCtaQueryResult = {
@@ -1149,6 +1315,9 @@ export type BottomCtaQueryResult = {
   showroomLabel?: string;
   showroomDescription?: string;
   showroomAddress?: string;
+  mapAddress?: string;
+  serviceAreaLabel?: string;
+  serviceAreaDescription?: string;
   officeLabel?: string;
   officeDescription?: string;
 } | null;
@@ -1433,8 +1602,11 @@ declare module '@sanity/client' {
     '*[_type == "realizacjePage"][0]': RealizacjePageQueryResult;
     '*[_type == "tarasyPage"][0]': TarasyPageQueryResult;
     '*[_type == "ofertaPage"][0]': OfertaPageQueryResult;
+    '*[_type == "wycenaPage"][0]': WycenaPageQueryResult;
     '*[_type == "service" && defined(slug.current)] | order(coalesce(order, 99) asc, title asc){\n    _id,\n    title,\n    "slug": slug.current,\n    heroImage,\n    heroSubheadline,\n    category,\n    relatedFormSlug\n  }': AllServicesQueryResult;
     '*[_type == "service" && slug.current in ["tarasy-kompozytowe", "tarasy-gresowe", "tarasy-drewniane"]]{\n    _id,\n    title,\n    "slug": slug.current,\n    heroImage,\n    heroSubheadline,\n    category\n  }': TerraceServicesQueryResult;
+    '*[_type == "beforeAfterSection"][0]': BeforeAfterQueryResult;
+    '*[_type == "vatHighlightSection"][0]': VatHighlightQueryResult;
     '*[_type == "bottomCtaSection"][0]': BottomCtaQueryResult;
     '*[_type == "processTimeline"][0]': ProcessTimelineQueryResult;
     '*[_type == "footer"][0]': FooterQueryResult;

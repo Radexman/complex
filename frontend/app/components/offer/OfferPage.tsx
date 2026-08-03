@@ -5,10 +5,12 @@ import type {
   GalleryProjectsByCategoryQueryResult,
   ProcessTimelineQueryResult,
   ServiceBySlugQueryResult,
+  VatHighlightQueryResult,
 } from '@/sanity.types';
 import { categoryLabel } from '@/app/lib/categories';
 import ContactShowroom from '@/app/components/sections/ContactShowroom';
 import ProcessTimeline from '@/app/components/sections/ProcessTimeline';
+import VatHighlight from '@/app/components/sections/VatHighlight';
 
 import OfferBenefits from './OfferBenefits';
 import OfferBrands from './OfferBrands';
@@ -29,11 +31,13 @@ export default function OfferPage({
   service,
   galleryProjects,
   processTimeline,
+  vatHighlight,
   contact,
 }: {
   service: Service;
   galleryProjects: GalleryProjectsByCategoryQueryResult;
   processTimeline: ProcessTimelineQueryResult;
+  vatHighlight: VatHighlightQueryResult;
   contact: BottomCtaQueryResult;
 }) {
   return (
@@ -67,6 +71,8 @@ export default function OfferPage({
         techSpecsDescription={service.techSpecsDescription}
         techSpecs={service.techSpecs}
       />
+      {/* Sits right before the quotation CTA — price is on the visitor's mind here. */}
+      {vatHighlight && <VatHighlight data={vatHighlight} />}
       {service.relatedFormSlug && (
         <OfferFormCta
           formCtaHeadline={service.formCtaHeadline}
@@ -87,6 +93,9 @@ export default function OfferPage({
           showroomAddress={contact.showroomAddress}
           officeLabel={contact.officeLabel}
           officeDescription={contact.officeDescription}
+          mapAddress={contact.mapAddress}
+          serviceAreaLabel={contact.serviceAreaLabel}
+          serviceAreaDescription={contact.serviceAreaDescription}
         />
       )}
     </main>

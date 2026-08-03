@@ -144,7 +144,7 @@ export default function FormSuccessState({
             </div>
 
             <p className="mt-6 text-xs italic text-silver/60">
-              Oferta zostanie przesłana na adres e-mail podany w formularzu do 7 dni roboczych.
+              Oferta zostanie przesłana na adres e-mail podany w formularzu do 5 dni roboczych.
               Usługi montażowe wykonujemy na terenie województw śląskiego i opolskiego.
             </p>
           </div>

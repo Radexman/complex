@@ -171,6 +171,33 @@ export const bottomCtaSection = defineType({
       initialValue: 'Kępska 12, 46-020 Opole',
     }),
     defineField({
+      name: 'mapAddress',
+      title: 'Adres w dymku na mapie',
+      description:
+        'Pełny adres pokazywany w dymku na mapie — zwykle ten sam co w stopce, razem z numerem pokoju. Trzymany osobno od adresu ekspozycji, która jest w innym miejscu niż biuro.',
+      type: 'string',
+      group: 'showroom',
+      initialValue: 'Kępska 12, 45-130 Opole, pok.20 (parter)',
+    }),
+    defineField({
+      name: 'serviceAreaLabel',
+      title: 'Nagłówek obszaru działania',
+      description: 'Nagłówek wyróżnionej informacji o terenie, na którym realizujemy zlecenia.',
+      type: 'string',
+      group: 'showroom',
+      initialValue: 'Obszar działania',
+    }),
+    defineField({
+      name: 'serviceAreaDescription',
+      title: 'Opis obszaru działania',
+      description: 'Informacja o województwach, w których wykonujemy realizacje.',
+      type: 'text',
+      rows: 3,
+      group: 'showroom',
+      initialValue:
+        'Realizacje i montaż wykonujemy na terenie województw śląskiego i opolskiego. Jeśli Twoja inwestycja znajduje się poza tym obszarem, zadzwoń — ustalimy indywidualnie, czy możemy się jej podjąć.',
+    }),
+    defineField({
       name: 'officeLabel',
       title: 'Nagłówek biura',
       description: 'Nagłówek osobnego bloku o biurze, pod ekspozycją.',

@@ -10,8 +10,9 @@ import { ChevronDown, Menu as MenuIcon, X } from 'lucide-react';
 import type { Navbar as NavbarType } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/utils';
 import { getImageDimensions } from '@/app/lib/sanityImageDimensions';
+import ContactFormDialog from '@/app/components/forms/ContactFormDialog';
 
-type NavItem = { label: string; href: string; children?: NavItem[] };
+type NavItem = { label: string; href: string; children?: NavItem[]; defaultExpanded?: boolean };
 
 /** Offer categories — mirrors the project's information architecture. */
 const OFERTA_ITEMS: NavItem[] = [
@@ -21,6 +22,9 @@ const OFERTA_ITEMS: NavItem[] = [
   {
     label: 'Tarasy',
     href: '/tarasy',
+    // Opened as soon as the Oferta menu is shown — the three terrace subpages are
+    // the company's main entry point, so they shouldn't need a second click.
+    defaultExpanded: true,
     children: [
       { label: 'Tarasy kompozytowe', href: '/oferta/tarasy-kompozytowe' },
       { label: 'Tarasy gresowe', href: '/oferta/tarasy-gresowe' },
@@ -31,37 +35,20 @@ const OFERTA_ITEMS: NavItem[] = [
   { label: 'Schody modułowe', href: '/oferta/schody-modulowe' },
 ];
 
-/** Quotation forms shown under "Formularze wycen". */
-const WYCENA_ITEMS: NavItem[] = [
-  { label: 'Formularz Wyceny Tarasu', href: '/wycena/taras' },
-  { label: 'Formularz Wyceny Zadaszenia', href: '/wycena/zadaszenie' },
-  { label: 'Formularz Wyceny Żaluzji', href: '/wycena/zaluzje' },
-  { label: 'Formularz Wyceny Schodów', href: '/wycena/schody' },
-];
-
 /**
- * Maps an offer slug to its specific quotation-form URL, so the navbar CTA on
- * an offer page links straight to the relevant form (mirrors each service's
- * relatedFormSlug). Offers without a form (Elewacje kompozytowe) are omitted
- * and fall back to the CMS-configured ctaHref.
+ * Simple top-level links rendered after the Oferta dropdown. „Kontakt" is an
+ * anchor to the home page's contact/showroom block rather than a page of its
+ * own — there is one set of contact details and it lives there.
  */
-const OFFER_FORM_HREFS: Record<string, string> = {
-  'zadaszenia-tarasowe': '/wycena/zadaszenie',
-  'akcesoria-do-zadaszen': '/wycena/zaluzje',
-  'tarasy-kompozytowe': '/wycena/taras',
-  'tarasy-gresowe': '/wycena/taras',
-  'tarasy-drewniane': '/wycena/taras',
-  'schody-modulowe': '/wycena/schody',
-};
-
-/** Simple top-level links rendered after the Oferta dropdown. */
 const NAV_LINKS: NavItem[] = [
   { label: 'Realizacje', href: '/realizacje' },
   { label: 'O nas', href: '/o-nas' },
-  { label: 'Kontakt', href: '/kontakt' },
+  { label: 'Kontakt', href: '/#kontakt' },
 ];
 
 function isActivePath(pathname: string, href: string) {
+  // Anchors (/#kontakt) point into a page rather than at one — never "active".
+  if (href.includes('#')) return false;
   return href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
 }
 
@@ -70,7 +57,7 @@ function isActivePath(pathname: string, href: string) {
  * parent page, the chevron toggles the nested children inline.
  */
 function DropdownGroup({ item, onNavigate }: { item: NavItem; onNavigate: () => void }) {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(item.defaultExpanded ?? false);
 
   return (
     <div>
@@ -190,7 +177,7 @@ function NavDropdown({
 
 /** Mobile drawer variant of a nav entry with sub-items — label links, chevron expands. */
 function MobileNavGroup({ item, onNavigate }: { item: NavItem; onNavigate: () => void }) {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(item.defaultExpanded ?? false);
 
   return (
     <div>
@@ -238,6 +225,9 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  // Owned here rather than inside the dialog so the mobile drawer can close
+  // itself before the modal opens, instead of nesting two dialogs.
+  const [contactOpen, setContactOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -257,17 +247,14 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
     width: 300,
     height: 60,
   };
-  const ctaLabel = navbar?.ctaButton?.label;
-  const ctaHref = navbar?.ctaButton?.href;
+  const ctaLabel = navbar?.ctaButton?.label || 'Darmowa wycena';
+  // The CTA leads to the form chooser rather than to one specific form — the
+  // visitor picks the product there.
+  const ctaHref = navbar?.ctaButton?.href || '/wycena';
 
   const navLinkClass = (active: boolean) =>
     `text-sm transition-colors duration-200 ${active ? 'text-white' : 'text-silver hover:text-white'}`;
 
-  // On an offer page, point the CTA at that offer's specific quotation form.
-  // Falls back to the CMS-configured ctaHref everywhere else (incl. Elewacje,
-  // which has no form). Mirrors each service's relatedFormSlug.
-  const offerSlug = pathname.startsWith('/oferta/') ? pathname.split('/')[2] : undefined;
-  const resolvedCtaHref = (offerSlug && OFFER_FORM_HREFS[offerSlug]) || ctaHref;
 
   return (
     <header
@@ -317,15 +304,19 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
           ))}
         </div>
         <div className="hidden shrink-0 items-center gap-3 lg:flex">
-          <NavDropdown label="Formularze wycen" items={WYCENA_ITEMS} align="right" />
-          {ctaLabel && resolvedCtaHref && (
-            <Link
-              href={resolvedCtaHref}
-              className="rounded-md bg-accent px-4 py-2 text-sm font-semibold text-black transition-colors hover:bg-accent-hover"
-            >
-              {ctaLabel}
-            </Link>
-          )}
+          <button
+            type="button"
+            onClick={() => setContactOpen(true)}
+            className="text-sm text-silver transition-colors duration-200 outline-none hover:text-white"
+          >
+            Formularz kontaktowy
+          </button>
+          <Link
+            href={ctaHref}
+            className="rounded-md bg-accent px-4 py-2 text-sm font-semibold text-black transition-colors hover:bg-accent-hover"
+          >
+            {ctaLabel}
+          </Link>
         </div>
         <Dialog.Root open={mobileOpen} onOpenChange={(e) => setMobileOpen(e.open)}>
           <Dialog.Trigger className="text-white outline-none lg:hidden" aria-label="Otwórz menu">
@@ -400,49 +391,30 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
                       {item.label}
                     </Link>
                   ))}
-                  <Accordion.Root collapsible>
-                    <Accordion.Item value="wycena">
-                      <Accordion.ItemTrigger className="group flex w-full items-center justify-between py-3 text-lg text-silver transition-colors outline-none hover:text-white">
-                        Formularze wycen
-                        <Accordion.ItemIndicator>
-                          <ChevronDown
-                            size={18}
-                            className="transition-transform duration-200 group-data-[state=open]:rotate-180"
-                            aria-hidden="true"
-                          />
-                        </Accordion.ItemIndicator>
-                      </Accordion.ItemTrigger>
-                      <Accordion.ItemContent className="overflow-hidden">
-                        <div className="flex flex-col border-l border-graphite pl-3">
-                          {WYCENA_ITEMS.map((item) => (
-                            <Link
-                              key={item.href}
-                              href={item.href}
-                              onClick={() => setMobileOpen(false)}
-                              className="py-2.5 text-base text-silver transition-colors hover:text-white"
-                            >
-                              {item.label}
-                            </Link>
-                          ))}
-                        </div>
-                      </Accordion.ItemContent>
-                    </Accordion.Item>
-                  </Accordion.Root>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMobileOpen(false);
+                      setContactOpen(true);
+                    }}
+                    className="w-full py-3 text-left text-lg text-silver transition-colors outline-none hover:text-white"
+                  >
+                    Formularz kontaktowy
+                  </button>
                 </div>
 
-                {ctaLabel && resolvedCtaHref && (
-                  <Link
-                    href={resolvedCtaHref}
-                    onClick={() => setMobileOpen(false)}
-                    className="mt-4 rounded-md bg-accent px-4 py-3.5 text-center text-base font-semibold text-black transition-colors hover:bg-accent-hover"
-                  >
-                    {ctaLabel}
-                  </Link>
-                )}
+                <Link
+                  href={ctaHref}
+                  onClick={() => setMobileOpen(false)}
+                  className="mt-4 rounded-md bg-accent px-4 py-3.5 text-center text-base font-semibold text-black transition-colors hover:bg-accent-hover"
+                >
+                  {ctaLabel}
+                </Link>
               </Dialog.Content>
             </Dialog.Positioner>
           </Portal>
         </Dialog.Root>
+        <ContactFormDialog open={contactOpen} onOpenChange={setContactOpen} />
       </nav>
     </header>
   );

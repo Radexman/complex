@@ -8,6 +8,7 @@ import { useGSAP } from '@gsap/react';
 import { CalendarClock, MapPin, Phone, Mail } from 'lucide-react';
 
 import type { BottomCtaQueryResult } from '@/sanity.types';
+import ServiceAreaNotice from '@/app/components/ui/ServiceAreaNotice';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -31,6 +32,9 @@ export type ContactShowroomData = Pick<
   | 'showroomAddress'
   | 'officeLabel'
   | 'officeDescription'
+  | 'mapAddress'
+  | 'serviceAreaLabel'
+  | 'serviceAreaDescription'
 >;
 
 export default function ContactShowroom({
@@ -43,6 +47,9 @@ export default function ContactShowroom({
   showroomAddress,
   officeLabel,
   officeDescription,
+  mapAddress,
+  serviceAreaLabel,
+  serviceAreaDescription,
 }: ContactShowroomData) {
   const container = useRef<HTMLDivElement>(null);
 
@@ -85,7 +92,8 @@ export default function ContactShowroom({
   );
 
   return (
-    <div ref={container} className="bg-bg-mid py-20">
+    // `scroll-mt-20` clears the fixed navbar when the /#kontakt anchor lands here.
+    <div id="kontakt" ref={container} className="scroll-mt-20 bg-bg-mid py-20">
       <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-16 px-6 md:grid-cols-2">
         {/* Left: contact + showroom text */}
         <div data-showroom-reveal>
@@ -96,24 +104,6 @@ export default function ContactShowroom({
             <h3 className="font-heading text-3xl font-bold text-white">{showroomLabel}</h3>
           )}
           {contactNote && <p className="mt-4 font-body text-base text-silver">{contactNote}</p>}
-
-          {/* Preferred contact buttons */}
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <a
-              href={phoneHref}
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3.5 text-base font-semibold text-black transition-colors hover:bg-accent-hover"
-            >
-              <Phone size={18} aria-hidden="true" />
-              {phone}
-            </a>
-            <a
-              href={`mailto:${email}`}
-              className="inline-flex items-center justify-center gap-2 rounded-lg border border-graphite bg-bg-surface px-6 py-3.5 text-base font-semibold text-white transition-colors hover:border-accent hover:text-accent"
-            >
-              <Mail size={18} aria-hidden="true" />
-              {email}
-            </a>
-          </div>
 
           {showroomDescription && (
             <p className="mt-8 font-body text-base text-silver">{showroomDescription}</p>
@@ -139,6 +129,26 @@ export default function ContactShowroom({
               </div>
             </div>
           )}
+
+          <ServiceAreaNotice label={serviceAreaLabel} description={serviceAreaDescription} />
+
+          {/* Preferred contact buttons */}
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <a
+              href={phoneHref}
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3.5 text-base font-semibold text-black transition-colors hover:bg-accent-hover"
+            >
+              <Phone size={18} aria-hidden="true" />
+              {phone}
+            </a>
+            <a
+              href={`mailto:${email}`}
+              className="inline-flex items-center justify-center gap-2 rounded-lg border border-graphite bg-bg-surface px-6 py-3.5 text-base font-semibold text-white transition-colors hover:border-accent hover:text-accent"
+            >
+              <Mail size={18} aria-hidden="true" />
+              {email}
+            </a>
+          </div>
         </div>
 
         {/* Right: Leaflet map */}
@@ -146,7 +156,7 @@ export default function ContactShowroom({
           data-map-reveal
           className="h-80 w-full overflow-hidden rounded-xl border border-graphite"
         >
-          <ShowroomMap />
+          <ShowroomMap address={mapAddress ?? undefined} />
         </div>
       </div>
     </div>

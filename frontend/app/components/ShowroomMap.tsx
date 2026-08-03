@@ -12,10 +12,11 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 });
 
-// Kępska 12, 45-130 Opole — hardcoded, not from Sanity.
+// Coordinates stay hardcoded; the address label comes from Sanity
+// (`bottomCtaSection.mapAddress`) so it can't drift from the footer.
 const SHOWROOM_COORDS: [number, number] = [50.6751, 17.9213];
 const SHOWROOM_NAME = 'CCOMPLEX ZADASZENIA I TARASY';
-const SHOWROOM_ADDRESS = 'Kępska 12, 45-130 Opole';
+const FALLBACK_ADDRESS = 'Kępska 12, 45-130 Opole, pok.20 (parter)';
 const DIRECTIONS_URL =
   'https://www.google.com/maps/dir/?api=1&destination=K%C4%99pska+12%2C+45-130+Opole';
 
@@ -28,7 +29,7 @@ const greenIcon = L.divIcon({
   popupAnchor: [0, -14],
 });
 
-export default function ShowroomMap() {
+export default function ShowroomMap({ address }: { address?: string }) {
   return (
     <MapContainer
       center={SHOWROOM_COORDS}
@@ -49,7 +50,9 @@ export default function ShowroomMap() {
       >
         <Popup>
           <span className="block font-heading text-sm font-bold text-black">{SHOWROOM_NAME}</span>
-          <span className="mt-1 block font-body text-sm text-black">{SHOWROOM_ADDRESS}</span>
+          <span className="mt-1 block font-body text-sm text-black">
+            {address || FALLBACK_ADDRESS}
+          </span>
           <a
             href={DIRECTIONS_URL}
             target="_blank"

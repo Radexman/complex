@@ -12,6 +12,7 @@ export const featuredProjectsSectionQuery = defineQuery(
 export const realizacjePageQuery = defineQuery(`*[_type == "realizacjePage"][0]`);
 export const tarasyPageQuery = defineQuery(`*[_type == "tarasyPage"][0]`);
 export const ofertaPageQuery = defineQuery(`*[_type == "ofertaPage"][0]`);
+export const wycenaPageQuery = defineQuery(`*[_type == "wycenaPage"][0]`);
 
 /**
  * Every offer, ordered by the editor-controlled `order` field, for the `/oferta`
@@ -40,6 +41,8 @@ export const terraceServicesQuery = defineQuery(
     category
   }`,
 );
+export const beforeAfterQuery = defineQuery(`*[_type == "beforeAfterSection"][0]`);
+export const vatHighlightQuery = defineQuery(`*[_type == "vatHighlightSection"][0]`);
 export const bottomCtaQuery = defineQuery(`*[_type == "bottomCtaSection"][0]`);
 export const processTimelineQuery = defineQuery(`*[_type == "processTimeline"][0]`);
 export const footerQuery = defineQuery(`*[_type == "footer"][0]`);
