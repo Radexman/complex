@@ -2,6 +2,8 @@ import {
   CheckmarkCircleIcon,
   CogIcon,
   ComponentIcon,
+  CreditCardIcon,
+  DocumentsIcon,
   ImageIcon,
   ImagesIcon,
   MenuIcon,
@@ -11,6 +13,7 @@ import {
   TagIcon,
   ThLargeIcon,
   ThListIcon,
+  TransferIcon,
   UsersIcon,
 } from '@sanity/icons';
 import type { StructureBuilder, StructureResolver } from 'sanity/structure';
@@ -57,6 +60,14 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
             .documentId('featuredProjectsSection'),
         ),
       S.listItem()
+        .title('Sekcja Przed i po')
+        .icon(TransferIcon)
+        .child(S.document().schemaType('beforeAfterSection').documentId('beforeAfterSection')),
+      S.listItem()
+        .title('Sekcja VAT')
+        .icon(CreditCardIcon)
+        .child(S.document().schemaType('vatHighlightSection').documentId('vatHighlightSection')),
+      S.listItem()
         .title('Sekcja Proces')
         .icon(OlistIcon)
         .child(S.document().schemaType('processTimeline').documentId('processTimeline')),
@@ -85,6 +96,10 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .title('Strona Tarasy')
         .icon(ThLargeIcon)
         .child(S.document().schemaType('tarasyPage').documentId('tarasyPage')),
+      S.listItem()
+        .title('Strona Wycena')
+        .icon(DocumentsIcon)
+        .child(S.document().schemaType('wycenaPage').documentId('wycenaPage')),
       S.listItem()
         .title('Realizacje')
         .icon(ImageIcon)

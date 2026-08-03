@@ -104,7 +104,11 @@ export const bottomCtaSection = defineType({
       type: 'array',
       of: [{ type: 'string' }],
       group: 'cta',
-      initialValue: ['Bez zobowiązań', 'Odpowiedź w ciągu 24h', 'Bezpłatna wizyta na miejscu'],
+      initialValue: [
+        'Bez zobowiązań',
+        'Odpowiedź w ciągu 5 dni roboczych',
+        'Bezpłatna wizyta na miejscu',
+      ],
     }),
     defineField({
       name: 'contactEyebrow',
@@ -165,6 +169,33 @@ export const bottomCtaSection = defineType({
       type: 'string',
       group: 'showroom',
       initialValue: 'Kępska 12, 46-020 Opole',
+    }),
+    defineField({
+      name: 'mapAddress',
+      title: 'Adres w dymku na mapie',
+      description:
+        'Pełny adres pokazywany w dymku na mapie — zwykle ten sam co w stopce, razem z numerem pokoju. Trzymany osobno od adresu ekspozycji, która jest w innym miejscu niż biuro.',
+      type: 'string',
+      group: 'showroom',
+      initialValue: 'Kępska 12, 45-130 Opole, pok.20 (parter)',
+    }),
+    defineField({
+      name: 'serviceAreaLabel',
+      title: 'Nagłówek obszaru działania',
+      description: 'Nagłówek wyróżnionej informacji o terenie, na którym realizujemy zlecenia.',
+      type: 'string',
+      group: 'showroom',
+      initialValue: 'Obszar działania',
+    }),
+    defineField({
+      name: 'serviceAreaDescription',
+      title: 'Opis obszaru działania',
+      description: 'Informacja o województwach, w których wykonujemy realizacje.',
+      type: 'text',
+      rows: 3,
+      group: 'showroom',
+      initialValue:
+        'Realizacje i montaż wykonujemy na terenie województw śląskiego i opolskiego. Jeśli Twoja inwestycja znajduje się poza tym obszarem, zadzwoń — ustalimy indywidualnie, czy możemy się jej podjąć.',
     }),
     defineField({
       name: 'officeLabel',

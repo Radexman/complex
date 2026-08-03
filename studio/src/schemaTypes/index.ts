@@ -12,6 +12,12 @@ import { featuredProjectsSection } from './objects/featuredProjectsSection';
 import { ofertaPage } from './objects/ofertaPage';
 import { realizacjePage } from './objects/realizacjePage';
 import { tarasyPage } from './objects/tarasyPage';
+import { wycenaPage } from './objects/wycenaPage';
+import { wycenaFormCard } from './objects/wycenaFormCard';
+import { beforeAfterSection } from './objects/beforeAfterSection';
+import { beforeAfterItem } from './objects/beforeAfterItem';
+import { vatHighlightSection } from './objects/vatHighlightSection';
+import { vatRate } from './objects/vatRate';
 import { bottomCtaSection } from './objects/bottomCtaSection';
 import { processTimeline } from './objects/processTimeline';
 import { processStep } from './objects/processStep';
@@ -33,9 +39,12 @@ export const schemaTypes = [
   offerSection,
   aboutSection,
   featuredProjectsSection,
+  beforeAfterSection,
+  vatHighlightSection,
   ofertaPage,
   realizacjePage,
   tarasyPage,
+  wycenaPage,
   bottomCtaSection,
   processTimeline,
   footer,
@@ -51,4 +60,7 @@ export const schemaTypes = [
   aboutBadge,
   processStep,
   tarasShape,
+  beforeAfterItem,
+  vatRate,
+  wycenaFormCard,
 ];

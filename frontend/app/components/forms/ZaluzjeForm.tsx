@@ -234,7 +234,7 @@ export default function ZaluzjeForm() {
             )}
           </button>
           <p className="text-center text-xs text-silver">
-            * Pola obowiązkowe. Oferta zostanie przesłana w ciągu 7 dni roboczych.
+            * Pola obowiązkowe. Oferta zostanie przesłana w ciągu 5 dni roboczych.
           </p>
           <p className="text-center text-xs text-silver">
             Usługi montażowe wykonujemy na terenie województw śląskiego i opolskiego.

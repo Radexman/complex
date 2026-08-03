@@ -7,7 +7,7 @@ import { sanityFetch } from '@/sanity/lib/live';
 export const metadata: Metadata = {
   title: 'Formularz Wyceny Tarasu — Complex',
   description:
-    'Wypełnij formularz wyceny tarasu i otrzymaj bezpłatną ofertę w ciągu 24 godzin.',
+    'Wypełnij formularz wyceny tarasu i otrzymaj bezpłatną ofertę w ciągu 5 dni roboczych.',
 };
 
 export default async function WycenaTarasPage() {
@@ -26,7 +26,7 @@ export default async function WycenaTarasPage() {
           </h1>
           <p className="mt-3 max-w-xl font-body text-base text-silver">
             Wypełnij poniższy formularz, a my przygotujemy bezpłatną wycenę i skontaktujemy się z
-            Tobą w ciągu 24 godzin roboczych.
+            Tobą w ciągu 5 dni roboczych.
           </p>
         </div>
       </section>

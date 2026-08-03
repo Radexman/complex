@@ -93,6 +93,10 @@ export default defineConfig({
             filter: `_type == "service" && slug.current == $slug || _id == $slug`,
           },
           {
+            route: '/wycena',
+            filter: `_type == "wycenaPage" && _id == "wycenaPage"`,
+          },
+          {
             route: '/wycena/taras',
             filter: `_type == "tarasFormConfig" && _id == "tarasFormConfig"`,
           },
@@ -146,9 +150,24 @@ export default defineConfig({
             message: 'Sekcja Realizacje jest używana na stronie głównej',
             tone: 'positive',
           }),
+          beforeAfterSection: defineLocations({
+            locations: [homeLocation],
+            message: 'Sekcja Przed i po jest używana na stronie głównej',
+            tone: 'positive',
+          }),
+          vatHighlightSection: defineLocations({
+            locations: [homeLocation],
+            message: 'Sekcja VAT jest używana na stronie głównej i podstronach oferty',
+            tone: 'positive',
+          }),
           realizacjePage: defineLocations({
             locations: [{ title: 'Realizacje', href: '/realizacje' }],
             message: 'Nagłówek strony „Realizacje”',
+            tone: 'positive',
+          }),
+          wycenaPage: defineLocations({
+            locations: [{ title: 'Wycena', href: '/wycena' }],
+            message: 'Strona wyboru formularza wyceny',
             tone: 'positive',
           }),
           tarasyPage: defineLocations({

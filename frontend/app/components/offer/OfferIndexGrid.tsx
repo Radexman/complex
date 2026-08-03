@@ -86,18 +86,10 @@ function ServiceCard({ service, span }: { service: Service; span: ReturnType<typ
       )}
       <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/30 to-transparent transition-all duration-500 group-hover:from-black/90" />
 
-      {/* Quotation-form shortcut. A sibling of the card link (never nested inside it) —
-          `z-10` lifts it above the card link's stretched ::after overlay. */}
-      {service.relatedFormSlug && (
-        <Link
-          href={`/wycena/${stegaClean(service.relatedFormSlug)}`}
-          className="absolute right-3 top-3 z-10 rounded-full bg-accent/90 px-3 py-1 font-heading text-xs font-semibold text-black opacity-0 transition-opacity duration-300 hover:bg-accent focus-visible:opacity-100 group-hover:opacity-100"
-        >
-          Formularz wyceny →
-        </Link>
-      )}
-
-      <div className="absolute inset-x-0 bottom-0 p-6">
+      {/* Spans the whole card (not just the bottom strip) so the stretched link's
+          ::after — which positions against this, its nearest positioned ancestor —
+          covers the entire card, image included. Content still sits at the bottom. */}
+      <div className="absolute inset-0 flex flex-col justify-end p-6">
         <h2 className={`font-heading font-bold leading-tight text-white ${TITLE_CLASSES[span]}`}>
           {/* Stretched link: the ::after overlay makes the whole card clickable while
               keeping the title as the anchor's accessible name (no nested anchors). */}
@@ -113,12 +105,33 @@ function ServiceCard({ service, span }: { service: Service; span: ReturnType<typ
             {service.heroSubheadline}
           </p>
         )}
-        <span
-          className={`mt-3 inline-flex items-center gap-1 font-heading text-xs font-semibold text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 ${detailsClass}`}
-        >
-          Dowiedz się więcej
-          <ArrowRight size={14} aria-hidden="true" />
-        </span>
+        {/* Action buttons. Siblings of the card link, never nested inside it —
+            `z-10` lifts the row above the stretched ::after overlay so the
+            buttons stay clickable. Revealed on hover from `md` up; always shown
+            on touch widths, where there is no hover to reveal them. */}
+        <div className="relative z-10 mt-4 flex flex-wrap gap-2 transition-opacity duration-300 md:opacity-0 md:group-focus-within:opacity-100 md:group-hover:opacity-100">
+          <Link
+            href={`/oferta/${service.slug}`}
+            // Same destination as the title link — kept out of the tab order so
+            // keyboard users don't hit the card twice.
+            tabIndex={-1}
+            className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-4 py-2 font-heading text-xs font-semibold text-white backdrop-blur-sm transition-colors hover:border-accent hover:text-accent"
+          >
+            Dowiedz się więcej
+            <ArrowRight size={14} aria-hidden="true" />
+          </Link>
+          {/* Only 6 of the 7 offers have a quotation form — Elewacje kompozytowe
+              gets the single button. */}
+          {service.relatedFormSlug && (
+            <Link
+              href={`/wycena/${stegaClean(service.relatedFormSlug)}`}
+              className="inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 font-heading text-xs font-semibold text-black transition-colors hover:bg-accent-hover"
+            >
+              Formularz wyceny
+              <ArrowRight size={14} aria-hidden="true" />
+            </Link>
+          )}
+        </div>
       </div>
     </article>
   );

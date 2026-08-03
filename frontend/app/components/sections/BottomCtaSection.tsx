@@ -166,6 +166,9 @@ export default function BottomCtaSection({ data }: { data: NonNullable<BottomCta
         showroomAddress={data.showroomAddress}
         officeLabel={data.officeLabel}
         officeDescription={data.officeDescription}
+        mapAddress={data.mapAddress}
+        serviceAreaLabel={data.serviceAreaLabel}
+        serviceAreaDescription={data.serviceAreaDescription}
       />
     </section>
   );

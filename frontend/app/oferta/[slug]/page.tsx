@@ -10,6 +10,7 @@ import {
   processTimelineQuery,
   serviceBySlugQuery,
   serviceSlugsQuery,
+  vatHighlightQuery,
 } from '@/sanity/lib/queries';
 import OfferPage from '@/app/components/offer/OfferPage';
 
@@ -48,23 +49,30 @@ export default async function OfferRoutePage({ params }: PageProps) {
   if (!service) notFound();
 
   // Gallery projects share the `project` pool, filtered to this service's category.
-  // Process timeline + contact/showroom data are shared with the home page
-  // (single `processTimeline` / `bottomCtaSection` sources).
-  const [{ data: galleryProjects }, { data: processTimeline }, { data: contact }] =
-    await Promise.all([
-      sanityFetch({
-        query: galleryProjectsByCategoryQuery,
-        params: { category: stegaClean(service.category) },
-      }),
-      sanityFetch({ query: processTimelineQuery }),
-      sanityFetch({ query: bottomCtaQuery }),
-    ]);
+  // Process timeline, VAT highlight and contact/showroom data are shared with the
+  // home page (single `processTimeline` / `vatHighlightSection` /
+  // `bottomCtaSection` sources).
+  const [
+    { data: galleryProjects },
+    { data: processTimeline },
+    { data: vatHighlight },
+    { data: contact },
+  ] = await Promise.all([
+    sanityFetch({
+      query: galleryProjectsByCategoryQuery,
+      params: { category: stegaClean(service.category) },
+    }),
+    sanityFetch({ query: processTimelineQuery }),
+    sanityFetch({ query: vatHighlightQuery }),
+    sanityFetch({ query: bottomCtaQuery }),
+  ]);
 
   return (
     <OfferPage
       service={service}
       galleryProjects={galleryProjects}
       processTimeline={processTimeline}
+      vatHighlight={vatHighlight}
       contact={contact}
     />
   );
