@@ -1,139 +1,135 @@
-# Current Feature: Client Feedback — Round 3
+# Current Feature
 
 ## Status
 
-In Progress
+Not Started
 
 ## Goals
 
-Spec: `context/features/feedback-round-3-spec.md`. Eight items, ordered by effort.
-
-### Quick wins (nav + copy — no schema, no new components)
-
-- **Oferta → „Tarasy" open by default** — a `defaultExpanded` prop on `DropdownGroup` /
-  `MobileNavGroup`, set on the one entry. Two-line change, desktop + drawer.
-- **„Kontakt" → `/#kontakt`** — navbar + footer point at the home contact block instead of the
-  **currently 404-ing** `/kontakt`; add `id="kontakt"` + `scroll-mt-20` to `ContactShowroom`.
-- **„Darmowa wycena" CTA → forms dropdown** — reuse the existing `NavDropdown` with the CTA styling;
-  on an offer page that offer's own form sorts first, labelled „sugerowany". Drawer CTA becomes an
-  accordion of the same 4 forms.
-- **Showroom popup address** — new `mapAddress` field on `bottomCtaSection`, seeded with the
-  footer's „Kępska 12, 45-130 Opole, pok.20 (parter)", passed into `ShowroomMap` as a prop. One
-  field, but it does touch the schema.
-
-### Medium (one CMS field pair + one small component each)
-
-- **Prominent service-area notice** — `serviceAreaLabel` / `serviceAreaDescription` on
-  `bottomCtaSection` + a `ServiceAreaNotice` callout inside `ContactShowroom`, so it lands on the
-  home page **and** all 8 offer pages from one change.
-- **VAT highlight (8% vs 23%)** — new `vatHighlightSection` singleton + a compact two-card
-  `VatHighlight` band on the home page and every offer page. Copy must hedge (the 8% rate is
-  conditional) — the `footnote` field exists for that and needs client sign-off.
-
-### Harder (new schema + new interactive component + new server path)
-
-- **„Przed i po" section** — new `beforeAfterSection` singleton with an array of image pairs, plus a
-  hand-built `BeforeAfterSlider` (pointer-drag + keyboard). **Not** installing daisyUI: its `diff` is
-  pure CSS but the plugin brings its own theme layer, and its resize grip is poor on touch.
-- **„Formularz kontaktowy" modal** — the biggest item. Replaces the „Formularze wycen" navbar
-  dropdown with a modal (not a subpage): new Zod schema, server action, Resend send reusing
-  `app/lib/email/`, `FormSuccessState` shown in-dialog, and Vitest coverage for the new
-  schema/action.
-
 ## Notes
 
-- **Decisions confirmed up front:** contact form as a navbar **modal**; „Przed i po" as an **array**
-  of pairs with a picker (hidden at one item, so no migration when a second is added); service-area
-  notice in the **contact/showroom block only**; VAT highlight on **home + offer pages**; CTA
-  dropdown with the current offer's form first; „Przed i po" placed **after Realizacje**; „Kontakt"
-  as an **anchor** to the home block.
-- **Open assumptions** (marked ⚠️ in the spec): reusing the `QUOTE_*` env vars for the contact
-  e-mail; VAT band placement on each page; leaving `navbar.ctaButton.href` in the schema unused.
-- ⚠️ **`/o-nas` is also a 404** in both the navbar and footer (an untracked `about-us-spec.md`
-  exists). Not in this round.
-- ⚠️ **Contact-form submissions won't be GA-countable** the way the quotation forms are — a modal
-  has no URL, and the `/wycena/*/przeslany-formularz` pattern doesn't apply.
-- ⚠️ **Response-time copy is inconsistent** in the working tree: the current branch committed
-  „5 dni roboczych" on the site, while the uncommitted `renderConfirmationEmail.ts` edit says
-  „7 dni roboczych". Needs one number.
-- Schema work means a **Studio redeploy** (`npm run deploy` from `studio/`) before the client can
-  edit any of it. **Done** — deployed in place, `Deployed 1/1 schemas`, verified via MCP.
-
-## Progress (implementation)
-
-Branch **`feature/feedback-round-3`**, cut from `fix/contact-copy-updates` (2 unmerged commits +
-uncommitted edits came along) because this round edits the same `ContactShowroom.tsx`.
-
-**Two items changed shape mid-session, on the user's instruction:**
-
-1. The CTA is **not** a dropdown. „Darmowa wycena" now links to a **new `/wycena` chooser page** —
-   a bento grid of the 4 forms with **Formularz wyceny tarasu** as the 2×2 hero (badge
-   „Najczęściej wybierany"). New `wycenaPage` singleton + `wycenaFormCard` object; card **order in
-   the array drives the layout**, so the client promotes a different form by reordering. Cards
-   reuse the matching offer's `heroImage` — no new uploads needed. The `NavDropdown` `cta` variant
-   and the now-dead `WYCENA_ITEMS` / `OFFER_FORM_HREFS` constants were removed.
-2. **`/oferta` cards got hover buttons** — „Dowiedz się więcej" + „Formularz wyceny", the second
-   only on the 6 offers that have a form (Elewacje kompozytowe shows one). Both are `z-10` siblings
-   of the card's stretched link, never nested inside it; the „Dowiedz się więcej" duplicate is
-   `tabIndex={-1}` so the card isn't in the tab order twice. Measured **0 nested anchors**.
-   `/wycena` got the same treatment (one „Wypełnij formularz" button).
-
-⚠️ **The stretched card link never actually covered the card — on either grid — and the first
-verification wrongly said it did.** `after:absolute after:inset-0` positions against the nearest
-**positioned** ancestor, which was the `absolute inset-x-0 bottom-0` text wrapper, not the
-`relative` card. So only the bottom text strip was clickable; the image was dead. The original probe
-hit the *banner* card's centre, which happens to fall inside that bottom strip, and the resulting
-"stretched link intercepts pointer events" message was misread as proof. Fixed by making the wrapper
-`absolute inset-0 flex flex-col justify-end p-6` — it now spans the card, so the ::after does too,
-and the content still sits at the bottom. Re-verified by probing **near the top edge and the centre
-of all 7 offer cards and all 4 quotation cards**: every point resolves to that card's own href.
-⚠️ Probe artifact worth remembering: `scrollIntoView` in a loop shifts later cards out of view, and
-`elementFromPoint` then returns the **fixed header** — several false `none` readings came from that,
-not from broken links. Scroll with an absolute `window.scrollTo(absTop - 200)` per card instead.
-
-- **Contact modal, not a page.** `ContactFormDialog` is controlled from `Navbar` (state lifted) so
-  the mobile drawer closes *before* the modal opens rather than nesting two dialogs.
-  `lazyMount`+`unmountOnExit` resets the form between openings. Enter/exit use **distinctly named**
-  keyframes — Zag's presence machine unmounts instantly when the two names match.
-  `FormSuccessState` is reused with `steps={[]}`, which skips the process recap and keeps the
-  confirmation modal-sized.
-- **Before/after built natively, no daisyUI** (its `diff` is pure CSS but the plugin brings its own
-  theme layer and its `resize` grip is poor on touch). The „before" layer is revealed with
-  **`clip-path: inset()`** rather than a width-clipped wrapper — no DOM reads, no image squashing.
-  Drag verified 25→75→90%, `ArrowLeft` 90→88.
-- ⚠️ **The „Przed i po" section is live but hidden** — seeded with header copy and **no items**,
-  because the dataset contains no genuine „before" photos. It appears the moment the client uploads
-  one pair. A placeholder pair was published only long enough to verify the slider, then removed.
-- **VAT band has a directional arrow** — a large accent `ArrowRight` in its own grid column between
-  the two cards, pointing **23% → 8%**. The cards are ordered standard-then-advantage in code
-  regardless of the CMS array order, so the arrow can never end up pointing the wrong way; it drops
-  to a plain two-column grid if there aren't exactly two rates. Measured `222px 56px 222px` at 1440
-  and, at 390, a single column with the arrow at `rotate: 90deg` pointing down the stack.
-  ⚠️ Tailwind v4 sets `rotate-*` via the standalone **`rotate`** property, so
-  `getComputedStyle(el).transform` reads `none` — check `.rotate`.
-- **Response time is „5 dni roboczych" everywhere** (was 7 in the four forms' fine print,
-  `FormSuccessState`'s closing note, and the customer confirmation email — the last two contradicting
-  copy a few lines above them). CMS content was already correct; the one remaining „1–5 dni
-  roboczych" is install *duration*, deliberately untouched.
-- ⚠️ **Three buttons still read „Darmowa wycena".** Header → `/wycena` and the home CTA block →
-  `/wycena` (changed to match, since the labels are identical), but the **hero** button still points
-  at `/wycena/zadaszenie` — that was explicit client feedback (#3a) so it was left alone. One CMS
-  field if they want it changed.
-- **Verified:** 147/147 Vitest (131 + 16 new for the contact schema/action), `type-check` both
-  workspaces, `lint` (only the pre-existing `TrustSection` warning), clean `next build` after
-  `rm -rf .next` — `/wycena` prerenders static, all 7 offer slugs still SSG. In-browser
-  (Playwright/Chromium): **0 console errors, 0 warnings**; `/wycena` bento measured 784² hero /
-  384² squares / 1184×338 banner at 1440 and a uniform 327×245 single column at 390 with no
-  horizontal overflow; empty contact submit produced all **6** inline errors; Oferta → Tarasy opens
-  expanded; map popup reads „Kępska 12, 45-130 Opole, pok.20 (parter)".
-- **Not driven in-browser:** a real contact-form *send* (it would email the dev inbox through
-  Resend). The action's success/failure paths are unit-tested instead.
-- ⚠️ **Playwright gotcha:** mouse position is **not** retained across MCP tool calls, so a hover in
-  one call reads as `:hover`-less in the next — `dispatchEvent('mouseover')` doesn't trigger CSS
-  `:hover` either. Verified the reveal through the sibling `group-focus-within` rule (identical
-  specificity), which persists.
-
 ## History
+
+### Client Feedback — Round 3: nav, contact modal, Przed i po, VAT, `/wycena` (2026-08-03)
+
+Eight items from the client's third feedback pass, plus two more added mid-session by the user.
+Spec: `context/features/feedback-round-3-spec.md` (committed with the feature). Branch
+`feature/feedback-round-3`, cut from **`fix/contact-copy-updates`** rather than `main` — that branch
+had 2 unmerged commits touching the same `ContactShowroom.tsx`, so branching off main would have
+guaranteed conflicts. Its commits rode along in the merge. Seven decisions confirmed up front
+across two question rounds, then **two of them were superseded mid-session**.
+
+- **The CTA is not a dropdown — that changed mid-session.** It was built as a forms dropdown (with
+  the current offer's form sorted first, marked „sugerowany"), then the user asked for it to
+  **navigate to a chooser page** instead. Shipped as a new **`/wycena`** bento page: a
+  `wycenaPage` singleton + `wycenaFormCard` object, with **Formularz wyceny tarasu** as the 2×2
+  hero carrying a „Najczęściej wybierany" badge. **Card order in the array drives the layout**, so
+  the client promotes a different form by reordering rather than by editing code. Cards reuse the
+  matching offer's `heroImage` — no new uploads needed. The `NavDropdown` `cta` variant and the
+  now-dead `WYCENA_ITEMS` / `OFFER_FORM_HREFS` constants were deleted (eslint caught them).
+- ⚠️ **The stretched card link never covered the card — on `/oferta` *or* `/wycena` — and the first
+  verification wrongly reported that it did.** `after:absolute after:inset-0` positions against the
+  nearest **positioned** ancestor, which was the `absolute inset-x-0 bottom-0` text wrapper, not the
+  `relative` card. Only the bottom text strip was clickable; the image was dead. The original probe
+  hit the *banner* card's centre, which happens to fall inside that strip, and Playwright's
+  „stretched link intercepts pointer events" message was misread as proof. **The user reported it.**
+  Fixed by making the wrapper `absolute inset-0 flex flex-col justify-end p-6` — it spans the card,
+  so the `::after` does too, and content still sits at the bottom. Re-verified by probing **near the
+  top edge and the centre of all 7 offer cards and all 4 quotation cards**: every point resolves to
+  that card's own href, 0 nested anchors.
+- **Hover action buttons on both grids** — „Dowiedz się więcej" + „Formularz wyceny" on `/oferta`
+  (the second only on the 6 offers that have a form; Elewacje kompozytowe shows one), and
+  „Wypełnij formularz" on `/wycena`. All are `z-10` siblings of the card link, never nested inside
+  it; the duplicate-destination button is `tabIndex={-1}` so the card isn't in the tab order twice.
+  Revealed on hover from `md` up, **always visible on touch widths** where there is no hover.
+- **„Formularz kontaktowy" is a modal, not a subpage** (the client's „nie podstrona").
+  `ContactFormDialog` is **controlled from `Navbar`** — state lifted so the mobile drawer closes
+  *before* the modal opens, instead of nesting two Ark dialogs. `lazyMount` + `unmountOnExit` resets
+  the form between openings. Enter/exit use **distinctly named** keyframes (the Zag presence-machine
+  lesson from the mobile-drawer feature: matching names unmount instantly). `FormSuccessState` is
+  reused with `steps={[]}`, which skips the process recap and keeps the confirmation modal-sized —
+  the `kontakt` variant baked into it back in July finally has a caller.
+  ⚠️ **Contact submissions are not GA-countable** the way quotation forms are: a modal has no URL,
+  so the `/wycena/*/przeslany-formularz` pattern does not apply.
+- **„Przed i po" built natively — daisyUI deliberately not installed.** Its `diff` component is pure
+  CSS (`diff-item-1/2` + a `resize: horizontal` resizer, confirmed via Context7), but the plugin
+  brings its own theme layer alongside this project's Tailwind v4 `@theme` tokens, and the CSS
+  `resize` grip is a browser corner handle that behaves poorly on touch. `BeforeAfterSlider` uses
+  **`clip-path: inset()`** to reveal the „before" layer — no DOM reads, no image squashing (a first
+  attempt sized an inner wrapper from `container.current?.offsetWidth` during render, which would
+  not have survived SSR). Pointer events cover mouse/touch/pen in one path; `role="slider"` +
+  arrow keys for keyboard. Verified drag 25→75→90% and `ArrowLeft` 90→88.
+- ⚠️ **The „Przed i po" section is live but hidden.** Seeded with header copy and **no items**: the
+  dataset contains **no genuine „before" photos** — every image is a finished job, so a demo pair
+  would have read as nonsense. A placeholder pair was published only long enough to verify the
+  slider in-browser, then removed. The section appears the moment the client uploads one real pair.
+  The array shape (rather than a single pair) means adding a second project needs no migration; the
+  picker hides itself at one item.
+- **VAT highlight (8% vs 23%)** — new `vatHighlightSection` singleton + `vatRate` object, rendered
+  on the home page and every offer page (between `OfferTechSpecs` and `OfferFormCta`). A large
+  accent arrow points **23% → 8%**; the cards are ordered standard-then-advantage **in code**
+  regardless of the CMS array order, so reordering in the Studio cannot leave the arrow pointing at
+  the expensive option. Falls back to a plain two-column grid if there aren't exactly two rates.
+  ⚠️ **The copy is a tax claim** — the `footnote` field exists for the hedge and is seeded with one
+  („wymaga spełnienia warunków ustawowych… potwierdzamy indywidualnie"), but the client's
+  accountant should sign off on the final wording.
+  ⚠️ **Tailwind v4 sets `rotate-*` via the standalone `rotate` property**, so
+  `getComputedStyle(el).transform` reads `none` — check `.rotate` instead.
+- **Prominent service-area notice** — new `serviceAreaLabel` / `serviceAreaDescription` on
+  `bottomCtaSection` + a `ServiceAreaNotice` callout inside the shared `ContactShowroom`, which puts
+  it on the home page **and** all 8 offer pages from one change. The old small-print lines in the
+  four forms were left as they are.
+- **Map popup address is CMS-driven** — new `mapAddress` field seeded with the footer's full
+  „Kępska 12, 45-130 Opole, pok.20 (parter)", passed into `ShowroomMap` as a prop. Kept **separate**
+  from `showroomAddress`, which labels the outdoor exposition — the office room number is not the
+  same place. Coordinates stay hardcoded.
+- **„Kontakt" → `/#kontakt`** in navbar and footer, with `id="kontakt"` + `scroll-mt-20` on
+  `ContactShowroom`. This fixed a **live 404** — `/kontakt` has never existed. `isActivePath` now
+  returns false for anchors. ⚠️ **`/o-nas` is still a 404** in both navbar and footer (an untracked
+  `about-us-spec.md` exists); out of scope this round.
+- **Oferta → „Tarasy" expanded by default** via a `defaultExpanded` flag on the nav item, read by
+  both `DropdownGroup` (desktop) and `MobileNavGroup` (drawer).
+- **„5 dni roboczych" everywhere** (user instruction). Six occurrences still said 7: the fine print
+  under all four form submit buttons, `FormSuccessState`'s closing note, and the customer
+  confirmation email — the last two **contradicting copy a few lines above them**. The CMS was
+  audited too and was already correct; the remaining „1–5 dni roboczych" is install *duration* and
+  was deliberately left.
+- ⚠️ **Three buttons read „Darmowa wycena".** The header CTA and the home CTA block now both point
+  at `/wycena` (the block was changed to match, since the labels are identical), but the **hero**
+  button still points at `/wycena/zadaszenie` — that was explicit client feedback (#3a), so it was
+  left alone. One CMS field if they want it aligned.
+- **Seeded + published** `wycenaPage`, `vatHighlightSection`, `beforeAfterSection`, the new
+  `bottomCtaSection` fields and `navbar.ctaButton.href`. Both edited drafts were **diffed against
+  published first** — they differed only by our changes, so nothing of the client's was clobbered
+  (the Part 2 lesson).
+- **Studio redeployed** (`npm run deploy` from `studio/`) — in place via the pinned `appId`, same
+  URL, `Deployed 1/1 schemas`. **Verified against the deployed schema via MCP**, not assumed:
+  `wycenaPage` live, and `mapAddress` / `serviceAreaLabel` / `serviceAreaDescription` present on
+  `bottomCtaSection`. ⚠️ The Studio **UI** is unverified as always (Playwright isn't logged in).
+- ⚠️ **Playwright measurement gotchas, all of which produced false readings this session:**
+  (1) **mouse position is not retained across MCP tool calls**, so a hover in one call reads as
+  `:hover`-less in the next — and `dispatchEvent('mouseover')` does not trigger CSS `:hover` at all;
+  verified the reveal through the sibling `group-focus-within` rule (identical specificity) instead.
+  (2) `scrollIntoView` in a loop shifts later cards out of view and `elementFromPoint` then returns
+  the **fixed header** — several false „none" hit-test results came from that, not from broken
+  links. Use an absolute `window.scrollTo(absTop - 200)` per card.
+  (3) An `opacity` sample taken immediately after `focus()` catches the transition at ~0.016; sample
+  repeatedly before concluding it is stuck.
+- **Left untouched (same precedent as prior features):** the pre-existing uncommitted `.mcp.json`
+  and `OfferTechSpecs.tsx`, `.claude/settings.local.json`, the untracked `.playwright-mcp/`
+  artifacts, and the two remaining untracked specs (`about-us`, `contact-page`). The user's
+  `renderConfirmationEmail.ts` edit **was** included this time — the „5 dni" pass genuinely edits it.
+- Verified: **147/147 Vitest** (131 existing + 16 new for the contact schema/action —
+  `ContactForm`/`BeforeAfterSlider`/`VatHighlight` are presentational, so no component tests),
+  `type-check` (both workspaces), `lint` (only the pre-existing `useCountUp` warning at
+  `TrustSection.tsx:65`), clean `next build` after `rm -rf .next` — `/wycena` prerenders static, all
+  7 offer slugs still SSG. In-browser (Playwright/Chromium): **0 console errors, 0 warnings**;
+  `/wycena` bento measured 784² hero / 384² squares / 1184×338 banner at 1440 and a uniform 327×245
+  single column at 390 with no horizontal overflow; empty contact submit produced all **6** inline
+  errors; Oferta → Tarasy opens expanded; map popup reads the footer address; VAT row measured
+  `222px 56px 222px` at 1440 and stacked with the arrow at `rotate: 90deg` at 390.
+- **Not driven in-browser:** a real contact-form *send* — it would email the dev inbox through
+  Resend. The action's success and failure paths are unit-tested instead.
 
 ### Offer Index Page `/oferta` + „Akcesoria do zadaszeń" rename (2026-07-28)
 
