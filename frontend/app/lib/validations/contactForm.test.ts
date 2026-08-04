@@ -1,12 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import { CONTACT_SUBJECTS, contactFormSchema } from './contactForm';
+import { contactFormSchema } from './contactForm';
 
 interface Overrides {
   name?: unknown;
   phone?: unknown;
   email?: unknown;
-  subject?: unknown;
   message?: unknown;
   consentRodo?: unknown;
   consentMarketing?: unknown;
@@ -17,7 +16,6 @@ function validInput(overrides: Overrides = {}) {
     name: 'Jan Kowalski',
     phone: '123456789',
     email: 'jan@example.com',
-    subject: CONTACT_SUBJECTS[0],
     message: 'Chciałbym zapytać o zadaszenie tarasu.',
     consentRodo: true,
     consentMarketing: false,
@@ -38,11 +36,28 @@ describe('contactFormSchema', () => {
     expect(result.success).toBe(true);
   });
 
-  it('requires a name of at least two characters', () => {
+  it('accepts a submission with only an email, a message and the RODO consent', () => {
+    const result = contactFormSchema.safeParse(validInput({ name: '', phone: '' }));
+
+    expect(result.success).toBe(true);
+    // Blank optional fields arrive as absent, not as empty strings.
+    expect(result.data?.name).toBeUndefined();
+    expect(result.data?.phone).toBeUndefined();
+  });
+
+  it('treats a whitespace-only name or phone as absent', () => {
+    const result = contactFormSchema.safeParse(validInput({ name: '   ', phone: '  ' }));
+
+    expect(result.success).toBe(true);
+    expect(result.data?.name).toBeUndefined();
+    expect(result.data?.phone).toBeUndefined();
+  });
+
+  it('still validates a name that was typed', () => {
     expect(fieldError({ name: 'J' }, 'name')).toBe('Podaj swoje imię i nazwisko');
   });
 
-  it('requires a plausible phone number', () => {
+  it('still validates a phone number that was typed', () => {
     expect(fieldError({ phone: '12345' }, 'phone')).toBe('Podaj numer telefonu');
   });
 
@@ -50,16 +65,8 @@ describe('contactFormSchema', () => {
     expect(fieldError({ email: 'jan@' }, 'email')).toBe('Podaj poprawny adres e-mail');
   });
 
-  it('rejects a subject outside the allowed list', () => {
-    expect(fieldError({ subject: 'Coś zupełnie innego' }, 'subject')).toBe(
-      'Wybierz temat wiadomości',
-    );
-  });
-
-  it('accepts every subject the select offers', () => {
-    for (const subject of CONTACT_SUBJECTS) {
-      expect(contactFormSchema.safeParse(validInput({ subject })).success).toBe(true);
-    }
+  it('requires the email — it is the only guaranteed reply channel', () => {
+    expect(fieldError({ email: '' }, 'email')).toBe('Podaj poprawny adres e-mail');
   });
 
   it('rejects a message that is too short to act on', () => {

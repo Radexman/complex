@@ -6,8 +6,10 @@ export const WYCENA_FORM_SLUGS = ['taras', 'zadaszenie', 'zaluzje', 'schody'] as
 
 /**
  * One quotation-form card on the „Wycena” chooser page. Embedded in the
- * `wycenaPage` singleton; the array order decides the bento layout, so the first
- * card is the large hero tile.
+ * `wycenaPage` singleton; the array order decides the order of the stripes.
+ *
+ * Deliberately has no image: the page is a list of identical text stripes, so the
+ * forms are the only thing on it (client feedback, round 4).
  */
 export const wycenaFormCard = defineType({
   name: 'wycenaFormCard',
@@ -32,6 +34,7 @@ export const wycenaFormCard = defineType({
     defineField({
       name: 'description',
       title: 'Opis',
+      description: 'Jedno–dwa krótkie zdania. Dłuższy tekst zostanie przycięty do dwóch linii.',
       type: 'text',
       rows: 2,
     }),
@@ -41,21 +44,8 @@ export const wycenaFormCard = defineType({
       description: 'Opcjonalna plakietka, np. „Najczęściej wybierany”.',
       type: 'string',
     }),
-    defineField({
-      name: 'image',
-      title: 'Zdjęcie',
-      type: 'image',
-      options: { hotspot: true },
-      fields: [
-        defineField({
-          name: 'alt',
-          title: 'Tekst alternatywny',
-          type: 'string',
-        }),
-      ],
-    }),
   ],
   preview: {
-    select: { title: 'title', subtitle: 'formSlug', media: 'image' },
+    select: { title: 'title', subtitle: 'formSlug' },
   },
 });

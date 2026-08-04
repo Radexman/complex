@@ -15,27 +15,12 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: ../sanity.schema.json
-export type SanityImageAssetReference = {
-  _ref: string;
-  _type: 'reference';
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-};
-
 export type WycenaFormCard = {
   _type: 'wycenaFormCard';
   formSlug: 'taras' | 'zadaszenie' | 'zaluzje' | 'schody';
   title: string;
   description?: string;
   badge?: string;
-  image?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: 'image';
-  };
 };
 
 export type VatRate = {
@@ -44,6 +29,13 @@ export type VatRate = {
   label: string;
   description?: string;
   isAdvantage?: boolean;
+};
+
+export type SanityImageAssetReference = {
+  _ref: string;
+  _type: 'reference';
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
 };
 
 export type BeforeAfterItem = {
@@ -409,6 +401,15 @@ export type BottomCtaSection = {
   showroomLabel?: string;
   showroomDescription?: string;
   showroomAddress?: string;
+  showroomGallery?: Array<{
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    _type: 'image';
+    _key: string;
+  }>;
   mapAddress?: string;
   serviceAreaLabel?: string;
   serviceAreaDescription?: string;
@@ -893,9 +894,9 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
-  | SanityImageAssetReference
   | WycenaFormCard
   | VatRate
+  | SanityImageAssetReference
   | BeforeAfterItem
   | TarasShape
   | ProcessStep
@@ -1315,6 +1316,15 @@ export type BottomCtaQueryResult = {
   showroomLabel?: string;
   showroomDescription?: string;
   showroomAddress?: string;
+  showroomGallery?: Array<{
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    _type: 'image';
+    _key: string;
+  }>;
   mapAddress?: string;
   serviceAreaLabel?: string;
   serviceAreaDescription?: string;

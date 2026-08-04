@@ -16,7 +16,6 @@ function formDataToObject(formData: FormData) {
     name: formData.get('name') ?? '',
     phone: formData.get('phone') ?? '',
     email: formData.get('email') ?? '',
-    subject: formData.get('subject') ?? '',
     message: formData.get('message') ?? '',
     consentRodo: formData.get('consentRodo') === 'true',
     consentMarketing: formData.get('consentMarketing') === 'true',
@@ -43,10 +42,7 @@ export async function submitContactForm(formData: FormData) {
     },
     {
       title: 'Wiadomość',
-      rows: [
-        { label: 'Temat', value: data.subject },
-        { label: 'Treść', value: data.message },
-      ],
+      rows: [{ label: 'Treść', value: data.message }],
     },
     {
       title: 'Zgody',
@@ -58,10 +54,12 @@ export async function submitContactForm(formData: FormData) {
   ];
 
   const email = await sendQuoteEmails({
-    subject: `Formularz kontaktowy — ${data.name}`,
+    // The name is optional now, so the address identifies the sender when it's absent.
+    subject: `Formularz kontaktowy — ${data.name ?? data.email}`,
     html: renderQuoteEmail({ heading: 'Formularz kontaktowy', sections }),
     attachments: [],
-    customer: { name: data.name, email: data.email },
+    // `renderConfirmationEmail` degrades to a nameless „Dzień dobry!" on an empty string.
+    customer: { name: data.name ?? '', email: data.email },
     formLabel: 'formularza kontaktowego',
   });
 

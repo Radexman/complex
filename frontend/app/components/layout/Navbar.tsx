@@ -36,6 +36,19 @@ const OFERTA_ITEMS: NavItem[] = [
 ];
 
 /**
+ * The four quotation forms plus the chooser page. Labels and order mirror the
+ * footer's „Formularze wycen" column so the two can't drift apart. Back in the
+ * navbar by client request — the forms are the most important thing on the site.
+ */
+const WYCENA_ITEMS: NavItem[] = [
+  { label: 'Wszystkie formularze', href: '/wycena' },
+  { label: 'Formularz wyceny tarasu', href: '/wycena/taras' },
+  { label: 'Formularz wyceny zadaszenia', href: '/wycena/zadaszenie' },
+  { label: 'Formularz wyceny żaluzji', href: '/wycena/zaluzje' },
+  { label: 'Formularz wyceny schodów', href: '/wycena/schody' },
+];
+
+/**
  * Simple top-level links rendered after the Oferta dropdown. „Kontakt" is an
  * anchor to the home page's contact/showroom block rather than a page of its
  * own — there is one set of contact details and it lives there.
@@ -140,7 +153,7 @@ function NavDropdown({
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
         aria-haspopup="menu"
-        className="flex items-center gap-1 text-sm text-silver transition-colors duration-200 outline-none hover:text-white aria-expanded:text-white"
+        className="flex items-center gap-1 text-sm text-white/80 transition-colors duration-200 outline-none hover:text-white aria-expanded:text-white"
       >
         {label}
         <ChevronDown
@@ -252,8 +265,10 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
   // visitor picks the product there.
   const ctaHref = navbar?.ctaButton?.href || '/wycena';
 
+  // Top-level nav sits over photography, so it runs brighter than the `silver`
+  // used elsewhere; the active item is full white to stay distinguishable.
   const navLinkClass = (active: boolean) =>
-    `text-sm transition-colors duration-200 ${active ? 'text-white' : 'text-silver hover:text-white'}`;
+    `text-sm transition-colors duration-200 ${active ? 'text-white' : 'text-white/80 hover:text-white'}`;
 
 
   return (
@@ -293,6 +308,7 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
             Strona główna
           </Link>
           <NavDropdown label="Oferta" items={OFERTA_ITEMS} />
+          <NavDropdown label="Formularze wycen" items={WYCENA_ITEMS} />
           {NAV_LINKS.map((item) => (
             <Link
               key={item.href}
@@ -307,7 +323,7 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
           <button
             type="button"
             onClick={() => setContactOpen(true)}
-            className="text-sm text-silver transition-colors duration-200 outline-none hover:text-white"
+            className="text-sm text-white/80 transition-colors duration-200 outline-none hover:text-white"
           >
             Formularz kontaktowy
           </button>
@@ -341,13 +357,13 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
                   <Link
                     href="/"
                     onClick={() => setMobileOpen(false)}
-                    className="py-3 text-lg text-silver transition-colors hover:text-white"
+                    className="py-3 text-lg text-white/80 transition-colors hover:text-white"
                   >
                     Strona główna
                   </Link>
                   <Accordion.Root collapsible>
                     <Accordion.Item value="oferta">
-                      <Accordion.ItemTrigger className="group flex w-full items-center justify-between py-3 text-lg text-silver transition-colors outline-none hover:text-white">
+                      <Accordion.ItemTrigger className="group flex w-full items-center justify-between py-3 text-lg text-white/80 transition-colors outline-none hover:text-white">
                         Oferta
                         <Accordion.ItemIndicator>
                           <ChevronDown
@@ -380,13 +396,39 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
                         </div>
                       </Accordion.ItemContent>
                     </Accordion.Item>
+                    <Accordion.Item value="formularze">
+                      <Accordion.ItemTrigger className="group flex w-full items-center justify-between py-3 text-lg text-white/80 transition-colors outline-none hover:text-white">
+                        Formularze wycen
+                        <Accordion.ItemIndicator>
+                          <ChevronDown
+                            size={18}
+                            className="transition-transform duration-200 group-data-[state=open]:rotate-180"
+                            aria-hidden="true"
+                          />
+                        </Accordion.ItemIndicator>
+                      </Accordion.ItemTrigger>
+                      <Accordion.ItemContent className="overflow-hidden">
+                        <div className="flex flex-col border-l border-graphite pl-3">
+                          {WYCENA_ITEMS.map((item) => (
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              onClick={() => setMobileOpen(false)}
+                              className="py-2.5 text-base text-silver transition-colors hover:text-white"
+                            >
+                              {item.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </Accordion.ItemContent>
+                    </Accordion.Item>
                   </Accordion.Root>
                   {NAV_LINKS.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
                       onClick={() => setMobileOpen(false)}
-                      className="py-3 text-lg text-silver transition-colors hover:text-white"
+                      className="py-3 text-lg text-white/80 transition-colors hover:text-white"
                     >
                       {item.label}
                     </Link>
@@ -397,7 +439,7 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
                       setMobileOpen(false);
                       setContactOpen(true);
                     }}
-                    className="w-full py-3 text-left text-lg text-silver transition-colors outline-none hover:text-white"
+                    className="w-full py-3 text-left text-lg text-white/80 transition-colors outline-none hover:text-white"
                   >
                     Formularz kontaktowy
                   </button>

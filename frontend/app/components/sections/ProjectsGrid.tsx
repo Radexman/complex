@@ -41,8 +41,9 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void
         />
       )}
       <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
-      {/* Category badge */}
-      <span className="absolute left-3 top-3 text-xs font-semibold uppercase tracking-widest text-accent">
+      {/* Category badge — neutral on purpose: accent green is reserved for actions,
+          and in green this label read as a link (client feedback, round 4). */}
+      <span className="absolute left-3 top-3 rounded-full bg-black/50 px-2.5 py-1 text-xs font-semibold uppercase tracking-widest text-white/90 backdrop-blur-sm">
         {categoryLabel(stegaClean(project.category))}
       </span>
       {/* Bottom info row */}

@@ -3,11 +3,10 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { useForm, type FieldError } from 'react-hook-form';
 import { AlertCircle, Loader2, Send } from 'lucide-react';
 
 import {
-  CONTACT_SUBJECTS,
   contactFormSchema,
   type ContactFormData,
   type ContactFormInput,
@@ -15,11 +14,8 @@ import {
 import { submitContactForm } from '@/app/lib/actions/submitContactForm';
 import { FormCheckbox } from './shared/FormCheckbox';
 import { FormInput } from './shared/FormInput';
-import { FormSelect } from './shared/FormSelect';
 import { FormTextarea } from './shared/FormTextarea';
 import FormSuccessState from './shared/FormSuccessState';
-
-const SUBJECT_OPTIONS = CONTACT_SUBJECTS.map((subject) => ({ value: subject, label: subject }));
 
 /**
  * General contact form. Deliberately has no page of its own — it is rendered
@@ -51,10 +47,9 @@ export default function ContactForm() {
 
   const onSubmit = async (data: ContactFormData) => {
     const formData = new FormData();
-    formData.append('name', data.name);
-    formData.append('phone', data.phone);
+    formData.append('name', data.name ?? '');
+    formData.append('phone', data.phone ?? '');
     formData.append('email', data.email);
-    formData.append('subject', data.subject);
     formData.append('message', data.message);
     formData.append('consentRodo', String(data.consentRodo));
     formData.append('consentMarketing', String(data.consentMarketing));
@@ -77,22 +72,22 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5" noValidate>
+      {/* Name and phone are optional — the `preprocess` in the schema makes their
+          RHF input type `unknown`, hence the error cast (same as DimensionInputs). */}
       <FormInput
-        label="Imię i nazwisko"
+        label="Imię i nazwisko (opcjonalnie)"
         name="name"
         register={register}
-        error={errors.name}
-        required
+        error={errors.name as FieldError | undefined}
         autoComplete="name"
       />
       <FormInput
-        label="Numer telefonu"
+        label="Numer telefonu (opcjonalnie)"
         name="phone"
         type="tel"
         inputMode="tel"
         register={register}
-        error={errors.phone}
-        required
+        error={errors.phone as FieldError | undefined}
         autoComplete="tel"
       />
       <FormInput
@@ -104,14 +99,6 @@ export default function ContactForm() {
         error={errors.email}
         required
         autoComplete="email"
-      />
-      <FormSelect
-        label="Temat wiadomości"
-        name="subject"
-        options={SUBJECT_OPTIONS}
-        register={register}
-        error={errors.subject}
-        required
       />
       <FormTextarea
         label="Wiadomość"

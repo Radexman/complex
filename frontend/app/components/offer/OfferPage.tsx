@@ -96,6 +96,7 @@ export default function OfferPage({
           mapAddress={contact.mapAddress}
           serviceAreaLabel={contact.serviceAreaLabel}
           serviceAreaDescription={contact.serviceAreaDescription}
+          showroomGallery={contact.showroomGallery}
         />
       )}
     </main>

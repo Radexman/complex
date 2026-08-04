@@ -2,7 +2,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { SendQuoteEmailsOptions } from '@/app/lib/email/sendQuoteEmails';
 import { sendQuoteEmails } from '@/app/lib/email/sendQuoteEmails';
-import { CONTACT_SUBJECTS } from '@/app/lib/validations/contactForm';
 import { submitContactForm } from './submitContactForm';
 
 vi.mock('@/app/lib/email/sendQuoteEmails', () => ({
@@ -22,7 +21,6 @@ interface FormValues {
   name?: string;
   phone?: string;
   email?: string;
-  subject?: string;
   message?: string;
   consentRodo?: string;
   consentMarketing?: string;
@@ -33,7 +31,6 @@ function buildFormData(values: FormValues = {}): FormData {
     name = 'Jan Kowalski',
     phone = '123456789',
     email = 'jan@example.com',
-    subject = CONTACT_SUBJECTS[0],
     message = 'Chciałbym zapytać o zadaszenie tarasu.',
     consentRodo = 'true',
     consentMarketing = 'false',
@@ -43,7 +40,6 @@ function buildFormData(values: FormValues = {}): FormData {
   formData.append('name', name);
   formData.append('phone', phone);
   formData.append('email', email);
-  formData.append('subject', subject);
   formData.append('message', message);
   formData.append('consentRodo', consentRodo);
   formData.append('consentMarketing', consentMarketing);
@@ -72,6 +68,13 @@ describe('submitContactForm', () => {
     expect(sendMock).not.toHaveBeenCalled();
   });
 
+  it('accepts a submission with no name and no phone number', async () => {
+    const result = await submitContactForm(buildFormData({ name: '', phone: '' }));
+
+    expect(result.success).toBe(true);
+    expect(sendMock).toHaveBeenCalledTimes(1);
+  });
+
   it('lets the company reply straight to the sender', async () => {
     await submitContactForm(buildFormData({ email: 'anna@example.com', name: 'Anna Nowak' }));
 
@@ -84,14 +87,27 @@ describe('submitContactForm', () => {
     expect(lastEmail().subject).toBe('Formularz kontaktowy — Anna Nowak');
   });
 
-  it('includes the subject and message body in the email', async () => {
-    await submitContactForm(
-      buildFormData({ subject: CONTACT_SUBJECTS[1], message: 'Pytanie o termin montażu.' }),
-    );
+  it('falls back to the email address in the subject line when no name was given', async () => {
+    await submitContactForm(buildFormData({ name: '', email: 'anna@example.com' }));
+
+    expect(lastEmail().subject).toBe('Formularz kontaktowy — anna@example.com');
+    // An empty name keeps the customer confirmation on its nameless greeting.
+    expect(lastEmail().customer).toEqual({ name: '', email: 'anna@example.com' });
+  });
+
+  it('includes the message body in the email', async () => {
+    await submitContactForm(buildFormData({ message: 'Pytanie o termin montażu.' }));
+
+    expect(lastEmail().html).toContain('Pytanie o termin montażu.');
+  });
+
+  it('omits the contact rows that were left blank', async () => {
+    await submitContactForm(buildFormData({ name: '', phone: '' }));
 
     const { html } = lastEmail();
-    expect(html).toContain(CONTACT_SUBJECTS[1]);
-    expect(html).toContain('Pytanie o termin montażu.');
+    expect(html).not.toContain('Imię i nazwisko');
+    expect(html).not.toContain('Telefon');
+    expect(html).toContain('jan@example.com');
   });
 
   it('sends no attachments — the contact form has no upload', async () => {
