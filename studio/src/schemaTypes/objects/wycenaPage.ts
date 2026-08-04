@@ -6,8 +6,8 @@ import { defineArrayMember, defineField, defineType } from 'sanity';
  * the visitor pick which quotation form to fill in. A fixed-id singleton
  * (see structure/index.ts), mirroring the ofertaPage/tarasyPage precedent.
  *
- * Card order drives the bento layout: the first card is the large hero tile, so
- * reordering the array is how the client changes which form is promoted.
+ * The forms render as identical full-width stripes, in array order — reordering
+ * the array is how the client changes which form is listed first.
  */
 export const wycenaPage = defineType({
   name: 'wycenaPage',
@@ -39,8 +39,7 @@ export const wycenaPage = defineType({
     defineField({
       name: 'forms',
       title: 'Formularze',
-      description:
-        'Kolejność decyduje o układzie kafelków — pierwsza karta jest największa.',
+      description: 'Kolejność na liście — pierwszy formularz wyświetla się na górze.',
       type: 'array',
       of: [defineArrayMember({ type: 'wycenaFormCard' })],
       validation: (rule) => rule.min(1),

@@ -1,5 +1,5 @@
 import { RocketIcon } from '@sanity/icons';
-import { defineField, defineType } from 'sanity';
+import { defineArrayMember, defineField, defineType } from 'sanity';
 
 /**
  * Bottom lead-generation CTA + showroom/map block on the home page. A fixed-id
@@ -169,6 +169,29 @@ export const bottomCtaSection = defineType({
       type: 'string',
       group: 'showroom',
       initialValue: 'Kępska 12, 46-020 Opole',
+    }),
+    defineField({
+      name: 'showroomGallery',
+      title: 'Zdjęcia ekspozycji',
+      description:
+        'Zdjęcia wystawki pokazywane pod mapą w sekcji kontaktu (maks. 6). Uwaga: sekcja kontaktu jest wspólna — zdjęcia pojawią się na stronie głównej i na wszystkich podstronach oferty.',
+      type: 'array',
+      group: 'showroom',
+      of: [
+        defineArrayMember({
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            defineField({
+              name: 'alt',
+              title: 'Tekst alternatywny',
+              type: 'string',
+              validation: (rule) => rule.required(),
+            }),
+          ],
+        }),
+      ],
+      validation: (rule) => rule.max(6),
     }),
     defineField({
       name: 'mapAddress',

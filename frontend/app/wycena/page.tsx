@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 import { sanityFetch } from '@/sanity/lib/live';
 import { wycenaPageQuery } from '@/sanity/lib/queries';
-import WycenaIndexGrid from '@/app/components/wycena/WycenaIndexGrid';
+import WycenaFormList from '@/app/components/wycena/WycenaFormList';
 
 export const metadata: Metadata = {
   // The root layout's title template appends the brand — repeating it here
@@ -17,5 +17,5 @@ export default async function WycenaIndexPage() {
 
   if (!page) return null;
 
-  return <WycenaIndexGrid page={page} />;
+  return <WycenaFormList page={page} />;
 }

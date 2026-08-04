@@ -1,7 +1,8 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useRef } from 'react';
+import Image from 'next/image';
+import { useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -9,6 +10,8 @@ import { CalendarClock, MapPin, Phone, Mail } from 'lucide-react';
 
 import type { BottomCtaQueryResult } from '@/sanity.types';
 import ServiceAreaNotice from '@/app/components/ui/ServiceAreaNotice';
+import ProjectLightbox, { type LightboxProject } from '@/app/components/ui/ProjectLightbox';
+import { urlForImage } from '@/sanity/lib/utils';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -35,6 +38,7 @@ export type ContactShowroomData = Pick<
   | 'mapAddress'
   | 'serviceAreaLabel'
   | 'serviceAreaDescription'
+  | 'showroomGallery'
 >;
 
 export default function ContactShowroom({
@@ -50,11 +54,14 @@ export default function ContactShowroom({
   mapAddress,
   serviceAreaLabel,
   serviceAreaDescription,
+  showroomGallery,
 }: ContactShowroomData) {
   const container = useRef<HTMLDivElement>(null);
+  const [openPhoto, setOpenPhoto] = useState<LightboxProject | null>(null);
 
   const phone = contactPhone || '+48 661 242 507';
   const email = contactEmail || 'biuro@ccomplex.pl';
+  const gallery = (showroomGallery ?? []).filter((photo) => photo.asset);
   // tel: links can't contain spaces; keep the leading + for international dialing.
   const phoneHref = `tel:${phone.replace(/[^\d+]/g, '')}`;
 
@@ -151,14 +158,45 @@ export default function ContactShowroom({
           </div>
         </div>
 
-        {/* Right: Leaflet map */}
-        <div
-          data-map-reveal
-          className="h-80 w-full overflow-hidden rounded-xl border border-graphite"
-        >
-          <ShowroomMap address={mapAddress ?? undefined} />
+        {/* Right: Leaflet map, with the exposition photos beneath it */}
+        <div data-map-reveal>
+          <div className="h-80 w-full overflow-hidden rounded-xl border border-graphite">
+            <ShowroomMap address={mapAddress ?? undefined} />
+          </div>
+
+          {/* Hidden entirely until the client uploads a photo. */}
+          {gallery.length > 0 && (
+            <div className="mt-3 grid grid-cols-3 gap-2">
+              {gallery.map((photo) => (
+                <button
+                  key={photo._key}
+                  type="button"
+                  onClick={() =>
+                    setOpenPhoto({
+                      _id: photo._key,
+                      title: showroomLabel || 'Ekspozycja',
+                      city: showroomAddress || '',
+                      coverImage: photo,
+                    })
+                  }
+                  className="group relative aspect-square cursor-pointer overflow-hidden rounded-lg border border-graphite"
+                >
+                  <Image
+                    src={urlForImage(photo).width(600).height(600).fit('crop').quality(80).url()}
+                    alt={photo.alt}
+                    fill
+                    sizes="(max-width: 768px) 33vw, 180px"
+                    className="object-cover transition-transform duration-300 group-hover:scale-[1.05]"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Reuses the project lightbox rather than adding a second full-screen dialog. */}
+      <ProjectLightbox project={openPhoto} onClose={() => setOpenPhoto(null)} />
     </div>
   );
 }
