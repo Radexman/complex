@@ -89,6 +89,10 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .icon(TagIcon)
         .child(S.documentTypeList('service').title('Oferta').defaultOrdering([{ field: 'order', direction: 'asc' }])),
       S.listItem()
+        .title('Strona O nas')
+        .icon(UsersIcon)
+        .child(S.document().schemaType('aboutPage').documentId('aboutPage')),
+      S.listItem()
         .title('Strona Realizacje')
         .icon(ImagesIcon)
         .child(S.document().schemaType('realizacjePage').documentId('realizacjePage')),

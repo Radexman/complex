@@ -8,6 +8,9 @@ import { offerSection } from './objects/offerSection';
 import { offerCard } from './objects/offerCard';
 import { aboutSection } from './objects/aboutSection';
 import { aboutBadge } from './objects/aboutBadge';
+import { aboutPage } from './objects/aboutPage';
+import { aboutStat } from './objects/aboutStat';
+import { aboutValue } from './objects/aboutValue';
 import { featuredProjectsSection } from './objects/featuredProjectsSection';
 import { ofertaPage } from './objects/ofertaPage';
 import { realizacjePage } from './objects/realizacjePage';
@@ -41,6 +44,7 @@ export const schemaTypes = [
   featuredProjectsSection,
   beforeAfterSection,
   vatHighlightSection,
+  aboutPage,
   ofertaPage,
   realizacjePage,
   tarasyPage,
@@ -58,6 +62,8 @@ export const schemaTypes = [
   trustStat,
   offerCard,
   aboutBadge,
+  aboutStat,
+  aboutValue,
   processStep,
   tarasShape,
   beforeAfterItem,

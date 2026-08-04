@@ -13,6 +13,7 @@ export const realizacjePageQuery = defineQuery(`*[_type == "realizacjePage"][0]`
 export const tarasyPageQuery = defineQuery(`*[_type == "tarasyPage"][0]`);
 export const ofertaPageQuery = defineQuery(`*[_type == "ofertaPage"][0]`);
 export const wycenaPageQuery = defineQuery(`*[_type == "wycenaPage"][0]`);
+export const aboutPageQuery = defineQuery(`*[_type == "aboutPage"][0]`);
 
 /**
  * Every offer, ordered by the editor-controlled `order` field, for the `/oferta`
