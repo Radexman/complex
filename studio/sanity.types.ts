@@ -90,6 +90,31 @@ export type ProcessStep = {
   description?: string;
 };
 
+export type AboutValue = {
+  _type: 'aboutValue';
+  icon:
+    | 'shield'
+    | 'clock'
+    | 'award'
+    | 'users'
+    | 'star'
+    | 'check'
+    | 'tool'
+    | 'map'
+    | 'sun'
+    | 'droplets'
+    | 'ruler'
+    | 'zap';
+  title: string;
+  description: string;
+};
+
+export type AboutStat = {
+  _type: 'aboutStat';
+  value: string;
+  label: string;
+};
+
 export type AboutBadge = {
   _type: 'aboutBadge';
   icon: 'gem' | 'target' | 'wrench' | 'award';
@@ -464,6 +489,39 @@ export type OfertaPage = {
   eyebrow?: string;
   headline: string;
   subheadline?: string;
+};
+
+export type AboutPage = {
+  _id: string;
+  _type: 'aboutPage';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  heroHeadline: string;
+  heroSubheadline?: string;
+  storyEyebrow?: string;
+  storyHeadline?: string;
+  storyBody?: string;
+  storyImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: 'image';
+  };
+  storyStats?: Array<
+    {
+      _key: string;
+    } & AboutStat
+  >;
+  valuesEyebrow?: string;
+  valuesHeadline?: string;
+  values?: Array<
+    {
+      _key: string;
+    } & AboutValue
+  >;
 };
 
 export type VatHighlightSection = {
@@ -900,6 +958,8 @@ export type AllSanitySchemaTypes =
   | BeforeAfterItem
   | TarasShape
   | ProcessStep
+  | AboutValue
+  | AboutStat
   | AboutBadge
   | OfferCard
   | TrustStat
@@ -918,6 +978,7 @@ export type AllSanitySchemaTypes =
   | TarasyPage
   | RealizacjePage
   | OfertaPage
+  | AboutPage
   | VatHighlightSection
   | BeforeAfterSection
   | FeaturedProjectsSection

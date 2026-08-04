@@ -5,23 +5,10 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { stegaClean } from 'next-sanity';
-import {
-  Award,
-  CheckCircle,
-  Clock,
-  Droplets,
-  MapPin,
-  Ruler,
-  ShieldCheck,
-  Star,
-  Sun,
-  Users,
-  Wrench,
-  Zap,
-  type LucideIcon,
-} from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 
 import type { ServiceBySlugQueryResult } from '@/sanity.types';
+import { BENEFIT_ICON_MAP } from '@/app/lib/benefitIcons';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,21 +17,6 @@ type OfferBenefitsProps = Pick<
   Service,
   'benefitsEyebrow' | 'benefitsHeadline' | 'benefitsDescription' | 'benefits'
 >;
-
-const ICON_MAP: Record<string, LucideIcon> = {
-  shield: ShieldCheck,
-  clock: Clock,
-  award: Award,
-  users: Users,
-  star: Star,
-  check: CheckCircle,
-  tool: Wrench,
-  map: MapPin,
-  sun: Sun,
-  droplets: Droplets,
-  ruler: Ruler,
-  zap: Zap,
-};
 
 export default function OfferBenefits({
   benefitsEyebrow,
@@ -120,7 +92,7 @@ export default function OfferBenefits({
 
         <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {benefits.map((benefit) => {
-            const Icon = ICON_MAP[stegaClean(benefit.icon)] ?? ShieldCheck;
+            const Icon = BENEFIT_ICON_MAP[stegaClean(benefit.icon)] ?? ShieldCheck;
             return (
               <div
                 key={benefit._key}

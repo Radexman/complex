@@ -89,6 +89,10 @@ export default defineConfig({
             filter: `_type == "ofertaPage" && _id == "ofertaPage"`,
           },
           {
+            route: '/o-nas',
+            filter: `_type == "aboutPage" && _id == "aboutPage"`,
+          },
+          {
             route: '/oferta/:slug',
             filter: `_type == "service" && slug.current == $slug || _id == $slug`,
           },
@@ -178,6 +182,11 @@ export default defineConfig({
           ofertaPage: defineLocations({
             locations: [{ title: 'Oferta', href: '/oferta' }],
             message: 'Nagłówek strony „Oferta”',
+            tone: 'positive',
+          }),
+          aboutPage: defineLocations({
+            locations: [{ title: 'O nas', href: '/o-nas' }],
+            message: 'Treść strony „O nas”',
             tone: 'positive',
           }),
           bottomCtaSection: defineLocations({

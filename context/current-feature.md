@@ -1,12 +1,63 @@
-# Current Feature
+# Current Feature: Strona „O nas" (`/o-nas`)
 
 ## Status
 
-Not Started
+In Progress — implemented and verified, awaiting commit (`/feature complete`)
 
 ## Goals
 
+- Ship the `/o-nas` page — currently a **live 404** linked from both the Navbar and the Footer
+  (flagged as open since the Round 3 feedback session).
+- Six sections in order: `AboutHero` → `AboutStory` → `AboutValues` → **`ProcessTimeline` (reused,
+  no changes)** → `AboutTeam` → `AboutCta`.
+- New Sanity content: an `aboutPage` fixed-id singleton (hero / story / values / team header copy)
+  and a `teamMember` collection (`name`, `role`, `photo`, `bio`, `order`).
+- Seed + publish the spec's Polish copy: the `aboutPage` singleton (3 story paragraphs, 3 stats,
+  6 values) and 2 `teamMember` docs (Sebastian Kożuch, Agnieszka Jaszczyk-Kożuch).
+- All visible copy Polish, code identifiers English; dark-mode-only design tokens; GSAP scroll
+  reveals using the repo's safe `gsap.set` + `.to` / `useGSAP` convention.
+
 ## Notes
+
+Spec: `context/features/about-us-spec.md` (untracked since 2026-07-08 — commit it with the feature,
+same precedent as prior specs).
+
+**Reconciliations to raise before/at `start`:**
+
+- **Paths.** Spec says `src/app/...` + `src/components/...` + `sanity/schemas/`. Repo is
+  `frontend/app/...`, `frontend/app/components/about/...` and `studio/src/schemaTypes/`. Same
+  reconciliation as every prior feature.
+- **`revalidate: 60` → `sanityFetch`.** Repo convention (Live Content API); route stays static and
+  live-updates via `<SanityLive>`.
+- **ProcessTimeline data source.** Spec says `siteSettings.processTimeline`; the repo has a
+  standalone **`processTimeline` singleton** + `processTimelineQuery`, and the component takes a
+  single `data` prop (`ProcessTimeline({ data })`), not spread props. Same correction the
+  FormSuccessState feature already made.
+- **Icon map.** Spec says reuse `OfferBenefits`' map or a shared `src/lib/iconMap.ts`. There is no
+  such shared module — `app/lib/processStepIcons.ts` covers only the *timeline* icons; the benefits
+  map is still inline in `OfferBenefits.tsx`. All 6 icons the spec uses (`shield`, `check`, `users`,
+  `ruler`, `map`, `award`) exist there, so extract it to a shared module rather than duplicating
+  (the `processStepIcons` precedent), and keep the Studio dropdown constrained to `BENEFIT_ICONS`.
+- ⚠️ **`@portabletext/react` is not installed** — `storyBody` as Portable Text needs the dependency
+  added (first Portable Text rendering in this repo). Alternative: model `storyBody` as an array of
+  strings/`text` like `AboutSection.description`. **Decide at `start`.**
+- ⚠️ **`AboutCta` links to `/kontakt`, which does not exist** (Round 3 established `/#kontakt` — the
+  contact block lives on the home page and the „Formularz kontaktowy" is a modal). Retarget, or
+  point the primary CTA at the modal instead.
+- **CTA copy conflicts with shipped copy.** Spec says „odpiszemy w ciągu 24 godzin"; Round 3 made
+  **„5 dni roboczych"** the site-wide promise. Use the current wording.
+- **Metadata title** should be just „O nas" — the root layout's `%s | <site>` template appends the
+  brand (the `/tarasy` lesson). Also add `/o-nas` to `sitemap.ts`, which still lists only `/` and
+  `/oferta`.
+- **Duplicate content check.** A home-page `AboutSection` (fed by the `aboutSection` singleton)
+  already exists with its own story/badges copy — the new page must not contradict it, and its
+  „O nas" CTA (if any) should point here.
+
+**Follow-ups the spec doesn't cover:** register both new types in `studio/src/schemaTypes/index.ts`,
+add a „Strona O nas" structure entry + a „Zespół" document list, wire Presentation
+(`mainDocuments` route for `/o-nas` + `locations` for `aboutPage`/`teamMember`), regenerate types
+(`npm run sanity:typegen`), and **redeploy the Studio** (`npm run deploy` from `studio/`) so the
+client can edit the new types.
 
 ## History
 

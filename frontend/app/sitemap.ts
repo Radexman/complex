@@ -28,5 +28,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
       changeFrequency: 'monthly',
     },
+    {
+      url: `${domain}/o-nas`,
+      lastModified: new Date(),
+      priority: 0.7,
+      changeFrequency: 'yearly',
+    },
   ];
 }
