@@ -10,6 +10,95 @@ Not Started
 
 ## History
 
+### Client Feedback — Round 4: contact fields, `/wycena` stripes, nav forms, showroom gallery (2026-08-04)
+
+Six items from the client's fourth feedback pass, **two of which deliberately reverse Round 3
+decisions**. Spec: `context/features/feedback-round-4-spec.md` (committed with the feature). Branch
+`feature/feedback-round-4`, cut from `main`. Four decisions confirmed up front; one more (nav link
+brightness) added mid-session by the user.
+
+- **#1 Contact form — name and phone optional, „Temat wiadomości" deleted.** A new `optionalText()`
+  helper reuses the repo's `preprocess` pattern: an untouched input arrives as `''` and becomes
+  **`undefined`**, but a value that *was* typed is still length-checked — „123" in the phone field
+  still errors, clearing it removes the error (both verified in-browser). Only **e-mail, wiadomość
+  and the RODO consent** remain required. `CONTACT_SUBJECTS` deleted outright (no other consumer).
+  The lead subject line falls back to the **address** when there's no name. **The e-mail layer
+  needed no change** — `renderQuoteEmail` already drops empty rows (so absent name/phone simply
+  vanish from the lead) and `renderConfirmationEmail` already degrades to a nameless „Dzień dobry!".
+  ⚠️ **A lead can now arrive with an e-mail address and nothing else** — a deliberate trade of lead
+  quality for volume, at the client's request. Worth repeating back to her if they phone people back.
+- **#2 „Przed i po" — no code change.** The user's call: the mismatched shots (different angle,
+  different building, slabs in another position) get re-aligned in an image editor rather than
+  worked around in code. ⚠️ **The bad pair is published and stays live** („Zadaszenia tarasowe",
+  Opole) until the corrected images replace it. Added a Studio hint on `beforeImage` — both photos
+  must come from the **same spot, angle and distance**, since the slider overlays them.
+- **#3 Realizacje badge** — the accent-green category caption read as a link and competed with the
+  CTAs. Now a neutral pill (`bg-black/50` + `backdrop-blur` + `text-white/90`), uppercase treatment
+  kept. Scope is **the card badge only**: section eyebrows and the selected filter pill stay green
+  (headings and controls, not photo captions). ⚠️ The exact colour was our choice — one line to change.
+- **#4a `/wycena` — bento photo grid → four equal stripes.** `WycenaIndexGrid.tsx` renamed to
+  **`WycenaFormList.tsx`**; `bentoSpan`, `SPAN_CLASSES`, `TITLE_CLASSES`, `next/image` and
+  `urlForImage` all deleted. **One `<Link>` wraps each whole row**, so the stretched-`::after`
+  overlay bug Round 3 had to fix twice cannot recur — measured **0 nested anchors**.
+  ⚠️ **They were not equal on the first build:** the taras row came out **142 px vs 119 px** because
+  its description wraps to two lines — i.e. „równe paski" would have failed on the exact complaint.
+  Fixed with `min-h-36` **plus** a `line-clamp-2` on the description (either alone is insufficient);
+  all four then measured **144 px** at 1440 and 768. The Studio description field now warns that
+  longer copy is trimmed to two lines.
+  ⚠️ **At 390 px the promoted row is still 36 px taller** — the „Najczęściej wybierany" pill wraps
+  onto its own line. Left as-is: equal from `md` up, and on a phone only one stripe is visible at a
+  time. Pinning it would need a magic pixel height.
+  **Schema:** `wycenaFormCard.image` removed (existing image data left orphaned, harmless) and
+  `wycenaPage.forms`' description reworded — it still said „pierwsza karta jest największa".
+- **#4b „Formularze wycen" is back in the navbar** — Round 3 had deleted it and routed everything
+  through the CTA. `WYCENA_ITEMS` mirrors **the footer's labels and order** so the two can't drift.
+  Desktop: a second `NavDropdown` after Oferta (reused unchanged — only the `cta` variant stays
+  deleted). Drawer: a second `Accordion.Item` in the existing single-item `Accordion.Root`, so
+  Oferta and Formularze can't both be open. The green „Darmowa wycena" CTA is untouched.
+  **The `lg` fit risk was real but clears:** at 1024 the centre nav has **exactly 16 px** on both
+  sides — that's the flex gap itself, so the row sits at its natural width with **zero slack**. A
+  longer CMS `ctaLabel` would start compressing it. Fallback (unused) was shortening to „Formularze".
+- **#5 VAT** — accepted by the client, nothing to do. ⚠️ The Round 3 caveat stands: it's a tax claim
+  and their accountant should sign off on the wording.
+- **#6 Showroom gallery** — new optional `showroomGallery` (max 6, required `alt`) on
+  `bottomCtaSection`, rendered as `aspect-square` thumbnails **under the map**, reusing
+  **`ProjectLightbox`** via a mapped `LightboxProject` (`_id: _key`, title = `showroomLabel`,
+  city = `showroomAddress`) rather than a second dialog. Verified by **temporarily publishing one
+  photo, then removing it** (the Round 3 placeholder precedent): thumbnail rendered 144², lightbox
+  opened titled „Odwiedź naszą ekspozycję" with the address beneath; afterwards `showroomGallery` is
+  `null` again with **no leftover draft** and every other field intact. With an empty array the
+  section is **byte-identical** to before (map wrapper: 1 child, 320 px).
+  ⚠️ **`ContactShowroom` is shared** — uploading a photo changes the home page **and all 8 offer
+  pages**. Called out in the field description in the Studio.
+- **Brighter nav links (user request, mid-session).** Top-level links, both dropdown triggers and
+  the „Formularz kontaktowy" button went `text-silver` → **`text-white/80`** (active stays full
+  white), same for the drawer's top-level entries. **Sub-items deliberately stay `silver`** — inside
+  a solid panel they don't need the contrast, and the difference preserves the hierarchy.
+- **No GROQ change** — `bottomCtaQuery` and `wycenaPageQuery` are whole-document selects, so the new
+  field flowed through on a TypeGen regen alone.
+- **Studio redeployed** (`npm run deploy` from `studio/`) — in place via the pinned `appId`, same
+  URL, `Deployed 1/1 schemas`. **Verified against the deployed schema via MCP**, not assumed:
+  `showroomGallery` live on `bottomCtaSection`, and `image` **gone** from `wycenaFormCard`.
+  ⚠️ The Studio **UI** is unverified as always (Playwright isn't logged in).
+- ⚠️ **Noticed, not fixed:** `/realizacje` logs an `next/image` LCP warning for its first card image
+  — the same `priority` fix `/oferta` got in the offer-index feature. Pre-existing, out of scope.
+- ⚠️ **`origin/feature/feedback-round-4` already existed** (pointing at the old `main`) before this
+  session, so `git branch -d` refused; the local branch was force-deleted after confirming it was
+  merged into `main`. **The stale remote branch is still there** — deleting it needs the user's SSH.
+- **Left untouched (same precedent as prior features):** the pre-existing uncommitted `.mcp.json`
+  and `OfferTechSpecs.tsx`, `.claude/settings.local.json`, the untracked `.playwright-mcp/`
+  artifacts, and the two remaining untracked specs (`about-us`, `contact-page`).
+- Verified: **151/151 Vitest** (147 baseline; the contact suite grew 16 → 20 — the schema and action
+  are the only unit-testable surfaces, the rest is presentational), `type-check` (both workspaces),
+  `lint` (only the pre-existing `useCountUp` warning at `TrustSection.tsx:65`), clean `next build`
+  after `rm -rf .next` — `/wycena` still prerenders static, all 7 offer slugs still SSG.
+  In-browser (Playwright/Chromium): **0 console errors** across the session; contact modal shows
+  **exactly 3** inline errors on an empty submit and has no subject select; `/wycena` stripes
+  uniform with no horizontal overflow at 390; the desktop dropdown opens with all 5 links on-screen
+  and the drawer accordion expands with 5 visible links.
+- **Not driven in-browser:** a real contact-form *send* — it would e-mail the dev inbox through
+  Resend. The success and failure paths stay unit-tested.
+
 ### Client Feedback — Round 3: nav, contact modal, Przed i po, VAT, `/wycena` (2026-08-03)
 
 Eight items from the client's third feedback pass, plus two more added mid-session by the user.
