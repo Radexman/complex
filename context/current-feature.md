@@ -1,65 +1,90 @@
-# Current Feature: Strona „O nas" (`/o-nas`)
+# Current Feature
 
 ## Status
 
-In Progress — implemented and verified, awaiting commit (`/feature complete`)
+Not Started
 
 ## Goals
 
-- Ship the `/o-nas` page — currently a **live 404** linked from both the Navbar and the Footer
-  (flagged as open since the Round 3 feedback session).
-- Six sections in order: `AboutHero` → `AboutStory` → `AboutValues` → **`ProcessTimeline` (reused,
-  no changes)** → `AboutTeam` → `AboutCta`.
-- New Sanity content: an `aboutPage` fixed-id singleton (hero / story / values / team header copy)
-  and a `teamMember` collection (`name`, `role`, `photo`, `bio`, `order`).
-- Seed + publish the spec's Polish copy: the `aboutPage` singleton (3 story paragraphs, 3 stats,
-  6 values) and 2 `teamMember` docs (Sebastian Kożuch, Agnieszka Jaszczyk-Kożuch).
-- All visible copy Polish, code identifiers English; dark-mode-only design tokens; GSAP scroll
-  reveals using the repo's safe `gsap.set` + `.to` / `useGSAP` convention.
-
 ## Notes
 
-Spec: `context/features/about-us-spec.md` (untracked since 2026-07-08 — commit it with the feature,
-same precedent as prior specs).
-
-**Reconciliations to raise before/at `start`:**
-
-- **Paths.** Spec says `src/app/...` + `src/components/...` + `sanity/schemas/`. Repo is
-  `frontend/app/...`, `frontend/app/components/about/...` and `studio/src/schemaTypes/`. Same
-  reconciliation as every prior feature.
-- **`revalidate: 60` → `sanityFetch`.** Repo convention (Live Content API); route stays static and
-  live-updates via `<SanityLive>`.
-- **ProcessTimeline data source.** Spec says `siteSettings.processTimeline`; the repo has a
-  standalone **`processTimeline` singleton** + `processTimelineQuery`, and the component takes a
-  single `data` prop (`ProcessTimeline({ data })`), not spread props. Same correction the
-  FormSuccessState feature already made.
-- **Icon map.** Spec says reuse `OfferBenefits`' map or a shared `src/lib/iconMap.ts`. There is no
-  such shared module — `app/lib/processStepIcons.ts` covers only the *timeline* icons; the benefits
-  map is still inline in `OfferBenefits.tsx`. All 6 icons the spec uses (`shield`, `check`, `users`,
-  `ruler`, `map`, `award`) exist there, so extract it to a shared module rather than duplicating
-  (the `processStepIcons` precedent), and keep the Studio dropdown constrained to `BENEFIT_ICONS`.
-- ⚠️ **`@portabletext/react` is not installed** — `storyBody` as Portable Text needs the dependency
-  added (first Portable Text rendering in this repo). Alternative: model `storyBody` as an array of
-  strings/`text` like `AboutSection.description`. **Decide at `start`.**
-- ⚠️ **`AboutCta` links to `/kontakt`, which does not exist** (Round 3 established `/#kontakt` — the
-  contact block lives on the home page and the „Formularz kontaktowy" is a modal). Retarget, or
-  point the primary CTA at the modal instead.
-- **CTA copy conflicts with shipped copy.** Spec says „odpiszemy w ciągu 24 godzin"; Round 3 made
-  **„5 dni roboczych"** the site-wide promise. Use the current wording.
-- **Metadata title** should be just „O nas" — the root layout's `%s | <site>` template appends the
-  brand (the `/tarasy` lesson). Also add `/o-nas` to `sitemap.ts`, which still lists only `/` and
-  `/oferta`.
-- **Duplicate content check.** A home-page `AboutSection` (fed by the `aboutSection` singleton)
-  already exists with its own story/badges copy — the new page must not contradict it, and its
-  „O nas" CTA (if any) should point here.
-
-**Follow-ups the spec doesn't cover:** register both new types in `studio/src/schemaTypes/index.ts`,
-add a „Strona O nas" structure entry + a „Zespół" document list, wire Presentation
-(`mainDocuments` route for `/o-nas` + `locations` for `aboutPage`/`teamMember`), regenerate types
-(`npm run sanity:typegen`), and **redeploy the Studio** (`npm run deploy` from `studio/`) so the
-client can edit the new types.
-
 ## History
+
+### Strona „O nas" — `/o-nas` (2026-08-04)
+
+The standalone About page, which **fixes a live 404** — „O nas" has been in the Navbar and Footer
+since Round 3 with no route behind it. Spec: `context/features/about-us-spec.md` (untracked since
+2026-07-08, committed with the feature). Branch `feature/about-us-page`. Two decisions confirmed up
+front; a third — **deleting the team section outright** — came from the user mid-session.
+
+- **Shipped five sections, not the spec's six:** `AboutHero` → `AboutStory` → `AboutValues` →
+  **`ProcessTimeline` (shared, untouched)** → `AboutCta`. Content lives in a new **`aboutPage`
+  fixed-id singleton** (the `realizacjePage`/`ofertaPage` precedent — the spec's
+  `siteSettings.processTimeline` assumption is long obsolete here), with `aboutStat` and
+  `aboutValue` as embedded objects. Seeded + published.
+- ⚠️ **`AboutTeam` and the whole `teamMember` collection were built, seeded, then removed at the
+  user's request** („get rid of AboutTeam.tsx"). Because the component was the only consumer of a
+  lot of scaffolding, the scope was confirmed before deleting: the component, its page wiring,
+  `teamMembersQuery`, the `teamMember` schema, the „Zespół" structure entry, the Presentation
+  resolver, the three `team*` fields on `aboutPage`, **and** the 2 published people (unpublished
+  then drafts discarded). Verified **0 remaining references** in code and `teamMember` **absent
+  from the deployed schema**. If the section is ever wanted back, it is a full rebuild, not a
+  re-enable.
+- **`storyBody` is a plain `text` field split on `\n{2,}`**, not Portable Text (user's call).
+  Reuses the `AboutSection.description` pattern exactly and **avoids adding `@portabletext/react`**
+  — the repo still has no Portable Text rendering anywhere. The three seeded paragraphs carry no
+  bold/links/lists, so the richer editor would have bought nothing today.
+- ⚠️ **The spec's `<div className="bg-bg-deep">` wrapper around `ProcessTimeline` is a no-op** —
+  that section paints its own `bg-bg-mid` (`ProcessTimeline.tsx:116`), so a wrapper is invisible.
+  The intended alternating rhythm was achieved by assigning the *surrounding* sections instead:
+  Hero **deep** → Story **mid** → Values **deep** → Timeline **mid** (fixed) → Cta **deep**.
+  Measured in-browser as `#0B0B0C / #111111 / #0B0B0C / #111111 / #0B0B0C`. The Cta ended up back
+  on the spec's `bg-bg-deep` only *after* the team section was cut — with it, the parity flipped.
+- **Icon map extracted to `app/lib/benefitIcons.ts`** (`BENEFIT_ICON_MAP`), now shared by
+  `AboutValues` and `OfferBenefits` — the spec asked for a shared `iconMap.ts` that did not exist.
+  Mirrors the Studio's `BENEFIT_ICONS`, so the dropdown and the lookup can't drift.
+  ⚠️ **`OfferTechSpecs` still holds its own copy** (the benefit icons plus 4 extras) — deliberately
+  untouched, it carries a pre-existing uncommitted edit. Worth folding in later.
+- ⚠️ **`AboutStory`'s GSAP had to resolve targets via `querySelectorAll`, not selector strings.**
+  The image block is conditional (absent until a photo is uploaded), and a selector matching
+  nothing produces the exact „GSAP target not found" warning fixed in `TrustSection` back in July —
+  it was **observed in the console** before the guard went in, not merely anticipated. The section
+  also degrades deliberately: with no image the grid drops to one column and the stats become a row
+  under the text, instead of leaving half the row empty.
+- **The user uploaded a `storyImage` in the Studio mid-session**, so the two-column path is what's
+  live; the no-image fallback only matters if it is ever cleared. Image measured 560×700 (`4/5`).
+- **CTA reconciliations:** primary → **`/#kontakt`** (the spec's `/kontakt` has never existed —
+  same 404 this feature is fixing); secondary → **`/wycena`**, the Round 3 chooser page, rather
+  than the spec's `/wycena/zadaszenie`; and the copy says **„5 dni roboczych"**, not the spec's
+  „24 godzin", matching the site-wide promise standardised in Round 3.
+- **Metadata title is just „O nas"** — the layout's `%s | <site>` template appends the brand
+  (verified: „O nas | CComplex | Zadaszenia i tarasy | Śląsk i Opole"). `/o-nas` added to
+  `sitemap.ts`, which now lists `/`, `/oferta`, `/wycena` and `/o-nas`.
+- **Studio redeployed** (`npm run deploy` from `studio/`) — in place via the pinned `appId`, same
+  URL, `Deployed 1/1 schemas`. **Verified against the deployed schema via MCP**, not assumed:
+  `aboutPage` live with all 10 fields and **no `team*` leftovers**, `teamMember` gone entirely.
+  ⚠️ The Studio **UI** is unverified as always (Playwright isn't logged in).
+- ⚠️ **Two Playwright measurement traps produced convincingly wrong readings, both times looking
+  like broken animations:** (1) `globals.css` sets **`scroll-behavior: smooth`**, so a stepped
+  `window.scrollTo` loop races the smooth scroll and samples mid-flight — set
+  `documentElement.style.scrollBehavior = 'auto'` first. (2) GSAP is **rAF-driven and throttled in
+  headless**, so a 0.6 s stagger takes far longer in wall-clock time; a sample taken 2.5 s after
+  scrolling showed cards at `0.50, 0.16, 0, 0, 0, 0` — a stagger in progress, not a stuck tween.
+  The tell is the descending ramp across siblings. All 21 animated elements reach ≥0.99 given a
+  6 s settle.
+- **No new tests** — nothing unit-testable was added (`benefitIcons.ts` is a constant lookup, same
+  as the untested `processStepIcons.ts`; the sections are presentational). Suite stays at
+  **151/151**.
+- **Left untouched (same precedent as prior features):** the pre-existing uncommitted `.mcp.json`
+  and `OfferTechSpecs.tsx`, `.claude/settings.local.json`, the untracked `.playwright-mcp/`
+  artifacts, and `ProjectsGrid.tsx`, which the user began editing **during** the commit step.
+  `context/features/contact-page-spec.md` disappeared from the working tree mid-session (not by us).
+- Verified: **151/151 Vitest**, `type-check` (both workspaces), `lint` (only the pre-existing
+  `useCountUp` warning at `TrustSection.tsx:65`), clean `next build` after `rm -rf .next` —
+  `/o-nas` prerenders **static**, all 7 offer slugs still SSG. In-browser (Playwright/Chromium):
+  **0 console errors and 0 warnings** on a fresh load, 5 sections in the right order with 6 value
+  cards and 3 stats, **no horizontal overflow at 390 px**, and the 3 „O nas" links in the
+  header/footer/drawer now resolve **200 instead of 404**.
 
 ### Client Feedback — Round 4: contact fields, `/wycena` stripes, nav forms, showroom gallery (2026-08-04)
 
