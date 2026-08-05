@@ -27,7 +27,8 @@ export const allServicesQuery = defineQuery(
     heroImage,
     heroSubheadline,
     category,
-    relatedFormSlug
+    relatedFormSlug,
+    isNew
   }`,
 );
 

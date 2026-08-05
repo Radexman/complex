@@ -86,6 +86,14 @@ function ServiceCard({ service, span }: { service: Service; span: ReturnType<typ
       )}
       <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/30 to-transparent transition-all duration-500 group-hover:from-black/90" />
 
+      {/* Sits above the stretched card link's ::after overlay so it stays visible,
+          but is not interactive — the whole card still opens the offer. */}
+      {service.isNew && (
+        <span className="pointer-events-none absolute left-6 top-6 z-10 rounded-full bg-accent px-3 py-1 font-heading text-xs font-semibold uppercase tracking-wide text-black">
+          Nowość
+        </span>
+      )}
+
       {/* Spans the whole card (not just the bottom strip) so the stretched link's
           ::after — which positions against this, its nearest positioned ancestor —
           covers the entire card, image included. Content still sits at the bottom. */}

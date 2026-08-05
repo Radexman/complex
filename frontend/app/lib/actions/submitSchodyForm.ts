@@ -90,7 +90,8 @@ export async function submitSchodyForm(formData: FormData) {
   ];
 
   const email = await sendQuoteEmails({
-    subject: `Wycena schodów — ${data.name}`,
+    // The name is optional, so the address identifies the sender when it's absent.
+    subject: `Wycena schodów — ${data.name ?? data.email}`,
     html: renderQuoteEmail({
       heading: 'Formularz wyceny schodów',
       sections,
@@ -102,7 +103,8 @@ export async function submitSchodyForm(formData: FormData) {
     attachments: diagram
       ? [...attachments, { filename: 'rysunek-schodow.png', path: diagram.url }]
       : attachments,
-    customer: { name: data.name, email: data.email },
+    // `renderConfirmationEmail` degrades to a nameless „Dzień dobry!" on an empty string.
+    customer: { name: data.name ?? '', email: data.email },
     formLabel: 'formularza wyceny schodów',
   });
 

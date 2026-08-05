@@ -178,6 +178,7 @@ export type Service = {
   title: string;
   slug: Slug;
   order?: number;
+  isNew?: boolean;
   seoDescription?: string;
   heroImage?: {
     asset?: SanityImageAssetReference;
@@ -1288,7 +1289,7 @@ export type AboutPageQueryResult = {
 
 // Source: sanity/lib/queries.ts
 // Variable: allServicesQuery
-// Query: *[_type == "service" && defined(slug.current)] | order(coalesce(order, 99) asc, title asc){    _id,    title,    "slug": slug.current,    heroImage,    heroSubheadline,    category,    relatedFormSlug  }
+// Query: *[_type == "service" && defined(slug.current)] | order(coalesce(order, 99) asc, title asc){    _id,    title,    "slug": slug.current,    heroImage,    heroSubheadline,    category,    relatedFormSlug,    isNew  }
 export type AllServicesQueryResult = Array<{
   _id: string;
   title: string;
@@ -1311,6 +1312,7 @@ export type AllServicesQueryResult = Array<{
     | 'tarasy-kompozytowe'
     | 'zadaszenia-tarasowe';
   relatedFormSlug: 'schody' | 'taras' | 'zadaszenie' | 'zaluzje' | null;
+  isNew: boolean | null;
 }>;
 
 // Source: sanity/lib/queries.ts
@@ -1711,7 +1713,7 @@ declare module '@sanity/client' {
     '*[_type == "ofertaPage"][0]': OfertaPageQueryResult;
     '*[_type == "wycenaPage"][0]': WycenaPageQueryResult;
     '*[_type == "aboutPage"][0]': AboutPageQueryResult;
-    '*[_type == "service" && defined(slug.current)] | order(coalesce(order, 99) asc, title asc){\n    _id,\n    title,\n    "slug": slug.current,\n    heroImage,\n    heroSubheadline,\n    category,\n    relatedFormSlug\n  }': AllServicesQueryResult;
+    '*[_type == "service" && defined(slug.current)] | order(coalesce(order, 99) asc, title asc){\n    _id,\n    title,\n    "slug": slug.current,\n    heroImage,\n    heroSubheadline,\n    category,\n    relatedFormSlug,\n    isNew\n  }': AllServicesQueryResult;
     '*[_type == "service" && slug.current in ["tarasy-kompozytowe", "tarasy-gresowe", "tarasy-drewniane"]]{\n    _id,\n    title,\n    "slug": slug.current,\n    heroImage,\n    heroSubheadline,\n    category\n  }': TerraceServicesQueryResult;
     '*[_type == "beforeAfterSection"][0]': BeforeAfterQueryResult;
     '*[_type == "vatHighlightSection"][0]': VatHighlightQueryResult;

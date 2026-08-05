@@ -80,11 +80,20 @@ describe('schodyFormSchema — field validation', () => {
     expect(issuePaths({ ...validBase, email: 'not-an-email' })).toContain('email');
   });
 
-  it('rejects a too-short name', () => {
+  it('accepts a submission with no name and no phone number', () => {
+    const result = schodyFormSchema.safeParse({ ...validBase, name: '', phone: '' });
+
+    expect(result.success).toBe(true);
+    // Blank optional fields arrive as absent, not as empty strings.
+    expect(result.data?.name).toBeUndefined();
+    expect(result.data?.phone).toBeUndefined();
+  });
+
+  it('still rejects a too-short name that was typed', () => {
     expect(issuePaths({ ...validBase, name: 'J' })).toContain('name');
   });
 
-  it('rejects a too-short phone number', () => {
+  it('still rejects a too-short phone number that was typed', () => {
     expect(issuePaths({ ...validBase, phone: '123' })).toContain('phone');
   });
 

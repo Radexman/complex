@@ -178,6 +178,7 @@ export type Service = {
   title: string;
   slug: Slug;
   order?: number;
+  isNew?: boolean;
   seoDescription?: string;
   heroImage?: {
     asset?: SanityImageAssetReference;

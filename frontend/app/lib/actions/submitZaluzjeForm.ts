@@ -68,7 +68,8 @@ export async function submitZaluzjeForm(formData: FormData) {
   ];
 
   const email = await sendQuoteEmails({
-    subject: `Wycena żaluzji — ${data.name}`,
+    // The name is optional, so the address identifies the sender when it's absent.
+    subject: `Wycena żaluzji — ${data.name ?? data.email}`,
     html: renderQuoteEmail({
       heading: 'Formularz wyceny żaluzji',
       sections,
@@ -77,7 +78,8 @@ export async function submitZaluzjeForm(formData: FormData) {
         : undefined,
     }),
     attachments,
-    customer: { name: data.name, email: data.email },
+    // `renderConfirmationEmail` degrades to a nameless „Dzień dobry!" on an empty string.
+    customer: { name: data.name ?? '', email: data.email },
     formLabel: 'formularza wyceny żaluzji',
   });
 

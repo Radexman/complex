@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { optionalText } from './optionalText';
+
 /** Roof models offered, in the order the client lists them. */
 export const ROOF_TYPES = [
   'Dach stały poliwęglan, model przyścienny, ALUM /wym. standardowe i na wymiar',
@@ -72,8 +74,9 @@ export const zadaszenieFormSchema = z.object({
     .string()
     .min(6, 'Podaj kod pocztowy')
     .regex(/^\d{2}-\d{3}$/, 'Format: 00-000'),
-  name: z.string().min(2, 'Podaj swoje imię i nazwisko'),
-  phone: z.string().min(9, 'Podaj numer telefonu'),
+  // Optional by client request — the e-mail address is the required contact route.
+  name: optionalText(2, 'Podaj swoje imię i nazwisko'),
+  phone: optionalText(9, 'Podaj numer telefonu'),
   email: z.email('Podaj poprawny adres e-mail'),
 
   // Extras

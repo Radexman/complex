@@ -78,6 +78,15 @@ export const service = defineType({
       validation: (rule) => rule.integer().positive(),
     }),
     defineField({
+      name: 'isNew',
+      title: 'Nowość',
+      description:
+        'Zaznacz, aby na stronie „Oferta” (/oferta) kafelek dostał zieloną etykietę „Nowość”. Odznacz, gdy oferta przestanie być nowa.',
+      type: 'boolean',
+      group: 'hero',
+      initialValue: false,
+    }),
+    defineField({
       name: 'seoDescription',
       title: 'Opis SEO',
       description: 'Opis meta strony (wyświetlany w wynikach wyszukiwania).',
