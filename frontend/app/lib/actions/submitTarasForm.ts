@@ -104,7 +104,8 @@ export async function submitTarasForm(formData: FormData) {
   ];
 
   const email = await sendQuoteEmails({
-    subject: `Wycena tarasu — ${data.name}`,
+    // The name is optional, so the address identifies the sender when it's absent.
+    subject: `Wycena tarasu — ${data.name ?? data.email}`,
     html: renderQuoteEmail({
       heading: 'Formularz wyceny tarasu',
       sections,
@@ -116,7 +117,8 @@ export async function submitTarasForm(formData: FormData) {
     attachments: diagram
       ? [...attachments, { filename: 'ksztalt.png', path: diagram.url }]
       : attachments,
-    customer: { name: data.name, email: data.email },
+    // `renderConfirmationEmail` degrades to a nameless „Dzień dobry!" on an empty string.
+    customer: { name: data.name ?? '', email: data.email },
     formLabel: 'formularza wyceny tarasu',
   });
 

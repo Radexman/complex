@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Controller, useForm, useWatch } from 'react-hook-form';
+import { Controller, useForm, useWatch, type FieldError } from 'react-hook-form';
 import { Checkbox } from '@ark-ui/react/checkbox';
 import { AlertCircle, Check, Loader2, Send } from 'lucide-react';
 import { stegaClean } from 'next-sanity';
@@ -27,14 +27,11 @@ import { DimensionInputs } from './DimensionInputs';
 import { ShapeSelector, type TarasShapeOption } from './ShapeSelector';
 
 const MATERIAL_OPTIONS = [
-  'Kompozyt Komorowy',
-  'Kompozyt Pełny (Premium)',
+  'Kompozyt',
   'Płyty Gresowe gr. 2 cm',
   'Thermo Jesion (Termojesion)',
   'Thermo Sosna (Thermososna)',
   'Świerk',
-  'Bangkirai',
-  'Angelim Amargoso',
 ].map((value) => ({ value, label: value }));
 
 interface TarasFormProps {
@@ -109,8 +106,8 @@ export default function TarasForm({ shapes }: TarasFormProps) {
     formData.append('material', data.material);
     formData.append('installationService', String(data.installationService));
     formData.append('postalCode', data.postalCode);
-    formData.append('name', data.name);
-    formData.append('phone', data.phone);
+    formData.append('name', data.name ?? '');
+    formData.append('phone', data.phone ?? '');
     formData.append('email', data.email);
     if (data.notes) formData.append('notes', data.notes);
     formData.append('consentRodo', String(data.consentRodo));
@@ -235,22 +232,22 @@ export default function TarasForm({ shapes }: TarasFormProps) {
             control={control}
             helperText="Zaznacz jeśli chcesz wycenić montaż wraz z materiałem"
           />
+          {/* Name and phone are optional — the `preprocess` in the schema makes their
+              RHF input type `unknown`, hence the error cast (same as DimensionInputs). */}
           <FormInput
-            label="Imię i nazwisko"
+            label="Imię i nazwisko (opcjonalnie)"
             name="name"
             register={register}
-            error={errors.name}
-            required
+            error={errors.name as FieldError | undefined}
             autoComplete="name"
           />
           <FormInput
-            label="Numer telefonu"
+            label="Numer telefonu (opcjonalnie)"
             name="phone"
             type="tel"
             inputMode="tel"
             register={register}
-            error={errors.phone}
-            required
+            error={errors.phone as FieldError | undefined}
             autoComplete="tel"
           />
           <FormInput

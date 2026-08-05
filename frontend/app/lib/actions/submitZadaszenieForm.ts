@@ -85,7 +85,8 @@ export async function submitZadaszenieForm(formData: FormData) {
   ];
 
   const email = await sendQuoteEmails({
-    subject: `Wycena zadaszenia — ${data.name}`,
+    // The name is optional, so the address identifies the sender when it's absent.
+    subject: `Wycena zadaszenia — ${data.name ?? data.email}`,
     html: renderQuoteEmail({
       heading: 'Formularz wyceny zadaszenia',
       sections,
@@ -94,7 +95,8 @@ export async function submitZadaszenieForm(formData: FormData) {
         : undefined,
     }),
     attachments,
-    customer: { name: data.name, email: data.email },
+    // `renderConfirmationEmail` degrades to a nameless „Dzień dobry!" on an empty string.
+    customer: { name: data.name ?? '', email: data.email },
     formLabel: 'formularza wyceny zadaszenia',
   });
 

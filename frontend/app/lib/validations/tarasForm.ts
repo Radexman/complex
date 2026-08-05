@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { optionalText } from './optionalText';
+
 /**
  * Fallback map of the side letters required per terrace shape, used only when a
  * submission does not carry its own `requiredSides` (e.g. a direct server call).
@@ -52,8 +54,9 @@ export const tarasFormSchema = z
       .string()
       .min(6, 'Podaj kod pocztowy')
       .regex(/^\d{2}-\d{3}$/, 'Format: 00-000'),
-    name: z.string().min(2, 'Podaj swoje imię i nazwisko'),
-    phone: z.string().min(9, 'Podaj numer telefonu'),
+    // Optional by client request — the e-mail address is the required contact route.
+    name: optionalText(2, 'Podaj swoje imię i nazwisko'),
+    phone: optionalText(9, 'Podaj numer telefonu'),
     email: z.email('Podaj poprawny adres e-mail'),
 
     // Which sides the selected shape actually has — sent by the form from the

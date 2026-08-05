@@ -1,16 +1,6 @@
 import { z } from 'zod';
 
-/**
- * An optional free-text field: an untouched input arrives as `''`, which becomes
- * `undefined` (absent) rather than a failed `.min()`. A value that *was* typed is
- * still length-checked, so a three-digit phone number is still rejected.
- */
-function optionalText(min: number, message: string) {
-  return z.preprocess(
-    (value) => (typeof value === 'string' && value.trim() === '' ? undefined : value),
-    z.string().min(min, message).optional(),
-  );
-}
+import { optionalText } from './optionalText';
 
 export const contactFormSchema = z.object({
   // Optional by client request (round 4) — visitors would not fill them in.

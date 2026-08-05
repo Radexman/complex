@@ -975,6 +975,13 @@
         },
         "optional": true
       },
+      "isNew": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
+        },
+        "optional": true
+      },
       "seoDescription": {
         "type": "objectAttribute",
         "value": {
