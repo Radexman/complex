@@ -10,6 +10,71 @@ Not Started
 
 ## History
 
+### Drobne zmiany — materiały tarasu, etykieta „Nowość", opcjonalne dane kontaktowe (2026-08-05)
+
+Three small client-requested changes, defined inline via `/feature` (no spec file). Branch
+`feature/small-changes`. The third item arrived **mid-session**, after the first two were already
+implemented and the „Nowość" flag had been published.
+
+- **`/wycena/taras` materials trimmed 8 → 5.** „Bangkirai" and „Angelim Amargoso" removed; the two
+  composite entries („Kompozyt Komorowy" + „Kompozyt Pełny (Premium)") collapsed into one
+  **„Kompozyt"**. The list is a hardcoded `MATERIAL_OPTIONS` in `TarasForm.tsx` — `material` is
+  validated as a bare `z.string().min(1)`, so **nothing else references the old strings**; only the
+  two test fixtures that happened to use „Kompozyt Komorowy" needed updating.
+- **„Nowość" is a CMS field, not two hardcoded slugs.** New optional `service.isNew` boolean (Hero
+  group, `initialValue: false`) added to `allServicesQuery` and rendered by `OfferIndexGrid` as an
+  accent pill at the card's top-left. Deliberately CMS-driven so the client can retire the label —
+  or move it to a different offer — without a deploy; hardcoding `['elewacje-kompozytowe',
+'schody-modulowe']` would have been fewer lines and permanently wrong. **Seeded + published** on
+  the two offers; neither had a pending draft, so only the flag went live.
+- **The badge is `pointer-events-none` on purpose.** It sits at `z-10`, above the card's stretched
+  `after:absolute after:inset-0` link overlay — the same overlay that took two attempts to get right
+  in Round 3. Without the pointer-events opt-out it would have punched a dead spot into the top-left
+  corner of both cards. Hit-tested the centre of both badges: they resolve to
+  `/oferta/elewacje-kompozytowe` and `/oferta/schody-modulowe`, not to the span.
+- **Name and phone are now optional on all four quotation forms** — the change `/kontakt` got in
+  Round 4, carried over to `/wycena/*`. The `optionalText()` helper was **private to
+  `contactForm.ts`**; extracted to `app/lib/validations/optionalText.ts` and imported by all five
+  schemas, so the five can't drift (the `benefitIcons.ts` precedent). An untouched input arrives as
+  `''` → `undefined`; a value that *was* typed is still length-checked.
+- **Three ripples the schema change forced, none of them obvious from the request:** (1) the
+  `preprocess` makes the RHF *input* type `unknown`, so each `error` prop needs a
+  `FieldError | undefined` cast — `TarasForm` also needed the `FieldError` type imported, the other
+  three already had it; (2) `formData.append('name', data.name)` no longer type-checks, so all four
+  onSubmit handlers take `?? ''`; (3) each action's subject line would have read
+  „Wycena tarasu — undefined" — now falls back to the e-mail address, and `customer.name` passes
+  `?? ''` so `renderConfirmationEmail` degrades to its nameless „Dzień dobry!".
+- **The e-mail body layer needed no change** — `renderQuoteEmail` already drops empty rows, so an
+  absent name/phone simply vanishes from the lead rather than printing a blank field.
+- ⚠️ **A quotation lead can now arrive with only an e-mail address.** Same volume-over-quality trade
+  the contact form made in Round 4, but these are the leads the client phones back — worth repeating
+  to her.
+- ⚠️ **The Studio was NOT redeployed** — the client cannot see or untick the „Nowość" checkbox until
+  `npm run deploy` is run from `studio/`. The flag is published and the badge is live on the site
+  either way; only the editing UI is missing. Offered, not authorised.
+- ⚠️ **`prettier --check` reports 142 files, including ones untouched for months** — a pre-existing
+  repo-wide condition (line endings), not caused by this work. Deliberately not „fixed", since a
+  reformat of 142 files would bury the actual diff.
+- **Clearing `.next` for the clean build killed the running dev server again** (they share the
+  directory) — the same footgun as the offer-index session. Do the browser verification *first*,
+  then clear and build.
+- Verified: **155/155 Vitest** (151 baseline + 4 new „accepts a submission with no name and no
+  phone" cases, one per form — the too-short-value tests were kept, retitled „still rejects…"),
+  `type-check` (both workspaces), `lint` (only the pre-existing `useCountUp` warning at
+  `TrustSection.tsx:65`), clean `next build` after `rm -rf .next` — `/oferta` prerenders static, all
+  7 offer slugs still SSG. In-browser (Playwright/Chromium): **0 console errors and 0 warnings**;
+  the badge appears on exactly 2 of 7 cards; `/wycena/taras` lists the 5 materials; all four forms
+  show „(opcjonalnie)" on both labels and an empty submit yields **7 / 7 / 5 / 11** inline errors
+  (taras / zadaszenie / żaluzje / schody) with **none** for name or phone; „123" in a phone field
+  still errors.
+- **Not driven in-browser:** a real form *send* — it would e-mail the dev inbox through Resend. The
+  actions' success and failure paths stay unit-tested.
+- **Left untouched (same precedent as prior features):** the pre-existing uncommitted `.mcp.json`,
+  `OfferTechSpecs.tsx`, `ProjectsGrid.tsx` and `FormNumberInput.tsx`, `.claude/settings.local.json`,
+  and the untracked `.playwright-mcp/` artifacts. The generated `sanity.types.ts` /
+  `sanity.schema.json` **were** committed — their line-ending drift resolved itself on the regen and
+  they now carry only the `isNew` change.
+
 ### Strona „O nas" — `/o-nas` (2026-08-04)
 
 The standalone About page, which **fixes a live 404** — „O nas" has been in the Navbar and Footer
