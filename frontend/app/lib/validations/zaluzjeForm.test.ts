@@ -49,13 +49,19 @@ describe('zaluzjeFormSchema — opening dimensions', () => {
     expect(issuePaths({ ...validBase, openingWidth: '-1' })).toContain('openingWidth');
   });
 
-  it('caps the height at 500 cm and the width at 1000 cm', () => {
-    expect(issuePaths({ ...validBase, openingHeight: '501' })).toContain('openingHeight');
+  it('caps the height at 300 cm and the width at 1000 cm', () => {
+    expect(issuePaths({ ...validBase, openingHeight: '301' })).toContain('openingHeight');
     expect(issuePaths({ ...validBase, openingWidth: '1001' })).toContain('openingWidth');
     expect(
-      zaluzjeFormSchema.safeParse({ ...validBase, openingHeight: '500', openingWidth: '1000' })
+      zaluzjeFormSchema.safeParse({ ...validBase, openingHeight: '300', openingWidth: '1000' })
         .success,
     ).toBe(true);
+  });
+
+  // The cap was lowered 500 → 300 cm at the client's request (Round 6), so guard
+  // the range that used to pass and must not any more.
+  it('rejects a height that was valid under the old 500 cm cap', () => {
+    expect(issuePaths({ ...validBase, openingHeight: '450' })).toContain('openingHeight');
   });
 });
 

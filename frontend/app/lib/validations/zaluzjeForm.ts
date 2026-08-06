@@ -16,7 +16,7 @@ function dimension(max: number, requiredMessage: string, maxMessage: string) {
 
 export const zaluzjeFormSchema = z.object({
   // Opening dimensions
-  openingHeight: dimension(500, 'Podaj wysokość otworu', 'Maksymalna wysokość to 500 cm'),
+  openingHeight: dimension(300, 'Podaj wysokość otworu', 'Maksymalna wysokość to 300 cm'),
   openingWidth: dimension(1000, 'Podaj szerokość otworu', 'Maksymalna szerokość to 1000 cm'),
 
   // Contact & location
