@@ -1,62 +1,73 @@
-# Current Feature: Client Feedback Round 6 — formularz żaluzji
+# Current Feature
 
 ## Status
 
-In Progress
+Not Started
 
 ## Goals
 
-Source: redlined client PDF `form. wyceny zluzje.pdf` (legend: red = added, ~~struck~~ = delete).
-Scope is **`/wycena/zaluzje` only** — 6 items remain; the rest of the PDF was already shipped in
-Round 5 (see History).
-
-- **G1 — Consolidate the dimensions header.** Delete both current lines („Podaj wymiary otworu do
-  zabudowy \*" + „Podaj wymiary otworu okiennego lub drzwiowego w centymetrach") and replace with
-  one: **„Podaj wymiary otworu do zabudowy (szerokość × wysokość) w cm \*"**.
-  `ZaluzjeForm.tsx:84-89`.
-- **G2 — Height cap 500 → 300 cm.** `zaluzjeForm.ts:19` (`dimension(500, …)` → `300`), its message
-  („Maksymalna wysokość to 300 cm"), and the two assertions in `zaluzjeForm.test.ts:52-57`. Width
-  stays at 1000 cm — the PDF confirms the existing value, no change.
-- **G3 — Delete the „Jak mierzyć otwór?" info card** entirely (the whole glass panel,
-  `ZaluzjeForm.tsx:112-121`). Struck with no replacement. The `Info` import goes with it.
-- **G4 — Reword the montaż helper.** „Zaznacz jeśli chcesz wycenić montaż wraz z żaluzjami" →
-  **„Zaznacz, jeśli wycena ma obejmować montaż."** `ZaluzjeForm.tsx:167`.
-- **G5 — Delete the Uwagi helper.** „Określ dodatkowe wymagania: kolor, rodzaj sterowania
-  (ręczne/elektryczne), ilość sztuk itp." struck with no replacement → drop the `helperText` prop.
-  `ZaluzjeForm.tsx:175`.
-- **G6 — Reword the photo helper.** „Dodaj zdjęcie okna lub miejsca montażu — pomoże nam
-  przygotować dokładną wycenę." → **„Dodaj zdjęcie miejsca montażu, aby ułatwić przygotowanie
-  dokładnej wyceny."** `ZaluzjeForm.tsx:179`.
-
 ## Notes
 
-**Already done in Round 5 — no action, do not re-apply:** the „my" drop + 5 → 3 dni roboczych in
-the page hero and the fine print; „(opcjonalnie)" removed from the Imię/Numer telefonu labels and
-„(opcjonalne)" from the photo label; the reworded RODO consent with the link on „Polityką
-prywatności"; the marketing consent removed outright; „na **wybranych obszarach** województw…".
-Verified against the current files, not assumed.
-
-**„Zgoda jest wymagana" is struck in the PDF but stays** — same call as Round 5. That string is the
-*validation error* under an unticked RODO box, not static copy; it is almost certainly collateral
-from crossing out the marketing paragraph above it. Deleting it would leave a failed submit
-unexplained.
-
-⚠️ **Ordering mismatch in G1, flagged not resolved.** The new header reads „(szerokość × wysokość)"
-but the inputs render **Wysokość first, then Szerokość** — and the client left both field labels
-unstruck in that order. Defaulting to: use the client's exact header string, leave the field order
-alone. Swapping the inputs is one line if she meant the header to describe the order.
-
-**„ale nie wpisujemy słowa max" (G2)** reads as: don't surface a „Max. 300 cm" hint on the field
-itself. Nothing to remove — the placeholder is „np. 220" and there is no helper text. The Zod
-message („Maksymalna wysokość to 300 cm") only fires on an over-range value, so it is a validation
-error like „Zgoda jest wymagana" and stays.
-
-**Scope check:** this is presentational + one schema constant. No Sanity schema or GROQ change → no
-TypeGen regen, **no Studio redeploy**. No new server actions or utilities → no new test files, but
-`zaluzjeForm.test.ts` needs the 300 cm update. The other three quotation forms and `ContactForm`
-are out of scope — `ContactForm` remains knowingly inconsistent (Round 5 note).
-
 ## History
+
+### Client Feedback Round 6 — formularz żaluzji (2026-08-06)
+
+The blinds form, from a third redlined client PDF (`form. wyceny zluzje.pdf`), loaded via
+`/feature load`. Branch `feature/feedback-round-6`, cut from `main`. **Two files of real change** —
+`ZaluzjeForm.tsx` and `zaluzjeForm.ts` (plus its test). No spec file.
+
+- ⚠️ **Nine of the PDF's fifteen redlines were already live** — Round 5 had shipped them the day
+  before. Checked the files rather than assuming: the „my" drop and 5 → 3 dni roboczych, both
+  „(opcjonalnie)" labels, „(opcjonalne)" on the photo, the reworded RODO consent with the link on
+  „Polityką prywatności", the marketing consent removal, and „na wybranych obszarach". **Only 6
+  items were actually outstanding.** Re-applying them blind would have been churn at best.
+- **The one substantive change: height cap 500 → 300 cm.** Everything else is copy. Width was
+  confirmed at 1000 cm by the PDF and left alone.
+- **Copy:** the two dimension header lines collapsed into one („…(szerokość × wysokość) w cm"), the
+  „Jak mierzyć otwór?" glass card deleted outright (its `Info` import went with it), the montaż
+  helper reworded, the Uwagi helper deleted with no replacement, the photo helper reworded.
+- **Both caps were mirrored onto the steppers** (`aria-valuemax` 300 / 1000) — slightly beyond a
+  literal copy edit, but the client wrote „Zmiana przedziału" for *both* fields, and a stepper that
+  disagrees with the schema is just a latent bug. Adds no visible „max" text, which she explicitly
+  did not want („ale nie wpisujemy słowa max" — nothing to remove, the placeholder is „np. 220" and
+  there was no helper).
+- **Left unclamped on purpose** (`clampValueOnBlur={false}`, the Round 5 zadaszenie-depth
+  precedent). **Verified, not assumed:** typing `450` and submitting leaves the value at **450** and
+  surfaces „Maksymalna wysokość to 300 cm" — the person is told why instead of being silently
+  corrected to 300.
+- **„Zgoda jest wymagana" was KEPT** even though the PDF strikes it — third round running. It is the
+  *validation error* under an unticked RODO box, not static copy; the strike is almost certainly
+  collateral from crossing out the marketing paragraph above it. Verified it still fires.
+- ⚠️ **G1 carries an ordering mismatch, flagged and left.** The new header says „(szerokość ×
+  wysokość)" but the inputs render **Wysokość first**, and the client left both field labels
+  unstruck in that order. Used her exact header string and left the fields alone; swapping them is
+  one line if she meant the header to describe the order.
+- ⚠️ **A pre-existing layout misalignment survives, deliberately.** „Wysokość" sits **76 px** below
+  „Imię i nazwisko" despite the `md:mt-10` added in an earlier session specifically to line them up.
+  **Measured the before-state rather than guessing: it was already 96 px off** — deleting a header
+  line improved it by 20. Closing the rest needs a magic pixel value, which the Round 4 `/wycena`
+  stripes note explicitly rejected. Not this feature's call.
+- **One new test** („rejects a height that was valid under the old 500 cm cap", asserting `450`
+  fails) guards the range that used to pass — the existing cap test only moved its numbers, so
+  without this the lowering itself has no regression cover.
+- **No schema/GROQ change** → no TypeGen regen, **no Studio redeploy**; the client sees this as soon
+  as `main` deploys. The other three quotation forms were untouched, and ⚠️ **`ContactForm.tsx`
+  stays knowingly inconsistent** (still „(opcjonalnie)", still a marketing consent) — the same
+  Round 5 call, since she has not reviewed that form.
+- **Left untouched (same precedent as prior features):** the pre-existing uncommitted `.mcp.json`,
+  `OfferTechSpecs.tsx` and `ProjectsGrid.tsx`, `.claude/settings.local.json`, the untracked
+  `.playwright-mcp/` artifacts, and the **content-identical** `sanity.schema.json` /
+  `frontend/sanity.types.ts` / `studio/sanity.types.ts` (verified: `git diff --stat` reports
+  *nothing* — pure CRLF drift again).
+- Verified: **172/172 Vitest** (171 baseline + 1 new), `type-check` (both workspaces), `lint` (only
+  the pre-existing `useCountUp` warning at `TrustSection.tsx:65`), clean `next build` after
+  `rm -rf .next` — all routes prerender as before, 7 offer slugs still SSG. In-browser
+  (Playwright/Chromium): **0 console errors, 0 warnings**; all six changes present and every old
+  string absent; the Round 5 items still hold („opcjonalnie" and „marketingow" match nothing, two
+  „3 dni roboczych"); an empty submit yields **5** inline errors with **none** for name or phone; no
+  horizontal overflow at 390 px (the longer header wraps to two lines there, as expected).
+- **Not driven in-browser:** a real form *send* — it would e-mail the dev inbox through Resend. The
+  action's success and failure paths stay unit-tested.
 
 ### Mapa strony + Client Feedback Round 5 — formularze wyceny (2026-08-06)
 
