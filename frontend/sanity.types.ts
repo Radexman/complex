@@ -1288,6 +1288,22 @@ export type AboutPageQueryResult = {
 } | null;
 
 // Source: sanity/lib/queries.ts
+// Variable: sitemapQuery
+// Query: {  "services": *[_type == "service" && defined(slug.current)]    | order(coalesce(order, 99) asc, title asc){ "slug": slug.current, _updatedAt },  "home": *[_type in [    "heroSection", "trustSection", "offerSection", "aboutSection",    "featuredProjectsSection", "beforeAfterSection", "vatHighlightSection",    "processTimeline", "bottomCtaSection"  ]] | order(_updatedAt desc)[0]._updatedAt,  "oferta": *[_type == "ofertaPage"][0]._updatedAt,  "wycena": *[_type == "wycenaPage"][0]._updatedAt,  "realizacje": *[_type in ["realizacjePage", "project"]] | order(_updatedAt desc)[0]._updatedAt,  "tarasy": *[_type == "tarasyPage"][0]._updatedAt,  "oNas": *[_type == "aboutPage"][0]._updatedAt}
+export type SitemapQueryResult = {
+  services: Array<{
+    slug: string;
+    _updatedAt: string;
+  }>;
+  home: string | null;
+  oferta: string | null;
+  wycena: string | null;
+  realizacje: string | null;
+  tarasy: string | null;
+  oNas: string | null;
+};
+
+// Source: sanity/lib/queries.ts
 // Variable: allServicesQuery
 // Query: *[_type == "service" && defined(slug.current)] | order(coalesce(order, 99) asc, title asc){    _id,    title,    "slug": slug.current,    heroImage,    heroSubheadline,    category,    relatedFormSlug,    isNew  }
 export type AllServicesQueryResult = Array<{
@@ -1713,6 +1729,7 @@ declare module '@sanity/client' {
     '*[_type == "ofertaPage"][0]': OfertaPageQueryResult;
     '*[_type == "wycenaPage"][0]': WycenaPageQueryResult;
     '*[_type == "aboutPage"][0]': AboutPageQueryResult;
+    '{\n  "services": *[_type == "service" && defined(slug.current)]\n    | order(coalesce(order, 99) asc, title asc){ "slug": slug.current, _updatedAt },\n  "home": *[_type in [\n    "heroSection", "trustSection", "offerSection", "aboutSection",\n    "featuredProjectsSection", "beforeAfterSection", "vatHighlightSection",\n    "processTimeline", "bottomCtaSection"\n  ]] | order(_updatedAt desc)[0]._updatedAt,\n  "oferta": *[_type == "ofertaPage"][0]._updatedAt,\n  "wycena": *[_type == "wycenaPage"][0]._updatedAt,\n  "realizacje": *[_type in ["realizacjePage", "project"]] | order(_updatedAt desc)[0]._updatedAt,\n  "tarasy": *[_type == "tarasyPage"][0]._updatedAt,\n  "oNas": *[_type == "aboutPage"][0]._updatedAt\n}': SitemapQueryResult;
     '*[_type == "service" && defined(slug.current)] | order(coalesce(order, 99) asc, title asc){\n    _id,\n    title,\n    "slug": slug.current,\n    heroImage,\n    heroSubheadline,\n    category,\n    relatedFormSlug,\n    isNew\n  }': AllServicesQueryResult;
     '*[_type == "service" && slug.current in ["tarasy-kompozytowe", "tarasy-gresowe", "tarasy-drewniane"]]{\n    _id,\n    title,\n    "slug": slug.current,\n    heroImage,\n    heroSubheadline,\n    category\n  }': TerraceServicesQueryResult;
     '*[_type == "beforeAfterSection"][0]': BeforeAfterQueryResult;

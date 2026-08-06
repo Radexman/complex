@@ -16,6 +16,28 @@ export const wycenaPageQuery = defineQuery(`*[_type == "wycenaPage"][0]`);
 export const aboutPageQuery = defineQuery(`*[_type == "aboutPage"][0]`);
 
 /**
+ * Everything `app/sitemap.ts` needs in one round-trip: the offer slugs behind
+ * `/oferta/[slug]`, plus the freshest `_updatedAt` per CMS-driven route so each
+ * entry carries a truthful `lastModified`. A route's date is the newest of the
+ * documents that actually render it — the home page is composed of nine
+ * singletons, and `/realizacje` changes whenever a `project` does.
+ */
+export const sitemapQuery = defineQuery(`{
+  "services": *[_type == "service" && defined(slug.current)]
+    | order(coalesce(order, 99) asc, title asc){ "slug": slug.current, _updatedAt },
+  "home": *[_type in [
+    "heroSection", "trustSection", "offerSection", "aboutSection",
+    "featuredProjectsSection", "beforeAfterSection", "vatHighlightSection",
+    "processTimeline", "bottomCtaSection"
+  ]] | order(_updatedAt desc)[0]._updatedAt,
+  "oferta": *[_type == "ofertaPage"][0]._updatedAt,
+  "wycena": *[_type == "wycenaPage"][0]._updatedAt,
+  "realizacje": *[_type in ["realizacjePage", "project"]] | order(_updatedAt desc)[0]._updatedAt,
+  "tarasy": *[_type == "tarasyPage"][0]._updatedAt,
+  "oNas": *[_type == "aboutPage"][0]._updatedAt
+}`);
+
+/**
  * Every offer, ordered by the editor-controlled `order` field, for the `/oferta`
  * index grid. Services without an `order` sort last (99 is the schema default).
  */
