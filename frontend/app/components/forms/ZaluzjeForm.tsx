@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import type { FieldError } from 'react-hook-form';
-import { AlertCircle, Info, Loader2, Send } from 'lucide-react';
+import { AlertCircle, Loader2, Send } from 'lucide-react';
 
 import {
   zaluzjeFormSchema,
@@ -79,13 +79,11 @@ export default function ZaluzjeForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mx-auto max-w-6xl px-6 py-16" noValidate>
       <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:items-start">
-        {/* Left column: opening dimensions + measuring guide */}
+        {/* Left column: opening dimensions */}
         <div className="flex flex-col">
-          <p className="mb-1 font-body text-sm font-medium text-white">
-            Podaj wymiary otworu do zabudowy <span className="text-accent">*</span>
-          </p>
-          <p className="mb-4 text-xs text-silver">
-            Podaj wymiary otworu okiennego lub drzwiowego w centymetrach
+          <p className="mb-4 font-body text-sm font-medium text-white">
+            Podaj wymiary otworu do zabudowy (szerokość × wysokość) w cm{' '}
+            <span className="text-accent">*</span>
           </p>
           <div className="flex flex-col gap-6 md:mt-10 mt-0">
             <FormNumberInput
@@ -96,6 +94,7 @@ export default function ZaluzjeForm() {
               placeholder="np. 220"
               step={1}
               min={1}
+              max={300}
               required
             />
             <FormNumberInput
@@ -106,18 +105,9 @@ export default function ZaluzjeForm() {
               placeholder="np. 250"
               step={1}
               min={1}
+              max={1000}
               required
             />
-          </div>
-          <div className="glass mt-6 rounded-xl border border-graphite p-5">
-            <h3 className="mb-2 flex items-center gap-2 font-heading text-sm font-semibold text-white">
-              <Info size={18} className="text-accent" aria-hidden="true" />
-              Jak mierzyć otwór?
-            </h3>
-            <p className="font-body text-xs leading-relaxed text-silver">
-              Zmierz szerokość i wysokość otworu okiennego lub drzwiowego, w którym ma być
-              zamontowana żaluzja. Pomiar wykonaj wewnątrz ościeżnicy.
-            </p>
           </div>
         </div>
 
@@ -164,7 +154,7 @@ export default function ZaluzjeForm() {
             label="Usługa montażu"
             name="installationService"
             control={control}
-            helperText="Zaznacz jeśli chcesz wycenić montaż wraz z żaluzjami"
+            helperText="Zaznacz, jeśli wycena ma obejmować montaż."
           />
           <FormTextarea
             label="Uwagi"
@@ -172,11 +162,10 @@ export default function ZaluzjeForm() {
             register={register}
             error={errors.notes}
             rows={4}
-            helperText="Określ dodatkowe wymagania: kolor, rodzaj sterowania (ręczne/elektryczne), ilość sztuk itp."
           />
           <FormFileDropzone
             label="Zdjęcie miejsca montażu"
-            helperText="Dodaj zdjęcie okna lub miejsca montażu — pomoże nam przygotować dokładną wycenę."
+            helperText="Dodaj zdjęcie miejsca montażu, aby ułatwić przygotowanie dokładnej wyceny."
             onFilesChange={setPhotos}
           />
 

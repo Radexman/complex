@@ -1,12 +1,60 @@
-# Current Feature
+# Current Feature: Client Feedback Round 6 — formularz żaluzji
 
 ## Status
 
-Not Started
+In Progress
 
 ## Goals
 
+Source: redlined client PDF `form. wyceny zluzje.pdf` (legend: red = added, ~~struck~~ = delete).
+Scope is **`/wycena/zaluzje` only** — 6 items remain; the rest of the PDF was already shipped in
+Round 5 (see History).
+
+- **G1 — Consolidate the dimensions header.** Delete both current lines („Podaj wymiary otworu do
+  zabudowy \*" + „Podaj wymiary otworu okiennego lub drzwiowego w centymetrach") and replace with
+  one: **„Podaj wymiary otworu do zabudowy (szerokość × wysokość) w cm \*"**.
+  `ZaluzjeForm.tsx:84-89`.
+- **G2 — Height cap 500 → 300 cm.** `zaluzjeForm.ts:19` (`dimension(500, …)` → `300`), its message
+  („Maksymalna wysokość to 300 cm"), and the two assertions in `zaluzjeForm.test.ts:52-57`. Width
+  stays at 1000 cm — the PDF confirms the existing value, no change.
+- **G3 — Delete the „Jak mierzyć otwór?" info card** entirely (the whole glass panel,
+  `ZaluzjeForm.tsx:112-121`). Struck with no replacement. The `Info` import goes with it.
+- **G4 — Reword the montaż helper.** „Zaznacz jeśli chcesz wycenić montaż wraz z żaluzjami" →
+  **„Zaznacz, jeśli wycena ma obejmować montaż."** `ZaluzjeForm.tsx:167`.
+- **G5 — Delete the Uwagi helper.** „Określ dodatkowe wymagania: kolor, rodzaj sterowania
+  (ręczne/elektryczne), ilość sztuk itp." struck with no replacement → drop the `helperText` prop.
+  `ZaluzjeForm.tsx:175`.
+- **G6 — Reword the photo helper.** „Dodaj zdjęcie okna lub miejsca montażu — pomoże nam
+  przygotować dokładną wycenę." → **„Dodaj zdjęcie miejsca montażu, aby ułatwić przygotowanie
+  dokładnej wyceny."** `ZaluzjeForm.tsx:179`.
+
 ## Notes
+
+**Already done in Round 5 — no action, do not re-apply:** the „my" drop + 5 → 3 dni roboczych in
+the page hero and the fine print; „(opcjonalnie)" removed from the Imię/Numer telefonu labels and
+„(opcjonalne)" from the photo label; the reworded RODO consent with the link on „Polityką
+prywatności"; the marketing consent removed outright; „na **wybranych obszarach** województw…".
+Verified against the current files, not assumed.
+
+**„Zgoda jest wymagana" is struck in the PDF but stays** — same call as Round 5. That string is the
+*validation error* under an unticked RODO box, not static copy; it is almost certainly collateral
+from crossing out the marketing paragraph above it. Deleting it would leave a failed submit
+unexplained.
+
+⚠️ **Ordering mismatch in G1, flagged not resolved.** The new header reads „(szerokość × wysokość)"
+but the inputs render **Wysokość first, then Szerokość** — and the client left both field labels
+unstruck in that order. Defaulting to: use the client's exact header string, leave the field order
+alone. Swapping the inputs is one line if she meant the header to describe the order.
+
+**„ale nie wpisujemy słowa max" (G2)** reads as: don't surface a „Max. 300 cm" hint on the field
+itself. Nothing to remove — the placeholder is „np. 220" and there is no helper text. The Zod
+message („Maksymalna wysokość to 300 cm") only fires on an over-range value, so it is a validation
+error like „Zgoda jest wymagana" and stays.
+
+**Scope check:** this is presentational + one schema constant. No Sanity schema or GROQ change → no
+TypeGen regen, **no Studio redeploy**. No new server actions or utilities → no new test files, but
+`zaluzjeForm.test.ts` needs the 300 cm update. The other three quotation forms and `ContactForm`
+are out of scope — `ContactForm` remains knowingly inconsistent (Round 5 note).
 
 ## History
 
