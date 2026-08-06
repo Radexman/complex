@@ -35,7 +35,6 @@ function formDataToObject(formData: FormData) {
     email: formData.get('email') ?? '',
     notes: formData.get('notes') ?? undefined,
     consentRodo: formData.get('consentRodo') === 'true',
-    consentMarketing: formData.get('consentMarketing') === 'true',
   };
 }
 
@@ -98,7 +97,6 @@ export async function submitTarasForm(formData: FormData) {
         { label: 'Uwagi', value: data.notes },
         { label: 'Zdjęcia', value: filenames },
         { label: 'Zgoda RODO', value: data.consentRodo },
-        { label: 'Zgoda marketingowa', value: data.consentMarketing },
       ],
     },
   ];

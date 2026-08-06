@@ -23,7 +23,6 @@ function formDataToObject(formData: FormData) {
     installationService: formData.get('installationService') === 'true',
     notes: formData.get('notes') ?? undefined,
     consentRodo: formData.get('consentRodo') === 'true',
-    consentMarketing: formData.get('consentMarketing') === 'true',
   };
 }
 
@@ -62,7 +61,6 @@ export async function submitZaluzjeForm(formData: FormData) {
         { label: 'Uwagi', value: data.notes },
         { label: 'Zdjęcia', value: filenames },
         { label: 'Zgoda RODO', value: data.consentRodo },
-        { label: 'Zgoda marketingowa', value: data.consentMarketing },
       ],
     },
   ];

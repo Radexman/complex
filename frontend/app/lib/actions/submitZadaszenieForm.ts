@@ -18,6 +18,7 @@ function formDataToObject(formData: FormData) {
   );
 
   return {
+    canopyType: formData.get('canopyType') ?? '',
     roofType: formData.get('roofType') ?? '',
     frameColor: formData.get('frameColor') ?? '',
     width: formData.get('width') ?? undefined,
@@ -31,7 +32,6 @@ function formDataToObject(formData: FormData) {
     installationService: formData.get('installationService') === 'true',
     notes: formData.get('notes') ?? undefined,
     consentRodo: formData.get('consentRodo') === 'true',
-    consentMarketing: formData.get('consentMarketing') === 'true',
   };
 }
 
@@ -46,7 +46,7 @@ export async function submitZadaszenieForm(formData: FormData) {
   const photos = formData.getAll('photo').filter((f): f is File => f instanceof File);
   const { attachments, skipped, filenames } = await photosToAttachments(photos);
 
-  // Sent as Polish labels rather than seven booleans — it reads as a shopping list.
+  // Sent as Polish labels rather than twelve booleans — it reads as a shopping list.
   const equipment = EQUIPMENT_OPTIONS.filter((option) => data[option.name]).map(
     (option) => option.label,
   );
@@ -55,7 +55,8 @@ export async function submitZadaszenieForm(formData: FormData) {
     {
       title: 'Zadaszenie',
       rows: [
-        { label: 'Rodzaj zadaszenia', value: data.roofType },
+        { label: 'Rodzaj zadaszenia', value: data.canopyType },
+        { label: 'Rodzaj dachu', value: data.roofType },
         { label: 'Kolor konstrukcji', value: data.frameColor },
         { label: 'Szerokość [m]', value: data.width },
         { label: 'Głębokość [m]', value: data.depth },
@@ -79,7 +80,6 @@ export async function submitZadaszenieForm(formData: FormData) {
         { label: 'Uwagi', value: data.notes },
         { label: 'Zdjęcia', value: filenames },
         { label: 'Zgoda RODO', value: data.consentRodo },
-        { label: 'Zgoda marketingowa', value: data.consentMarketing },
       ],
     },
   ];

@@ -17,7 +17,6 @@ const validBase: RawInput = {
   phone: '123456789',
   email: 'jan@example.com',
   consentRodo: true,
-  consentMarketing: false,
 };
 
 /** Collect the dotted field paths of all validation issues. */
@@ -88,6 +87,15 @@ describe('tarasFormSchema — per-shape dimension requirements (superRefine)', (
   it('fails when a required side is zero or negative', () => {
     expect(issuePaths({ ...validBase, sideB: '0' })).toContain('sideB');
     expect(issuePaths({ ...validBase, sideB: '-2' })).toContain('sideB');
+  });
+
+  it('enforces the 0,1 m minimum side length', () => {
+    expect(issuePaths({ ...validBase, sideB: '0.05' })).toContain('sideB');
+    expect(tarasFormSchema.safeParse({ ...validBase, sideB: '0.1' }).success).toBe(true);
+  });
+
+  it('applies the minimum to optional sides too', () => {
+    expect(issuePaths({ ...validBase, sideD: '0.05' })).toContain('sideD');
   });
 
   it('requires sides D–F for shape 2 (fallback)', () => {

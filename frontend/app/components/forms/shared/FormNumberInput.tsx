@@ -13,6 +13,7 @@ interface FormNumberInputProps<T extends FieldValues> {
   required?: boolean;
   step?: number;
   min?: number;
+  max?: number;
 }
 
 /**
@@ -29,8 +30,9 @@ export function FormNumberInput<T extends FieldValues>({
   placeholder,
   helperText,
   required,
-  step = 0.01,
+  step = 0.1,
   min = 0,
+  max,
 }: FormNumberInputProps<T>) {
   return (
     <div className="flex flex-col gap-1">
@@ -50,6 +52,9 @@ export function FormNumberInput<T extends FieldValues>({
             }}
             step={step}
             min={min}
+            max={max}
+            // Left unclamped so an out-of-range value reaches Zod and the person
+            // sees why it was rejected, rather than being silently corrected.
             clampValueOnBlur={false}
             inputMode="decimal"
             formatOptions={{ useGrouping: false, maximumFractionDigits: 2 }}

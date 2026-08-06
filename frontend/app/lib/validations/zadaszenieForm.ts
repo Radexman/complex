@@ -2,38 +2,42 @@ import { z } from 'zod';
 
 import { optionalText } from './optionalText';
 
-/** Roof models offered, in the order the client lists them. */
+/**
+ * How the structure stands. Split out of the old combined „rodzaj zadaszenia"
+ * list at the client's request — the model and the roof filling are two
+ * independent choices, and one select of seven long labels read poorly.
+ */
+export const CANOPY_TYPES = ['Przyścienny', 'Wolnostojący'] as const;
+
+/** What the roof is filled with. */
 export const ROOF_TYPES = [
-  'Dach stały poliwęglan, model przyścienny, ALUM /wym. standardowe i na wymiar',
-  'Dach stały poliwęglan, model wolnostojący, ALUM /wym. standardowe i na wymiar',
-  'Dach z lameli, model przyścienny Pinela, ALUM /wym. standardowe',
-  'Dach z lameli, model wolnostojący Pinela, ALUM /wym. standardowe',
-  'Dach z materiałem, model przyścienny Verdeca, ALUM /wym. standardowe',
-  'Dach z roletą rzymską, model przyścienny Ekonomiczny, ALUM /wym. standardowe',
-  'Dach z roletą rzymską, model wolnostojący Ekonomiczny, ALUM /wym. standardowe',
+  'Poliwęglan',
+  'Szkło',
+  'Lamele aluminiowe',
+  'Materiał',
+  'Roleta rzymska',
 ] as const;
 
 /** Available frame colours. */
-export const FRAME_COLORS = ['antracyt', 'czarny', 'biały krem'] as const;
+export const FRAME_COLORS = ['antracyt', 'czarny', 'biały'] as const;
 
 /**
  * The optional add-ons, keyed by form field. Rendered as a checkbox group in
  * this order and logged back out under the same labels by the server action.
  */
 export const EQUIPMENT_OPTIONS = [
-  { name: 'equipTriangleSide', label: 'Trójkąt boczny, poliwęglan (kpl/2szt)' },
+  { name: 'equipWedgePoly', label: 'Klin boczny, poliwęglan w ramie alum. (kpl/2szt)' },
+  { name: 'equipWedgeGlass', label: 'Klin boczny, szkło w ramie alum. (kpl/2szt)' },
   { name: 'equipLedLighting', label: 'Oświetlenie punktowe LED + pilot' },
-  { name: 'equipPolyWallFixedRight', label: 'Poliwęglan, ściana stała / prawa strona' },
-  { name: 'equipPolyWallFixedLeft', label: 'Poliwęglan, ściana stała / lewa strona' },
-  {
-    name: 'equipGlasslessDoorsSlidingRight',
-    label: 'Szyby bezramowe, drzwi przesuwne / prawa strona',
-  },
-  {
-    name: 'equipGlasslessDoorsSlidingLeft',
-    label: 'Szyby bezramowe, drzwi przesuwne / lewa strona',
-  },
-  { name: 'equipGlasslessDoorsSlidingFront', label: 'Szyby bezramowe, drzwi przesuwne / front' },
+  { name: 'equipPolyWallSide1', label: 'Ściana stała, poliwęglan / bok 1' },
+  { name: 'equipPolyWallSide2', label: 'Ściana stała, poliwęglan / bok 2' },
+  { name: 'equipPolyWallFront', label: 'Ściana stała, poliwęglan / front' },
+  { name: 'equipFramelessDoorsSide1', label: 'Drzwi przesuwne, szyby bez ramek / bok 1' },
+  { name: 'equipFramelessDoorsSide2', label: 'Drzwi przesuwne, szyby bez ramek / bok 2' },
+  { name: 'equipFramelessDoorsFront', label: 'Drzwi przesuwne, szyby bez ramek / front' },
+  { name: 'equipFramedDoorsSide1', label: 'Drzwi przesuwne, szyby w ramie / bok 1' },
+  { name: 'equipFramedDoorsSide2', label: 'Drzwi przesuwne, szyby w ramie / bok 2' },
+  { name: 'equipFramedDoorsFront', label: 'Drzwi przesuwne, szyby w ramie / front' },
 ] as const;
 
 export type EquipmentField = (typeof EQUIPMENT_OPTIONS)[number]['name'];
@@ -52,19 +56,26 @@ function dimension(max: number, requiredMessage: string, maxMessage: string) {
 
 export const zadaszenieFormSchema = z.object({
   // Product config
-  roofType: z.string().min(1, 'Wybierz rodzaj zadaszenia'),
+  canopyType: z.string().min(1, 'Wybierz rodzaj zadaszenia'),
+  roofType: z.string().min(1, 'Wybierz rodzaj dachu'),
   frameColor: z.string().min(1, 'Wybierz kolor konstrukcji'),
   width: dimension(20, 'Podaj szerokość zadaszenia', 'Maksymalna szerokość to 20 m'),
-  depth: dimension(10, 'Podaj głębokość zadaszenia', 'Maksymalna głębokość to 10 m'),
+  // Capped at 6 m by the client — that is the deepest canopy they build.
+  depth: dimension(6, 'Podaj głębokość zadaszenia', 'Maksymalna głębokość to 6 m'),
 
   // Additional equipment — all optional, any combination
-  equipTriangleSide: z.boolean(),
+  equipWedgePoly: z.boolean(),
+  equipWedgeGlass: z.boolean(),
   equipLedLighting: z.boolean(),
-  equipPolyWallFixedRight: z.boolean(),
-  equipPolyWallFixedLeft: z.boolean(),
-  equipGlasslessDoorsSlidingRight: z.boolean(),
-  equipGlasslessDoorsSlidingLeft: z.boolean(),
-  equipGlasslessDoorsSlidingFront: z.boolean(),
+  equipPolyWallSide1: z.boolean(),
+  equipPolyWallSide2: z.boolean(),
+  equipPolyWallFront: z.boolean(),
+  equipFramelessDoorsSide1: z.boolean(),
+  equipFramelessDoorsSide2: z.boolean(),
+  equipFramelessDoorsFront: z.boolean(),
+  equipFramedDoorsSide1: z.boolean(),
+  equipFramedDoorsSide2: z.boolean(),
+  equipFramedDoorsFront: z.boolean(),
 
   // Terrace blinds — free-text opening dimensions, optional
   terraceBlinds: z.string().optional(),
@@ -84,11 +95,10 @@ export const zadaszenieFormSchema = z.object({
   notes: z.string().optional(),
   photo: z.any().optional(), // File objects, handled separately in the component
 
-  // Consents
+  // Consent — RODO only; the marketing opt-in was dropped at the client's request.
   consentRodo: z.boolean().refine((val) => val === true, {
     message: 'Zgoda jest wymagana',
   }),
-  consentMarketing: z.boolean(),
 });
 
 export type ZadaszenieFormInput = z.input<typeof zadaszenieFormSchema>;
