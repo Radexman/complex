@@ -10,6 +10,121 @@ Not Started
 
 ## History
 
+### Mapa strony + Client Feedback Round 5 — formularze wyceny (2026-08-06)
+
+Two features on **one branch** (`feature/sitemap`, cut from `main`), at the user's request —
+the sitemap was finished but uncommitted when the form feedback arrived, so both were carried
+to the merge together as **two focused commits**. No spec file: the sitemap was defined inline,
+the forms from two redlined client PDFs (`form. wyceny tarasu.pdf`, `form. wyceny
+zadaszenia.pdf`) plus a WhatsApp note, loaded via `/feature load`.
+
+**Part 1 — `/sitemap.xml`: 4 → 17 URLs, and a live bug fixed.**
+
+- ⚠️ **Every URL was missing its scheme.** The old file used the bare `host` header as the
+  base, so entries read `complex-puce.vercel.app/oferta` — **not a valid `<loc>`**. Nobody had
+  noticed because the file *looked* right. Now `NEXT_PUBLIC_SITE_URL` wins when set, falling
+  back to `x-forwarded-proto` + `host` (https assumed remotely, http for localhost).
+- **The resolution lives in a pure `app/lib/siteUrl.ts`** rather than inline in `sitemap.ts` —
+  it is the only unit-testable part (9 new tests: scheme-less config, trailing slashes, blank
+  config, proxy chains, the no-context fallback). Added `NEXT_PUBLIC_SITE_URL` to `.env.example`
+  as optional.
+- **Missing routes added:** `/realizacje`, `/tarasy`, the four `/wycena/*` forms and the **7
+  `/oferta/[slug]`** pages from Sanity. `przeslany-formularz` pages stay out — they are
+  `robots: noindex` and only render after a real submission.
+- **One `sitemapQuery` fetches the offer slugs plus the freshest `_updatedAt` per CMS-driven
+  route**, so each `lastModified` is a real document date. The home page's date is the newest of
+  its **nine** singletons; `/realizacje` also tracks `project`. Via **`client.fetch`**
+  (published perspective), not `sanityFetch` — a sitemap must never surface drafts, same
+  reasoning as `generateStaticParams`.
+- **The four form pages deliberately carry no `lastModified`** — their content is entirely in
+  code, so any date would be fiction. `lastModified` is optional; omitting beats inventing.
+- ⚠️ **`/sitemap.xml` still builds as dynamic (`ƒ`)** because it reads request headers. Setting
+  `NEXT_PUBLIC_SITE_URL` on Vercel makes it prerender **static** *and* pins the canonical host —
+  which will matter the moment the site moves off `complex-puce.vercel.app`.
+- ⚠️ **There is still no `robots.ts`**, so nothing points crawlers at the sitemap. Offered, not
+  taken this round.
+
+**Part 2 — the four quotation forms.** „These are just text changes" **did not hold**: four of
+the items reach into the Zod schemas, both server actions, the lead e-mails and ~40 tests.
+Flagged before starting; the user confirmed and added two decisions of their own.
+
+- **Turnaround 5 → 3 dni robocze, „wszędzie" (user's call, wider than the PDFs):** 4 page heroes
+  + their `metadata.description`, the 4 forms' fine print, `FormSuccessState` (×2),
+  `renderConfirmationEmail.ts` **and `AboutCta.tsx`** outside the forms. The „my" was dropped
+  from the intro sentence. **The CMS was audited too** (GROQ across `processTimeline`, `service`
+  techSpecs/benefits, `bottomCtaSection`, `wycenaPage`) — it carries **no** turnaround promise;
+  the single „1–5 dni roboczych" hit is install *duration* on Tarasy kompozytowe and was left,
+  same call as Round 3.
+- ⚠️ **The marketing consent is gone from all four forms** — user's decision („leave only
+  rodo"), matching the struck-out paragraph in both PDFs. Removed from the checkbox, the Zod
+  field, `defaultValues`, the `formData` append and the „Zgoda marketingowa" row in the lead
+  e-mail. **Quotation leads now collect RODO only — no marketing permission is captured at
+  all.** Reversible, but re-consenting the existing list is not.
+- **„Zgoda jest wymagana" was deliberately KEPT** even though the PDFs strike it — that string
+  is the *validation error* under an unticked RODO box, not static copy. Striking it was almost
+  certainly collateral from crossing out the marketing paragraph above it; deleting it would
+  leave a failed submit unexplained. Verified it still fires.
+- **„(opcjonalnie)" deleted from every label** („wystarczy gwiazdki"), plus the reworded RODO
+  consent (link now on „Polityką prywatności") and „na **wybranych obszarach** województw…".
+- **Zadaszenie — the structural one.** The single 7-option „rodzaj zadaszenia" select became
+  **two independent fields**: `canopyType` (Przyścienny / Wolnostojący) and `roofType`
+  (Poliwęglan / **Szkło** / Lamele aluminiowe / Materiał / Roleta rzymska), each its own row in
+  the lead e-mail. „Kolor konstrukcji **ALUM**" → „aluminiowej", „biały krem" → „biały". The
+  **7 equipment booleans were replaced by 12** with new field names — the e-mail keys off
+  `EQUIPMENT_OPTIONS`, so that rippled into the action and its tests by construction.
+- ⚠️ **The split turns 7 real products into a 2 × 5 = 10 free cross product.** The old labels
+  encoded actual models (Pinela, Verdeca, Ekonomiczny); „Wolnostojący + Materiał" had no product
+  behind it, and „Szkło" is new. **Nothing in the code prevents an impossible combination** —
+  raised with the user, still open with the client.
+- **Depth capped at 6 m** in the schema *and* on the stepper — `FormNumberInput` gained a `max`
+  prop (it only had `min`). Left **unclamped** (`clampValueOnBlur={false}` kept) so an
+  out-of-range value reaches Zod and the person is told why, instead of being silently
+  corrected. Width's Zod cap of 20 m stays, but no UI `max` was added — the client only
+  specified a depth limit.
+- **Taras:** „Położenie tarasu względem budynku" + new helper, new Uwagi/photo helpers, and a
+  **`MIN_SIDE_LENGTH = 0.1`** exported from the schema and reused by `DimensionInputs` so the
+  input's `min` and the validation can't drift. Applied to optional sides too. Verified the
+  `superRefine` does **not** double-report: a `0.05` side shows only „Minimalna długość to
+  0,1 m", not that plus „Podaj długość boku A".
+- **The three other suites passed even before their fixtures were touched** — Zod strips unknown
+  keys, so `consentMarketing: false` lingered as dead fixture data rather than failing. Cleaned
+  out of all six files anyway, and a positive test now asserts the parsed output has **no**
+  `consentMarketing` property.
+- ⚠️ **`ContactForm.tsx` was left alone** — it still says „(opcjonalnie)" and still has a
+  marketing consent. The client's feedback covered the *quotation* forms; widening the scope to
+  a form she has not reviewed (and dropping a consent there) was not ours to decide. **The site
+  is knowingly inconsistent** until that is confirmed.
+- **`FormNumberInput.tsx` carried a pre-existing uncommitted edit** (default `step` 0.01 → 0.1)
+  which **rode along**, since this feature genuinely edits that file — the `Footer.tsx`
+  precedent from the Easy Wins round.
+- **No schema/GROQ change on the Studio side** → no redeploy needed, and the client sees these
+  changes as soon as `main` is deployed. Everything altered here is hardcoded, which is exactly
+  why she asked („w formularzach nie mogę sama zmieniać").
+- ⚠️ **The CMS `serviceAreaDescription`** (home + all 8 offer pages) still says „na terenie
+  województw…" while the forms now say „na wybranych obszarach". That one **is** editor-owned —
+  she can change it herself in the Studio; deliberately not patched from here.
+- **Left untouched (same precedent as prior features):** the pre-existing uncommitted
+  `.mcp.json`, `OfferTechSpecs.tsx` and `ProjectsGrid.tsx`, `.claude/settings.local.json`, the
+  untracked `.playwright-mcp/` artifacts, and the **content-identical** `sanity.schema.json` /
+  `studio/sanity.types.ts` (verified: `git diff --stat` reports *nothing* — pure CRLF drift).
+  `frontend/sanity.types.ts` **was** committed, carrying only the `SitemapQueryResult` addition.
+- ⚠️ **`prettier --check` flags 64 files**, including four `przeslany-formularz/page.tsx` and
+  `wycena/page.tsx` that this branch never touched — the pre-existing repo-wide line-ending
+  condition again. **Proved it is only that:** `npx prettier <file> | diff --strip-trailing-cr`
+  against six of the touched files returned **zero** content differences. Not „fixed", since a
+  64-file reformat would bury the diff.
+- Verified: **171/171 Vitest** (164 baseline → +9 new, −2 replaced), `type-check` (both
+  workspaces), `lint` (only the pre-existing `useCountUp` warning at `TrustSection.tsx:65`),
+  clean `next build` after `rm -rf .next` — all routes prerender as before, 7 offer slugs still
+  SSG. Live `sitemap.xml` fetched from the dev server: **17 absolute URLs**, real dates, no
+  thank-you pages. In-browser (Playwright/Chromium) across all four forms: **0 console errors,
+  0 warnings**; zadaszenie renders 3 selects with exactly the right options, 12 equipment boxes
+  and `aria-valuemax="6"` on depth, and an empty submit yields **8** inline errors (**none** for
+  name or phone); żaluzje **5**, schody **11**; „opcjonalnie" and „marketingow" match **nothing**
+  on any of the four pages.
+- **Not driven in-browser:** a real form *send* — it would e-mail the dev inbox through Resend.
+  The actions' success and failure paths stay unit-tested.
+
 ### Drobne zmiany — materiały tarasu, etykieta „Nowość", opcjonalne dane kontaktowe (2026-08-05)
 
 Three small client-requested changes, defined inline via `/feature` (no spec file). Branch
