@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { SendQuoteEmailsOptions } from '@/app/lib/email/sendQuoteEmails';
 import { sendQuoteEmails } from '@/app/lib/email/sendQuoteEmails';
 import { submitZadaszenieForm } from './submitZadaszenieForm';
-import { ROOF_TYPES } from '@/app/lib/validations/zadaszenieForm';
+import { CANOPY_TYPES, ROOF_TYPES } from '@/app/lib/validations/zadaszenieForm';
 
 vi.mock('@/app/lib/email/sendQuoteEmails', () => ({
   sendQuoteEmails: vi.fn(async () => ({ ok: true })),
@@ -19,6 +19,7 @@ function lastEmail(): SendQuoteEmailsOptions {
 }
 
 interface FormValues {
+  canopyType?: string;
   roofType?: string;
   frameColor?: string;
   width?: string;
@@ -32,12 +33,12 @@ interface FormValues {
   installationService?: string;
   notes?: string;
   consentRodo?: string;
-  consentMarketing?: string;
   photos?: File[];
 }
 
 function buildFormData(values: FormValues = {}): FormData {
   const {
+    canopyType = CANOPY_TYPES[0],
     roofType = ROOF_TYPES[0],
     frameColor = 'antracyt',
     width = '4',
@@ -51,11 +52,11 @@ function buildFormData(values: FormValues = {}): FormData {
     installationService = 'true',
     notes,
     consentRodo = 'true',
-    consentMarketing = 'false',
     photos = [],
   } = values;
 
   const formData = new FormData();
+  formData.append('canopyType', canopyType);
   formData.append('roofType', roofType);
   formData.append('frameColor', frameColor);
   formData.append('width', width);
@@ -71,7 +72,6 @@ function buildFormData(values: FormValues = {}): FormData {
   formData.append('installationService', installationService);
   if (notes !== undefined) formData.append('notes', notes);
   formData.append('consentRodo', consentRodo);
-  formData.append('consentMarketing', consentMarketing);
   for (const photo of photos) {
     formData.append('photo', photo);
   }
@@ -104,15 +104,25 @@ describe('submitZadaszenieForm', () => {
     expect(html).toContain('>3<');
   });
 
+  it('sends the canopy model and the roof filling as separate rows', async () => {
+    await submitZadaszenieForm(buildFormData({ canopyType: 'Wolnostojący', roofType: 'Szkło' }));
+    const { html } = lastEmail();
+
+    expect(html).toContain('Rodzaj zadaszenia');
+    expect(html).toContain('Wolnostojący');
+    expect(html).toContain('Rodzaj dachu');
+    expect(html).toContain('Szkło');
+  });
+
   it('lists only the selected equipment, by label', async () => {
     await submitZadaszenieForm(
-      buildFormData({ equipment: ['equipLedLighting', 'equipGlasslessDoorsSlidingFront'] }),
+      buildFormData({ equipment: ['equipLedLighting', 'equipFramedDoorsFront'] }),
     );
     const { html } = lastEmail();
 
     expect(html).toContain('Oświetlenie punktowe LED + pilot');
-    expect(html).toContain('Szyby bezramowe, drzwi przesuwne / front');
-    expect(html).not.toContain('Trójkąt boczny');
+    expect(html).toContain('Drzwi przesuwne, szyby w ramie / front');
+    expect(html).not.toContain('Klin boczny');
   });
 
   it('omits the equipment row entirely when nothing is selected', async () => {
@@ -143,6 +153,20 @@ describe('submitZadaszenieForm', () => {
     if (!result.success) {
       expect(result.errors?.fieldErrors.width).toBeDefined();
     }
+  });
+
+  it('fails when the depth exceeds the 6 m cap', async () => {
+    const result = await submitZadaszenieForm(buildFormData({ depth: '7' }));
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.errors?.fieldErrors.depth).toBeDefined();
+    }
+  });
+
+  it('no longer reports a marketing consent in the lead', async () => {
+    await submitZadaszenieForm(buildFormData());
+    expect(lastEmail().html).not.toContain('Zgoda marketingowa');
   });
 
   it('fails when the RODO consent is not accepted', async () => {

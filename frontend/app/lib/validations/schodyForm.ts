@@ -64,11 +64,10 @@ export const schodyFormSchema = z.object({
   notes: z.string().optional(),
   photo: z.any().optional(), // File objects, handled separately in the component
 
-  // Consents
+  // Consent — RODO only; the marketing opt-in was dropped at the client's request.
   consentRodo: z.boolean().refine((val) => val === true, {
     message: 'Zgoda jest wymagana',
   }),
-  consentMarketing: z.boolean(),
 });
 
 export type SchodyFormInput = z.input<typeof schodyFormSchema>;

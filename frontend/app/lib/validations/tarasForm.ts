@@ -19,14 +19,17 @@ export const REQUIRED_SIDES: Record<string, string[]> = {
 /** All possible side letters, in order. */
 export const ALL_SIDES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'] as const;
 
+/** Shortest side the client will quote, in metres. */
+export const MIN_SIDE_LENGTH = 0.1;
+
 /**
  * A single dimension input. Empty strings (untouched inputs) become `undefined`
- * so optional sides don't fail the positive check; present values are coerced
- * to a positive number.
+ * so optional sides don't fail the minimum check; present values are coerced to
+ * a number of at least `MIN_SIDE_LENGTH`.
  */
 const optionalDimension = z.preprocess(
   (value) => (value === '' || value === undefined || value === null ? undefined : value),
-  z.coerce.number().positive('Podaj dodatnią wartość').optional(),
+  z.coerce.number().min(MIN_SIDE_LENGTH, 'Minimalna długość to 0,1 m').optional(),
 );
 
 export const tarasFormSchema = z
@@ -67,11 +70,10 @@ export const tarasFormSchema = z
     notes: z.string().optional(),
     photo: z.any().optional(), // File objects, validated separately in the component
 
-    // Consents
+    // Consent — RODO only; the marketing opt-in was dropped at the client's request.
     consentRodo: z.boolean().refine((val) => val === true, {
       message: 'Zgoda jest wymagana',
     }),
-    consentMarketing: z.boolean(),
   })
   .superRefine((data, ctx) => {
     const required =
@@ -83,7 +85,7 @@ export const tarasFormSchema = z
     for (const side of required) {
       const key = `side${side}` as keyof typeof data;
       const value = data[key];
-      if (typeof value !== 'number' || !(value > 0)) {
+      if (typeof value !== 'number' || !(value >= MIN_SIDE_LENGTH)) {
         ctx.addIssue({
           code: 'custom',
           message: `Podaj długość boku ${side}`,

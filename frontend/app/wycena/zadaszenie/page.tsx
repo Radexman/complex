@@ -5,7 +5,7 @@ import ZadaszenieForm from '@/app/components/forms/ZadaszenieForm';
 export const metadata: Metadata = {
   title: 'Formularz Wyceny Zadaszenia — Complex',
   description:
-    'Wypełnij formularz wyceny zadaszenia aluminiowego i otrzymaj bezpłatną ofertę w ciągu 5 dni roboczych.',
+    'Wypełnij formularz wyceny zadaszenia aluminiowego i otrzymaj bezpłatną ofertę w ciągu 3 dni roboczych.',
 };
 
 export default function WycenaZadaszeniePage() {
@@ -20,8 +20,8 @@ export default function WycenaZadaszeniePage() {
             Formularz Wyceny Zadaszenia
           </h1>
           <p className="mt-3 max-w-xl font-body text-base text-silver">
-            Wypełnij poniższy formularz, a my przygotujemy bezpłatną wycenę i skontaktujemy się z
-            Tobą w ciągu 5 dni roboczych.
+            Wypełnij poniższy formularz, a przygotujemy bezpłatną wycenę i skontaktujemy się z Tobą
+            w ciągu 3 dni roboczych.
           </p>
         </div>
       </section>

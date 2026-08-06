@@ -27,7 +27,6 @@ interface FormValues {
   installationService?: string;
   notes?: string;
   consentRodo?: string;
-  consentMarketing?: string;
   photos?: File[];
 }
 
@@ -42,7 +41,6 @@ function buildFormData(values: FormValues = {}): FormData {
     installationService = 'true',
     notes,
     consentRodo = 'true',
-    consentMarketing = 'false',
     photos = [],
   } = values;
 
@@ -56,7 +54,6 @@ function buildFormData(values: FormValues = {}): FormData {
   formData.append('installationService', installationService);
   if (notes !== undefined) formData.append('notes', notes);
   formData.append('consentRodo', consentRodo);
-  formData.append('consentMarketing', consentMarketing);
   for (const photo of photos) {
     formData.append('photo', photo);
   }

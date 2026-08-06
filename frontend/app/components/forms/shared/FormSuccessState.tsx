@@ -93,7 +93,7 @@ export default function FormSuccessState({
             <>
               Dziękujemy! Twoje zapytanie zostało przyjęte. Skontaktujemy się z Tobą na adres{' '}
               <span className="font-medium text-accent">{submittedEmail}</span> lub telefonicznie w
-              ciągu 5 dni roboczych.
+              ciągu 3 dni roboczych.
             </>
           )}
         </p>
@@ -144,8 +144,8 @@ export default function FormSuccessState({
             </div>
 
             <p className="mt-6 text-xs italic text-silver/60">
-              Oferta zostanie przesłana na adres e-mail podany w formularzu do 5 dni roboczych.
-              Usługi montażowe wykonujemy na terenie województw śląskiego i opolskiego.
+              Oferta zostanie przesłana na adres e-mail podany w formularzu do 3 dni roboczych.
+              Usługi montażowe wykonujemy na wybranych obszarach województw śląskiego i opolskiego.
             </p>
           </div>
         </>

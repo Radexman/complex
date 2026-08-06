@@ -9,6 +9,7 @@ import type { FieldError } from 'react-hook-form';
 import { AlertCircle, Loader2, Send } from 'lucide-react';
 
 import {
+  CANOPY_TYPES,
   EQUIPMENT_OPTIONS,
   FRAME_COLORS,
   ROOF_TYPES,
@@ -25,6 +26,7 @@ import { FormNumberInput } from './shared/FormNumberInput';
 import { FormSelect } from './shared/FormSelect';
 import { FormTextarea } from './shared/FormTextarea';
 
+const CANOPY_TYPE_OPTIONS = CANOPY_TYPES.map((value) => ({ value, label: value }));
 const ROOF_TYPE_OPTIONS = ROOF_TYPES.map((value) => ({ value, label: value }));
 const FRAME_COLOR_OPTIONS = FRAME_COLORS.map((value) => ({ value, label: value }));
 
@@ -44,15 +46,21 @@ export default function ZadaszenieForm() {
     mode: 'onBlur',
     shouldUnregister: true,
     defaultValues: {
+      canopyType: '',
       roofType: '',
       frameColor: '',
-      equipTriangleSide: false,
+      equipWedgePoly: false,
+      equipWedgeGlass: false,
       equipLedLighting: false,
-      equipPolyWallFixedRight: false,
-      equipPolyWallFixedLeft: false,
-      equipGlasslessDoorsSlidingRight: false,
-      equipGlasslessDoorsSlidingLeft: false,
-      equipGlasslessDoorsSlidingFront: false,
+      equipPolyWallSide1: false,
+      equipPolyWallSide2: false,
+      equipPolyWallFront: false,
+      equipFramelessDoorsSide1: false,
+      equipFramelessDoorsSide2: false,
+      equipFramelessDoorsFront: false,
+      equipFramedDoorsSide1: false,
+      equipFramedDoorsSide2: false,
+      equipFramedDoorsFront: false,
       terraceBlinds: '',
       installationService: false,
       notes: '',
@@ -61,12 +69,12 @@ export default function ZadaszenieForm() {
       email: '',
       postalCode: '',
       consentRodo: false,
-      consentMarketing: false,
     },
   });
 
   const onSubmit = async (data: ZadaszenieFormData) => {
     const formData = new FormData();
+    formData.append('canopyType', data.canopyType);
     formData.append('roofType', data.roofType);
     formData.append('frameColor', data.frameColor);
     formData.append('width', String(data.width));
@@ -82,7 +90,6 @@ export default function ZadaszenieForm() {
     formData.append('email', data.email);
     if (data.notes) formData.append('notes', data.notes);
     formData.append('consentRodo', String(data.consentRodo));
-    formData.append('consentMarketing', String(data.consentMarketing));
     for (const photo of photos) {
       formData.append('photo', photo);
     }
@@ -108,6 +115,14 @@ export default function ZadaszenieForm() {
         <div className="flex flex-col gap-6">
           <FormSelect
             label="Wybierz rodzaj zadaszenia"
+            name="canopyType"
+            options={CANOPY_TYPE_OPTIONS}
+            register={register}
+            error={errors.canopyType}
+            required
+          />
+          <FormSelect
+            label="Wybierz rodzaj dachu"
             name="roofType"
             options={ROOF_TYPE_OPTIONS}
             register={register}
@@ -115,7 +130,7 @@ export default function ZadaszenieForm() {
             required
           />
           <FormSelect
-            label="Kolor konstrukcji ALUM"
+            label="Kolor konstrukcji aluminiowej"
             name="frameColor"
             options={FRAME_COLOR_OPTIONS}
             register={register}
@@ -127,7 +142,6 @@ export default function ZadaszenieForm() {
             name="width"
             control={control}
             error={errors.width as FieldError | undefined}
-            helperText="Podaj szerokość w metrach"
             placeholder="np. 3.0"
             step={0.1}
             min={0.5}
@@ -138,16 +152,15 @@ export default function ZadaszenieForm() {
             name="depth"
             control={control}
             error={errors.depth as FieldError | undefined}
-            helperText="Podaj głębokość/wysięg w metrach"
             placeholder="np. 2.5"
             step={0.1}
             min={0.5}
+            max={6}
             required
           />
 
           <div>
-            <p className="mb-1 font-body text-sm font-medium text-white">Wyposażenie dodatkowe</p>
-            <p className="mb-3 text-xs text-silver">Zaznacz opcje, które Cię interesują</p>
+            <p className="mb-3 font-body text-sm font-medium text-white">Wyposażenie dodatkowe</p>
             <div className="flex flex-col gap-2">
               {EQUIPMENT_OPTIONS.map((option) => (
                 <FormCheckbox
@@ -162,7 +175,7 @@ export default function ZadaszenieForm() {
 
           <div className="mt-4 border-t border-graphite pt-4">
             <FormTextarea
-              label="Żaluzje tarasowe (opcjonalne)"
+              label="Żaluzje tarasowe"
               name="terraceBlinds"
               register={register}
               error={errors.terraceBlinds}
@@ -178,14 +191,14 @@ export default function ZadaszenieForm() {
           {/* Name and phone are optional — the `preprocess` in the schema makes their
               RHF input type `unknown`, hence the error cast. */}
           <FormInput
-            label="Imię i nazwisko (opcjonalnie)"
+            label="Imię i nazwisko"
             name="name"
             register={register}
             error={errors.name as FieldError | undefined}
             autoComplete="name"
           />
           <FormInput
-            label="Numer telefonu (opcjonalnie)"
+            label="Numer telefonu"
             name="phone"
             type="tel"
             inputMode="tel"
@@ -224,10 +237,9 @@ export default function ZadaszenieForm() {
             register={register}
             error={errors.notes}
             rows={4}
-            helperText="Określ dodatkowe wymagania dotyczące zadaszenia: np. niestandardowe wymiary, specjalne wykończenia itp."
           />
           <FormFileDropzone
-            label="Zdjęcie miejsca montażu (opcjonalne)"
+            label="Zdjęcie miejsca montażu"
             helperText="Dodaj zdjęcie miejsca montażu — pomoże nam lepiej przygotować wycenę."
             onFilesChange={setPhotos}
           />
@@ -239,24 +251,20 @@ export default function ZadaszenieForm() {
               error={errors.consentRodo}
               label={
                 <>
-                  Zapoznałem/am się z treścią{' '}
+                  Zapoznałem(-am) się z{' '}
                   <Link
                     href="/polityka-prywatnosci"
                     className="text-accent hover:text-accent-hover"
                   >
-                    Polityki prywatności
+                    Polityką prywatności
                   </Link>{' '}
-                  i wyrażam zgodę na przetwarzanie moich danych osobowych przez Complex sp. z o.o. w
-                  celu przygotowania oferty.
+                  oraz wyrażam zgodę na przetwarzanie moich danych osobowych w celu przygotowania
+                  wyceny i kontaktu w sprawie przesłanego zapytania.{' '}
+                  <span className="text-accent">*</span>
                 </>
               }
             />
           </div>
-          <FormCheckbox
-            control={control}
-            name="consentMarketing"
-            label="Wyrażam zgodę na przetwarzanie moich danych w celach marketingowych i przesyłanie ofert drogą e-mailową lub telefoniczną."
-          />
 
           {submitError && (
             <div
@@ -284,10 +292,10 @@ export default function ZadaszenieForm() {
             )}
           </button>
           <p className="text-center text-xs text-silver">
-            * Pola obowiązkowe. Oferta zostanie przesłana w ciągu 5 dni roboczych.
+            * Pola obowiązkowe. Oferta zostanie przesłana w ciągu 3 dni roboczych.
           </p>
           <p className="text-center text-xs text-silver">
-            Usługi montażowe wykonujemy na terenie województw śląskiego i opolskiego.
+            Usługi montażowe wykonujemy na wybranych obszarach województw śląskiego i opolskiego.
           </p>
         </div>
       </div>

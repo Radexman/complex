@@ -18,7 +18,6 @@ const validBase: RawInput = {
   phone: '123456789',
   email: 'jan@example.com',
   consentRodo: true,
-  consentMarketing: false,
 };
 
 /** Collect the dotted field paths of all validation issues. */

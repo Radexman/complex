@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  CANOPY_TYPES,
   EQUIPMENT_OPTIONS,
   FRAME_COLORS,
   ROOF_TYPES,
@@ -9,25 +10,24 @@ import {
 
 type RawInput = Record<string, unknown>;
 
+const noEquipment = Object.fromEntries(
+  EQUIPMENT_OPTIONS.map((option) => [option.name, false]),
+) as RawInput;
+
 const validBase: RawInput = {
+  canopyType: CANOPY_TYPES[0],
   roofType: ROOF_TYPES[0],
   frameColor: 'antracyt',
   width: '4',
   depth: '2.5',
-  equipTriangleSide: false,
+  ...noEquipment,
   equipLedLighting: true,
-  equipPolyWallFixedRight: false,
-  equipPolyWallFixedLeft: false,
-  equipGlasslessDoorsSlidingRight: false,
-  equipGlasslessDoorsSlidingLeft: false,
-  equipGlasslessDoorsSlidingFront: false,
   postalCode: '44-100',
   name: 'Jan Kowalski',
   phone: '123456789',
   email: 'jan@example.com',
   installationService: false,
   consentRodo: true,
-  consentMarketing: false,
 };
 
 /** Collect the dotted field paths of all validation issues. */
@@ -38,13 +38,23 @@ function issuePaths(input: RawInput): string[] {
 }
 
 describe('option lists', () => {
-  it('offers the seven roof models and three frame colours', () => {
-    expect(ROOF_TYPES).toHaveLength(7);
-    expect(FRAME_COLORS).toEqual(['antracyt', 'czarny', 'biały krem']);
+  it('splits the canopy model and the roof filling into two lists', () => {
+    expect(CANOPY_TYPES).toEqual(['Przyścienny', 'Wolnostojący']);
+    expect(ROOF_TYPES).toEqual([
+      'Poliwęglan',
+      'Szkło',
+      'Lamele aluminiowe',
+      'Materiał',
+      'Roleta rzymska',
+    ]);
   });
 
-  it('lists the seven equipment add-ons, each matching a schema field', () => {
-    expect(EQUIPMENT_OPTIONS).toHaveLength(7);
+  it('offers three frame colours', () => {
+    expect(FRAME_COLORS).toEqual(['antracyt', 'czarny', 'biały']);
+  });
+
+  it('lists the twelve equipment add-ons, each matching a schema field', () => {
+    expect(EQUIPMENT_OPTIONS).toHaveLength(12);
     const result = zadaszenieFormSchema.safeParse(validBase);
     expect(result.success).toBe(true);
     if (result.success) {
@@ -75,8 +85,13 @@ describe('zadaszenieFormSchema — happy path', () => {
   });
 
   it('accepts a submission with no equipment selected', () => {
-    const noEquipment = { ...validBase, equipLedLighting: false };
-    expect(zadaszenieFormSchema.safeParse(noEquipment).success).toBe(true);
+    expect(zadaszenieFormSchema.safeParse({ ...validBase, ...noEquipment }).success).toBe(true);
+  });
+
+  it('drops the marketing consent — only the RODO consent survives', () => {
+    const result = zadaszenieFormSchema.safeParse({ ...validBase, consentMarketing: true });
+    expect(result.success).toBe(true);
+    expect(result.data).not.toHaveProperty('consentMarketing');
   });
 });
 
@@ -91,19 +106,19 @@ describe('zadaszenieFormSchema — dimensions', () => {
     expect(issuePaths({ ...validBase, depth: '-1' })).toContain('depth');
   });
 
-  it('caps the width at 20 m and the depth at 10 m', () => {
+  it('caps the width at 20 m and the depth at 6 m', () => {
     expect(issuePaths({ ...validBase, width: '21' })).toContain('width');
-    expect(issuePaths({ ...validBase, depth: '11' })).toContain('depth');
-    expect(zadaszenieFormSchema.safeParse({ ...validBase, width: '20', depth: '10' }).success).toBe(
+    expect(issuePaths({ ...validBase, depth: '6.5' })).toContain('depth');
+    expect(zadaszenieFormSchema.safeParse({ ...validBase, width: '20', depth: '6' }).success).toBe(
       true,
     );
   });
 });
 
 describe('zadaszenieFormSchema — field validation', () => {
-  it('requires a roof type and a frame colour', () => {
-    const paths = issuePaths({ ...validBase, roofType: '', frameColor: '' });
-    expect(paths).toEqual(expect.arrayContaining(['roofType', 'frameColor']));
+  it('requires a canopy type, a roof type and a frame colour', () => {
+    const paths = issuePaths({ ...validBase, canopyType: '', roofType: '', frameColor: '' });
+    expect(paths).toEqual(expect.arrayContaining(['canopyType', 'roofType', 'frameColor']));
   });
 
   it('enforces the 00-000 postal-code format', () => {

@@ -66,7 +66,6 @@ export default function TarasForm({ shapes }: TarasFormProps) {
       email: '',
       postalCode: '',
       consentRodo: false,
-      consentMarketing: false,
     },
   });
 
@@ -111,7 +110,6 @@ export default function TarasForm({ shapes }: TarasFormProps) {
     formData.append('email', data.email);
     if (data.notes) formData.append('notes', data.notes);
     formData.append('consentRodo', String(data.consentRodo));
-    formData.append('consentMarketing', String(data.consentMarketing));
     for (const photo of photos) {
       formData.append('photo', photo);
     }
@@ -171,10 +169,10 @@ export default function TarasForm({ shapes }: TarasFormProps) {
           {activeSides.length > 0 && (
             <div>
               <p className="mb-2 font-body text-sm font-medium text-white">
-                Określ położenie budynku względem tarasu <span className="text-accent">*</span>
+                Położenie tarasu względem budynku <span className="text-accent">*</span>
               </p>
               <p className="mb-3 text-xs text-silver">
-                Zaznacz boki, przy których przylega ściana budynku
+                Zaznacz, przy których bokach taras przylega do budynku.
               </p>
               <Controller
                 control={control}
@@ -235,14 +233,14 @@ export default function TarasForm({ shapes }: TarasFormProps) {
           {/* Name and phone are optional — the `preprocess` in the schema makes their
               RHF input type `unknown`, hence the error cast (same as DimensionInputs). */}
           <FormInput
-            label="Imię i nazwisko (opcjonalnie)"
+            label="Imię i nazwisko"
             name="name"
             register={register}
             error={errors.name as FieldError | undefined}
             autoComplete="name"
           />
           <FormInput
-            label="Numer telefonu (opcjonalnie)"
+            label="Numer telefonu"
             name="phone"
             type="tel"
             inputMode="tel"
@@ -275,11 +273,11 @@ export default function TarasForm({ shapes }: TarasFormProps) {
             register={register}
             error={errors.notes}
             rows={4}
-            helperText="Określ dodatkowe wymagania: kolor, producent, nazwa produktu itp."
+            helperText="Podaj dodatkowe informacje dotyczące tarasu, np. preferowany kolor, producent, nazwę produktu lub inne wymagania."
           />
           <FormFileDropzone
-            label="Zdjęcie miejsca montażu (opcjonalne)"
-            helperText="Dodaj zdjęcie ogrodu lub miejsca, gdzie ma powstać taras. Ułatwi nam przygotowanie wyceny."
+            label="Zdjęcie miejsca montażu"
+            helperText="Dodaj zdjęcie miejsca, w którym ma powstać taras. Pomoże nam przygotować dokładniejszą wycenę."
             onFilesChange={setPhotos}
           />
 
@@ -290,24 +288,20 @@ export default function TarasForm({ shapes }: TarasFormProps) {
               error={errors.consentRodo}
               label={
                 <>
-                  Zapoznałem/am się z treścią{' '}
+                  Zapoznałem(-am) się z{' '}
                   <Link
                     href="/polityka-prywatnosci"
                     className="text-accent hover:text-accent-hover"
                   >
-                    Polityki prywatności
+                    Polityką prywatności
                   </Link>{' '}
-                  i wyrażam zgodę na przetwarzanie moich danych osobowych przez Complex sp. z o.o. w
-                  celu przygotowania oferty.
+                  oraz wyrażam zgodę na przetwarzanie moich danych osobowych w celu przygotowania
+                  wyceny i kontaktu w sprawie przesłanego zapytania.{' '}
+                  <span className="text-accent">*</span>
                 </>
               }
             />
           </div>
-          <FormCheckbox
-            control={control}
-            name="consentMarketing"
-            label="Wyrażam zgodę na przetwarzanie moich danych w celach marketingowych i przesyłanie ofert drogą e-mailową lub telefoniczną."
-          />
 
           {submitError && (
             <div
@@ -335,10 +329,10 @@ export default function TarasForm({ shapes }: TarasFormProps) {
             )}
           </button>
           <p className="text-center text-xs text-silver">
-            * Pola obowiązkowe. Oferta zostanie przesłana w ciągu 5 dni roboczych.
+            * Pola obowiązkowe. Oferta zostanie przesłana w ciągu 3 dni roboczych.
           </p>
           <p className="text-center text-xs text-silver">
-            Usługi montażowe wykonujemy na terenie województw śląskiego i opolskiego.
+            Usługi montażowe wykonujemy na wybranych obszarach województw śląskiego i opolskiego.
           </p>
         </div>
       </div>

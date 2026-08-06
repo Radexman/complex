@@ -71,7 +71,7 @@ export default function AboutCta() {
         </h2>
 
         <p data-aboutcta-content className="mx-auto mt-4 max-w-xl font-body text-lg text-silver">
-          Skontaktuj się z nami — odpowiadamy w ciągu 5 dni roboczych i umawiamy bezpłatną wizytę
+          Skontaktuj się z nami — odpowiadamy w ciągu 3 dni roboczych i umawiamy bezpłatną wizytę
           pomiarową.
         </p>
 

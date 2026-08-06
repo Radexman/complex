@@ -24,7 +24,7 @@ export function renderConfirmationEmail({ name, formLabel }: ConfirmationEmailOp
         Dziękujemy za przesłanie ${escapeHtml(formLabel)}. Otrzymaliśmy Twoje zgłoszenie i już się nim zajmujemy.
       </p>
       <p style="margin:16px 0 0;color:#111111;font-size:15px;line-height:1.6;">
-        Skontaktujemy się z Tobą w ciągu <strong>5 dni roboczych</strong> — telefonicznie lub mailowo — aby omówić szczegóły i przygotować wycenę.
+        Skontaktujemy się z Tobą w ciągu <strong>3 dni roboczych</strong> — telefonicznie lub mailowo — aby omówić szczegóły i przygotować wycenę.
       </p>
       <p style="margin:24px 0 0;padding-top:24px;border-top:1px solid #e5e5e5;color:${MUTED};font-size:13px;line-height:1.6;">
         Masz pytanie w międzyczasie? Napisz na

@@ -6,7 +6,7 @@ import { useGSAP } from '@gsap/react';
 import type { Control, FieldError, FieldErrors, Path } from 'react-hook-form';
 
 import { FormNumberInput } from './shared/FormNumberInput';
-import type { TarasFormInput } from '@/app/lib/validations/tarasForm';
+import { MIN_SIDE_LENGTH, type TarasFormInput } from '@/app/lib/validations/tarasForm';
 
 interface DimensionInputsProps {
   sides: string[];
@@ -40,7 +40,7 @@ export function DimensionInputs({ sides, control, errors }: DimensionInputsProps
             control={control}
             error={errors[name as keyof typeof errors] as FieldError | undefined}
             step={0.01}
-            min={0}
+            min={MIN_SIDE_LENGTH}
             placeholder="np. 3.5"
           />
         );

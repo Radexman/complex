@@ -57,7 +57,6 @@ export default function SchodyForm({ diagram }: SchodyFormProps) {
       email: '',
       postalCode: '',
       consentRodo: false,
-      consentMarketing: false,
     },
   });
 
@@ -73,7 +72,6 @@ export default function SchodyForm({ diagram }: SchodyFormProps) {
     formData.append('email', data.email);
     if (data.notes) formData.append('notes', data.notes);
     formData.append('consentRodo', String(data.consentRodo));
-    formData.append('consentMarketing', String(data.consentMarketing));
     for (const photo of photos) {
       formData.append('photo', photo);
     }
@@ -155,14 +153,14 @@ export default function SchodyForm({ diagram }: SchodyFormProps) {
           {/* Name and phone are optional — the `preprocess` in the schema makes their
               RHF input type `unknown`, hence the error cast. */}
           <FormInput
-            label="Imię i nazwisko (opcjonalnie)"
+            label="Imię i nazwisko"
             name="name"
             register={register}
             error={errors.name as FieldError | undefined}
             autoComplete="name"
           />
           <FormInput
-            label="Numer telefonu (opcjonalnie)"
+            label="Numer telefonu"
             name="phone"
             type="tel"
             inputMode="tel"
@@ -197,7 +195,7 @@ export default function SchodyForm({ diagram }: SchodyFormProps) {
             rows={4}
           />
           <FormFileDropzone
-            label="Zdjęcie lub projekt techniczny (opcjonalne)"
+            label="Zdjęcie lub projekt techniczny"
             helperText="Zdjęcie miejsca, w którym mają znajdować się schody lub projekt techniczny."
             onFilesChange={setPhotos}
           />
@@ -209,24 +207,20 @@ export default function SchodyForm({ diagram }: SchodyFormProps) {
               error={errors.consentRodo}
               label={
                 <>
-                  Zapoznałem/am się z treścią{' '}
+                  Zapoznałem(-am) się z{' '}
                   <Link
                     href="/polityka-prywatnosci"
                     className="text-accent hover:text-accent-hover"
                   >
-                    Polityki prywatności
+                    Polityką prywatności
                   </Link>{' '}
-                  i wyrażam zgodę na przetwarzanie moich danych osobowych przez Complex sp. z o.o. w
-                  celu przygotowania oferty.
+                  oraz wyrażam zgodę na przetwarzanie moich danych osobowych w celu przygotowania
+                  wyceny i kontaktu w sprawie przesłanego zapytania.{' '}
+                  <span className="text-accent">*</span>
                 </>
               }
             />
           </div>
-          <FormCheckbox
-            control={control}
-            name="consentMarketing"
-            label="Wyrażam zgodę na przetwarzanie moich danych w celach marketingowych i przesyłanie ofert drogą e-mailową lub telefoniczną."
-          />
 
           {submitError && (
             <div
@@ -254,10 +248,10 @@ export default function SchodyForm({ diagram }: SchodyFormProps) {
             )}
           </button>
           <p className="text-center text-xs text-silver">
-            * Pola obowiązkowe. Oferta zostanie przesłana w ciągu 5 dni roboczych.
+            * Pola obowiązkowe. Oferta zostanie przesłana w ciągu 3 dni roboczych.
           </p>
           <p className="text-center text-xs text-silver">
-            Usługi montażowe wykonujemy na terenie województw śląskiego i opolskiego.
+            Usługi montażowe wykonujemy na wybranych obszarach województw śląskiego i opolskiego.
           </p>
         </div>
       </div>
