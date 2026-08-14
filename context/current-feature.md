@@ -1,33 +1,121 @@
-# Current Feature: Client Feedback Round 7 (drop Elewacje, uniform tiles, Kontakt swap, form copy editability, GA thank-you pages)
+# Current Feature
 
 ## Status
 
-In Progress
+Not Started
 
 ## Goals
 
-- #0 Verify the three "not redirecting" CTAs ("Zobacz całą ofertę", "Bezpłatna wycena", "Nasze realizacje") against the live deploy before touching code; likely a stale Studio bundle/cache, not a bug.
-- #1 Remove "Elewacje kompozytowe" completely — schema, code (Navbar/Footer/categories), redirect `/oferta/elewacje-kompozytowe` → `/oferta`, unpublish/delete the `service` doc, audit + resolve any `elewacje-kompozytowe` `project` docs.
-- #2 Realizacje filter tabs: drop Schody + Elewacje tabs (Schody stays a real offer/product, only its filter tab goes) via new `REALIZACJE_TAB_CATEGORIES`.
-- #3 `/oferta` grid: replace `bentoSpan()` hero/banner layout with uniform equal-size tiles (`aspect-4/3` or `aspect-video`, pick one); new card order (6 cards, Elewacje gone); first-rendered card gets `priority`.
-- #4 Kontakt section: swap green accent treatment from "Obszar działania" (→ plain/muted) to "Biuro" (→ bold `border-l-4 border-accent bg-accent/10`) — styling only, no schema change.
-- #5 Move `ProcessTimeline` on offer subpages to just before `ContactShowroom` (after `OfferFormCta`), not between Benefits/Gallery.
-- #6 Offer-page gallery: smaller flat grid (`grid-cols-2 sm:grid-cols-3 md:grid-cols-4`, no hero cell), new optional `galleryFooterNote`-style CMS text field (leave empty, don't invent copy), new "Zobacz wybrane realizacje" CTA button → `/realizacje` (hardcoded copy, not CMS this round).
-- #7 CMS-editable quotation-form intro copy (title + description only) for all four `/wycena/[type]` forms — add fields to existing `tarasFormConfig`/`schodyFormConfig`, create new `zadaszenieFormConfig`/`zaluzjeFormConfig` singletons; in-component fallback to current hardcoded strings.
-- #8 Google Ads per-form thank-you URLs: the 4 quotation forms already satisfy this (no code change, just verify + explain). Real gap is the contact form modal — add `/dziekujemy-kontakt` route, wire `ContactForm` to `markFormSubmitted('kontakt', ...)` + `router.push('/dziekujemy-kontakt')` instead of inline `FormSuccessState`, thread `onSuccess` from `ContactForm` → `ContactFormDialog` → `Navbar` to close the modal during navigation.
+<!-- Populated by /feature load -->
 
 ## Notes
 
-- Source: `context/features/feedback-round-7-spec.md` (9 items from a redlined PDF `12.08.26.pdf` + a 14.08.2026 WhatsApp follow-up).
-- **Out of scope, explicitly reversed by the client:** splitting Tarasy kompozytowe into komorowe/pełne subpages (3 wireframe PDFs superseded — *"ostatecznie - nie robimy zakładek do strony zadaszenia i tarasy - poradze sobie"*). Do not build.
-- ⚠️ Assumptions flagged in the spec (confirm if they matter): offer-grid tile aspect ratio (4/3 vs video, pick one); gallery footer note as a single plain `text` field unless she wants a clickable Facebook URL (then split into `galleryFooterText` + `facebookUrl`); no deep-linking `/realizacje` by category from the gallery CTA; gallery/homepage CTA button labels stay hardcoded copy, not CMS, this round.
-- Needs a client decision (not ours to guess): disposition of any existing `elewacje-kompozytowe`-categorized `project` docs (delete / recategorize / unpublish).
-- TypeGen required after #1 (category unions) and #7 (two new singletons + fields on two existing ones) — `cd frontend && npm run sanity:typegen`.
-- Studio redeploy required (`npm run deploy` from `studio/`) — client can't see new form-config fields or the Facebook note field otherwise, and #0's "not redirecting" complaints may trace back to a stale bundle.
-- Testing: no new unit-testable surface expected beyond possibly `formSubmissionSession` (already covers `'kontakt'` as a valid `FormType`). Everything else presentational/schema — verify via `npm test`, `npm run type-check` (both workspaces), `npm run lint`, clean `next build` after `rm -rf .next`, and in-browser (Playwright/Chromium, 0 console errors/warnings) per the spec's verification checklist.
-- Pre-existing open items, untouched this round: `/o-nas` 404 status, żaluzje/Akcesoria naming mismatch.
+<!-- Populated by /feature load -->
 
 ## History
+
+### Client Feedback Round 7 — usunięcie elewacji, jednakowe kafelki, edytowalne formularze wyceny (2026-08-14)
+
+Nine items from a redlined PDF (`12.08.26.pdf`) plus a WhatsApp follow-up about Google Ads
+conversion tracking, loaded via `/feature load`. Branch `feature/feedback-round-7`, cut from
+`main`. **Explicitly out of scope, reversed by the client mid-thread:** splitting Tarasy
+kompozytowe into komorowe/pełne subpages — three of her own wireframe PDFs superseded by
+*"ostatecznie - nie robimy zakładek… - poradze sobie"*. Not built.
+
+- **#0 — the three "not redirecting" CTAs were never broken.** Read the code (`HeroSection.tsx`,
+  `OfferSection.tsx`) — all three are plain `<Link href={...}>` sourced from CMS fields, no
+  hardcoded/broken paths possible. **Confirmed against the live deploy via WebFetch**, not just
+  locally: `complex-puce.vercel.app`'s hero buttons resolve to `/wycena` and `/realizacje`, the
+  offer link to `/oferta` — all real, working routes. No code fix; flagged to the client as almost
+  certainly a stale Studio bundle or a cache on her machine, and folded into the Studio redeploy
+  this round already needed for the schema changes below.
+- **#1 Elewacje kompozytowe removed everywhere** — `PROJECT_CATEGORIES`, `OFFER_SLUGS`,
+  `CATEGORY_LABELS`, `Navbar`/`Footer` nav arrays, the `offerSection` bento `initialValue`, and the
+  `/oferta` metadata description. New permanent redirect `/oferta/elewacje-kompozytowe` → `/oferta`
+  (verified **308**). **Audited before touching content** (`client.fetch` by category): **zero**
+  published `project` docs were ever categorized `elewacje-kompozytowe` — nothing to recategorize,
+  the client's open question from the spec turned out moot.
+- **#2 Realizacje tabs: new `REALIZACJE_TAB_CATEGORIES`**, `CATEGORY_ORDER` minus
+  `schody-modulowe`, so `ProjectsGrid` drops to 6 tabs (Wszystkie + 5) while `schody-modulowe`
+  keeps resolving a label everywhere else — the offer page, the form, the nav. Verified in a real
+  page render: exactly `Wszystkie / Zadaszenia tarasowe / Akcesoria do zadaszeń / Tarasy
+  kompozytowe / Tarasy gresowe / Tarasy drewniane` as tab triggers, no Schody, no Elewacje.
+- **#3 `/oferta` grid rebuilt flat** — `bentoSpan()`/`SPAN_CLASSES`/`TITLE_CLASSES` deleted
+  outright, replaced with a uniform `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3` of `aspect-4/3`
+  cards, `priority` now keyed off `index === 0` instead of a "hero" span. Card order matches the
+  client's requested sequence exactly (verified via anchor hrefs in served HTML): Zadaszenia
+  tarasowe → Tarasy kompozytowe → Tarasy drewniane → Tarasy gresowe → Akcesoria do zadaszeń →
+  Schody modułowe.
+- **#4 Kontakt accent swapped, not duplicated.** `ServiceAreaNotice` ("Obszar działania") went
+  from `border-l-4 border-accent bg-accent/10` to a plain `border border-graphite bg-bg-surface`
+  card with a muted `text-silver` icon; the "Biuro" block in `ContactShowroom` picked up the exact
+  bold treatment it lost. Verified exactly **1** bold accent card and **1** plain card on the
+  rendered home page.
+- **#5 `ProcessTimeline` moved** — one-line relocation in `OfferPage.tsx`, from between
+  Benefits/Gallery to directly before `ContactShowroom` (after `OfferFormCta`). No schema/query
+  change. Verified by byte-offset check on a real offer page: gallery < formCta < timeline <
+  kontakt, in that order.
+- **#6 Offer-gallery rework.** `bentoClass()`'s 2×2 hero cell deleted; flat
+  `grid-cols-2 sm:grid-cols-3 md:grid-cols-4` of `aspect-square` cells. New optional
+  `galleryFooterText` (text) + `galleryFacebookUrl` (url) fields on `service`, rendered only when
+  populated — left empty, no invented copy, per the spec's explicit instruction. New "Zobacz
+  wybrane realizacje" CTA → `/realizacje`, styled like the home page's accent text-link-with-arrow
+  (not a filled button, matching what "przycisk w stylu strony głównej" actually refers to).
+  **GSAP ordering bug caught before shipping:** the footer/CTA block was initially lumped into the
+  same `data-gallery-header` reveal group as the top header, which would have animated it in
+  *before* the grid cells despite sitting visually below them — split into its own
+  `data-gallery-footer` group that reveals after the cell stagger.
+- **#7 Four form-config singletons, not two.** `tarasFormConfig`/`schodyFormConfig` gained
+  `title`/`description` fields (seeded to the current hardcoded copy as `initialValue` — doesn't
+  backfill the already-published docs, seeded explicitly, see below); two new fixed-id singletons
+  `zadaszenieFormConfig`/`zaluzjeFormConfig` created from scratch (schema, structure entry,
+  Presentation `mainDocuments` + `locations`, matching the `taras`/`schody` precedent exactly).
+  `zadaszenie`/`zaluzje`'s `page.tsx` had **no Sanity document at all** before this — both became
+  async server components with a `sanityFetch` call. Each of the four pages falls back to the
+  original hardcoded string when the CMS field is empty.
+- **#8 The four quotation forms already had this** (shipped 2026-07-28) — verified, no code
+  change. **The real gap was the contact modal.** New static `/dziekujemy-kontakt` route
+  (`ThankYouPageContent`, `formType="kontakt"`, `formHref="/"`); `ContactForm` now calls
+  `markFormSubmitted('kontakt', …)` + `router.push('/dziekujemy-kontakt')` instead of swapping in
+  `FormSuccessState` inline, with a new `onSuccess` prop threaded `ContactForm` →
+  `ContactFormDialog` → `Navbar` so the modal closes itself (`setContactOpen(false)`) during the
+  navigation rather than sitting open over the new page. `FormSuccessState`'s `kontakt` variant —
+  baked in since 2026-07-27, never had a caller — finally does.
+- ⚠️ **No Sanity MCP and no write token this session** — a first for this repo's history of
+  content work. The user added `SANITY_API_WRITE_TOKEN` (Editor role) to `frontend/.env.local`
+  mid-session specifically so the content side could ship in the same pass instead of being handed
+  off as a manual Studio checklist. Used it via **direct HTTP calls to the mutate API**, not the
+  Sanity CLI/Studio — dry-run first (`dryRun: true`, confirmed all 8 mutation results matched the
+  plan), then applied for real, then re-verified against the **published perspective specifically**
+  (a `perspective=raw` sanity-check query briefly looked wrong — it was correctly showing the
+  Elewacje *draft* copy and had nothing to do with what the live site actually serves).
+- **Content, applied for real (not just proposed):** Elewacje kompozytowe **unpublished, not
+  deleted** — content preserved as `drafts.<id>` and the published doc removed, so it's recoverable
+  in Studio rather than gone; Tarasy drewniane/gresowe `order` swapped (4↔3) so `/oferta` reads
+  in the client's requested sequence; `title`/`description` seeded on all four form-config
+  singletons (two patched, two created). **Audited every target doc for pending drafts before
+  touching anything** — all clean, nothing of the client's was at risk of being clobbered.
+- ⚠️ **Studio redeploy (`npm run deploy` from `studio/`) was deliberately NOT run** — it pushes a
+  shared, live surface (the hosted Studio bundle) and wasn't authorized this session. The content
+  changes above are live on the site regardless (they don't need a Studio deploy); only the
+  editing UI for the new fields — and item #0's likely root cause — stays stale until it runs.
+- **Left untouched (same precedent as prior features):** `package-lock.json`'s pre-existing
+  153-line drift (confirmed unchanged by this session's `npm test`/`npm run build` — no
+  `npm install` was run), excluded from the commit. No `.mcp.json`/`OfferTechSpecs.tsx`/
+  `.claude/settings.local.json` drift existed this time — the working tree was otherwise clean at
+  branch-cut.
+- Verified: **172/172 Vitest** (no new server actions/utilities this round, so no new tests — the
+  spec correctly predicted this), `type-check` (both workspaces), `lint` (only the pre-existing
+  `useCountUp` warning at `TrustSection.tsx:65`), clean `next build` after `rm -rf .next` — all
+  routes prerender as expected, `/oferta/[slug]` now generates exactly **6** SSG paths (Elewacje
+  gone). **Re-ran the full in-browser check against live content after the mutations landed** (a
+  stale leftover `next start` process on port 3100 gave a false negative on the first pass — killed
+  it, confirmed a clean server start, re-verified): `/oferta` shows 6 cards in the exact requested
+  order with **0** Elewacje references; the redirect still 308s; all four `/wycena/*` pages render
+  their titles from the CMS now, not the fallback path.
+- **Not driven in-browser:** a real contact-form *send* (would email the dev inbox through Resend)
+  and GSAP/hover interaction — no Playwright tool was available this session, so verification
+  leaned on `curl`/Node against a local production build instead of a real browser.
 
 ### Client Feedback Round 6 — formularz żaluzji (2026-08-06)
 
