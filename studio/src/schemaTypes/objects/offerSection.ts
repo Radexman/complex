@@ -89,11 +89,6 @@ export const offerSection = defineType({
           description: 'Schody modułowe z profesjonalnym montażem – szybka realizacja.',
           icon: 'wind',
         },
-        {
-          title: 'Elewacje kompozytowe',
-          description: 'Elewacje kompozytowe Legro Natural, to wyjątkowe okładziny',
-          icon: 'wind',
-        },
       ],
     }),
   ],

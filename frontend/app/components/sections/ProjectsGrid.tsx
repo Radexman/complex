@@ -10,7 +10,7 @@ import { stegaClean } from 'next-sanity';
 
 import type { AllProjectsQueryResult, RealizacjePageQueryResult } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/utils';
-import { CATEGORY_ORDER, categoryLabel } from '@/app/lib/categories';
+import { REALIZACJE_TAB_CATEGORIES, categoryLabel } from '@/app/lib/categories';
 import ProjectLightbox from '@/app/components/ui/ProjectLightbox';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -137,7 +137,7 @@ export default function ProjectsGrid({
             >
               Wszystkie
             </Tabs.Trigger>
-            {CATEGORY_ORDER.map((category) => (
+            {REALIZACJE_TAB_CATEGORIES.map((category) => (
               <Tabs.Trigger
                 key={category}
                 value={category}

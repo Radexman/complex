@@ -19,7 +19,6 @@ export const OFFER_SLUGS = [
   { title: 'Tarasy kompozytowe', value: 'tarasy-kompozytowe' },
   { title: 'Tarasy gresowe', value: 'tarasy-gresowe' },
   { title: 'Tarasy drewniane', value: 'tarasy-drewniane' },
-  { title: 'Elewacje kompozytowe', value: 'elewacje-kompozytowe' },
   { title: 'Schody modułowe', value: 'schody-modulowe' },
 ] as const;
 

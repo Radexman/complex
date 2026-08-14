@@ -45,6 +45,7 @@ export const service = defineType({
   groups: [
     { name: 'hero', title: 'Hero', default: true },
     { name: 'benefits', title: 'Zalety' },
+    { name: 'gallery', title: 'Galeria' },
     { name: 'brands', title: 'Producenci' },
     { name: 'techSpecs', title: 'Specyfikacja' },
     { name: 'formCta', title: 'CTA formularza' },
@@ -129,8 +130,7 @@ export const service = defineType({
     defineField({
       name: 'relatedFormSlug',
       title: 'Powiązany formularz wyceny',
-      description:
-        'Formularz, do którego prowadzi przycisk CTA. Pozostaw puste, gdy oferta nie ma formularza (np. Elewacje kompozytowe).',
+      description: 'Formularz, do którego prowadzi przycisk CTA. Pozostaw puste, gdy oferta nie ma formularza.',
       type: 'string',
       group: 'hero',
       options: {
@@ -210,6 +210,21 @@ export const service = defineType({
           },
         }),
       ],
+    }),
+    defineField({
+      name: 'galleryFooterText',
+      title: 'Tekst pod galerią',
+      description: 'Opcjonalny krótki tekst wyświetlany pod galerią zdjęć, np. odnośnik do Facebooka.',
+      type: 'text',
+      rows: 2,
+      group: 'gallery',
+    }),
+    defineField({
+      name: 'galleryFacebookUrl',
+      title: 'Link do Facebooka',
+      description: 'Opcjonalny adres profilu/posta na Facebooku — wyświetlany jako link obok tekstu powyżej.',
+      type: 'url',
+      group: 'gallery',
     }),
     defineField({
       name: 'brandsEyebrow',

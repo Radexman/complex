@@ -151,7 +151,6 @@ export type OfferCard = {
     | 'tarasy-kompozytowe'
     | 'tarasy-gresowe'
     | 'tarasy-drewniane'
-    | 'elewacje-kompozytowe'
     | 'schody-modulowe';
 };
 
@@ -197,7 +196,6 @@ export type Service = {
     | 'tarasy-kompozytowe'
     | 'tarasy-gresowe'
     | 'tarasy-drewniane'
-    | 'elewacje-kompozytowe'
     | 'schody-modulowe';
   benefitsEyebrow?: string;
   benefitsHeadline?: string;
@@ -221,6 +219,8 @@ export type Service = {
     _type: 'benefit';
     _key: string;
   }>;
+  galleryFooterText?: string;
+  galleryFacebookUrl?: string;
   brandsEyebrow?: string;
   brandsHeadline?: string;
   brandsDescription?: string;
@@ -307,7 +307,6 @@ export type Project = {
     | 'tarasy-kompozytowe'
     | 'tarasy-gresowe'
     | 'tarasy-drewniane'
-    | 'elewacje-kompozytowe'
     | 'schody-modulowe';
   coverImage: {
     asset?: SanityImageAssetReference;
@@ -321,12 +320,34 @@ export type Project = {
   isFeatured?: boolean;
 };
 
+export type ZaluzjeFormConfig = {
+  _id: string;
+  _type: 'zaluzjeFormConfig';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  description?: string;
+};
+
+export type ZadaszenieFormConfig = {
+  _id: string;
+  _type: 'zadaszenieFormConfig';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  description?: string;
+};
+
 export type SchodyFormConfig = {
   _id: string;
   _type: 'schodyFormConfig';
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  title?: string;
+  description?: string;
   diagram?: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -343,6 +364,8 @@ export type TarasFormConfig = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  title?: string;
+  description?: string;
   shapes: Array<
     {
       _key: string;
@@ -970,6 +993,8 @@ export type AllSanitySchemaTypes =
   | SanityImageHotspot
   | Slug
   | Project
+  | ZaluzjeFormConfig
+  | ZadaszenieFormConfig
   | SchodyFormConfig
   | TarasFormConfig
   | Footer
@@ -1321,7 +1346,6 @@ export type AllServicesQueryResult = Array<{
   heroSubheadline: string | null;
   category:
     | 'akcesoria-do-zadaszen'
-    | 'elewacje-kompozytowe'
     | 'schody-modulowe'
     | 'tarasy-drewniane'
     | 'tarasy-gresowe'
@@ -1349,7 +1373,6 @@ export type TerraceServicesQueryResult = Array<{
   heroSubheadline: string | null;
   category:
     | 'akcesoria-do-zadaszen'
-    | 'elewacje-kompozytowe'
     | 'schody-modulowe'
     | 'tarasy-drewniane'
     | 'tarasy-gresowe'
@@ -1502,8 +1525,10 @@ export type FooterQueryResult = {
 
 // Source: sanity/lib/queries.ts
 // Variable: tarasFormConfigQuery
-// Query: *[_type == "tarasFormConfig"][0]{    shapes[]{      _key,      shapeNumber,      label,      image,      sides    }  }
+// Query: *[_type == "tarasFormConfig"][0]{    title,    description,    shapes[]{      _key,      shapeNumber,      label,      image,      sides    }  }
 export type TarasFormConfigQueryResult = {
+  title: string | null;
+  description: string | null;
   shapes: Array<{
     _key: string;
     shapeNumber: '1' | '2' | '3' | '4';
@@ -1521,9 +1546,27 @@ export type TarasFormConfigQueryResult = {
 } | null;
 
 // Source: sanity/lib/queries.ts
+// Variable: zadaszenieFormConfigQuery
+// Query: *[_type == "zadaszenieFormConfig"][0]{    title,    description  }
+export type ZadaszenieFormConfigQueryResult = {
+  title: string | null;
+  description: string | null;
+} | null;
+
+// Source: sanity/lib/queries.ts
+// Variable: zaluzjeFormConfigQuery
+// Query: *[_type == "zaluzjeFormConfig"][0]{    title,    description  }
+export type ZaluzjeFormConfigQueryResult = {
+  title: string | null;
+  description: string | null;
+} | null;
+
+// Source: sanity/lib/queries.ts
 // Variable: schodyFormConfigQuery
-// Query: *[_type == "schodyFormConfig"][0]{    diagram  }
+// Query: *[_type == "schodyFormConfig"][0]{    title,    description,    diagram  }
 export type SchodyFormConfigQueryResult = {
+  title: string | null;
+  description: string | null;
   diagram: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -1543,7 +1586,6 @@ export type FeaturedProjectsQueryResult = Array<{
   city: string;
   category:
     | 'akcesoria-do-zadaszen'
-    | 'elewacje-kompozytowe'
     | 'schody-modulowe'
     | 'tarasy-drewniane'
     | 'tarasy-gresowe'
@@ -1568,7 +1610,6 @@ export type AllProjectsQueryResult = Array<{
   city: string;
   category:
     | 'akcesoria-do-zadaszen'
-    | 'elewacje-kompozytowe'
     | 'schody-modulowe'
     | 'tarasy-drewniane'
     | 'tarasy-gresowe'
@@ -1594,7 +1635,6 @@ export type GalleryProjectsByCategoryQueryResult = Array<{
   city: string;
   category:
     | 'akcesoria-do-zadaszen'
-    | 'elewacje-kompozytowe'
     | 'schody-modulowe'
     | 'tarasy-drewniane'
     | 'tarasy-gresowe'
@@ -1619,7 +1659,7 @@ export type ServiceSlugsQueryResult = Array<{
 
 // Source: sanity/lib/queries.ts
 // Variable: serviceBySlugQuery
-// Query: *[_type == "service" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    seoDescription,    heroImage,    heroHeadline,    heroSubheadline,    relatedFormSlug,    category,    benefitsEyebrow,    benefitsHeadline,    benefitsDescription,    benefits[]{      _key,      icon,      title,      description    },    brandsEyebrow,    brandsHeadline,    brandsDescription,    brands[]{      _key,      name,      shortDescription,      fullDescription,      image,      specs    },    techSpecsHeadline,    techSpecsDescription,    techSpecs[]{      _key,      icon,      title,      content    },    formCtaHeadline,    formCtaSubheadline,    formCtaButtonLabel,    formCtaBullets  }
+// Query: *[_type == "service" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    seoDescription,    heroImage,    heroHeadline,    heroSubheadline,    relatedFormSlug,    category,    benefitsEyebrow,    benefitsHeadline,    benefitsDescription,    benefits[]{      _key,      icon,      title,      description    },    galleryFooterText,    galleryFacebookUrl,    brandsEyebrow,    brandsHeadline,    brandsDescription,    brands[]{      _key,      name,      shortDescription,      fullDescription,      image,      specs    },    techSpecsHeadline,    techSpecsDescription,    techSpecs[]{      _key,      icon,      title,      content    },    formCtaHeadline,    formCtaSubheadline,    formCtaButtonLabel,    formCtaBullets  }
 export type ServiceBySlugQueryResult = {
   _id: string;
   title: string;
@@ -1638,7 +1678,6 @@ export type ServiceBySlugQueryResult = {
   relatedFormSlug: 'schody' | 'taras' | 'zadaszenie' | 'zaluzje' | null;
   category:
     | 'akcesoria-do-zadaszen'
-    | 'elewacje-kompozytowe'
     | 'schody-modulowe'
     | 'tarasy-drewniane'
     | 'tarasy-gresowe'
@@ -1665,6 +1704,8 @@ export type ServiceBySlugQueryResult = {
     title: string;
     description: string | null;
   }> | null;
+  galleryFooterText: string | null;
+  galleryFacebookUrl: string | null;
   brandsEyebrow: string | null;
   brandsHeadline: string | null;
   brandsDescription: string | null;
@@ -1737,12 +1778,14 @@ declare module '@sanity/client' {
     '*[_type == "bottomCtaSection"][0]': BottomCtaQueryResult;
     '*[_type == "processTimeline"][0]': ProcessTimelineQueryResult;
     '*[_type == "footer"][0]': FooterQueryResult;
-    '*[_type == "tarasFormConfig"][0]{\n    shapes[]{\n      _key,\n      shapeNumber,\n      label,\n      image,\n      sides\n    }\n  }': TarasFormConfigQueryResult;
-    '*[_type == "schodyFormConfig"][0]{\n    diagram\n  }': SchodyFormConfigQueryResult;
+    '*[_type == "tarasFormConfig"][0]{\n    title,\n    description,\n    shapes[]{\n      _key,\n      shapeNumber,\n      label,\n      image,\n      sides\n    }\n  }': TarasFormConfigQueryResult;
+    '*[_type == "zadaszenieFormConfig"][0]{\n    title,\n    description\n  }': ZadaszenieFormConfigQueryResult;
+    '*[_type == "zaluzjeFormConfig"][0]{\n    title,\n    description\n  }': ZaluzjeFormConfigQueryResult;
+    '*[_type == "schodyFormConfig"][0]{\n    title,\n    description,\n    diagram\n  }': SchodyFormConfigQueryResult;
     '*[_type == "project" && isFeatured == true] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    coverImage\n  }': FeaturedProjectsQueryResult;
     '*[_type == "project"] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    surface,\n    coverImage\n  }': AllProjectsQueryResult;
     '*[_type == "project" && category == $category] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    coverImage\n  }': GalleryProjectsByCategoryQueryResult;
     '*[_type == "service" && defined(slug.current)]{ "slug": slug.current }': ServiceSlugsQueryResult;
-    '*[_type == "service" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    seoDescription,\n    heroImage,\n    heroHeadline,\n    heroSubheadline,\n    relatedFormSlug,\n    category,\n    benefitsEyebrow,\n    benefitsHeadline,\n    benefitsDescription,\n    benefits[]{\n      _key,\n      icon,\n      title,\n      description\n    },\n    brandsEyebrow,\n    brandsHeadline,\n    brandsDescription,\n    brands[]{\n      _key,\n      name,\n      shortDescription,\n      fullDescription,\n      image,\n      specs\n    },\n    techSpecsHeadline,\n    techSpecsDescription,\n    techSpecs[]{\n      _key,\n      icon,\n      title,\n      content\n    },\n    formCtaHeadline,\n    formCtaSubheadline,\n    formCtaButtonLabel,\n    formCtaBullets\n  }': ServiceBySlugQueryResult;
+    '*[_type == "service" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    seoDescription,\n    heroImage,\n    heroHeadline,\n    heroSubheadline,\n    relatedFormSlug,\n    category,\n    benefitsEyebrow,\n    benefitsHeadline,\n    benefitsDescription,\n    benefits[]{\n      _key,\n      icon,\n      title,\n      description\n    },\n    galleryFooterText,\n    galleryFacebookUrl,\n    brandsEyebrow,\n    brandsHeadline,\n    brandsDescription,\n    brands[]{\n      _key,\n      name,\n      shortDescription,\n      fullDescription,\n      image,\n      specs\n    },\n    techSpecsHeadline,\n    techSpecsDescription,\n    techSpecs[]{\n      _key,\n      icon,\n      title,\n      content\n    },\n    formCtaHeadline,\n    formCtaSubheadline,\n    formCtaButtonLabel,\n    formCtaBullets\n  }': ServiceBySlugQueryResult;
   }
 }

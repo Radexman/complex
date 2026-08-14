@@ -105,6 +105,14 @@ export default defineConfig({
             filter: `_type == "tarasFormConfig" && _id == "tarasFormConfig"`,
           },
           {
+            route: '/wycena/zadaszenie',
+            filter: `_type == "zadaszenieFormConfig" && _id == "zadaszenieFormConfig"`,
+          },
+          {
+            route: '/wycena/zaluzje',
+            filter: `_type == "zaluzjeFormConfig" && _id == "zaluzjeFormConfig"`,
+          },
+          {
             route: '/wycena/schody',
             filter: `_type == "schodyFormConfig" && _id == "schodyFormConfig"`,
           },
@@ -207,6 +215,16 @@ export default defineConfig({
           tarasFormConfig: defineLocations({
             locations: [{ title: 'Formularz Wyceny Tarasu', href: '/wycena/taras' }],
             message: 'Kształty tarasu są używane w formularzu wyceny tarasu',
+            tone: 'positive',
+          }),
+          zadaszenieFormConfig: defineLocations({
+            locations: [{ title: 'Formularz Wyceny Zadaszenia', href: '/wycena/zadaszenie' }],
+            message: 'Nagłówek i opis są używane w formularzu wyceny zadaszenia',
+            tone: 'positive',
+          }),
+          zaluzjeFormConfig: defineLocations({
+            locations: [{ title: 'Formularz Wyceny Żaluzji', href: '/wycena/zaluzje' }],
+            message: 'Nagłówek i opis są używane w formularzu wyceny żaluzji',
             tone: 'positive',
           }),
           schodyFormConfig: defineLocations({

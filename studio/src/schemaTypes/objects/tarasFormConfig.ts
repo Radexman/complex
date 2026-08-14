@@ -3,9 +3,9 @@ import { defineArrayMember, defineField, defineType } from 'sanity';
 
 /**
  * Fixed-id singleton holding configuration for the „Formularz Wyceny Tarasu”
- * (`/wycena/taras`). Currently just the 4 shape diagrams the editor uploads;
- * kept separate from „Ustawienia / SEO” to match the repo's split-singleton
- * precedent. Room to grow into shared config for the other quotation forms.
+ * (`/wycena/taras`) — the header title/description plus the 4 shape diagrams
+ * the editor uploads; kept separate from „Ustawienia / SEO” to match the
+ * repo's split-singleton precedent.
  */
 export const tarasFormConfig = defineType({
   name: 'tarasFormConfig',
@@ -13,6 +13,22 @@ export const tarasFormConfig = defineType({
   type: 'document',
   icon: ComponentIcon,
   fields: [
+    defineField({
+      name: 'title',
+      title: 'Nagłówek formularza',
+      description: 'Główny nagłówek nad formularzem wyceny.',
+      type: 'string',
+      initialValue: 'Formularz Wyceny Tarasu',
+    }),
+    defineField({
+      name: 'description',
+      title: 'Opis formularza',
+      description: 'Krótki tekst pod nagłówkiem.',
+      type: 'text',
+      rows: 2,
+      initialValue:
+        'Wypełnij poniższy formularz, a przygotujemy bezpłatną wycenę i skontaktujemy się z Tobą w ciągu 3 dni roboczych.',
+    }),
     defineField({
       name: 'shapes',
       title: 'Kształty tarasu',
