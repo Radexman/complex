@@ -1,12 +1,31 @@
-# Current Feature
+# Current Feature: Client Feedback Round 7 (drop Elewacje, uniform tiles, Kontakt swap, form copy editability, GA thank-you pages)
 
 ## Status
 
-Not Started
+In Progress
 
 ## Goals
 
+- #0 Verify the three "not redirecting" CTAs ("Zobacz całą ofertę", "Bezpłatna wycena", "Nasze realizacje") against the live deploy before touching code; likely a stale Studio bundle/cache, not a bug.
+- #1 Remove "Elewacje kompozytowe" completely — schema, code (Navbar/Footer/categories), redirect `/oferta/elewacje-kompozytowe` → `/oferta`, unpublish/delete the `service` doc, audit + resolve any `elewacje-kompozytowe` `project` docs.
+- #2 Realizacje filter tabs: drop Schody + Elewacje tabs (Schody stays a real offer/product, only its filter tab goes) via new `REALIZACJE_TAB_CATEGORIES`.
+- #3 `/oferta` grid: replace `bentoSpan()` hero/banner layout with uniform equal-size tiles (`aspect-4/3` or `aspect-video`, pick one); new card order (6 cards, Elewacje gone); first-rendered card gets `priority`.
+- #4 Kontakt section: swap green accent treatment from "Obszar działania" (→ plain/muted) to "Biuro" (→ bold `border-l-4 border-accent bg-accent/10`) — styling only, no schema change.
+- #5 Move `ProcessTimeline` on offer subpages to just before `ContactShowroom` (after `OfferFormCta`), not between Benefits/Gallery.
+- #6 Offer-page gallery: smaller flat grid (`grid-cols-2 sm:grid-cols-3 md:grid-cols-4`, no hero cell), new optional `galleryFooterNote`-style CMS text field (leave empty, don't invent copy), new "Zobacz wybrane realizacje" CTA button → `/realizacje` (hardcoded copy, not CMS this round).
+- #7 CMS-editable quotation-form intro copy (title + description only) for all four `/wycena/[type]` forms — add fields to existing `tarasFormConfig`/`schodyFormConfig`, create new `zadaszenieFormConfig`/`zaluzjeFormConfig` singletons; in-component fallback to current hardcoded strings.
+- #8 Google Ads per-form thank-you URLs: the 4 quotation forms already satisfy this (no code change, just verify + explain). Real gap is the contact form modal — add `/dziekujemy-kontakt` route, wire `ContactForm` to `markFormSubmitted('kontakt', ...)` + `router.push('/dziekujemy-kontakt')` instead of inline `FormSuccessState`, thread `onSuccess` from `ContactForm` → `ContactFormDialog` → `Navbar` to close the modal during navigation.
+
 ## Notes
+
+- Source: `context/features/feedback-round-7-spec.md` (9 items from a redlined PDF `12.08.26.pdf` + a 14.08.2026 WhatsApp follow-up).
+- **Out of scope, explicitly reversed by the client:** splitting Tarasy kompozytowe into komorowe/pełne subpages (3 wireframe PDFs superseded — *"ostatecznie - nie robimy zakładek do strony zadaszenia i tarasy - poradze sobie"*). Do not build.
+- ⚠️ Assumptions flagged in the spec (confirm if they matter): offer-grid tile aspect ratio (4/3 vs video, pick one); gallery footer note as a single plain `text` field unless she wants a clickable Facebook URL (then split into `galleryFooterText` + `facebookUrl`); no deep-linking `/realizacje` by category from the gallery CTA; gallery/homepage CTA button labels stay hardcoded copy, not CMS, this round.
+- Needs a client decision (not ours to guess): disposition of any existing `elewacje-kompozytowe`-categorized `project` docs (delete / recategorize / unpublish).
+- TypeGen required after #1 (category unions) and #7 (two new singletons + fields on two existing ones) — `cd frontend && npm run sanity:typegen`.
+- Studio redeploy required (`npm run deploy` from `studio/`) — client can't see new form-config fields or the Facebook note field otherwise, and #0's "not redirecting" complaints may trace back to a stale bundle.
+- Testing: no new unit-testable surface expected beyond possibly `formSubmissionSession` (already covers `'kontakt'` as a valid `FormType`). Everything else presentational/schema — verify via `npm test`, `npm run type-check` (both workspaces), `npm run lint`, clean `next build` after `rm -rf .next`, and in-browser (Playwright/Chromium, 0 console errors/warnings) per the spec's verification checklist.
+- Pre-existing open items, untouched this round: `/o-nas` 404 status, żaluzje/Akcesoria naming mismatch.
 
 ## History
 

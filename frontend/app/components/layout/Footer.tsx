@@ -36,7 +36,6 @@ const OFERTA_LINKS: NavLink[] = [
   { label: 'Tarasy kompozytowe', href: '/oferta/tarasy-kompozytowe' },
   { label: 'Tarasy gresowe', href: '/oferta/tarasy-gresowe' },
   { label: 'Tarasy drewniane', href: '/oferta/tarasy-drewniane' },
-  { label: 'Elewacje kompozytowe', href: '/oferta/elewacje-kompozytowe' },
   { label: 'Schody modułowe', href: '/oferta/schody-modulowe' },
 ];
 

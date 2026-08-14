@@ -3,9 +3,9 @@ import { defineField, defineType } from 'sanity';
 
 /**
  * Fixed-id singleton holding configuration for the „Formularz Wyceny Schodów”
- * (`/wycena/schody`). Currently just the technical diagram the dimension inputs
- * A–h refer to; kept separate from „Ustawienia / SEO” to match the repo's
- * split-singleton precedent (see `tarasFormConfig`).
+ * (`/wycena/schody`) — the header title/description plus the technical diagram
+ * the dimension inputs A–h refer to; kept separate from „Ustawienia / SEO” to
+ * match the repo's split-singleton precedent (see `tarasFormConfig`).
  */
 export const schodyFormConfig = defineType({
   name: 'schodyFormConfig',
@@ -13,6 +13,22 @@ export const schodyFormConfig = defineType({
   type: 'document',
   icon: ComponentIcon,
   fields: [
+    defineField({
+      name: 'title',
+      title: 'Nagłówek formularza',
+      description: 'Główny nagłówek nad formularzem wyceny.',
+      type: 'string',
+      initialValue: 'Formularz Wyceny Schodów',
+    }),
+    defineField({
+      name: 'description',
+      title: 'Opis formularza',
+      description: 'Krótki tekst pod nagłówkiem.',
+      type: 'text',
+      rows: 2,
+      initialValue:
+        'Wypełnij poniższy formularz, a przygotujemy bezpłatną wycenę i skontaktujemy się z Tobą w ciągu 3 dni roboczych.',
+    }),
     defineField({
       name: 'diagram',
       title: 'Schemat wymiarów',

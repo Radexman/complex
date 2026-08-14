@@ -16,71 +16,25 @@ gsap.registerPlugin(ScrollTrigger);
 
 type Service = AllServicesQueryResult[number];
 
-/**
- * Bento sizing. Cells are uniform squares on `md`+ so rows align deterministically
- * at any width (mismatched per-cell aspect ratios are what had to be reworked out of
- * OfferGallery). Two cells break the rhythm:
- *
- *  - the first card is a 2×2 hero (`aspect-auto` lets the grid span define its size);
- *  - a trailing card that would otherwise sit alone on its own row spans the full
- *    width as a cinematic banner, so the odd 7th offer reads as intentional.
- *
- * With the current 7 services this tiles a 3-col grid with no empty cells:
- * hero + 2 squares (rows 1–2), 3 squares (row 3), full-width banner (row 4).
- * Mobile is a plain single-column stack.
- */
-function bentoSpan(index: number, total: number): 'hero' | 'banner' | 'square' {
-  if (index === 0) return 'hero';
-  // Cells consumed before this card: the hero takes 4, every other card takes 1.
-  const cellsBefore = 4 + (index - 1);
-  if (index === total - 1 && cellsBefore % 3 === 0) return 'banner';
-  return 'square';
-}
-
-// The `md:` aspect ratio belongs here rather than on the base class: two competing
-// `md:aspect-*` utilities resolve by stylesheet order, not by which one is "more
-// specific", so a base `md:aspect-square` silently wins over the banner's ratio.
-const SPAN_CLASSES: Record<ReturnType<typeof bentoSpan>, string> = {
-  hero: 'md:col-span-2 md:row-span-2 md:aspect-auto',
-  banner: 'md:col-span-3 md:aspect-21/6',
-  square: 'md:aspect-square',
-};
-
-const TITLE_CLASSES: Record<ReturnType<typeof bentoSpan>, string> = {
-  hero: 'text-2xl md:text-3xl',
-  banner: 'text-3xl md:text-5xl',
-  square: 'text-xl',
-};
-
-function ServiceCard({ service, span }: { service: Service; span: ReturnType<typeof bentoSpan> }) {
-  const isWide = span !== 'square';
-  // Banner cards are a wide letterbox; the rest crop close to square.
+function ServiceCard({ service, priority }: { service: Service; priority: boolean }) {
   const imageUrl = service.heroImage?.asset
-    ? urlForImage(service.heroImage)
-        .width(1400)
-        .height(span === 'banner' ? 500 : 1000)
-        .fit('crop')
-        .quality(80)
-        .url()
+    ? urlForImage(service.heroImage).width(900).height(675).fit('crop').quality(80).url()
     : undefined;
-
-  // Details are hidden on narrow cards from `md` up (no room), but shown on mobile
-  // where every card is full-width anyway.
-  const detailsClass = isWide ? '' : 'md:hidden';
 
   return (
     <article
       data-offer-card
-      className={`group relative aspect-4/3 overflow-hidden rounded-xl bg-bg-surface sm:aspect-video ${SPAN_CLASSES[span]}`}
+      className="group relative aspect-4/3 overflow-hidden rounded-xl bg-bg-surface"
     >
       {imageUrl && (
         <Image
           src={imageUrl}
           alt={service.heroImage?.alt || service.title}
           fill
-          // The hero card is above the fold and is the page's LCP element.
-          priority={span === 'hero'}
-          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 66vw, 800px"
+          // The first-rendered card is the most likely LCP element now that
+          // there's no dedicated hero cell.
+          priority={priority}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
         />
       )}
@@ -98,7 +52,7 @@ function ServiceCard({ service, span }: { service: Service; span: ReturnType<typ
           ::after — which positions against this, its nearest positioned ancestor —
           covers the entire card, image included. Content still sits at the bottom. */}
       <div className="absolute inset-0 flex flex-col justify-end p-6">
-        <h2 className={`font-heading font-bold leading-tight text-white ${TITLE_CLASSES[span]}`}>
+        <h2 className="font-heading text-xl font-bold leading-tight text-white">
           {/* Stretched link: the ::after overlay makes the whole card clickable while
               keeping the title as the anchor's accessible name (no nested anchors). */}
           <Link
@@ -109,7 +63,7 @@ function ServiceCard({ service, span }: { service: Service; span: ReturnType<typ
           </Link>
         </h2>
         {service.heroSubheadline && (
-          <p className={`mt-1 line-clamp-1 max-w-xl font-body text-sm text-white/70 ${detailsClass}`}>
+          <p className="mt-1 line-clamp-1 max-w-xl font-body text-sm text-white/70">
             {service.heroSubheadline}
           </p>
         )}
@@ -128,8 +82,6 @@ function ServiceCard({ service, span }: { service: Service; span: ReturnType<typ
             Dowiedz się więcej
             <ArrowRight size={14} aria-hidden="true" />
           </Link>
-          {/* Only 6 of the 7 offers have a quotation form — Elewacje kompozytowe
-              gets the single button. */}
           {service.relatedFormSlug && (
             <Link
               href={`/wycena/${stegaClean(service.relatedFormSlug)}`}
@@ -208,13 +160,12 @@ export default function OfferIndexGrid({
       </header>
 
       <div className="mx-auto max-w-7xl px-6 pb-24 md:px-12">
-        <div data-offer-grid className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div
+          data-offer-grid
+          className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+        >
           {services.map((service, index) => (
-            <ServiceCard
-              key={service._id}
-              service={service}
-              span={bentoSpan(index, services.length)}
-            />
+            <ServiceCard key={service._id} service={service} priority={index === 0} />
           ))}
         </div>
       </div>

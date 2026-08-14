@@ -151,7 +151,6 @@ export type OfferCard = {
     | 'tarasy-kompozytowe'
     | 'tarasy-gresowe'
     | 'tarasy-drewniane'
-    | 'elewacje-kompozytowe'
     | 'schody-modulowe';
 };
 
@@ -197,7 +196,6 @@ export type Service = {
     | 'tarasy-kompozytowe'
     | 'tarasy-gresowe'
     | 'tarasy-drewniane'
-    | 'elewacje-kompozytowe'
     | 'schody-modulowe';
   benefitsEyebrow?: string;
   benefitsHeadline?: string;
@@ -221,6 +219,8 @@ export type Service = {
     _type: 'benefit';
     _key: string;
   }>;
+  galleryFooterText?: string;
+  galleryFacebookUrl?: string;
   brandsEyebrow?: string;
   brandsHeadline?: string;
   brandsDescription?: string;
@@ -307,7 +307,6 @@ export type Project = {
     | 'tarasy-kompozytowe'
     | 'tarasy-gresowe'
     | 'tarasy-drewniane'
-    | 'elewacje-kompozytowe'
     | 'schody-modulowe';
   coverImage: {
     asset?: SanityImageAssetReference;
@@ -321,12 +320,34 @@ export type Project = {
   isFeatured?: boolean;
 };
 
+export type ZaluzjeFormConfig = {
+  _id: string;
+  _type: 'zaluzjeFormConfig';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  description?: string;
+};
+
+export type ZadaszenieFormConfig = {
+  _id: string;
+  _type: 'zadaszenieFormConfig';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  description?: string;
+};
+
 export type SchodyFormConfig = {
   _id: string;
   _type: 'schodyFormConfig';
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  title?: string;
+  description?: string;
   diagram?: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -343,6 +364,8 @@ export type TarasFormConfig = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  title?: string;
+  description?: string;
   shapes: Array<
     {
       _key: string;
@@ -970,6 +993,8 @@ export type AllSanitySchemaTypes =
   | SanityImageHotspot
   | Slug
   | Project
+  | ZaluzjeFormConfig
+  | ZadaszenieFormConfig
   | SchodyFormConfig
   | TarasFormConfig
   | Footer

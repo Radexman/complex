@@ -72,6 +72,8 @@ export const processTimelineQuery = defineQuery(`*[_type == "processTimeline"][0
 export const footerQuery = defineQuery(`*[_type == "footer"][0]`);
 export const tarasFormConfigQuery = defineQuery(
   `*[_type == "tarasFormConfig"][0]{
+    title,
+    description,
     shapes[]{
       _key,
       shapeNumber,
@@ -81,8 +83,22 @@ export const tarasFormConfigQuery = defineQuery(
     }
   }`,
 );
+export const zadaszenieFormConfigQuery = defineQuery(
+  `*[_type == "zadaszenieFormConfig"][0]{
+    title,
+    description
+  }`,
+);
+export const zaluzjeFormConfigQuery = defineQuery(
+  `*[_type == "zaluzjeFormConfig"][0]{
+    title,
+    description
+  }`,
+);
 export const schodyFormConfigQuery = defineQuery(
   `*[_type == "schodyFormConfig"][0]{
+    title,
+    description,
     diagram
   }`,
 );
@@ -140,6 +156,8 @@ export const serviceBySlugQuery = defineQuery(
       title,
       description
     },
+    galleryFooterText,
+    galleryFacebookUrl,
     brandsEyebrow,
     brandsHeadline,
     brandsDescription,

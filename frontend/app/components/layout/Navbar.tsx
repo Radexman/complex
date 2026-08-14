@@ -31,7 +31,6 @@ const OFERTA_ITEMS: NavItem[] = [
       { label: 'Tarasy drewniane', href: '/oferta/tarasy-drewniane' },
     ],
   },
-  { label: 'Elewacje kompozytowe', href: '/oferta/elewacje-kompozytowe' },
   { label: 'Schody modułowe', href: '/oferta/schody-modulowe' },
 ];
 
@@ -456,7 +455,11 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
             </Dialog.Positioner>
           </Portal>
         </Dialog.Root>
-        <ContactFormDialog open={contactOpen} onOpenChange={setContactOpen} />
+        <ContactFormDialog
+          open={contactOpen}
+          onOpenChange={setContactOpen}
+          onSuccess={() => setContactOpen(false)}
+        />
       </nav>
     </header>
   );

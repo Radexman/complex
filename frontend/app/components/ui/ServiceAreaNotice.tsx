@@ -16,8 +16,8 @@ export default function ServiceAreaNotice({
   if (!label && !description) return null;
 
   return (
-    <div className="mt-8 flex gap-4 rounded-lg border-l-4 border-accent bg-accent/10 p-5">
-      <MapPinned size={24} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
+    <div className="mt-8 flex gap-4 rounded-lg border border-graphite bg-bg-surface p-5">
+      <MapPinned size={24} className="mt-0.5 shrink-0 text-silver" aria-hidden="true" />
       <div>
         {label && (
           <h4 className="font-heading text-base font-bold tracking-wide text-white uppercase">
