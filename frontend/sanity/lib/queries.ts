@@ -166,8 +166,14 @@ export const serviceBySlugQuery = defineQuery(
       name,
       shortDescription,
       fullDescription,
-      image,
-      specs
+      variants[]{
+        _key,
+        name,
+        image,
+        specs,
+        description,
+        manufacturer
+      }
     },
     techSpecsHeadline,
     techSpecsDescription,

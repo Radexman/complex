@@ -1,16 +1,135 @@
-# Current Feature
+# Current Feature: Multiple Variants per Board Type (Tarasy Accordion)
 
 ## Status
 
-Not Started
+In Progress
 
 ## Goals
 
-<!-- Populated by /feature load -->
+- Replace the Tarasy board-type accordion's 1-panel = 1-image/1-spec-list model with a per-panel
+  **flat responsive grid of variants** (1..20+), each carrying its own image, caption/name, and
+  spec list — eliminating the "dostępne są w różnych kolorach…" prose workaround.
+- Panel-level `image`/`specs` are removed from the data model; pushed down onto a new
+  `BoardVariant` (id, name, image{src,alt}, specs[], optional description, optional manufacturer)
+  nested under `BoardType` (id, title, subtitle, description[], variants[]).
+- Clicking a variant thumbnail **expands an inline detail region within the same panel** (no
+  lightbox/modal/navigation) — image, name heading, SPECYFIKACJA list, optional description,
+  optional manufacturer, close button. Only one open at a time; reopening swaps content.
+- Detail region ideally inserts after the last card of the clicked card's grid row (image-search
+  pattern); full-width-below-grid is an acceptable fallback if row-detection proves fragile.
+- Fix the outer accordion's fixed-height animation so it doesn't clip the inner detail region when
+  it opens (measure via `scrollHeight`/`ResizeObserver` or `grid-rows 0fr→1fr`); closing the outer
+  accordion resets inner expansion state.
+- Migrate existing content losslessly: each current panel becomes a `BoardType` with exactly one
+  variant (today's image + 3 specs) — no visible regression for single-variant panels.
+- Edge cases: 0 variants → description only, no empty grid; 1 variant → either capped-width single
+  card or (preferred) old-style large image+specs, no expand interaction; 2-3 variants → no
+  absurd stretch (`justify-content: start`); long names wrap to 2 lines without changing card
+  height.
+- Accessibility: cards are `<button>` with `aria-expanded`/`aria-controls`; detail region is
+  `role="region"` with `aria-labelledby`; `Esc` closes and returns focus to trigger; focus stays on
+  trigger on open (not stolen into detail); all images need meaningful Polish alt text.
+- Performance: lazy-load + async-decode thumbnails, explicit dimensions/aspect-ratio (no CLS),
+  two image sizes (thumbnail ~400w / detail ~1000w), prefer WebP/AVIF, target <80KB/thumbnail.
+- Content lives in one obvious content file the client can self-edit (copy-object-change-4-fields
+  ergonomics, silently-degrading optional fields, a top-of-file comment explaining how to add a
+  variant/board type).
 
 ## Notes
 
-<!-- Populated by /feature load -->
+- Source spec: `context/features/feedback-planks-variants-spec.md.md` (note the double `.md` in
+  the actual filename on disk).
+- Client's request came via WhatsApp: she rejected "one accordion entry per board type" (too long
+  a list) and wants more thumbnails inside a single panel instead. Volumes: ~9 variants for
+  komorowe, ~5 for pełne, possibly one more board type later — so the UI must scale to ~20 without
+  code changes.
+- Her "(5 + 4)" komorowe split is **not** a UI grouping requirement — it's carried per-variant via
+  each card's own spec list (e.g. differing `Grubość`). Visible sub-group headers are explicitly
+  out of scope for v1 (follow-up ticket if she insists later).
+- This is a **visible design change** to a page she already approved (two-column text+single-image
+  → description + full-width variant grid) — call it out explicitly when presenting the result,
+  not a silent restyle.
+- Known breakage point flagged in the spec: outer accordion likely uses a fixed max-height for its
+  own open/close animation — must be tested explicitly (open panel → open a variant near the
+  bottom → confirm nothing clips) at multiple viewport widths.
+- Out of scope: filtering/search across variants, side-by-side comparison, per-variant
+  pricing/stock, "add to enquiry"/cart, lightbox/full-screen gallery, visible sub-group headers,
+  any changes to the zadaszenia section.
+- Full acceptance criteria checklist and detailed UI/data-model spec are in the source file —
+  reread it before implementing, don't rely solely on this summary.
+- **Implementation status (mid-session):** schema (`studio/src/schemaTypes/documents/service.ts`
+  — `brands[].image`/`specs` → `brands[].variants[]`) and the GROQ query were already done at
+  session start (a prior pass); this session rewrote `frontend/app/components/offer/
+OfferBrands.tsx` (the actual "Tarasy accordion" — it's the shared Producenci/brands accordion
+  used on every offer page, since the client repurposed that generic mechanism to list board
+  types) and migrated live content.
+- **The "outer accordion clips the inner detail" breakage point does NOT apply here** — verified
+  by reading `node_modules/@zag-js/accordion`: Ark UI's `Accordion.ItemContent` toggles a plain
+  `hidden` attribute with no height/max-height CSS animation at all on this component. Nothing to
+  clip. Closing the outer panel resets the inner grid's open/detail state via a render-time state
+  adjustment (`prevPanelExpanded` comparison, not a `useEffect` — the repo's `react-hooks/
+set-state-in-effect` rule is an error here, same lesson as the `ProjectLightbox` precedent).
+- **`brands[]` is shared across every offer page**, not Tarasy-specific — reusing it was the
+  existing codebase's convention, but it means the schema/query change silently affects
+  `zadaszenia-tarasowe` (8 brands) and `akcesoria-do-zadaszen` (8 brands) too, even though the
+  spec says changes to the zadaszenia section are out of scope. Migrating their data was
+  necessary to avoid a real regression (their Producenci sections would otherwise render empty),
+  not a scope-creep feature addition — content only, no new UI behavior there (both still resolve
+  to the single-variant fallback layout, pixel-identical to before).
+- **Content migrated (published, no pending drafts existed on any of the 3 docs — verified
+  first):** all brand entries across `zadaszenia-tarasowe`, `akcesoria-do-zadaszen`, and
+  `tarasy-kompozytowe` wrapped losslessly into one `variants[]` item each, via direct HTTP calls
+  to the Sanity mutate API (dry-run first, then applied) — same approach as the Round 7 precedent.
+  `tar-drazone`'s image had no `alt` (old schema didn't require one) — viewed the actual asset and
+  wrote a real Polish alt describing colour/structure, not invented.
+- ⚠️ **`tarasy-kompozytowe`'s "Deski kompozytowe pełne" variant has no image at all** — it never
+  had one under the old schema either (the old component rendered specs-only for it). The new
+  `brandVariant.image` field is `rule.required()`, so this variant will show a Studio validation
+  error until the client uploads a photo. Frontend renders it fine either way (specs-only, no
+  regression) — flag to the client that this board type needs a photo.
+- ⚠️ **`akcesoria-do-zadaszen`'s 8 migrated variants have zero specs** (the old `brand.specs` was
+  never populated for any of them) — the new `brandVariant.specs` field is `rule.min(1)`, so all 8
+  will show a Studio validation warning. Not invented placeholder specs; flag to the client.
+  Frontend is unaffected (specs list just doesn't render, same as before).
+- Verified via SSR HTML (no Playwright available this session): single-variant fallback renders
+  correctly for all 3 migrated services; multi-variant grid markup (columns, `aria-expanded`,
+  lazy images, line-clamped captions) verified by temporarily publishing 2 extra test variants on
+  `tar-drazone`, checking the rendered HTML, then reverting — confirmed reverted cleanly
+  (`variantCount: 1` on both `tarasy-kompozytowe` brands, no `TEST` strings left published).
+  **Not verified in a real browser:** the actual click-to-expand interaction, `Esc`-to-close/focus
+  return, and the outer-accordion-clipping check at multiple viewport widths — only reasoned
+  through code + confirmed via the Ark UI source that there's no height-clipping mechanism to
+  begin with.
+- Card styling iterated per live user feedback while the dev server was running: white card
+  background → the site's glass treatment, but as **local Tailwind utilities on the button itself**
+  (`bg-bg-surface/80 backdrop-blur-xl border-white/15`), not the shared global `.glass` utility —
+  editing that would have restyled the Hero stat cards, the About card, and the OfferTechSpecs
+  cards too. Then bumped opacity/blur further and added `cursor-pointer` (Tailwind Preflight resets
+  native `<button>` cursor to `default`) per follow-up feedback.
+- 172/172 Vitest (unchanged — no new server actions/utilities, this feature is presentational +
+  schema/content), `type-check` (both workspaces), `lint` (only the pre-existing `useCountUp`
+  warning at `TrustSection.tsx:65`), clean `next build` — all offer routes prerender as before.
+- **Second pass (user request): split `OfferBrands.tsx` (~400 lines) into focused files** under
+  `frontend/app/components/offer/` — `brandTypes.ts` (shared `Service`/`Brand`/`Variant` types),
+  `VariantSpecs.tsx`, `SingleVariant.tsx`, `VariantDetail.tsx`, `VariantGrid.tsx` (the interactive
+  piece — row/column/detail state), `BrandItem.tsx` (one accordion item), leaving `OfferBrands.tsx`
+  at 93 lines (header + `Accordion.Root` + GSAP wiring only). Matches the `forms/shared/*`
+  precedent (named exports for internal sub-pieces, default export only on the file another
+  component imports) — no other precedent in this repo for a nested subfolder of private internals,
+  so these stayed flat under `offer/` rather than introducing an `offer/brands/` folder.
+- **Accessibility audit found and fixed one real gap:** the `Esc`-to-close handler was a global
+  `window` keydown listener, so pressing Escape anywhere on the page — not just while focus was in
+  the variant grid — would close an open detail. Rescoped to an `onKeyDown` on the grid's own
+  wrapper div (event bubbling from the cards/close button), which only fires when focus is actually
+  inside the widget. Also added `role="group"` + `aria-label="Warianty: {brand name}"` on the grid
+  so screen readers announce the cluster of variant-toggle buttons as related. Re-verified: no
+  `<button>` carries a negative `tabIndex`, so every card and the detail's close button stay in the
+  natural tab order; focus-visible rings, `aria-expanded`/`aria-controls`, and focus-return-to-
+  trigger on close were already correct from the first pass.
+- Re-verified after the split via the same temporarily-publish-then-revert method as the first
+  pass (SSR HTML: `role="group"`, the new `aria-label`, grid markup, `cursor-pointer` all present;
+  reverted cleanly to `variantCount: 1` on both `tarasy-kompozytowe` brands afterward). 172/172
+  Vitest, `type-check`, `lint`, clean `next build` all still pass post-split.
 
 ## History
 

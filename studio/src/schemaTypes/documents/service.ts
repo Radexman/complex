@@ -255,7 +255,7 @@ export const service = defineType({
       name: 'brands',
       title: 'Producenci i systemy',
       description:
-        'Opcjonalna lista producentów / modeli. Pozostaw pustą, gdy oferta nie wymaga tej sekcji — wtedy sekcja się nie pojawi.',
+        'Opcjonalna lista producentów / typów (np. producentów, modeli, albo typów desek). Pozostaw pustą, gdy oferta nie wymaga tej sekcji — wtedy sekcja się nie pojawi. Każdy wpis może mieć jeden lub wiele wariantów (kolor / struktura / wymiary).',
       type: 'array',
       group: 'brands',
       of: [
@@ -266,7 +266,7 @@ export const service = defineType({
             defineField({
               name: 'name',
               title: 'Nazwa',
-              description: 'Nazwa producenta lub modelu, np. „Deponti — Noble”.',
+              description: 'Nazwa producenta, modelu lub typu, np. „Deponti — Noble” albo „Deski kompozytowe komorowe”.',
               type: 'string',
               validation: (rule) => rule.required(),
             }),
@@ -279,34 +279,77 @@ export const service = defineType({
             defineField({
               name: 'fullDescription',
               title: 'Pełny opis',
-              description: '2–4 zdania widoczne po rozwinięciu.',
+              description:
+                '2–4 zdania widoczne po rozwinięciu. Wciśnij Enter dwa razy, aby rozdzielić na osobne akapity.',
               type: 'text',
               rows: 3,
             }),
             defineField({
-              name: 'image',
-              title: 'Zdjęcie',
-              description: 'Opcjonalne zdjęcie produktu / systemu (widoczne po rozwinięciu).',
-              type: 'image',
-              options: { hotspot: true },
-              fields: [
-                defineField({
-                  name: 'alt',
-                  title: 'Tekst alternatywny',
-                  type: 'string',
+              name: 'variants',
+              title: 'Warianty',
+              description:
+                'Warianty tego wpisu — kolor, struktura, wymiary. Jeden wariant renderuje się jak dotychczas (duże zdjęcie + specyfikacja). Więcej wariantów pokazuje siatkę miniaturek do rozwinięcia. Aby dodać wariant: skopiuj poprzedni i zmień nazwę, zdjęcie oraz specyfikację.',
+              type: 'array',
+              validation: (rule) => rule.min(1),
+              of: [
+                defineArrayMember({
+                  type: 'object',
+                  name: 'brandVariant',
+                  fields: [
+                    defineField({
+                      name: 'name',
+                      title: 'Nazwa wariantu',
+                      description: 'Podpis widoczny na miniaturce, np. „Antracyt — struktura drewna”.',
+                      type: 'string',
+                      validation: (rule) => rule.required(),
+                    }),
+                    defineField({
+                      name: 'image',
+                      title: 'Zdjęcie',
+                      type: 'image',
+                      options: { hotspot: true },
+                      fields: [
+                        defineField({
+                          name: 'alt',
+                          title: 'Tekst alternatywny',
+                          description: 'Opisowy tekst po polsku (kolor, struktura) — ważny dla dostępności i SEO.',
+                          type: 'string',
+                          validation: (rule) => rule.required(),
+                        }),
+                      ],
+                      validation: (rule) => rule.required(),
+                    }),
+                    defineField({
+                      name: 'specs',
+                      title: 'Specyfikacja',
+                      description: 'Punkty specyfikacji tego wariantu, np. „Grubość 22 mm”.',
+                      type: 'array',
+                      of: [defineArrayMember({ type: 'string' })],
+                      validation: (rule) => rule.min(1),
+                    }),
+                    defineField({
+                      name: 'description',
+                      title: 'Opis',
+                      description: 'Opcjonalny krótki opis widoczny tylko po rozwinięciu wariantu.',
+                      type: 'text',
+                      rows: 3,
+                    }),
+                    defineField({
+                      name: 'manufacturer',
+                      title: 'Producent',
+                      description: 'Opcjonalna nazwa producenta widoczna po rozwinięciu wariantu.',
+                      type: 'string',
+                    }),
+                  ],
+                  preview: {
+                    select: { title: 'name', subtitle: 'manufacturer', media: 'image' },
+                  },
                 }),
               ],
             }),
-            defineField({
-              name: 'specs',
-              title: 'Specyfikacja',
-              description: 'Opcjonalne punkty specyfikacji widoczne po rozwinięciu.',
-              type: 'array',
-              of: [defineArrayMember({ type: 'string' })],
-            }),
           ],
           preview: {
-            select: { title: 'name', subtitle: 'shortDescription', media: 'image' },
+            select: { title: 'name', subtitle: 'shortDescription', media: 'variants.0.image' },
           },
         }),
       ],
