@@ -1210,6 +1210,20 @@
                 },
                 "optional": true
               },
+              "linkText": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "linkUrl": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
               "_type": {
                 "type": "objectAttribute",
                 "value": {

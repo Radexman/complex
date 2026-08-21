@@ -131,7 +131,9 @@ export default function ContactShowroom({
                   <h4 className="font-heading text-base font-bold text-white">{officeLabel}</h4>
                 )}
                 {officeDescription && (
-                  <p className="mt-1 font-body text-sm text-silver">{officeDescription}</p>
+                  <p className="mt-1 font-body text-sm font-bold text-silver">
+                    {officeDescription}
+                  </p>
                 )}
               </div>
             </div>

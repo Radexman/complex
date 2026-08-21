@@ -216,6 +216,8 @@ export type Service = {
       | 'zap';
     title: string;
     description?: string;
+    linkText?: string;
+    linkUrl?: string;
     _type: 'benefit';
     _key: string;
   }>;
@@ -1666,7 +1668,7 @@ export type ServiceSlugsQueryResult = Array<{
 
 // Source: sanity/lib/queries.ts
 // Variable: serviceBySlugQuery
-// Query: *[_type == "service" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    seoDescription,    heroImage,    heroHeadline,    heroSubheadline,    relatedFormSlug,    category,    benefitsEyebrow,    benefitsHeadline,    benefitsDescription,    benefits[]{      _key,      icon,      title,      description    },    galleryFooterText,    galleryFacebookUrl,    brandsEyebrow,    brandsHeadline,    brandsDescription,    brands[]{      _key,      name,      shortDescription,      fullDescription,      variants[]{        _key,        name,        image,        specs,        description,        manufacturer      }    },    techSpecsHeadline,    techSpecsDescription,    techSpecs[]{      _key,      icon,      title,      content    },    formCtaHeadline,    formCtaSubheadline,    formCtaButtonLabel,    formCtaBullets  }
+// Query: *[_type == "service" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    seoDescription,    heroImage,    heroHeadline,    heroSubheadline,    relatedFormSlug,    category,    benefitsEyebrow,    benefitsHeadline,    benefitsDescription,    benefits[]{      _key,      icon,      title,      description,      linkText,      linkUrl    },    galleryFooterText,    galleryFacebookUrl,    brandsEyebrow,    brandsHeadline,    brandsDescription,    brands[]{      _key,      name,      shortDescription,      fullDescription,      variants[]{        _key,        name,        image,        specs,        description,        manufacturer      }    },    techSpecsHeadline,    techSpecsDescription,    techSpecs[]{      _key,      icon,      title,      content    },    formCtaHeadline,    formCtaSubheadline,    formCtaButtonLabel,    formCtaBullets  }
 export type ServiceBySlugQueryResult = {
   _id: string;
   title: string;
@@ -1710,6 +1712,8 @@ export type ServiceBySlugQueryResult = {
       | 'zap';
     title: string;
     description: string | null;
+    linkText: string | null;
+    linkUrl: string | null;
   }> | null;
   galleryFooterText: string | null;
   galleryFacebookUrl: string | null;
@@ -1799,6 +1803,6 @@ declare module '@sanity/client' {
     '*[_type == "project"] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    surface,\n    coverImage\n  }': AllProjectsQueryResult;
     '*[_type == "project" && category == $category] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    coverImage\n  }': GalleryProjectsByCategoryQueryResult;
     '*[_type == "service" && defined(slug.current)]{ "slug": slug.current }': ServiceSlugsQueryResult;
-    '*[_type == "service" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    seoDescription,\n    heroImage,\n    heroHeadline,\n    heroSubheadline,\n    relatedFormSlug,\n    category,\n    benefitsEyebrow,\n    benefitsHeadline,\n    benefitsDescription,\n    benefits[]{\n      _key,\n      icon,\n      title,\n      description\n    },\n    galleryFooterText,\n    galleryFacebookUrl,\n    brandsEyebrow,\n    brandsHeadline,\n    brandsDescription,\n    brands[]{\n      _key,\n      name,\n      shortDescription,\n      fullDescription,\n      variants[]{\n        _key,\n        name,\n        image,\n        specs,\n        description,\n        manufacturer\n      }\n    },\n    techSpecsHeadline,\n    techSpecsDescription,\n    techSpecs[]{\n      _key,\n      icon,\n      title,\n      content\n    },\n    formCtaHeadline,\n    formCtaSubheadline,\n    formCtaButtonLabel,\n    formCtaBullets\n  }': ServiceBySlugQueryResult;
+    '*[_type == "service" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    seoDescription,\n    heroImage,\n    heroHeadline,\n    heroSubheadline,\n    relatedFormSlug,\n    category,\n    benefitsEyebrow,\n    benefitsHeadline,\n    benefitsDescription,\n    benefits[]{\n      _key,\n      icon,\n      title,\n      description,\n      linkText,\n      linkUrl\n    },\n    galleryFooterText,\n    galleryFacebookUrl,\n    brandsEyebrow,\n    brandsHeadline,\n    brandsDescription,\n    brands[]{\n      _key,\n      name,\n      shortDescription,\n      fullDescription,\n      variants[]{\n        _key,\n        name,\n        image,\n        specs,\n        description,\n        manufacturer\n      }\n    },\n    techSpecsHeadline,\n    techSpecsDescription,\n    techSpecs[]{\n      _key,\n      icon,\n      title,\n      content\n    },\n    formCtaHeadline,\n    formCtaSubheadline,\n    formCtaButtonLabel,\n    formCtaBullets\n  }': ServiceBySlugQueryResult;
   }
 }

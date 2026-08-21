@@ -76,7 +76,7 @@ export default function OfferHero({
           {heroHeadline}
         </h1>
         {heroSubheadline && (
-          <p data-offer-animate className="mt-4 max-w-xl font-body text-lg text-silver">
+          <p data-offer-animate className="mt-4 max-w-xl font-body text-lg text-white/80">
             {heroSubheadline}
           </p>
         )}

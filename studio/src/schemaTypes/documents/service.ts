@@ -204,6 +204,22 @@ export const service = defineType({
               title: 'Opis',
               type: 'string',
             }),
+            defineField({
+              name: 'linkText',
+              title: 'Tekst linku',
+              description:
+                'Opcjonalny fragment tekstu w opisie, który ma być wyświetlony jako link, np. „goliatgres.pl”.',
+              type: 'string',
+              hidden: ({ parent }) => !parent?.description,
+            }),
+            defineField({
+              name: 'linkUrl',
+              title: 'Adres linku',
+              description: 'Docelowy adres URL dla tekstu linku powyżej.',
+              type: 'url',
+              validation: (rule) => rule.uri({ scheme: ['http', 'https'] }),
+              hidden: ({ parent }) => !parent?.description,
+            }),
           ],
           preview: {
             select: { title: 'title', subtitle: 'icon' },

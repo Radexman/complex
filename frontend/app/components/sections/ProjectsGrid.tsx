@@ -49,7 +49,9 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void
       {/* Bottom info row */}
       <div className="absolute inset-x-3 bottom-3 flex items-end justify-between">
         <p className="font-heading text-lg font-bold leading-tight text-white">{project.city}</p>
-        {project.surface != null && <p className="font-body text-sm text-silver">{project.surface} m²</p>}
+        {project.surface != null && (
+          <p className="font-body text-sm text-silver">{project.surface} m²</p>
+        )}
       </div>
     </button>
   );
@@ -115,10 +117,7 @@ export default function ProjectsGrid({
             {header?.headline ?? 'Realizacje'}
           </h1>
           {header?.subheadline && (
-            <p
-              data-pg-reveal
-              className="mx-auto mt-4 max-w-2xl font-body text-base text-silver"
-            >
+            <p data-pg-reveal className="mx-auto mt-4 max-w-2xl font-body text-base text-white/80">
               {header.subheadline}
             </p>
           )}
@@ -133,7 +132,7 @@ export default function ProjectsGrid({
           <Tabs.List data-pg-reveal className="mt-10 flex flex-wrap justify-center gap-2">
             <Tabs.Trigger
               value={ALL}
-              className="cursor-pointer rounded-full border border-graphite bg-bg-surface px-4 py-2 text-sm font-medium text-silver transition-all duration-200 hover:text-white data-[selected]:border-accent data-[selected]:bg-accent data-[selected]:text-black"
+              className="cursor-pointer rounded-full border border-graphite bg-bg-surface px-4 py-2 text-sm font-medium text-silver transition-all duration-200 hover:text-white data-selected:border-accent data-selected:bg-accent data-selected:text-black"
             >
               Wszystkie
             </Tabs.Trigger>
@@ -141,7 +140,7 @@ export default function ProjectsGrid({
               <Tabs.Trigger
                 key={category}
                 value={category}
-                className="cursor-pointer rounded-full border border-graphite bg-bg-surface px-4 py-2 text-sm font-medium text-silver transition-all duration-200 hover:text-white data-[selected]:border-accent data-[selected]:bg-accent data-[selected]:text-black"
+                className="cursor-pointer rounded-full border border-graphite bg-bg-surface px-4 py-2 text-sm font-medium text-silver transition-all duration-200 hover:text-white data-selected:border-accent data-selected:bg-accent data-selected:text-black"
               >
                 {categoryLabel(category)}
               </Tabs.Trigger>
@@ -157,11 +156,7 @@ export default function ProjectsGrid({
         {/* Project grid */}
         <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {filtered.map((project) => (
-            <ProjectCard
-              key={project._id}
-              project={project}
-              onOpen={() => setSelected(project)}
-            />
+            <ProjectCard key={project._id} project={project} onOpen={() => setSelected(project)} />
           ))}
         </div>
       </div>

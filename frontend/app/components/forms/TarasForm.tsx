@@ -29,8 +29,8 @@ import { ShapeSelector, type TarasShapeOption } from './ShapeSelector';
 const MATERIAL_OPTIONS = [
   'Kompozyt',
   'Płyty Gresowe gr. 2 cm',
-  'Thermo Jesion (Termojesion)',
-  'Thermo Sosna (Thermososna)',
+  'Thermo Jesion',
+  'Thermo Sosna',
   'Świerk',
 ].map((value) => ({ value, label: value }));
 

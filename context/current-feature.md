@@ -1,16 +1,54 @@
-# Current Feature
+# Current Feature: Client Feedback — Round 8
 
 ## Status
 
-Not Started
+In Progress
 
 ## Goals
 
-<!-- Populated by /feature load -->
+- **#1 Tarasy Drewniane brands** — content-only, no code change. Confirmed `tarasy-drewniane.brands`
+  is `null` and the generic `OfferBrands`/`BrandItem`/`VariantGrid` components already render it
+  correctly once populated. ⚠️ Blocked on client (she adds 3 `brand` entries + wood descriptions in
+  Studio herself). Nothing to implement.
+- **#2 "goliatgres.pl" → bold link to Goliat's site** — add optional `linkText` (string) and
+  `linkUrl` (url) fields to the shared `benefit` object in
+  `studio/src/schemaTypes/documents/service.ts:184-211`; update
+  `frontend/app/components/offer/OfferBenefits.tsx:108-110` to render the matched substring as a
+  bold, underlined, new-tab link when both fields are set, falling back to plain text otherwise. Set
+  `linkText: "goliatgres.pl"` / `linkUrl: "https://goliatgres.pl"` on `tarasy-gresowe`'s `b3` benefit.
+  Requires `sanity:typegen` + Studio redeploy.
+- **#3 Taras quotation form material labels** — in
+  `frontend/app/components/forms/TarasForm.tsx:32-33`, `MATERIAL_OPTIONS`: drop the parenthetical —
+  `'Thermo Jesion (Termojesion)'` → `'Thermo Jesion'`, `'Thermo Sosna (Thermososna)'` → `'Thermo
+  Sosna'`. No schema/validation impact (`material` is a free string).
+- **#4 Kontakt "Biuro" description bold** — add `font-bold` to the `officeDescription` `<p>` in
+  `frontend/app/components/sections/ContactShowroom.tsx:134` (the "Biuro" heading above it is already
+  bold). Styling only, no CMS/content change.
+- **#5 Hero subheadline contrast** — swap `text-silver` → `text-white/80` on the description text in
+  4 files: `HeroSection.tsx:98` (also drop the dead `/110` opacity leftover on `text-silver/110`),
+  `OfferHero.tsx:79`, `AboutHero.tsx:50`, `ProjectsGrid.tsx:120-121`. Do **not** touch
+  `ProjectsGrid.tsx:53`'s card caption or any other secondary/metadata text — scoped to
+  hero-adjacent descriptions only.
 
 ## Notes
 
-<!-- Populated by /feature load -->
+Spec: `context/features/feedback-round-8-spec.md`. Five independent, low-risk items from a redlined
+PDF (`19.08.pdf`, 19.08.2026) plus one chat follow-up (item #5, not in the PDF) — no item touches
+another's files, so they can land in one branch/commit set or be split, either works.
+
+- Only item #2 touches schema → `cd frontend && npm run sanity:typegen` after the `service.ts`
+  edit, and `npm run deploy` from `studio/` so the client can see the new fields.
+- No new server actions/utilities → no new Vitest coverage needed (per spec's own "Tests" section).
+- Item #1 is content-only and blocked on the client (wood descriptions + images) — nothing to build;
+  don't invent placeholder brand entries.
+- Item #5's exact opacity value is an assumption (`text-white/80`); spec flags `/90` as the fallback
+  if the client wants it closer to pure white — a one-word swap after she sees it live, not worth
+  blocking on.
+- Verification checklist (from spec): `npm test`, `npm run type-check` (both workspaces), `npm run
+  lint`, clean `next build` after `rm -rf .next`; in-browser checks for the Goliat link, the taras
+  form dropdown + lead email label, Biuro bold text, Tarasy Drewniane still rendering null brands
+  (not a bug), and hero description contrast on Home/an offer subpage/O nas/Realizacje. Do not
+  actually send a quotation/contact form through Resend outside a controlled test.
 
 ## History
 

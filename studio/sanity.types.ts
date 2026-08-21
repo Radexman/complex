@@ -216,6 +216,8 @@ export type Service = {
       | 'zap';
     title: string;
     description?: string;
+    linkText?: string;
+    linkUrl?: string;
     _type: 'benefit';
     _key: string;
   }>;
@@ -228,15 +230,22 @@ export type Service = {
     name: string;
     shortDescription?: string;
     fullDescription?: string;
-    image?: {
-      asset?: SanityImageAssetReference;
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      alt?: string;
-      _type: 'image';
-    };
-    specs?: Array<string>;
+    variants?: Array<{
+      name: string;
+      image: {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt: string;
+        _type: 'image';
+      };
+      specs?: Array<string>;
+      description?: string;
+      manufacturer?: string;
+      _type: 'brandVariant';
+      _key: string;
+    }>;
     _type: 'brand';
     _key: string;
   }>;

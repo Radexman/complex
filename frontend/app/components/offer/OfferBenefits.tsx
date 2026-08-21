@@ -17,6 +17,36 @@ type OfferBenefitsProps = Pick<
   Service,
   'benefitsEyebrow' | 'benefitsHeadline' | 'benefitsDescription' | 'benefits'
 >;
+type Benefit = NonNullable<Service['benefits']>[number];
+
+function renderBenefitDescription(benefit: Benefit) {
+  const description = benefit.description;
+  if (!description) return null;
+
+  const linkText = benefit.linkText ? stegaClean(benefit.linkText) : '';
+  const linkUrl = benefit.linkUrl;
+  const cleanDescription = stegaClean(description);
+
+  if (linkText && linkUrl && cleanDescription.includes(linkText)) {
+    const [before, after] = cleanDescription.split(linkText);
+    return (
+      <>
+        {before}
+        <a
+          href={linkUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-bold text-accent underline hover:text-accent/80"
+        >
+          {linkText}
+        </a>
+        {after}
+      </>
+    );
+  }
+
+  return description;
+}
 
 export default function OfferBenefits({
   benefitsEyebrow,
@@ -107,7 +137,7 @@ export default function OfferBenefits({
                 </h3>
                 {benefit.description && (
                   <p className="mt-1 font-body text-sm leading-relaxed text-silver">
-                    {benefit.description}
+                    {renderBenefitDescription(benefit)}
                   </p>
                 )}
               </div>

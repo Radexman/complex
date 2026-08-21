@@ -154,7 +154,9 @@ export const serviceBySlugQuery = defineQuery(
       _key,
       icon,
       title,
-      description
+      description,
+      linkText,
+      linkUrl
     },
     galleryFooterText,
     galleryFacebookUrl,
