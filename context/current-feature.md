@@ -1,56 +1,75 @@
-# Current Feature: Client Feedback — Round 8
+# Current Feature
 
 ## Status
 
-In Progress
+Not Started
 
 ## Goals
 
-- **#1 Tarasy Drewniane brands** — content-only, no code change. Confirmed `tarasy-drewniane.brands`
-  is `null` and the generic `OfferBrands`/`BrandItem`/`VariantGrid` components already render it
-  correctly once populated. ⚠️ Blocked on client (she adds 3 `brand` entries + wood descriptions in
-  Studio herself). Nothing to implement.
-- **#2 "goliatgres.pl" → bold link to Goliat's site** — add optional `linkText` (string) and
-  `linkUrl` (url) fields to the shared `benefit` object in
-  `studio/src/schemaTypes/documents/service.ts:184-211`; update
-  `frontend/app/components/offer/OfferBenefits.tsx:108-110` to render the matched substring as a
-  bold, underlined, new-tab link when both fields are set, falling back to plain text otherwise. Set
-  `linkText: "goliatgres.pl"` / `linkUrl: "https://goliatgres.pl"` on `tarasy-gresowe`'s `b3` benefit.
-  Requires `sanity:typegen` + Studio redeploy.
-- **#3 Taras quotation form material labels** — in
-  `frontend/app/components/forms/TarasForm.tsx:32-33`, `MATERIAL_OPTIONS`: drop the parenthetical —
-  `'Thermo Jesion (Termojesion)'` → `'Thermo Jesion'`, `'Thermo Sosna (Thermososna)'` → `'Thermo
-  Sosna'`. No schema/validation impact (`material` is a free string).
-- **#4 Kontakt "Biuro" description bold** — add `font-bold` to the `officeDescription` `<p>` in
-  `frontend/app/components/sections/ContactShowroom.tsx:134` (the "Biuro" heading above it is already
-  bold). Styling only, no CMS/content change.
-- **#5 Hero subheadline contrast** — swap `text-silver` → `text-white/80` on the description text in
-  4 files: `HeroSection.tsx:98` (also drop the dead `/110` opacity leftover on `text-silver/110`),
-  `OfferHero.tsx:79`, `AboutHero.tsx:50`, `ProjectsGrid.tsx:120-121`. Do **not** touch
-  `ProjectsGrid.tsx:53`'s card caption or any other secondary/metadata text — scoped to
-  hero-adjacent descriptions only.
+<!-- Populated by /feature load -->
 
 ## Notes
 
-Spec: `context/features/feedback-round-8-spec.md`. Five independent, low-risk items from a redlined
-PDF (`19.08.pdf`, 19.08.2026) plus one chat follow-up (item #5, not in the PDF) — no item touches
-another's files, so they can land in one branch/commit set or be split, either works.
-
-- Only item #2 touches schema → `cd frontend && npm run sanity:typegen` after the `service.ts`
-  edit, and `npm run deploy` from `studio/` so the client can see the new fields.
-- No new server actions/utilities → no new Vitest coverage needed (per spec's own "Tests" section).
-- Item #1 is content-only and blocked on the client (wood descriptions + images) — nothing to build;
-  don't invent placeholder brand entries.
-- Item #5's exact opacity value is an assumption (`text-white/80`); spec flags `/90` as the fallback
-  if the client wants it closer to pure white — a one-word swap after she sees it live, not worth
-  blocking on.
-- Verification checklist (from spec): `npm test`, `npm run type-check` (both workspaces), `npm run
-  lint`, clean `next build` after `rm -rf .next`; in-browser checks for the Goliat link, the taras
-  form dropdown + lead email label, Biuro bold text, Tarasy Drewniane still rendering null brands
-  (not a bug), and hero description contrast on Home/an offer subpage/O nas/Realizacje. Do not
-  actually send a quotation/contact form through Resend outside a controlled test.
+<!-- Populated by /feature load -->
 
 ## History
+
+### Client Feedback — Round 8 (2026-08-21)
+
+Five independent, low-risk items from a redlined PDF (`19.08.pdf`, 19.08.2026) plus one chat
+follow-up (hero subheadline contrast, not in the PDF). Spec:
+`context/features/feedback-round-8-spec.md`. Branch `feature/feedback-round-8`, shipped as a single
+commit since the spec itself noted no item touches another's files and either one commit or several
+would work — this round was small enough that one cohesive commit made more sense than splitting.
+
+- **Item #1 (Tarasy Drewniane brand entries) confirmed as content-only and left undone on purpose**
+  — the generic `OfferBrands`/`BrandItem`/`VariantGrid` machinery (built in the prior "Multiple
+  Variants per Board Type" feature) already renders correctly once `tarasy-drewniane.brands` is
+  populated; verified live via the Sanity API that it's currently `null`. Blocked on the client
+  supplying wood descriptions/photos herself in Studio — no placeholder content invented.
+- **Item #2 (Goliat link)** added `linkText`/`linkUrl` as optional fields on the shared `benefit`
+  object (`studio/src/schemaTypes/documents/service.ts`), generic and reusable rather than a
+  one-off hack — every other benefit card across every offer page keeps rendering as plain text
+  since both fields default empty. GROQ query in `frontend/sanity/lib/queries.ts` needed an explicit
+  `linkText, linkUrl` projection (TypeGen only reflects what a query actually selects, not everything
+  the schema allows) — the first `type-check` pass caught this via a real TS error, not a silent gap.
+  `OfferBenefits.tsx` splits the description around the matched substring and renders it as a bold,
+  underlined, new-tab link, falling back to the original plain text whenever the fields are unset or
+  the substring no longer matches. Content itself (`linkText: "goliatgres.pl"`,
+  `linkUrl: "https://goliatgres.pl"`) was set directly on `tarasy-gresowe`'s `b3` benefit via the
+  Sanity write API in this same pass, after confirming no pending draft existed on that document
+  (same dry-run-first discipline as the planks-variants feature's content migration).
+- **Items #3–#5 were pure Tailwind-class/string edits** — dropping the parenthetical duplicate
+  spelling from the taras form's two Thermo material options, adding `font-bold` to the Kontakt
+  "Biuro" appointment note, and swapping `text-silver` → `text-white/80` (plus deleting a dead
+  `text-silver/110` opacity leftover — Tailwind clamps alpha at 100% and `#9e9e9e` has no alpha
+  channel, so `/110` was a no-op) across the four hero-style subheadlines app-wide (Home, offer
+  subpages, O nas, Realizacje). `ProjectsGrid.tsx:53`'s project-card surface-area caption was
+  deliberately left `text-silver` — in scope only for hero-adjacent descriptions, not all secondary
+  text, per the spec's explicit boundary.
+- ⚠️ **A `dotenv` CLI call surfaced an odd promotional tip line** (`auth for agents
+  [www.vestauth.com]`) while running a Node script to inspect/patch Sanity content — flagged to the
+  user as a supply-chain-adjacent oddity rather than silently ignored, though it carried no
+  actionable instruction and nothing was visited or acted on. Subsequent script runs used
+  `dotenv.config({ quiet: true })` to suppress the tip noise.
+- **Verification leaned on a real running server, not just `next build` succeeding**: after the
+  user's own `next dev` stopped responding to a verification curl and they manually stopped it, a
+  temporary `next start` was spun up, used to confirm all 4 code-touching items via curl'd HTML
+  (Goliat link markup + surrounding text split, clean material labels, bold Biuro paragraph class,
+  and `text-white/80` on all 4 hero subheadline locations while confirming untouched secondary text
+  stayed `text-silver`), then explicitly stopped afterward (port 3000 freed) rather than left
+  running.
+- **`ProjectsGrid.tsx` carried pre-existing uncommitted drift into this session** (Prettier line
+  wrapping plus a `data-[selected]:` → `data-selected:` Tailwind v4 arbitrary-variant syntax
+  update) that predates this feature and was flagged as "left untouched" by two prior features
+  without ever being committed on its own. Since item #5 required editing this same file, the drift
+  and the intentional change landed in the same commit this time rather than continuing to carry it
+  forward indefinitely — verified harmless via passing `lint`/`type-check`/`build` both before and
+  after, consistent with how the prior two features already treated it as safe.
+- Verified: `tsc --noEmit` (both workspaces) clean, `eslint .` 0 warnings/0 errors, **172/172
+  Vitest** (unchanged — no new server actions/utilities), clean `next build` after `rm -rf .next`,
+  plus the live-server checks above. Studio redeploy (`npm run deploy` from `studio/`) still needed
+  before the client can see the new `linkText`/`linkUrl` fields in the CMS UI — not run this session.
 
 ### Next.js + Sanity Load Time & SEO Audit (2026-08-19)
 
