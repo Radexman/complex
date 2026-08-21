@@ -10,7 +10,7 @@ const builder = createImageUrlBuilder({
 // Create an image URL builder using the client
 // Export a function that can be used to get image URLs
 export function urlForImage(source: SanityImageSource) {
-  return builder.image(source);
+  return builder.image(source).auto('format');
 }
 
 export function resolveOpenGraphImage(

@@ -11,6 +11,7 @@ import { Toaster } from 'sonner';
 import DraftModeToast from '@/app/components/DraftModeToast';
 import Footer from '@/app/components/layout/Footer';
 import Header from '@/app/components/Header';
+import OrganizationJsonLd from '@/app/components/OrganizationJsonLd';
 import * as demo from '@/sanity/lib/demo';
 import { sanityFetch, SanityLive } from '@/sanity/lib/live';
 import { settingsQuery } from '@/sanity/lib/queries';
@@ -77,6 +78,7 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="pl" className={`${inter.variable} ${bebasNeue.variable} ${spaceGrotesk.variable}`}>
       <body>
+        <OrganizationJsonLd />
         {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
         <Toaster />
         {isDraftMode && (
