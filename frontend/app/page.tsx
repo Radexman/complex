@@ -3,6 +3,7 @@ import {
   beforeAfterQuery,
   bottomCtaQuery,
   featuredProjectsQuery,
+  facebookUrlQuery,
   featuredProjectsSectionQuery,
   heroQuery,
   offerQuery,
@@ -33,6 +34,7 @@ export default async function Page() {
     { data: vatHighlight },
     { data: processTimeline },
     { data: bottomCta },
+    { data: facebookUrl },
   ] = await Promise.all([
     sanityFetch({ query: heroQuery }),
     sanityFetch({ query: trustQuery }),
@@ -44,6 +46,7 @@ export default async function Page() {
     sanityFetch({ query: vatHighlightQuery }),
     sanityFetch({ query: processTimelineQuery }),
     sanityFetch({ query: bottomCtaQuery }),
+    sanityFetch({ query: facebookUrlQuery }),
   ]);
 
   return (
@@ -53,7 +56,11 @@ export default async function Page() {
       <OfferSection data={offer ?? undefined} />
       {about && <AboutSection data={about} />}
       {featuredSection && (
-        <FeaturedProjectsSection data={featuredSection} projects={featuredProjects} />
+        <FeaturedProjectsSection
+          data={featuredSection}
+          projects={featuredProjects}
+          facebookUrl={facebookUrl}
+        />
       )}
       {beforeAfter && <BeforeAfterSection data={beforeAfter} />}
       {vatHighlight && <VatHighlight data={vatHighlight} />}

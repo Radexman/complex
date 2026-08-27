@@ -25,6 +25,8 @@ import { bottomCtaSection } from './objects/bottomCtaSection';
 import { processTimeline } from './objects/processTimeline';
 import { processStep } from './objects/processStep';
 import { footer } from './objects/footer';
+import { legalPage } from './objects/legalPage';
+import { legalSection } from './objects/legalSection';
 import { tarasFormConfig } from './objects/tarasFormConfig';
 import { tarasShape } from './objects/tarasShape';
 import { schodyFormConfig } from './objects/schodyFormConfig';
@@ -52,6 +54,7 @@ export const schemaTypes = [
   bottomCtaSection,
   processTimeline,
   footer,
+  legalPage,
   tarasFormConfig,
   schodyFormConfig,
   // Collections (multiple documents)
@@ -69,4 +72,5 @@ export const schemaTypes = [
   beforeAfterItem,
   vatRate,
   wycenaFormCard,
+  legalSection,
 ];

@@ -34,7 +34,8 @@ export const sitemapQuery = defineQuery(`{
   "wycena": *[_type == "wycenaPage"][0]._updatedAt,
   "realizacje": *[_type in ["realizacjePage", "project"]] | order(_updatedAt desc)[0]._updatedAt,
   "tarasy": *[_type == "tarasyPage"][0]._updatedAt,
-  "oNas": *[_type == "aboutPage"][0]._updatedAt
+  "oNas": *[_type == "aboutPage"][0]._updatedAt,
+  "politykaPrywatnosci": *[_type == "legalPage"][0]._updatedAt
 }`);
 
 /**
@@ -70,6 +71,18 @@ export const vatHighlightQuery = defineQuery(`*[_type == "vatHighlightSection"][
 export const bottomCtaQuery = defineQuery(`*[_type == "bottomCtaSection"][0]`);
 export const processTimelineQuery = defineQuery(`*[_type == "processTimeline"][0]`);
 export const footerQuery = defineQuery(`*[_type == "footer"][0]`);
+
+/**
+ * The company's Facebook profile, read from the footer's social links so the URL
+ * has exactly one home. Used by the „nasze realizacje" sections on the home page
+ * and `/realizacje`, which link out to more photos.
+ */
+export const facebookUrlQuery = defineQuery(
+  `*[_type == "footer"][0].socialLinks[platform == "facebook"][0].href`,
+);
+
+/** The privacy policy behind `/polityka-prywatnosci`. Whole-doc select. */
+export const legalPageQuery = defineQuery(`*[_type == "legalPage"][0]`);
 export const tarasFormConfigQuery = defineQuery(
   `*[_type == "tarasFormConfig"][0]{
     shapes[]{

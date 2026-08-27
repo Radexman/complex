@@ -15,6 +15,14 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: ../sanity.schema.json
+export type LegalSection = {
+  _type: 'legalSection';
+  heading?: string;
+  body?: string;
+  bullets?: Array<string>;
+  footnote?: string;
+};
+
 export type WycenaFormCard = {
   _type: 'wycenaFormCard';
   formSlug: 'taras' | 'zadaszenie' | 'zaluzje' | 'schody';
@@ -350,6 +358,23 @@ export type TarasFormConfig = {
   >;
 };
 
+export type LegalPage = {
+  _id: string;
+  _type: 'legalPage';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  lastUpdated?: string;
+  intro?: string;
+  sections?: Array<
+    {
+      _key: string;
+    } & LegalSection
+  >;
+  seoDescription?: string;
+};
+
 export type Footer = {
   _id: string;
   _type: 'footer';
@@ -377,6 +402,7 @@ export type Footer = {
   contactName?: string;
   contactAddress?: string;
   contactPhone?: string;
+  contactWhatsApp?: string;
   contactEmail?: string;
   copyrightText?: string;
 };
@@ -953,6 +979,7 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+  | LegalSection
   | WycenaFormCard
   | VatRate
   | SanityImageAssetReference
@@ -972,6 +999,7 @@ export type AllSanitySchemaTypes =
   | Project
   | SchodyFormConfig
   | TarasFormConfig
+  | LegalPage
   | Footer
   | ProcessTimeline
   | BottomCtaSection

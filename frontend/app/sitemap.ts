@@ -99,5 +99,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
       changeFrequency: 'yearly',
     },
+    {
+      url: `${baseUrl}/polityka-prywatnosci`,
+      lastModified: lastModified(data.politykaPrywatnosci),
+      priority: 0.3,
+      changeFrequency: 'yearly',
+    },
   ];
 }

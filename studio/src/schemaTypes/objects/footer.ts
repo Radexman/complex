@@ -126,6 +126,14 @@ export const footer = defineType({
       initialValue: '+48 000 000 000',
     }),
     defineField({
+      name: 'contactWhatsApp',
+      title: 'WhatsApp',
+      description:
+        'Numer WhatsApp pokazywany pod telefonem. Wpisz go tak, jak ma być widoczny (np. +48 661 242 507) — odnośnik wa.me powstanie automatycznie. Zostaw puste, aby ukryć wiersz.',
+      type: 'string',
+      group: 'contact',
+    }),
+    defineField({
       name: 'contactEmail',
       title: 'E-mail',
       type: 'string',

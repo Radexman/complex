@@ -11,11 +11,13 @@ import { stegaClean } from 'next-sanity';
 import { ArrowUpRight } from 'lucide-react';
 
 import type {
+  FacebookUrlQueryResult,
   FeaturedProjectsQueryResult,
   FeaturedProjectsSectionQueryResult,
 } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/utils';
 import ProjectLightbox from '@/app/components/ui/ProjectLightbox';
+import FacebookRealizacjeLink from '@/app/components/ui/FacebookRealizacjeLink';
 import { CATEGORY_ORDER, categoryLabel } from '@/app/lib/categories';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -57,9 +59,11 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void
 export default function FeaturedProjectsSection({
   data,
   projects,
+  facebookUrl,
 }: {
   data: NonNullable<FeaturedProjectsSectionQueryResult>;
   projects: FeaturedProjectsQueryResult;
+  facebookUrl: FacebookUrlQueryResult;
 }) {
   const container = useRef<HTMLElement>(null);
   const [activeTab, setActiveTab] = useState<string>(ALL);
@@ -150,18 +154,21 @@ export default function FeaturedProjectsSection({
               </p>
             )}
           </div>
-          <Link
-            data-fp-reveal
-            href="/realizacje"
-            className="group inline-flex shrink-0 items-center gap-1.5 font-heading text-sm font-medium text-accent transition-colors hover:text-accent-hover"
-          >
-            Zobacz wszystkie realizacje
-            <ArrowUpRight
-              size={18}
-              className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-              aria-hidden="true"
-            />
-          </Link>
+          <div className="flex shrink-0 flex-wrap items-center gap-x-6 gap-y-3">
+            <Link
+              data-fp-reveal
+              href="/realizacje"
+              className="group inline-flex shrink-0 items-center gap-1.5 font-heading text-sm font-medium text-accent transition-colors hover:text-accent-hover"
+            >
+              Zobacz wszystkie realizacje
+              <ArrowUpRight
+                size={18}
+                className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                aria-hidden="true"
+              />
+            </Link>
+            <FacebookRealizacjeLink href={facebookUrl} data-fp-reveal />
+          </div>
         </div>
 
         {/* Category tabs */}
