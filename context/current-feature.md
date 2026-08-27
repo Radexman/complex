@@ -1,12 +1,70 @@
-# Current Feature
+# Current Feature: Client Feedback — Round 7
 
 ## Status
 
-Not Started
+In Progress
 
 ## Goals
 
+Spec: `context/features/feedback-round-7-spec.md`. Six actionable items from the client's WhatsApp
+messages of 26.08.2026 (item 1, the schody catalogue, is already resolved in the CMS).
+
+- **#2 — Header CTA reads „Bezpłatna wycena".** Publish the `navbar` draft, which has held the
+  corrected label since 6 August. CMS-only; no deploy.
+- **#3 — Facebook is prominent and links out.** A bold Facebook link in the „nasze realizacje"
+  areas of the home page and `/realizacje`, plus a stronger footer icon. Clean the stored profile
+  URL of its `notif_*` notification parameters.
+- **#4 — Footer tagline says „na wybranych obszarach woj. śląskiego i opolskiego".** CMS-only.
+- **#5 — WhatsApp row in the footer**, directly under the phone number, driven by a new optional
+  `footer.contactWhatsApp` field.
+- **#6 — Google tags installable.** Confirm to the client that the codes can be installed, gather
+  what is actually needed (product, IDs, conversion definition), and install once she sends them.
+- **#7 — `/polityka-prywatnosci` exists and returns 200**, ending the six live 404s that already
+  link to it (footer + all five forms). Decide `/regulamin` and `/polityka-cookies` too.
+
 ## Notes
+
+**The largest item is #7, and it is a live bug, not a new page.** Six places already link to
+`/polityka-prywatnosci` — the footer legal bar and the RODO consent in `ContactForm`, `TarasForm`,
+`ZadaszenieForm`, `ZaluzjeForm` and `SchodyForm`. There is no route and no redirect, so all six are
+404s today. Creating the page satisfies the client's „przekierowania ze wszystkich formularzy"
+without touching a single form. `/regulamin` and `/polityka-cookies` are 404s in the footer as well
+and she supplied neither.
+
+**#2 is a publish, not a code change.** Verified against the dataset: `drafts.navbar` says
+„Bezpłatna wycena" (updated 2026-08-06), the published `navbar` still says „Darmowa wycena"
+(2026-08-03), and the two documents differ by **that field alone**. Worth telling the client that
+Studio edits go live only on Publish — and worth auditing for other stranded drafts.
+
+**Six decisions are open before `start`** (full detail in the spec):
+
+1. **#2** — literal caps „BEZPŁATNA WYCENA", or sentence case matching the site's three other
+   „Bezpłatna wycena" buttons?
+2. **#3** — does „pogrubiony" mean the footer icon, the new realizacje links, or both? Is
+   `facebook.com/ccomplex.plTarasy` the canonical profile URL?
+3. **#5** — which number is WhatsApp: **661 242 507** or **781 429 378**? A pre-filled message?
+4. **#6** — which Google products, and does she accept that ad tags in the EEA realistically need a
+   cookie-consent banner (a separate feature)?
+5. **#7** — CMS-editable legal page or hardcoded? And `/regulamin` + `/polityka-cookies`: supply the
+   text, or remove the links?
+6. **General** — any other unpublished drafts sitting in the Studio?
+
+⚠️ **The supplied privacy-policy text must not be published as-is.** It opens mid-word („iniejsza"),
+and it describes a sp. z o.o. as registered in **CEIDG** while quoting a **KRS** number — a limited
+company is in KRS, and is not a sole trader. It also omits the retention period and the list of
+recipients, though the site genuinely passes personal data to Resend, Vercel, Sanity and (after #6)
+Google. Those are the client's or her lawyer's corrections to make, not ours.
+
+⚠️ **A cookie-consent banner does not exist on this site** and is out of scope this round, but #6
+cannot be honestly called finished without one for EEA ad traffic (Consent Mode v2).
+
+**Scope notes:** #5 needs a Studio redeploy (schema change); so does #7 if the legal text becomes
+CMS-owned. `/polityka-prywatnosci` must be added to `sitemap.ts` (17 → 18 URLs). The five forms'
+RODO consents say „Complex sp. z o.o." (one C) while the policy and footer say „CComplex"/„CCOMPLEX"
+— worth aligning on a consent checkbox. `robots.ts` is still missing (offered in Round 5, not
+taken). The usual pre-existing working-tree noise (`.mcp.json`, `OfferTechSpecs.tsx`,
+`ProjectsGrid.tsx`, `.claude/settings.local.json`, `.playwright-mcp/`, CRLF drift in the generated
+Sanity files) stays untouched, same precedent as every prior round.
 
 ## History
 

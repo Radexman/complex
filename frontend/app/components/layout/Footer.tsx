@@ -7,6 +7,7 @@ import {
   FaInstagram,
   FaLinkedinIn,
   FaTiktok,
+  FaWhatsapp,
   FaXTwitter,
   FaYoutube,
 } from 'react-icons/fa6';
@@ -55,10 +56,10 @@ const NARZEDZIA_LINKS: NavLink[] = [
   { label: 'Formularz wyceny schodów', href: '/wycena/schody' },
 ];
 
+// „Regulamin” and „Polityka cookies” were listed here but never had pages behind
+// them — both 404'd. They come back the moment the client supplies the text.
 const LEGAL_LINKS: NavLink[] = [
   { label: 'Polityka prywatności', href: '/polityka-prywatnosci' },
-  { label: 'Regulamin', href: '/regulamin' },
-  { label: 'Polityka cookies', href: '/polityka-cookies' },
 ];
 
 function LinkColumn({ heading, links }: { heading: string; links: NavLink[] }) {
@@ -98,6 +99,7 @@ export default async function Footer() {
   const contactName = footer.contactName;
   const contactAddress = footer.contactAddress;
   const contactPhone = footer.contactPhone;
+  const contactWhatsApp = footer.contactWhatsApp;
   const contactEmail = footer.contactEmail;
   const copyrightText = footer.copyrightText;
   const socialLinks = (footer.socialLinks ?? []).filter((link) => link?.platform && link?.href);
@@ -148,7 +150,7 @@ export default async function Footer() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={link.platform as string}
-                      className="flex h-10 w-10 items-center justify-center rounded-lg border border-graphite bg-bg-surface text-silver transition-all duration-200 hover:border-accent hover:text-accent"
+                      className="flex h-10 w-10 items-center justify-center rounded-lg border border-accent/60 bg-accent/10 text-accent transition-all duration-200 hover:bg-accent hover:text-black"
                     >
                       <Icon size={18} aria-hidden="true" />
                     </a>
@@ -177,6 +179,22 @@ export default async function Footer() {
                 >
                   <Phone size={14} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
                   <span>{contactPhone}</span>
+                </a>
+              )}
+              {contactWhatsApp && (
+                <a
+                  // wa.me wants digits with the country code — no „+”, no spaces.
+                  href={`https://wa.me/${contactWhatsApp.replace(/\D/g, '')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 flex items-start gap-2 transition-colors hover:text-white"
+                >
+                  <FaWhatsapp
+                    size={14}
+                    className="mt-0.5 shrink-0 text-accent"
+                    aria-hidden="true"
+                  />
+                  <span>WhatsApp: {contactWhatsApp}</span>
                 </a>
               )}
               {contactEmail && (

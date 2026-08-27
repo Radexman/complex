@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import { allProjectsQuery, realizacjePageQuery } from '@/sanity/lib/queries';
+import { allProjectsQuery, facebookUrlQuery, realizacjePageQuery } from '@/sanity/lib/queries';
 import { sanityFetch } from '@/sanity/lib/live';
 import ProjectsGrid from '@/app/components/sections/ProjectsGrid';
 
@@ -11,10 +11,11 @@ export const metadata: Metadata = {
 };
 
 export default async function RealizacjePage() {
-  const [{ data: projects }, { data: header }] = await Promise.all([
+  const [{ data: projects }, { data: header }, { data: facebookUrl }] = await Promise.all([
     sanityFetch({ query: allProjectsQuery }),
     sanityFetch({ query: realizacjePageQuery }),
+    sanityFetch({ query: facebookUrlQuery }),
   ]);
 
-  return <ProjectsGrid projects={projects} header={header} />;
+  return <ProjectsGrid projects={projects} header={header} facebookUrl={facebookUrl} />;
 }

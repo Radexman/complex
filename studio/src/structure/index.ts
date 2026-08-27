@@ -4,6 +4,7 @@ import {
   ComponentIcon,
   CreditCardIcon,
   DocumentsIcon,
+  DocumentTextIcon,
   ImageIcon,
   ImagesIcon,
   MenuIcon,
@@ -120,6 +121,10 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .child(
           S.document().schemaType('schodyFormConfig').documentId('schodyFormConfig'),
         ),
+      S.listItem()
+        .title('Polityka prywatności')
+        .icon(DocumentTextIcon)
+        .child(S.document().schemaType('legalPage').documentId('legalPage')),
       S.divider(),
       // Settings Singleton in order to view/edit the one particular document for Settings.  Learn more about Singletons: https://www.sanity.io/docs/create-a-link-to-a-single-edit-page-in-your-main-document-type-list
       S.listItem()

@@ -93,6 +93,10 @@ export default defineConfig({
             filter: `_type == "aboutPage" && _id == "aboutPage"`,
           },
           {
+            route: '/polityka-prywatnosci',
+            filter: `_type == "legalPage" && _id == "legalPage"`,
+          },
+          {
             route: '/oferta/:slug',
             filter: `_type == "service" && slug.current == $slug || _id == $slug`,
           },
@@ -187,6 +191,11 @@ export default defineConfig({
           aboutPage: defineLocations({
             locations: [{ title: 'O nas', href: '/o-nas' }],
             message: 'Treść strony „O nas”',
+            tone: 'positive',
+          }),
+          legalPage: defineLocations({
+            locations: [{ title: 'Polityka prywatności', href: '/polityka-prywatnosci' }],
+            message: 'Treść strony „Polityka prywatności”',
             tone: 'positive',
           }),
           bottomCtaSection: defineLocations({
