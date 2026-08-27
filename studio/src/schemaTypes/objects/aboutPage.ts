@@ -66,7 +66,8 @@ export const aboutPage = defineType({
     defineField({
       name: 'storyImage',
       title: 'Zdjęcie',
-      description: 'Zdjęcie zespołu, warsztatu lub gotowej realizacji. Kadr pionowy wygląda najlepiej.',
+      description:
+        'Zdjęcie zespołu, warsztatu lub gotowej realizacji. Kadr pionowy wygląda najlepiej.',
       type: 'image',
       options: { hotspot: true },
       group: 'story',
@@ -113,7 +114,6 @@ export const aboutPage = defineType({
       of: [defineArrayMember({ type: 'aboutValue' })],
       validation: (rule) => rule.max(6),
     }),
-
   ],
   preview: {
     select: { subtitle: 'heroHeadline' },

@@ -1,0 +1,462 @@
+- generic [active] [ref=f2e1]:
+    - region "Notifications alt+T"
+    - banner [ref=f2e2]:
+        - navigation [ref=f2e3]:
+            - link "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=f2e4] [cursor=pointer]:
+                - /url: /
+                - img "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=f2e5]
+            - generic [ref=f2e6]:
+                - link "Strona główna" [ref=f2e7] [cursor=pointer]:
+                    - /url: /
+                - button "Oferta" [ref=f2e9]
+                - button "Formularze wycen" [ref=f2e13]
+                - link "Realizacje" [ref=f2e16] [cursor=pointer]:
+                    - /url: /realizacje
+                - link "O nas" [ref=f2e17] [cursor=pointer]:
+                    - /url: /o-nas
+                - link "Kontakt" [ref=f2e18] [cursor=pointer]:
+                    - /url: /#kontakt
+            - generic [ref=f2e19]:
+                - button "Formularz kontaktowy" [ref=f2e20]
+                - link "Bezpłatna wycena" [ref=f2e21] [cursor=pointer]:
+                    - /url: /wycena
+    - main [ref=f2e22]:
+        - generic [ref=f2e24]:
+            - generic [ref=f2e25]:
+                - paragraph [ref=f2e26]: Nasze portfolio
+                - heading "Realizacje" [level=1] [ref=f2e27]
+                - paragraph [ref=f2e28]: Poznaj wybrane realizacje zadaszeń tarasowych, tarasów i innych rozwiązań z naszej oferty. Więcej zdjęć i aktualnych realizacji znajdziesz na naszym profilu na Facebooku.
+                - link "Więcej realizacji na Facebooku" [ref=f2e29] [cursor=pointer]:
+                    - /url: https://www.facebook.com/ccomplex.plTarasy/
+            - tablist [ref=f2e33]:
+                - tab "Wszystkie" [selected] [ref=f2e34] [cursor=pointer]
+                - tab "Zadaszenia tarasowe" [ref=f2e35] [cursor=pointer]
+                - tab "Akcesoria do zadaszeń" [ref=f2e36] [cursor=pointer]
+                - tab "Tarasy kompozytowe" [ref=f2e37] [cursor=pointer]
+                - tab "Tarasy gresowe" [ref=f2e38] [cursor=pointer]
+                - tab "Tarasy drewniane" [ref=f2e39] [cursor=pointer]
+                - tab "Elewacje kompozytowe" [ref=f2e40] [cursor=pointer]
+                - tab "Schody modułowe" [ref=f2e41] [cursor=pointer]
+            - paragraph [ref=f2e42]: Wyświetlono 84 realizacji
+            - generic [ref=f2e43]:
+                - button "Stopnie modułowe z konstrukcją malowaną proszkowo i wypełnieniem z deski kompozytowej. Schody modułowe Chrząstowice" [ref=f2e44] [cursor=pointer]:
+                    - img "Stopnie modułowe z konstrukcją malowaną proszkowo i wypełnieniem z deski kompozytowej." [ref=f2e45]
+                    - generic [ref=f2e47]: Schody modułowe
+                    - paragraph [ref=f2e49]: Chrząstowice
+                - button "Stopnie wykonane z profilowanej blachy stalowej. Ocynk ogniowy zapewnia trwałą ochronę przed korozją i umożliwia zastosowanie schodów na zewnątrz. Schody modułowe Opole" [ref=f2e50] [cursor=pointer]:
+                    - img "Stopnie wykonane z profilowanej blachy stalowej. Ocynk ogniowy zapewnia trwałą ochronę przed korozją i umożliwia zastosowanie schodów na zewnątrz." [ref=f2e51]
+                    - generic [ref=f2e53]: Schody modułowe
+                    - paragraph [ref=f2e55]: Opole
+                - button "Taras drewniany przy basenie wykonany z gładkich desek Thermo Jesionu o ciemnobrązowej barwie. Tarasy drewniane Krapkowice" [ref=f2e56] [cursor=pointer]:
+                    - img "Taras drewniany przy basenie wykonany z gładkich desek Thermo Jesionu o ciemnobrązowej barwie." [ref=f2e57]
+                    - generic [ref=f2e59]: Tarasy drewniane
+                    - paragraph [ref=f2e61]: Krapkowice
+                - button "Realizacja tarasu drewnianego w Opolu z ryflowanych desek Thermo Jesionu o ciemnobrązowej barwie. Tarasy drewniane Opole" [ref=f2e62] [cursor=pointer]:
+                    - img "Realizacja tarasu drewnianego w Opolu z ryflowanych desek Thermo Jesionu o ciemnobrązowej barwie." [ref=f2e63]
+                    - generic [ref=f2e65]: Tarasy drewniane
+                    - paragraph [ref=f2e67]: Opole
+                - button "Taras drewniany z ryflowanej Thermo Sosny, zamontowany w systemie bez widocznych wkrętów. Tarasy drewniane Opole" [ref=f2e68] [cursor=pointer]:
+                    - img "Taras drewniany z ryflowanej Thermo Sosny, zamontowany w systemie bez widocznych wkrętów." [ref=f2e69]
+                    - generic [ref=f2e71]: Tarasy drewniane
+                    - paragraph [ref=f2e73]: Opole
+                - button "Realizacja przestronnego tarasu kompozytowego w Chmielowicach z desek WoodPlastic Forest Plus w kolorze Cedar. Tarasy kompozytowe Chmielowice" [ref=f2e74] [cursor=pointer]:
+                    - img "Realizacja przestronnego tarasu kompozytowego w Chmielowicach z desek WoodPlastic Forest Plus w kolorze Cedar." [ref=f2e75]
+                    - generic [ref=f2e77]: Tarasy kompozytowe
+                    - paragraph [ref=f2e79]: Chmielowice
+                - button "Realizacja przestronnego tarasu na dachu w Rudzie Śląskiej, wykonanego z desek kompozytowych w kolorze Teak. Tarasy kompozytowe Ruda Śląska" [ref=f2e80] [cursor=pointer]:
+                    - img "Realizacja przestronnego tarasu na dachu w Rudzie Śląskiej, wykonanego z desek kompozytowych w kolorze Teak." [ref=f2e81]
+                    - generic [ref=f2e83]: Tarasy kompozytowe
+                    - paragraph [ref=f2e85]: Ruda Śląska
+                - button "Detal realizacji tarasu wokół basenu, wykonanej z desek WoodPlastic Rustic w kolorze Palisander. Tarasy kompozytowe Katowice" [ref=f2e86] [cursor=pointer]:
+                    - img "Detal realizacji tarasu wokół basenu, wykonanej z desek WoodPlastic Rustic w kolorze Palisander." [ref=f2e87]
+                    - generic [ref=f2e89]: Tarasy kompozytowe
+                    - paragraph [ref=f2e91]: Katowice
+                - button "Realizacja tarasu kompozytowego w Rudzie Śląskiej z desek WoodPlastic Forest Plus w kolorze Cedar, z estetycznie wykończonymi bokami. Tarasy kompozytowe Ruda Śląska" [ref=f2e92] [cursor=pointer]:
+                    - img "Realizacja tarasu kompozytowego w Rudzie Śląskiej z desek WoodPlastic Forest Plus w kolorze Cedar, z estetycznie wykończonymi bokami." [ref=f2e93]
+                    - generic [ref=f2e95]: Tarasy kompozytowe
+                    - paragraph [ref=f2e97]: Ruda Śląska
+                - button "Taras wykonany z desek kompozytowych WoodPlastic Rustic w kolorze Eben. Minimalne szczeliny między deskami tworzą równą i spójną powierzchnię. Tarasy kompozytowe Zieleniec" [ref=f2e98] [cursor=pointer]:
+                    - img "Taras wykonany z desek kompozytowych WoodPlastic Rustic w kolorze Eben. Minimalne szczeliny między deskami tworzą równą i spójną powierzchnię." [ref=f2e99]
+                    - generic [ref=f2e101]: Tarasy kompozytowe
+                    - paragraph [ref=f2e103]: Zieleniec
+                - button "Taras kompozytowy przy domu jednorodzinnym w Smolnicy. Tarasy kompozytowe Smolnica" [ref=f2e104] [cursor=pointer]:
+                    - img "Taras kompozytowy przy domu jednorodzinnym w Smolnicy." [ref=f2e105]
+                    - generic [ref=f2e107]: Tarasy kompozytowe
+                    - paragraph [ref=f2e109]: Smolnica
+                - button "Taras przy domu wykonany z desek kompozytowych WoodPlastic Rustic. Tarasy kompozytowe Opole" [ref=f2e110] [cursor=pointer]:
+                    - img "Taras przy domu wykonany z desek kompozytowych WoodPlastic Rustic." [ref=f2e111]
+                    - generic [ref=f2e113]: Tarasy kompozytowe
+                    - paragraph [ref=f2e115]: Opole
+                - button "Estetyczne wykończenie i obudowa boków podwyższonego tarasu deskami kompozytowymi WoodPlastic Forest w kolorze Teak. Tarasy kompozytowe Kolonowskie" [ref=f2e116] [cursor=pointer]:
+                    - img "Estetyczne wykończenie i obudowa boków podwyższonego tarasu deskami kompozytowymi WoodPlastic Forest w kolorze Teak." [ref=f2e117]
+                    - generic [ref=f2e119]: Tarasy kompozytowe
+                    - paragraph [ref=f2e121]: Kolonowskie
+                - button "Taras wykonany z desek kompozytowych WoodPlastic Natur Plus w kolorze Teak. Wyraźna struktura słojów nadaje powierzchni naturalny wygląd drewna. Tarasy kompozytowe Opole" [ref=f2e122] [cursor=pointer]:
+                    - img "Taras wykonany z desek kompozytowych WoodPlastic Natur Plus w kolorze Teak. Wyraźna struktura słojów nadaje powierzchni naturalny wygląd drewna." [ref=f2e123]
+                    - generic [ref=f2e125]: Tarasy kompozytowe
+                    - paragraph [ref=f2e127]: Opole
+                - button "Taras kompozytowy wykonany z desek WoodPlastic Natur Plus w kolorze Teak. Piękne przebarwienia nadają powierzchni naturalny wygląd drewna. Tarasy kompozytowe Kędzierzyn Koźle" [ref=f2e128] [cursor=pointer]:
+                    - img "Taras kompozytowy wykonany z desek WoodPlastic Natur Plus w kolorze Teak. Piękne przebarwienia nadają powierzchni naturalny wygląd drewna." [ref=f2e129]
+                    - generic [ref=f2e131]: Tarasy kompozytowe
+                    - paragraph [ref=f2e133]: Kędzierzyn Koźle
+                - button "Realizacja tarasu z desek kompozytowych WoodPlastic w kolorze Eben, z precyzyjnym wykończeniem powierzchni wokół słupów. Tarasy kompozytowe Lubliniec" [ref=f2e134] [cursor=pointer]:
+                    - img "Realizacja tarasu z desek kompozytowych WoodPlastic w kolorze Eben, z precyzyjnym wykończeniem powierzchni wokół słupów." [ref=f2e135]
+                    - generic [ref=f2e137]: Tarasy kompozytowe
+                    - paragraph [ref=f2e139]: Lubliniec
+                - button "Taras kompozytowy na podwyższeniu ze schodami, wykonany z desek WoodPlastic Forest Plus w kolorze Teak. Tarasy kompozytowe Jemielnica" [ref=f2e140] [cursor=pointer]:
+                    - img "Taras kompozytowy na podwyższeniu ze schodami, wykonany z desek WoodPlastic Forest Plus w kolorze Teak." [ref=f2e141]
+                    - generic [ref=f2e143]: Tarasy kompozytowe
+                    - paragraph [ref=f2e145]: Jemielnica
+                - button "Realizacja tarasu kompozytowego w Rudzie Śląskiej z desek WoodPlastic Rustic w kolorze Palisander. Tarasy kompozytowe Ruda Śląska" [ref=f2e146] [cursor=pointer]:
+                    - img "Realizacja tarasu kompozytowego w Rudzie Śląskiej z desek WoodPlastic Rustic w kolorze Palisander." [ref=f2e147]
+                    - generic [ref=f2e149]: Tarasy kompozytowe
+                    - paragraph [ref=f2e151]: Ruda Śląska
+                - button "Taras w Opolu wykonany z komorowych desek kompozytowych Bruggan Elegant Light 3D w kolorze Natural Copper. Tarasy kompozytowe Opole" [ref=f2e152] [cursor=pointer]:
+                    - img "Taras w Opolu wykonany z komorowych desek kompozytowych Bruggan Elegant Light 3D w kolorze Natural Copper." [ref=f2e153]
+                    - generic [ref=f2e155]: Tarasy kompozytowe
+                    - paragraph [ref=f2e157]: Opole
+                - button "Taras kompozytowy premium Bruggan MultiColor wykonany z pełnych desek kompozytowych przy domu jednorodzinnym. Tarasy kompozytowe Opole" [ref=f2e158] [cursor=pointer]:
+                    - img "Taras kompozytowy premium Bruggan MultiColor wykonany z pełnych desek kompozytowych przy domu jednorodzinnym." [ref=f2e159]
+                    - generic [ref=f2e161]: Tarasy kompozytowe
+                    - paragraph [ref=f2e163]: Opole
+                - button "Taras z płyt gresowych Goliat Onyx Ivory o wymiarach 120 × 60 × 2 cm. Tarasy gresowe Czarnowąsy" [ref=f2e164] [cursor=pointer]:
+                    - img "Taras z płyt gresowych Goliat Onyx Ivory o wymiarach 120 × 60 × 2 cm." [ref=f2e165]
+                    - generic [ref=f2e167]: Tarasy gresowe
+                    - paragraph [ref=f2e169]: Czarnowąsy
+                - button "Taras wentylowany przy domu wykonany z jasnych płyt gresowych. Tarasy gresowe Luboszyce" [ref=f2e170] [cursor=pointer]:
+                    - img "Taras wentylowany przy domu wykonany z jasnych płyt gresowych." [ref=f2e171]
+                    - generic [ref=f2e173]: Tarasy gresowe
+                    - paragraph [ref=f2e175]: Luboszyce
+                - button "Taras przy domu wykonany z ciemnych grafitowych płyt gresowych o wymiarach 60 × 60 cm. Tarasy gresowe Grodziec" [ref=f2e176] [cursor=pointer]:
+                    - img "Taras przy domu wykonany z ciemnych grafitowych płyt gresowych o wymiarach 60 × 60 cm." [ref=f2e177]
+                    - generic [ref=f2e179]: Tarasy gresowe
+                    - paragraph [ref=f2e181]: Grodziec
+                - button "Taras przy domu wykończony dużymi płytami gresowymi w jasnym kolorze. Tarasy gresowe Piekary Ślaskie" [ref=f2e182] [cursor=pointer]:
+                    - img "Taras przy domu wykończony dużymi płytami gresowymi w jasnym kolorze." [ref=f2e183]
+                    - generic [ref=f2e185]: Tarasy gresowe
+                    - paragraph [ref=f2e187]: Piekary Ślaskie
+                - button "Balkon w Opolu wykończony szarymi płytami gresowymi o wymiarach 90 × 45 cm. Tarasy gresowe Opole" [ref=f2e188] [cursor=pointer]:
+                    - img "Balkon w Opolu wykończony szarymi płytami gresowymi o wymiarach 90 × 45 cm." [ref=f2e189]
+                    - generic [ref=f2e191]: Tarasy gresowe
+                    - paragraph [ref=f2e193]: Opole
+                - button "Taras z płyt gresowych przy domu jednorodzinnym. Tarasy gresowe Żyrowa" [ref=f2e194] [cursor=pointer]:
+                    - img "Taras z płyt gresowych przy domu jednorodzinnym." [ref=f2e195]
+                    - generic [ref=f2e197]: Tarasy gresowe
+                    - paragraph [ref=f2e199]: Żyrowa
+                - button "Taras wentylowany wykonany z płyt gresowych Goliat Litos Cream o wymiarach 120 × 60 × 2 cm. Tarasy gresowe Opole" [ref=f2e200] [cursor=pointer]:
+                    - img "Taras wentylowany wykonany z płyt gresowych Goliat Litos Cream o wymiarach 120 × 60 × 2 cm." [ref=f2e201]
+                    - generic [ref=f2e203]: Tarasy gresowe
+                    - paragraph [ref=f2e205]: Opole
+                - button "Zadaszenie tarasowe z aluminiowymi żaluzjami z obrotowymi lamelami w Ujeździe. Akcesoria do zadaszeń Ujeździec" [ref=f2e206] [cursor=pointer]:
+                    - img "Zadaszenie tarasowe z aluminiowymi żaluzjami z obrotowymi lamelami w Ujeździe." [ref=f2e207]
+                    - generic [ref=f2e209]: Akcesoria do zadaszeń
+                    - paragraph [ref=f2e211]: Ujeździec
+                - button "Aluminiowe żaluzje z obrotowymi lamelami zamontowane w dwóch częściach zadaszenia tarasowego. Zabudowa zapewnia prywatność i pozwala regulować ilość światła. Akcesoria do zadaszeń Dobrzeń Mały" [ref=f2e212] [cursor=pointer]:
+                    - img "Aluminiowe żaluzje z obrotowymi lamelami zamontowane w dwóch częściach zadaszenia tarasowego. Zabudowa zapewnia prywatność i pozwala regulować ilość światła." [ref=f2e213]
+                    - generic [ref=f2e215]: Akcesoria do zadaszeń
+                    - paragraph [ref=f2e217]: Dobrzeń Mały
+                - button "Aluminiowe zadaszenie tarasu z dachem z poliwęglanu i żaluzjami tarasowymi. Zadaszenia tarasowe Zabrze" [ref=f2e218] [cursor=pointer]:
+                    - img "Aluminiowe zadaszenie tarasu z dachem z poliwęglanu i żaluzjami tarasowymi." [ref=f2e219]
+                    - generic [ref=f2e221]: Zadaszenia tarasowe
+                    - paragraph [ref=f2e223]: Zabrze
+                - button "Przyścienne zadaszenie tarasowe na wymiar 6,9 × 4,9 m z dachem z poliwęglanu w Opolu. Zadaszenia tarasowe Opole" [ref=f2e224] [cursor=pointer]:
+                    - img "Przyścienne zadaszenie tarasowe na wymiar 6,9 × 4,9 m z dachem z poliwęglanu w Opolu." [ref=f2e225]
+                    - generic [ref=f2e227]: Zadaszenia tarasowe
+                    - paragraph [ref=f2e229]: Opole
+                - button "Wolnostojąca pergola aluminiowa z dachem z poziomej rolety rzymskiej. Zadaszenia tarasowe Opole" [ref=f2e230] [cursor=pointer]:
+                    - img "Wolnostojąca pergola aluminiowa z dachem z poziomej rolety rzymskiej." [ref=f2e231]
+                    - generic [ref=f2e233]: Zadaszenia tarasowe
+                    - paragraph [ref=f2e235]: Opole
+                - button "Pergola aluminiowa z roletą rzymską na dachu i boczną roletą pionową. Akcesoria do zadaszeń Opole" [ref=f2e236] [cursor=pointer]:
+                    - img "Pergola aluminiowa z roletą rzymską na dachu i boczną roletą pionową." [ref=f2e237]
+                    - generic [ref=f2e239]: Akcesoria do zadaszeń
+                    - paragraph [ref=f2e241]: Opole
+                - button "Wolnostojąca pergola aluminiowa z dachem z rolety rzymskiej i boczną roletą pionową. Akcesoria do zadaszeń Taciszów" [ref=f2e242] [cursor=pointer]:
+                    - img "Wolnostojąca pergola aluminiowa z dachem z rolety rzymskiej i boczną roletą pionową." [ref=f2e243]
+                    - generic [ref=f2e245]: Akcesoria do zadaszeń
+                    - paragraph [ref=f2e247]: Taciszów
+                - button "Aluminiowe zadaszenie tarasowe 5 × 4 m z oświetleniem LED i zabudową szklaną. Zadaszenia tarasowe Jaśkowice" [ref=f2e248] [cursor=pointer]:
+                    - img "Aluminiowe zadaszenie tarasowe 5 × 4 m z oświetleniem LED i zabudową szklaną." [ref=f2e249]
+                    - generic [ref=f2e251]: Zadaszenia tarasowe
+                    - paragraph [ref=f2e253]: Jaśkowice
+                - button "Aluminiowe zadaszenie tarasowe Verasol Greenline z dachem z poliwęglanu. Zadaszenia tarasowe Kędzierzyn-Kożle" [ref=f2e254] [cursor=pointer]:
+                    - img "Aluminiowe zadaszenie tarasowe Verasol Greenline z dachem z poliwęglanu." [ref=f2e255]
+                    - generic [ref=f2e257]: Zadaszenia tarasowe
+                    - paragraph [ref=f2e259]: Kędzierzyn-Kożle
+                - button "Zabudowa tarasu z przesuwnych szyb bezramowych i stałych ścianek z poliwęglanu. Akcesoria do zadaszeń Katowice" [ref=f2e260] [cursor=pointer]:
+                    - img "Zabudowa tarasu z przesuwnych szyb bezramowych i stałych ścianek z poliwęglanu." [ref=f2e261]
+                    - generic [ref=f2e263]: Akcesoria do zadaszeń
+                    - paragraph [ref=f2e265]: Katowice
+                - button "Białe aluminiowe zadaszenie tarasowe Deponti Bosco z dachem z poliwęglanu. Zadaszenia tarasowe Piotrowice Wielkie" [ref=f2e266] [cursor=pointer]:
+                    - img "Białe aluminiowe zadaszenie tarasowe Deponti Bosco z dachem z poliwęglanu." [ref=f2e267]
+                    - generic [ref=f2e269]: Zadaszenia tarasowe
+                    - paragraph [ref=f2e271]: Piotrowice Wielkie
+                - button "Przyścienne zadaszenie aluminiowe z oświetleniem LED. Akcesoria do zadaszeń Opole" [ref=f2e272] [cursor=pointer]:
+                    - img "Przyścienne zadaszenie aluminiowe z oświetleniem LED." [ref=f2e273]
+                    - generic [ref=f2e275]: Akcesoria do zadaszeń
+                    - paragraph [ref=f2e277]: Opole
+                - button "Aluminiowe zadaszenie przyścienne tarasu z przesuwną zabudową szklaną. Zadaszenia tarasowe Luboszyce" [ref=f2e278] [cursor=pointer]:
+                    - img "Aluminiowe zadaszenie przyścienne tarasu z przesuwną zabudową szklaną." [ref=f2e279]
+                    - generic [ref=f2e281]: Zadaszenia tarasowe
+                    - paragraph [ref=f2e283]: Luboszyce
+                - button "Aluminiowe przyścienne zadaszenie tarasu wykonane na wymiar. Zadaszenia tarasowe Dobrzen Wielki" [ref=f2e284] [cursor=pointer]:
+                    - img "Aluminiowe przyścienne zadaszenie tarasu wykonane na wymiar." [ref=f2e285]
+                    - generic [ref=f2e287]: Zadaszenia tarasowe
+                    - paragraph [ref=f2e289]: Dobrzen Wielki
+                - button "Aluminiowe zadaszenie tarasu przy budynku mieszkalnym z dachem z poliwęglanu. Zadaszenia tarasowe Luboszyce" [ref=f2e290] [cursor=pointer]:
+                    - img "Aluminiowe zadaszenie tarasu przy budynku mieszkalnym z dachem z poliwęglanu." [ref=f2e291]
+                    - generic [ref=f2e293]: Zadaszenia tarasowe
+                    - paragraph [ref=f2e295]: Luboszyce
+                - button "Aluminiowe przyścienne zadaszenie tarasu z dachem ze szkła. Zadaszenia tarasowe Kluczbork" [ref=f2e296] [cursor=pointer]:
+                    - img "Aluminiowe przyścienne zadaszenie tarasu z dachem ze szkła." [ref=f2e297]
+                    - generic [ref=f2e299]: Zadaszenia tarasowe
+                    - paragraph [ref=f2e301]: Kluczbork
+                - button "Przyścienne zadaszenie nad drzwiami tarasowymi o wymiarach 5,5 × 2 m, z dachem z poliwęglanu. Zadaszenia tarasowe Zabrze" [ref=f2e302] [cursor=pointer]:
+                    - img "Przyścienne zadaszenie nad drzwiami tarasowymi o wymiarach 5,5 × 2 m, z dachem z poliwęglanu." [ref=f2e303]
+                    - generic [ref=f2e305]: Zadaszenia tarasowe
+                    - paragraph [ref=f2e307]: Zabrze
+                - button "Zadaszenie tarasowe Noble z aluminiowymi żaluzjami i trójkątem bocznym z mlecznego poliwęglanu. Zadaszenia tarasowe Ujeździec" [ref=f2e308] [cursor=pointer]:
+                    - img "Zadaszenie tarasowe Noble z aluminiowymi żaluzjami i trójkątem bocznym z mlecznego poliwęglanu." [ref=f2e309]
+                    - generic [ref=f2e311]: Zadaszenia tarasowe
+                    - paragraph [ref=f2e313]: Ujeździec
+                - button "Taras przy zabudowie szeregowej wykonany z pełnej deski kompozytowej w ciemnym kolorze. Tarasy kompozytowe Zabrze" [ref=f2e314] [cursor=pointer]:
+                    - img "Taras przy zabudowie szeregowej wykonany z pełnej deski kompozytowej w ciemnym kolorze." [ref=f2e315]
+                    - generic [ref=f2e317]: Tarasy kompozytowe
+                    - paragraph [ref=f2e319]: Zabrze
+                - button "Taras z ryflowanej Thermo Sosny wykonany w niewidocznym systemie montażu. Tarasy drewniane Opole" [ref=f2e320] [cursor=pointer]:
+                    - img "Taras z ryflowanej Thermo Sosny wykonany w niewidocznym systemie montażu." [ref=f2e321]
+                    - generic [ref=f2e323]: Tarasy drewniane
+                    - paragraph [ref=f2e325]: Opole
+                - button "Balkon w Opolu wykończony deskami z thermo sosny. Tarasy drewniane Opole" [ref=f2e326] [cursor=pointer]:
+                    - img "Balkon w Opolu wykończony deskami z thermo sosny." [ref=f2e327]
+                    - generic [ref=f2e329]: Tarasy drewniane
+                    - paragraph [ref=f2e331]: Opole
+                - button "Taras przy domu wykonany z desek z Thermo Sosny. Tarasy drewniane Przecza" [ref=f2e332] [cursor=pointer]:
+                    - img "Taras przy domu wykonany z desek z Thermo Sosny." [ref=f2e333]
+                    - generic [ref=f2e335]: Tarasy drewniane
+                    - paragraph [ref=f2e337]: Przecza
+                - button "Taras drewniany z desek świerkowych klasy AB o naturalnej strukturze i ciepłej barwie. Tarasy drewniane Opole" [ref=f2e338] [cursor=pointer]:
+                    - img "Taras drewniany z desek świerkowych klasy AB o naturalnej strukturze i ciepłej barwie." [ref=f2e339]
+                    - generic [ref=f2e341]: Tarasy drewniane
+                    - paragraph [ref=f2e343]: Opole
+                - button "Taras drewniany z gładkich desek Thermo Sosny z niewidocznym systemem montażu. Tarasy drewniane Nysa" [ref=f2e344] [cursor=pointer]:
+                    - img "Taras drewniany z gładkich desek Thermo Sosny z niewidocznym systemem montażu." [ref=f2e345]
+                    - generic [ref=f2e347]: Tarasy drewniane
+                    - paragraph [ref=f2e349]: Nysa
+                - button "Taras przy domu wykończony deską kompozytową w naturalnym odcieniu. Tarasy kompozytowe Kotórz Mały" [ref=f2e350] [cursor=pointer]:
+                    - img "Taras przy domu wykończony deską kompozytową w naturalnym odcieniu." [ref=f2e351]
+                    - generic [ref=f2e353]: Tarasy kompozytowe
+                    - paragraph [ref=f2e355]: Kotórz Mały
+                - button "Aluminiowe żaluzje tarasowe zamontowane w zadaszeniu tarasu. Akcesoria do zadaszeń Zabrze" [ref=f2e356] [cursor=pointer]:
+                    - img "Aluminiowe żaluzje tarasowe zamontowane w zadaszeniu tarasu." [ref=f2e357]
+                    - generic [ref=f2e359]: Akcesoria do zadaszeń
+                    - paragraph [ref=f2e361]: Zabrze
+                - button "Przesuwna zabudowa szklana zadaszenia tarasowego przy domu jednorodzinnym. Akcesoria do zadaszeń Opole" [ref=f2e362] [cursor=pointer]:
+                    - img "Przesuwna zabudowa szklana zadaszenia tarasowego przy domu jednorodzinnym." [ref=f2e363]
+                    - generic [ref=f2e365]: Akcesoria do zadaszeń
+                    - paragraph [ref=f2e367]: Opole
+                - button "Przesuwna zabudowa szklana i stała zabudowa z mlecznego poliwęglanu w zadaszeniu tarasowym. Zadaszenia tarasowe Opole" [ref=f2e368] [cursor=pointer]:
+                    - img "Przesuwna zabudowa szklana i stała zabudowa z mlecznego poliwęglanu w zadaszeniu tarasowym." [ref=f2e369]
+                    - generic [ref=f2e371]: Zadaszenia tarasowe
+                    - paragraph [ref=f2e373]: Opole
+                - button "Zadaszenie tarasowe z dachem z poliwęglanu i aluminiowymi żaluzjami tarasowymi. Akcesoria do zadaszeń Dobrzeń Mały" [ref=f2e374] [cursor=pointer]:
+                    - img "Zadaszenie tarasowe z dachem z poliwęglanu i aluminiowymi żaluzjami tarasowymi." [ref=f2e375]
+                    - generic [ref=f2e377]: Akcesoria do zadaszeń
+                    - paragraph [ref=f2e379]: Dobrzeń Mały
+                - button "Bezramowa zabudowa szklana tarasu z trójkątem bocznym z mlecznego poliwęglanu. Akcesoria do zadaszeń Jaśkowice" [ref=f2e380] [cursor=pointer]:
+                    - img "Bezramowa zabudowa szklana tarasu z trójkątem bocznym z mlecznego poliwęglanu." [ref=f2e381]
+                    - generic [ref=f2e383]: Akcesoria do zadaszeń
+                    - paragraph [ref=f2e385]: Jaśkowice
+                - button "Brązowe żaluzje tarasowe zamontowane w zadaszeniu tarasu. Akcesoria do zadaszeń Chrząstowice" [ref=f2e386] [cursor=pointer]:
+                    - img "Brązowe żaluzje tarasowe zamontowane w zadaszeniu tarasu." [ref=f2e387]
+                    - generic [ref=f2e389]: Akcesoria do zadaszeń
+                    - paragraph [ref=f2e391]: Chrząstowice
+                - button "Zabudowa zadaszenia tarasowego z przesuwnymi ścianami z dymionego szkła. Akcesoria do zadaszeń Twardowice" [ref=f2e392] [cursor=pointer]:
+                    - img "Zabudowa zadaszenia tarasowego z przesuwnymi ścianami z dymionego szkła." [ref=f2e393]
+                    - generic [ref=f2e395]: Akcesoria do zadaszeń
+                    - paragraph [ref=f2e397]: Twardowice
+                - button "Aluminiowe żaluzje tarasowe zamontowane w bocznych ścianach zadaszenia tarasu. Akcesoria do zadaszeń Orzesze" [ref=f2e398] [cursor=pointer]:
+                    - img "Aluminiowe żaluzje tarasowe zamontowane w bocznych ścianach zadaszenia tarasu." [ref=f2e399]
+                    - generic [ref=f2e401]: Akcesoria do zadaszeń
+                    - paragraph [ref=f2e403]: Orzesze
+                - button "Zadaszenie aluminiowe nad tarasem gresowym. Zadaszenia tarasowe Knurów" [ref=f2e404] [cursor=pointer]:
+                    - img "Zadaszenie aluminiowe nad tarasem gresowym." [ref=f2e405]
+                    - generic [ref=f2e407]: Zadaszenia tarasowe
+                    - paragraph [ref=f2e409]: Knurów
+                - button "Taras na podwyższeniu Bruggan Elegant Light 3D – Opole Tarasy kompozytowe Opole" [ref=f2e410] [cursor=pointer]:
+                    - img "Taras na podwyższeniu Bruggan Elegant Light 3D – Opole" [ref=f2e411]
+                    - generic [ref=f2e413]: Tarasy kompozytowe
+                    - paragraph [ref=f2e415]: Opole
+                - button "Realizacja tarasu z desek kompozytowych WoodPlastic Natur Plus w kolorze Teak. Tarasy kompozytowe Kędzierzyn Koźle" [ref=f2e416] [cursor=pointer]:
+                    - img "Realizacja tarasu z desek kompozytowych WoodPlastic Natur Plus w kolorze Teak." [ref=f2e417]
+                    - generic [ref=f2e419]: Tarasy kompozytowe
+                    - paragraph [ref=f2e421]: Kędzierzyn Koźle
+                - button "Nowoczesny taras kompozytowy z jasnych desek przy domu Tarasy kompozytowe Opole" [ref=f2e422] [cursor=pointer]:
+                    - img "Nowoczesny taras kompozytowy z jasnych desek przy domu" [ref=f2e423]
+                    - generic [ref=f2e425]: Tarasy kompozytowe
+                    - paragraph [ref=f2e427]: Opole
+                - button "Taras kompozytowy z meblami ogrodowymi i donicami Tarasy kompozytowe Będzin" [ref=f2e428] [cursor=pointer]:
+                    - img "Taras kompozytowy z meblami ogrodowymi i donicami" [ref=f2e429]
+                    - generic [ref=f2e431]: Tarasy kompozytowe
+                    - paragraph [ref=f2e433]: Będzin
+                - button "Realizacja tarasu z desek kompozytowych WoodPlastic Forest w kolorze Eben, dopasowanego do nowoczesnej elewacji domu. Tarasy kompozytowe Prudnik" [ref=f2e434] [cursor=pointer]:
+                    - img "Realizacja tarasu z desek kompozytowych WoodPlastic Forest w kolorze Eben, dopasowanego do nowoczesnej elewacji domu." [ref=f2e435]
+                    - generic [ref=f2e437]: Tarasy kompozytowe
+                    - paragraph [ref=f2e439]: Prudnik
+                - button "Taras kompozytowy wokół basenu przy domu jednorodzinnym Tarasy kompozytowe Smolnica" [ref=f2e440] [cursor=pointer]:
+                    - img "Taras kompozytowy wokół basenu przy domu jednorodzinnym" [ref=f2e441]
+                    - generic [ref=f2e443]: Tarasy kompozytowe
+                    - paragraph [ref=f2e445]: Smolnica
+                - button "Taras kompozytowy przy basenie wykonany z desek kompozytowych Tarasy kompozytowe Zgorzelec" [ref=f2e446] [cursor=pointer]:
+                    - img "Taras kompozytowy przy basenie wykonany z desek kompozytowych" [ref=f2e447]
+                    - generic [ref=f2e449]: Tarasy kompozytowe
+                    - paragraph [ref=f2e451]: Zgorzelec
+                - button "Taras z dużych płyt gresowych przy domu jednorodzinnym z betonowymi schodami. Tarasy gresowe Katowice" [ref=f2e452] [cursor=pointer]:
+                    - img "Taras z dużych płyt gresowych przy domu jednorodzinnym z betonowymi schodami." [ref=f2e453]
+                    - generic [ref=f2e455]: Tarasy gresowe
+                    - paragraph [ref=f2e457]: Katowice
+                - button "Taras z dużych płyt gresowych z bokami wykończonymi płytą gresową Tarasy gresowe Czarnowąsy" [ref=f2e458] [cursor=pointer]:
+                    - img "Taras z dużych płyt gresowych z bokami wykończonymi płytą gresową" [ref=f2e459]
+                    - generic [ref=f2e461]: Tarasy gresowe
+                    - paragraph [ref=f2e463]: Czarnowąsy
+                - button "Taras z płyt gresowych przy domu jednorodzinnym z bokami wykończonymi deskami kompozytowymi Tarasy gresowe Bytom" [ref=f2e464] [cursor=pointer]:
+                    - img "Taras z płyt gresowych przy domu jednorodzinnym z bokami wykończonymi deskami kompozytowymi" [ref=f2e465]
+                    - generic [ref=f2e467]: Tarasy gresowe
+                    - paragraph [ref=f2e469]: Bytom
+                - button "Taras wentylowany na piętrze z dużych płyt gresowych Tarasy gresowe Knurów" [ref=f2e470] [cursor=pointer]:
+                    - img "Taras wentylowany na piętrze z dużych płyt gresowych" [ref=f2e471]
+                    - generic [ref=f2e473]: Tarasy gresowe
+                    - paragraph [ref=f2e475]: Knurów
+                - button "Taras z płyt gresowych pod aluminiowym zadaszeniem tarasu Tarasy gresowe Tychy" [ref=f2e476] [cursor=pointer]:
+                    - img "Taras z płyt gresowych pod aluminiowym zadaszeniem tarasu" [ref=f2e477]
+                    - generic [ref=f2e479]: Tarasy gresowe
+                    - paragraph [ref=f2e481]: Tychy
+                - button "Taras gresowy ze stopniem wykonanym z płyt gresowych 120 × 60 cm Tarasy gresowe Opole" [ref=f2e482] [cursor=pointer]:
+                    - img "Taras gresowy ze stopniem wykonanym z płyt gresowych 120 × 60 cm" [ref=f2e483]
+                    - generic [ref=f2e485]: Tarasy gresowe
+                    - paragraph [ref=f2e487]: Opole
+                - button "Taras wentylowany z płyt gresowych 60 × 60 cm przy domu jednorodzinnym Tarasy gresowe Rybnik" [ref=f2e488] [cursor=pointer]:
+                    - img "Taras wentylowany z płyt gresowych 60 × 60 cm przy domu jednorodzinnym" [ref=f2e489]
+                    - generic [ref=f2e491]: Tarasy gresowe
+                    - paragraph [ref=f2e493]: Rybnik
+                - button "Taras wentylowany z dużych płyt gresowych z obrzeżem z palisady betonowej. Tarasy gresowe Siemianowice Śląskie" [ref=f2e494] [cursor=pointer]:
+                    - img "Taras wentylowany z dużych płyt gresowych z obrzeżem z palisady betonowej." [ref=f2e495]
+                    - generic [ref=f2e497]: Tarasy gresowe
+                    - paragraph [ref=f2e499]: Siemianowice Śląskie
+                - button "Aluminiowe zadaszenie tarasowe w kolorze brązowym przy domu jednorodzinnym. Zadaszenia tarasowe Opole" [ref=f2e500] [cursor=pointer]:
+                    - img "Aluminiowe zadaszenie tarasowe w kolorze brązowym przy domu jednorodzinnym." [ref=f2e501]
+                    - generic [ref=f2e503]: Zadaszenia tarasowe
+                    - paragraph [ref=f2e505]: Opole
+                - button "Aluminiowe zadaszenie tarasowe o wymiarach 5 × 3 m przy domu jednorodzinnym. Zadaszenia tarasowe Niemodlin" [ref=f2e506] [cursor=pointer]:
+                    - img "Aluminiowe zadaszenie tarasowe o wymiarach 5 × 3 m przy domu jednorodzinnym." [ref=f2e507]
+                    - generic [ref=f2e509]: Zadaszenia tarasowe
+                    - paragraph [ref=f2e511]: Niemodlin
+                - button "Aluminiowe zadaszenie tarasu przy domu jednorodzinnym Zadaszenia tarasowe Ziemięcice" [ref=f2e512] [cursor=pointer]:
+                    - img "Aluminiowe zadaszenie tarasu przy domu jednorodzinnym" [ref=f2e513]
+                    - generic [ref=f2e515]: Zadaszenia tarasowe
+                    - paragraph [ref=f2e517]: Ziemięcice
+                - button "Aluminiowe zadaszenie tarasowe z dachem z poliwęglanu. Zadaszenia tarasowe Stare Budkowice" [ref=f2e518] [cursor=pointer]:
+                    - img "Aluminiowe zadaszenie tarasowe z dachem z poliwęglanu." [ref=f2e519]
+                    - generic [ref=f2e521]: Zadaszenia tarasowe
+                    - paragraph [ref=f2e523]: Stare Budkowice
+                - button "Aluminiowe żaluzje boczne do zadaszenia tarasu Akcesoria do zadaszeń Dobrzeń Mały" [ref=f2e524] [cursor=pointer]:
+                    - img "Aluminiowe żaluzje boczne do zadaszenia tarasu" [ref=f2e525]
+                    - generic [ref=f2e527]: Akcesoria do zadaszeń
+                    - paragraph [ref=f2e529]: Dobrzeń Mały
+                - button "Aluminiowe zadaszenie tarasu z boczną zabudową z poliwęglanu Zadaszenia tarasowe Rokitno Szlacheckie" [ref=f2e530] [cursor=pointer]:
+                    - img "Aluminiowe zadaszenie tarasu z boczną zabudową z poliwęglanu" [ref=f2e531]
+                    - generic [ref=f2e533]: Zadaszenia tarasowe
+                    - paragraph [ref=f2e535]: Rokitno Szlacheckie
+                - button "Nowoczesny taras z płyt gresowych 120 × 60 cm przy domu jednorodzinnym Tarasy gresowe Czarnowąsy" [ref=f2e536] [cursor=pointer]:
+                    - img "Nowoczesny taras z płyt gresowych 120 × 60 cm przy domu jednorodzinnym" [ref=f2e537]
+                    - generic [ref=f2e539]: Tarasy gresowe
+                    - paragraph [ref=f2e541]: Czarnowąsy
+                - button "Taras drewniany z desek Thermo Sosna Tarasy drewniane Nysa" [ref=f2e542] [cursor=pointer]:
+                    - img "Taras drewniany z desek Thermo Sosna" [ref=f2e543]
+                    - generic [ref=f2e545]: Tarasy drewniane
+                    - paragraph [ref=f2e547]: Nysa
+    - contentinfo [ref=f2e548]:
+        - generic [ref=f2e549]:
+            - generic [ref=f2e550]:
+                - generic [ref=f2e551]:
+                    - link "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=f2e552] [cursor=pointer]:
+                        - /url: /
+                        - img "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=f2e553]
+                    - paragraph [ref=f2e554]: Nowoczesne zadaszenia tarasowe, pergole aluminiowe i tarasy. Profesjonalny montaż oraz fachowe doradztwo na wybranych obszarach woj. śląskiego i opolskiego.
+                    - link "facebook" [ref=f2e556] [cursor=pointer]:
+                        - /url: https://www.facebook.com/ccomplex.plTarasy/
+                - generic [ref=f2e559]:
+                    - heading "Oferta" [level=3] [ref=f2e560]
+                    - list [ref=f2e561]:
+                        - listitem [ref=f2e562]:
+                            - link "Cała oferta" [ref=f2e563] [cursor=pointer]:
+                                - /url: /oferta
+                        - listitem [ref=f2e564]:
+                            - link "Zadaszenia tarasowe" [ref=f2e565] [cursor=pointer]:
+                                - /url: /oferta/zadaszenia-tarasowe
+                        - listitem [ref=f2e566]:
+                            - link "Akcesoria do zadaszeń" [ref=f2e567] [cursor=pointer]:
+                                - /url: /oferta/akcesoria-do-zadaszen
+                        - listitem [ref=f2e568]:
+                            - link "Tarasy kompozytowe" [ref=f2e569] [cursor=pointer]:
+                                - /url: /oferta/tarasy-kompozytowe
+                        - listitem [ref=f2e570]:
+                            - link "Tarasy gresowe" [ref=f2e571] [cursor=pointer]:
+                                - /url: /oferta/tarasy-gresowe
+                        - listitem [ref=f2e572]:
+                            - link "Tarasy drewniane" [ref=f2e573] [cursor=pointer]:
+                                - /url: /oferta/tarasy-drewniane
+                        - listitem [ref=f2e574]:
+                            - link "Elewacje kompozytowe" [ref=f2e575] [cursor=pointer]:
+                                - /url: /oferta/elewacje-kompozytowe
+                        - listitem [ref=f2e576]:
+                            - link "Schody modułowe" [ref=f2e577] [cursor=pointer]:
+                                - /url: /oferta/schody-modulowe
+                - generic [ref=f2e578]:
+                    - heading "Firma" [level=3] [ref=f2e579]
+                    - list [ref=f2e580]:
+                        - listitem [ref=f2e581]:
+                            - link "O nas" [ref=f2e582] [cursor=pointer]:
+                                - /url: /o-nas
+                        - listitem [ref=f2e583]:
+                            - link "Realizacje" [ref=f2e584] [cursor=pointer]:
+                                - /url: /realizacje
+                        - listitem [ref=f2e585]:
+                            - link "Kontakt" [ref=f2e586] [cursor=pointer]:
+                                - /url: /#kontakt
+                - generic [ref=f2e587]:
+                    - heading "Narzędzia" [level=3] [ref=f2e588]
+                    - list [ref=f2e589]:
+                        - listitem [ref=f2e590]:
+                            - link "Wszystkie formularze" [ref=f2e591] [cursor=pointer]:
+                                - /url: /wycena
+                        - listitem [ref=f2e592]:
+                            - link "Formularz wyceny tarasu" [ref=f2e593] [cursor=pointer]:
+                                - /url: /wycena/taras
+                        - listitem [ref=f2e594]:
+                            - link "Formularz wyceny zadaszenia" [ref=f2e595] [cursor=pointer]:
+                                - /url: /wycena/zadaszenie
+                        - listitem [ref=f2e596]:
+                            - link "Formularz wyceny żaluzji" [ref=f2e597] [cursor=pointer]:
+                                - /url: /wycena/zaluzje
+                        - listitem [ref=f2e598]:
+                            - link "Formularz wyceny schodów" [ref=f2e599] [cursor=pointer]:
+                                - /url: /wycena/schody
+                - generic [ref=f2e600]:
+                    - heading "Kontakt" [level=3] [ref=f2e601]
+                    - generic [ref=f2e602]:
+                        - paragraph [ref=f2e603]: CComplex sp. z o.o.
+                        - paragraph [ref=f2e604]:
+                            - generic [ref=f2e608]: Kępska 12, 45-130 Opole, pok.20 (parter)
+                        - link "+48 661 242 507" [ref=f2e609] [cursor=pointer]:
+                            - /url: tel:+48661242507
+                        - 'link "WhatsApp: +48 661 242 507" [ref=f2e613] [cursor=pointer]':
+                            - /url: https://wa.me/48661242507
+                        - link "biuro@ccomplex.pl" [ref=f2e617] [cursor=pointer]:
+                            - /url: mailto:biuro@ccomplex.pl
+            - generic [ref=f2e622]:
+                - paragraph [ref=f2e623]: © 2026 Complex sp. z o.o. Wszelkie prawa zastrzeżone.
+                - link "Polityka prywatności" [ref=f2e625] [cursor=pointer]:
+                    - /url: /polityka-prywatnosci
+    - button "Open Next.js Dev Tools" [ref=f2e631] [cursor=pointer]
+    - alert [ref=f2e635]

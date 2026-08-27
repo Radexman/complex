@@ -56,9 +56,7 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .title('Sekcja Realizacje')
         .icon(ImagesIcon)
         .child(
-          S.document()
-            .schemaType('featuredProjectsSection')
-            .documentId('featuredProjectsSection'),
+          S.document().schemaType('featuredProjectsSection').documentId('featuredProjectsSection'),
         ),
       S.listItem()
         .title('Sekcja Przed i po')
@@ -88,7 +86,11 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
       S.listItem()
         .title('Oferta')
         .icon(TagIcon)
-        .child(S.documentTypeList('service').title('Oferta').defaultOrdering([{ field: 'order', direction: 'asc' }])),
+        .child(
+          S.documentTypeList('service')
+            .title('Oferta')
+            .defaultOrdering([{ field: 'order', direction: 'asc' }]),
+        ),
       S.listItem()
         .title('Strona O nas')
         .icon(UsersIcon)
@@ -112,15 +114,11 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
       S.listItem()
         .title('Formularz Tarasu')
         .icon(ComponentIcon)
-        .child(
-          S.document().schemaType('tarasFormConfig').documentId('tarasFormConfig'),
-        ),
+        .child(S.document().schemaType('tarasFormConfig').documentId('tarasFormConfig')),
       S.listItem()
         .title('Formularz Schodów')
         .icon(ComponentIcon)
-        .child(
-          S.document().schemaType('schodyFormConfig').documentId('schodyFormConfig'),
-        ),
+        .child(S.document().schemaType('schodyFormConfig').documentId('schodyFormConfig')),
       S.listItem()
         .title('Polityka prywatności')
         .icon(DocumentTextIcon)

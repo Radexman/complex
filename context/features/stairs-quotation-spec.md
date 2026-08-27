@@ -69,7 +69,7 @@ This is the only Sanity addition needed — no new document types. Fetch it in `
 ## Zod Schema — `src/lib/validations/schodForm.ts`
 
 ```ts
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const schodFormSchema = z.object({
   // Insulation
@@ -87,7 +87,8 @@ export const schodFormSchema = z.object({
   dimh: z.coerce.number().positive('Podaj wymiar h — wysokość od podłoża do stropu'),
 
   // Contact & location
-  postalCode: z.string()
+  postalCode: z
+    .string()
     .min(6, 'Podaj kod pocztowy')
     .regex(/^\d{2}-\d{3}$/, 'Format: 00-000'),
   name: z.string().min(2, 'Podaj swoje imię i nazwisko'),
@@ -99,13 +100,13 @@ export const schodFormSchema = z.object({
   photo: z.any().optional(),
 
   // Consents
-  consentRodo: z.boolean().refine(val => val === true, {
+  consentRodo: z.boolean().refine((val) => val === true, {
     message: 'Zgoda jest wymagana',
   }),
   consentMarketing: z.boolean().default(false),
-})
+});
 
-export type SchodFormData = z.infer<typeof schodFormSchema>
+export type SchodFormData = z.infer<typeof schodFormSchema>;
 ```
 
 ---
@@ -170,23 +171,23 @@ Note: no `installationService` checkbox on this form — not present on the orig
 ## Server Action — `src/lib/actions/submitSchodForm.ts`
 
 ```ts
-'use server'
+'use server';
 
-import { schodFormSchema } from '@/lib/validations/schodForm'
+import { schodFormSchema } from '@/lib/validations/schodForm';
 
 export async function submitSchodForm(formData: FormData) {
-  const raw = Object.fromEntries(formData.entries())
-  const result = schodFormSchema.safeParse(raw)
+  const raw = Object.fromEntries(formData.entries());
+  const result = schodFormSchema.safeParse(raw);
 
   if (!result.success) {
-    return { success: false, errors: result.error.flatten() }
+    return { success: false, errors: result.error.flatten() };
   }
 
-  const data = result.data
+  const data = result.data;
 
   // TODO: Replace with Resend HTML email (future spec)
-  console.log('=== FORMULARZ WYCENY SCHODÓW ===')
-  console.log('Budynek ocieplony:', data.isInsulated)
+  console.log('=== FORMULARZ WYCENY SCHODÓW ===');
+  console.log('Budynek ocieplony:', data.isInsulated);
   console.log('Wymiary:', {
     'A — szerokość otworu': data.dimA,
     'B — głębokość otworu': data.dimB,
@@ -195,14 +196,14 @@ export async function submitSchodForm(formData: FormData) {
     'E — szerokość stopni': data.dimE,
     'H — wys. od podłoża ze stropem': data.dimH,
     'h — wys. od podłoża do stropu': data.dimh,
-  })
-  console.log('Kontakt:', { name: data.name, phone: data.phone, email: data.email })
-  console.log('Kod pocztowy:', data.postalCode)
-  console.log('Uwagi:', data.notes)
-  console.log('Zgody:', { rodo: data.consentRodo, marketing: data.consentMarketing })
-  console.log('================================')
+  });
+  console.log('Kontakt:', { name: data.name, phone: data.phone, email: data.email });
+  console.log('Kod pocztowy:', data.postalCode);
+  console.log('Uwagi:', data.notes);
+  console.log('Zgody:', { rodo: data.consentRodo, marketing: data.consentMarketing });
+  console.log('================================');
 
-  return { success: true }
+  return { success: true };
 }
 ```
 

@@ -1,0 +1,157 @@
+- generic [active] [ref=e1]:
+    - region "Notifications alt+T"
+    - banner [ref=e2]:
+        - navigation [ref=e3]:
+            - link "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=e4] [cursor=pointer]:
+                - /url: /
+                - img "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=e5]
+            - generic [ref=e6]:
+                - link "Strona główna" [ref=e7] [cursor=pointer]:
+                    - /url: /
+                - button "Oferta" [ref=e9]
+                - button "Formularze wycen" [ref=e13]
+                - link "Realizacje" [ref=e16] [cursor=pointer]:
+                    - /url: /realizacje
+                - link "O nas" [ref=e17] [cursor=pointer]:
+                    - /url: /o-nas
+                - link "Kontakt" [ref=e18] [cursor=pointer]:
+                    - /url: /#kontakt
+            - generic [ref=e19]:
+                - button "Formularz kontaktowy" [ref=e20]
+                - link "Bezpłatna wycena" [ref=e21] [cursor=pointer]:
+                    - /url: /wycena
+    - main [ref=e22]:
+        - generic [ref=e24]:
+            - heading "Polityka prywatności" [level=1] [ref=e25]
+            - paragraph [ref=e26]: "Ostatnia aktualizacja: 27 sierpnia 2026"
+            - generic [ref=e27]:
+                - paragraph [ref=e28]: "Niniejsza polityka prywatności określa zasady przetwarzania danych osobowych przez witrynę pod nazwą www.ccomplex.pl, której właścicielem jest Agnieszka Jaszczyk-Kożuch i Sebastian Kożuch, prowadzący działalność gospodarczą pod nazwą CCOMPLEX sp. z o.o. pod adresem Opole 45-130, ul. Kępska 12, wpisany do Centralnej Ewidencji i Informacji Działalności Gospodarczej prowadzonej przez Ministra ds. Gospodarki pod numerem NIP: 7543359039, REGON: 525049847, KRS 0001031202, adres poczty elektronicznej e-mail: info@ccomplex.pl i biuro@ccomplex.pl oraz numery telefonu 661 242 507 i 781 429 378 (zwaną dalej „Administratorem”)."
+                - generic [ref=e29]:
+                    - heading "Ochrona danych osobowych" [level=2] [ref=e30]
+                    - paragraph [ref=e31]: Szanowni Państwo,
+                    - paragraph [ref=e32]: Ochrona danych osobowych Klientów firmy CCOMPLEX sp. z o.o. to jeden z najważniejszych aspektów naszej pracy. Szanujemy Państwa prywatność i dokładamy wszelkich starań, aby Państwa dane osobowe były bezpieczne. W związku z tym przekazujemy Państwu informacje o najważniejszych kwestiach związanych z przetwarzaniem Państwa danych osobowych.
+                    - paragraph [ref=e33]: "Firma CCOMPLEX sp. z o.o. informuje, że zgodnie z art. 13 ust. 1 i 2 ogólnego Rozporządzenia o Ochronie Danych Osobowych z dnia 27 kwietnia 2016 r. (dalej RODO):"
+                - paragraph [ref=e35]: 1. Administratorem Pani/Pana danych osobowych jest firma CCOMPLEX sp. z o.o., Opole 45-130, ul. Kępska 12.
+                - generic [ref=e36]:
+                    - paragraph [ref=e37]: "2. Pani/Pana dane osobowe przetwarzane będą w celu przesłania:"
+                    - list [ref=e38]:
+                        - listitem [ref=e39]:
+                            - generic [ref=e41]: formularza wyceny tarasu,
+                        - listitem [ref=e42]:
+                            - generic [ref=e44]: formularza wyceny zadaszenia,
+                        - listitem [ref=e45]:
+                            - generic [ref=e47]: formularza wyceny żaluzji,
+                        - listitem [ref=e48]:
+                            - generic [ref=e50]: formularza wyceny schodów,
+                        - listitem [ref=e51]:
+                            - generic [ref=e53]: formularza kontaktowego.
+                - generic [ref=e54]:
+                    - paragraph [ref=e55]: "3. Osobie, której dane są przetwarzane przez Administratora, przysługuje:"
+                    - list [ref=e56]:
+                        - listitem [ref=e57]:
+                            - generic [ref=e59]: prawo dostępu do treści danych, na podstawie art. 15 RODO;
+                        - listitem [ref=e60]:
+                            - generic [ref=e62]: prawo do sprostowania danych, na podstawie art. 16 RODO;
+                        - listitem [ref=e63]:
+                            - generic [ref=e65]: prawo do usunięcia danych, na podstawie art. 17 RODO;
+                        - listitem [ref=e66]:
+                            - generic [ref=e68]: prawo do ograniczenia przetwarzania danych, na podstawie art. 18 RODO;
+                        - listitem [ref=e69]:
+                            - generic [ref=e71]: prawo do przenoszenia danych, na podstawie art. 20 RODO;
+                        - listitem [ref=e72]:
+                            - generic [ref=e74]: prawo wniesienia sprzeciwu wobec przetwarzania danych, na podstawie art. 21 RODO.
+                    - paragraph [ref=e75]: "(Uwaga: realizacja powyższych praw musi być zgodna z przepisami prawa, na podstawie których odbywa się przetwarzanie danych)."
+                - generic [ref=e76]:
+                    - paragraph [ref=e77]: 4. W przypadku, w którym przetwarzanie Pani/Pana danych odbywa się na podstawie zgody (tj. art. 6 ust. 1 lit. a RODO), przysługuje Pani/Panu prawo do wycofania zgody w dowolnym momencie, przy czym cofnięcie zgody nie ma wpływu na zgodność przetwarzania, którego dokonano na jej podstawie przed cofnięciem zgody.
+                    - paragraph [ref=e78]: 5. Ma Pani/Pan prawo wniesienia skargi do organu nadzorczego, tj. Prezesa Urzędu Ochrony Danych Osobowych, gdy Pani/Pan uzna, że przetwarzanie danych osobowych narusza przepisy RODO.
+                    - paragraph [ref=e79]: 6. Podanie przez Panią/Pana danych osobowych jest warunkiem kontaktu, w tym w sprawie wycen i innych zapytań związanych z prowadzoną przez nas działalnością.
+                    - paragraph [ref=e80]: 7. Pani/Pana dane osobowe nie podlegają zautomatyzowanemu podejmowaniu decyzji, w tym profilowaniu.
+                - generic [ref=e81]:
+                    - heading "Pliki cookies" [level=2] [ref=e82]
+                    - paragraph [ref=e83]: Witryna internetowa nie zbiera w sposób automatyczny żadnych danych, z wyjątkiem danych zawartych w plikach cookies podczas samego korzystania z witryny. Pliki cookies to małe pliki tekstowe wysyłane przez Witrynę internetową i przechowywane na Państwa komputerze, zawierające pewne informacje związane z korzystaniem przez Państwa z Witryny internetowej. Wykorzystywane przez Witrynę internetową pliki cookies mogą mieć charakter tymczasowy lub trwały. Tymczasowe pliki cookies są usuwane z chwilą zamknięcia przeglądarki, natomiast stałe pliki cookies są przechowywane także po zakończeniu korzystania przez Państwa z witryny i służą do przechowywania informacji takich jak Państwa hasło czy login, co przyspiesza i ułatwia korzystanie z Witryny.
+                    - paragraph [ref=e84]: W każdym wypadku mogą Państwo zablokować instalowanie plików cookies lub usunąć stałe pliki cookies, wykorzystując stosowne opcje Państwa przeglądarki internetowej. W razie problemów doradzamy skorzystać z pliku pomocy przeglądarki lub skontaktować się z producentem przeglądarki, z której Państwo korzystacie.
+                    - paragraph [ref=e85]: Dane są przechowywane przez okres niezbędny do świadczenia usługi żądanej przez Użytkownika lub też przez okres określony przez cele opisane w niniejszym dokumencie. Użytkownik może zawsze poprosić Administratora Danych o zawieszenie lub usunięcie danych.
+    - contentinfo [ref=e86]:
+        - generic [ref=e87]:
+            - generic [ref=e88]:
+                - generic [ref=e89]:
+                    - link "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=e90] [cursor=pointer]:
+                        - /url: /
+                        - img "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=e91]
+                    - paragraph [ref=e92]: Nowoczesne zadaszenia tarasowe, pergole aluminiowe i tarasy. Profesjonalny montaż oraz fachowe doradztwo na wybranych obszarach woj. śląskiego i opolskiego.
+                    - link "facebook" [ref=e94] [cursor=pointer]:
+                        - /url: https://www.facebook.com/ccomplex.plTarasy/
+                - generic [ref=e97]:
+                    - heading "Oferta" [level=3] [ref=e98]
+                    - list [ref=e99]:
+                        - listitem [ref=e100]:
+                            - link "Cała oferta" [ref=e101] [cursor=pointer]:
+                                - /url: /oferta
+                        - listitem [ref=e102]:
+                            - link "Zadaszenia tarasowe" [ref=e103] [cursor=pointer]:
+                                - /url: /oferta/zadaszenia-tarasowe
+                        - listitem [ref=e104]:
+                            - link "Akcesoria do zadaszeń" [ref=e105] [cursor=pointer]:
+                                - /url: /oferta/akcesoria-do-zadaszen
+                        - listitem [ref=e106]:
+                            - link "Tarasy kompozytowe" [ref=e107] [cursor=pointer]:
+                                - /url: /oferta/tarasy-kompozytowe
+                        - listitem [ref=e108]:
+                            - link "Tarasy gresowe" [ref=e109] [cursor=pointer]:
+                                - /url: /oferta/tarasy-gresowe
+                        - listitem [ref=e110]:
+                            - link "Tarasy drewniane" [ref=e111] [cursor=pointer]:
+                                - /url: /oferta/tarasy-drewniane
+                        - listitem [ref=e112]:
+                            - link "Elewacje kompozytowe" [ref=e113] [cursor=pointer]:
+                                - /url: /oferta/elewacje-kompozytowe
+                        - listitem [ref=e114]:
+                            - link "Schody modułowe" [ref=e115] [cursor=pointer]:
+                                - /url: /oferta/schody-modulowe
+                - generic [ref=e116]:
+                    - heading "Firma" [level=3] [ref=e117]
+                    - list [ref=e118]:
+                        - listitem [ref=e119]:
+                            - link "O nas" [ref=e120] [cursor=pointer]:
+                                - /url: /o-nas
+                        - listitem [ref=e121]:
+                            - link "Realizacje" [ref=e122] [cursor=pointer]:
+                                - /url: /realizacje
+                        - listitem [ref=e123]:
+                            - link "Kontakt" [ref=e124] [cursor=pointer]:
+                                - /url: /#kontakt
+                - generic [ref=e125]:
+                    - heading "Narzędzia" [level=3] [ref=e126]
+                    - list [ref=e127]:
+                        - listitem [ref=e128]:
+                            - link "Wszystkie formularze" [ref=e129] [cursor=pointer]:
+                                - /url: /wycena
+                        - listitem [ref=e130]:
+                            - link "Formularz wyceny tarasu" [ref=e131] [cursor=pointer]:
+                                - /url: /wycena/taras
+                        - listitem [ref=e132]:
+                            - link "Formularz wyceny zadaszenia" [ref=e133] [cursor=pointer]:
+                                - /url: /wycena/zadaszenie
+                        - listitem [ref=e134]:
+                            - link "Formularz wyceny żaluzji" [ref=e135] [cursor=pointer]:
+                                - /url: /wycena/zaluzje
+                        - listitem [ref=e136]:
+                            - link "Formularz wyceny schodów" [ref=e137] [cursor=pointer]:
+                                - /url: /wycena/schody
+                - generic [ref=e138]:
+                    - heading "Kontakt" [level=3] [ref=e139]
+                    - generic [ref=e140]:
+                        - paragraph [ref=e141]: CComplex sp. z o.o.
+                        - paragraph [ref=e142]:
+                            - generic [ref=e146]: Kępska 12, 45-130 Opole, pok.20 (parter)
+                        - link "+48 661 242 507" [ref=e147] [cursor=pointer]:
+                            - /url: tel:+48661242507
+                        - 'link "WhatsApp: +48 661 242 507" [ref=e151] [cursor=pointer]':
+                            - /url: https://wa.me/48661242507
+                        - link "biuro@ccomplex.pl" [ref=e155] [cursor=pointer]:
+                            - /url: mailto:biuro@ccomplex.pl
+            - generic [ref=e160]:
+                - paragraph [ref=e161]: © 2026 Complex sp. z o.o. Wszelkie prawa zastrzeżone.
+                - link "Polityka prywatności" [ref=e163] [cursor=pointer]:
+                    - /url: /polityka-prywatnosci
+    - button "Open Next.js Dev Tools" [ref=e169] [cursor=pointer]

@@ -119,10 +119,7 @@ export default function BottomCtaSection({ data }: { data: NonNullable<BottomCta
             </p>
           )}
 
-          <div
-            data-cta-reveal
-            className="mt-10 flex flex-wrap justify-center gap-4"
-          >
+          <div data-cta-reveal className="mt-10 flex flex-wrap justify-center gap-4">
             {primaryCtaLabel && primaryCtaHref && (
               <Link
                 href={primaryCtaHref}

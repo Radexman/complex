@@ -110,9 +110,9 @@ const getBentoClass = (index: number): string => {
     4: 'col-span-1 aspect-[4/3]',
     5: 'col-span-1 aspect-[4/3]',
     6: 'col-span-3 aspect-[21/6]',
-  }
-  return map[index] ?? 'col-span-1 aspect-[4/3]'
-}
+  };
+  return map[index] ?? 'col-span-1 aspect-[4/3]';
+};
 ```
 
 Grid container: `grid grid-cols-3 gap-3 mt-12`

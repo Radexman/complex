@@ -1,0 +1,237 @@
+- generic [active] [ref=e1]:
+    - region "Notifications alt+T"
+    - banner [ref=e2]:
+        - navigation [ref=e3]:
+            - link "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=e4] [cursor=pointer]:
+                - /url: /
+                - img "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=e5]
+            - generic [ref=e6]:
+                - link "Strona główna" [ref=e7] [cursor=pointer]:
+                    - /url: /
+                - button "Oferta" [ref=e9]
+                - button "Formularze wycen" [ref=e13]
+                - link "Realizacje" [ref=e16] [cursor=pointer]:
+                    - /url: /realizacje
+                - link "O nas" [ref=e17] [cursor=pointer]:
+                    - /url: /o-nas
+                - link "Kontakt" [ref=e18] [cursor=pointer]:
+                    - /url: /#kontakt
+            - generic [ref=e19]:
+                - button "Formularz kontaktowy" [ref=e20]
+                - link "Darmowa wycena" [ref=e21] [cursor=pointer]:
+                    - /url: /wycena
+    - main [ref=e22]:
+        - generic [ref=e23]:
+            - generic [ref=e25]:
+                - paragraph [ref=e26]: Formularze wycen
+                - heading "Formularz Wyceny Zadaszenia" [level=1] [ref=e27]
+                - paragraph [ref=e28]: Wypełnij poniższy formularz, a przygotujemy bezpłatną wycenę i skontaktujemy się z Tobą w ciągu 3 dni roboczych.
+            - generic [ref=e30]:
+                - generic [ref=e31]:
+                    - generic [ref=e32]:
+                        - generic [ref=e33]: Wybierz rodzaj zadaszenia *
+                        - combobox "Wybierz rodzaj zadaszenia *" [ref=e35] [cursor=pointer]:
+                            - option "Wybierz…" [disabled] [selected]
+                            - option "Przyścienny"
+                            - option "Wolnostojący"
+                    - generic [ref=e36]:
+                        - generic [ref=e37]: Wybierz rodzaj dachu *
+                        - combobox "Wybierz rodzaj dachu *" [ref=e39] [cursor=pointer]:
+                            - option "Wybierz…" [disabled] [selected]
+                            - option "Poliwęglan"
+                            - option "Szkło"
+                            - option "Lamele aluminiowe"
+                            - option "Materiał"
+                            - option "Roleta rzymska"
+                    - generic [ref=e40]:
+                        - generic [ref=e41]: Kolor konstrukcji aluminiowej *
+                        - combobox "Kolor konstrukcji aluminiowej *" [ref=e43] [cursor=pointer]:
+                            - option "Wybierz…" [disabled] [selected]
+                            - option "antracyt"
+                            - option "czarny"
+                            - option "biały"
+                    - generic [ref=e44]:
+                        - generic [ref=e45]: Szerokość zadaszenia [m] *
+                        - group [ref=e47]:
+                            - spinbutton "np. 3.0" [ref=e48]
+                            - generic [ref=e49]:
+                                - button "Zwiększ" [ref=e50]
+                                - button "Zmniejsz" [disabled] [ref=e53]
+                    - generic [ref=e56]:
+                        - generic [ref=e57]: Głębokość zadaszenia (wysięg) [m] *
+                        - group [ref=e59]:
+                            - spinbutton "np. 2.5" [ref=e60]
+                            - generic [ref=e61]:
+                                - button "Zwiększ" [ref=e62]
+                                - button "Zmniejsz" [disabled] [ref=e65]
+                    - generic [ref=e68]:
+                        - paragraph [ref=e69]: Wyposażenie dodatkowe
+                        - generic [ref=e70]:
+                            - generic [ref=e72] [cursor=pointer]:
+                                - generic [ref=e74]: Klin boczny, poliwęglan w ramie alum. (kpl/2szt)
+                                - checkbox "Klin boczny, poliwęglan w ramie alum. (kpl/2szt)" [ref=e75]
+                            - generic [ref=e77] [cursor=pointer]:
+                                - generic [ref=e79]: Klin boczny, szkło w ramie alum. (kpl/2szt)
+                                - checkbox "Klin boczny, szkło w ramie alum. (kpl/2szt)" [ref=e80]
+                            - generic [ref=e82] [cursor=pointer]:
+                                - generic [ref=e84]: Oświetlenie punktowe LED + pilot
+                                - checkbox "Oświetlenie punktowe LED + pilot" [ref=e85]
+                            - generic [ref=e87] [cursor=pointer]:
+                                - generic [ref=e89]: Ściana stała, poliwęglan / bok 1
+                                - checkbox "Ściana stała, poliwęglan / bok 1" [ref=e90]
+                            - generic [ref=e92] [cursor=pointer]:
+                                - generic [ref=e94]: Ściana stała, poliwęglan / bok 2
+                                - checkbox "Ściana stała, poliwęglan / bok 2" [ref=e95]
+                            - generic [ref=e97] [cursor=pointer]:
+                                - generic [ref=e99]: Ściana stała, poliwęglan / front
+                                - checkbox "Ściana stała, poliwęglan / front" [ref=e100]
+                            - generic [ref=e102] [cursor=pointer]:
+                                - generic [ref=e104]: Drzwi przesuwne, szyby bez ramek / bok 1
+                                - checkbox "Drzwi przesuwne, szyby bez ramek / bok 1" [ref=e105]
+                            - generic [ref=e107] [cursor=pointer]:
+                                - generic [ref=e109]: Drzwi przesuwne, szyby bez ramek / bok 2
+                                - checkbox "Drzwi przesuwne, szyby bez ramek / bok 2" [ref=e110]
+                            - generic [ref=e112] [cursor=pointer]:
+                                - generic [ref=e114]: Drzwi przesuwne, szyby bez ramek / front
+                                - checkbox "Drzwi przesuwne, szyby bez ramek / front" [ref=e115]
+                            - generic [ref=e117] [cursor=pointer]:
+                                - generic [ref=e119]: Drzwi przesuwne, szyby w ramie / bok 1
+                                - checkbox "Drzwi przesuwne, szyby w ramie / bok 1" [ref=e120]
+                            - generic [ref=e122] [cursor=pointer]:
+                                - generic [ref=e124]: Drzwi przesuwne, szyby w ramie / bok 2
+                                - checkbox "Drzwi przesuwne, szyby w ramie / bok 2" [ref=e125]
+                            - generic [ref=e127] [cursor=pointer]:
+                                - generic [ref=e129]: Drzwi przesuwne, szyby w ramie / front
+                                - checkbox "Drzwi przesuwne, szyby w ramie / front" [ref=e130]
+                    - generic [ref=e132]:
+                        - generic [ref=e133]: Żaluzje tarasowe
+                        - paragraph [ref=e134]: "Podaj wymiary otworu do zabudowy: szerokość x wysokość [cm]"
+                        - textbox "Żaluzje tarasowe" [ref=e135]:
+                            - /placeholder: np. 250 x 220
+                - generic [ref=e136]:
+                    - generic [ref=e137]:
+                        - generic [ref=e138]: Imię i nazwisko
+                        - textbox "Imię i nazwisko" [ref=e139]
+                    - generic [ref=e140]:
+                        - generic [ref=e141]: Numer telefonu
+                        - textbox "Numer telefonu" [ref=e142]
+                    - generic [ref=e143]:
+                        - generic [ref=e144]: Adres e-mail *
+                        - textbox "Adres e-mail *" [ref=e145]
+                    - generic [ref=e146]:
+                        - generic [ref=e147]: Kod pocztowy *
+                        - textbox "Kod pocztowy *" [ref=e148]:
+                            - /placeholder: 00-000
+                    - generic [ref=e149]:
+                        - generic [ref=e150] [cursor=pointer]:
+                            - generic [ref=e152]: Usługa montażu
+                            - checkbox "Usługa montażu" [ref=e153]
+                        - paragraph [ref=e154]: Zaznacz jeśli chcesz wycenić montaż wraz z zadaszeniem
+                    - generic [ref=e155]:
+                        - generic [ref=e156]: Uwagi
+                        - textbox "Uwagi" [ref=e157]
+                    - generic [ref=e158]:
+                        - generic [ref=e159]: Zdjęcie miejsca montażu
+                        - paragraph [ref=e160]: Dodaj zdjęcie miejsca montażu — pomoże nam lepiej przygotować wycenę.
+                        - button "dropzone" [ref=e161] [cursor=pointer]:
+                            - paragraph [ref=e166]: Przeciągnij zdjęcia tutaj lub kliknij, aby wybrać
+                            - paragraph [ref=e167]: JPG, PNG, WEBP • max. 10 MB • do 3 zdjęć
+                        - list
+                        - button [ref=e168]
+                    - generic [ref=e171] [cursor=pointer]:
+                        - generic [ref=e173]:
+                            - text: Zapoznałem(-am) się z
+                            - link "Polityką prywatności" [ref=e174]:
+                                - /url: /polityka-prywatnosci
+                            - text: oraz wyrażam zgodę na przetwarzanie moich danych osobowych w celu przygotowania wyceny i kontaktu w sprawie przesłanego zapytania. *
+                        - checkbox "Zapoznałem(-am) się z Polityką prywatności oraz wyrażam zgodę na przetwarzanie moich danych osobowych w celu przygotowania wyceny i kontaktu w sprawie przesłanego zapytania. *" [ref=e175]
+                    - button "Wyślij zapytanie" [ref=e176]
+                    - paragraph [ref=e180]: "* Pola obowiązkowe. Oferta zostanie przesłana w ciągu 3 dni roboczych."
+                    - paragraph [ref=e181]: Usługi montażowe wykonujemy na wybranych obszarach województw śląskiego i opolskiego.
+    - contentinfo [ref=e182]:
+        - generic [ref=e183]:
+            - generic [ref=e184]:
+                - generic [ref=e185]:
+                    - link "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=e186] [cursor=pointer]:
+                        - /url: /
+                        - img "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=e187]
+                    - paragraph [ref=e188]: Nowoczesne zadaszenia tarasowe, pergole aluminiowe i tarasy. Profesjonalny montaż oraz fachowe doradztwo na terenie województwa śląskiego i opolskiego.
+                    - link "facebook" [ref=e190] [cursor=pointer]:
+                        - /url: https://www.facebook.com/ccomplex.plTarasy/?notif_id=1782353683768851&notif_t=page_user_activity&ref=notif
+                - generic [ref=e193]:
+                    - heading "Oferta" [level=3] [ref=e194]
+                    - list [ref=e195]:
+                        - listitem [ref=e196]:
+                            - link "Cała oferta" [ref=e197] [cursor=pointer]:
+                                - /url: /oferta
+                        - listitem [ref=e198]:
+                            - link "Zadaszenia tarasowe" [ref=e199] [cursor=pointer]:
+                                - /url: /oferta/zadaszenia-tarasowe
+                        - listitem [ref=e200]:
+                            - link "Akcesoria do zadaszeń" [ref=e201] [cursor=pointer]:
+                                - /url: /oferta/akcesoria-do-zadaszen
+                        - listitem [ref=e202]:
+                            - link "Tarasy kompozytowe" [ref=e203] [cursor=pointer]:
+                                - /url: /oferta/tarasy-kompozytowe
+                        - listitem [ref=e204]:
+                            - link "Tarasy gresowe" [ref=e205] [cursor=pointer]:
+                                - /url: /oferta/tarasy-gresowe
+                        - listitem [ref=e206]:
+                            - link "Tarasy drewniane" [ref=e207] [cursor=pointer]:
+                                - /url: /oferta/tarasy-drewniane
+                        - listitem [ref=e208]:
+                            - link "Elewacje kompozytowe" [ref=e209] [cursor=pointer]:
+                                - /url: /oferta/elewacje-kompozytowe
+                        - listitem [ref=e210]:
+                            - link "Schody modułowe" [ref=e211] [cursor=pointer]:
+                                - /url: /oferta/schody-modulowe
+                - generic [ref=e212]:
+                    - heading "Firma" [level=3] [ref=e213]
+                    - list [ref=e214]:
+                        - listitem [ref=e215]:
+                            - link "O nas" [ref=e216] [cursor=pointer]:
+                                - /url: /o-nas
+                        - listitem [ref=e217]:
+                            - link "Realizacje" [ref=e218] [cursor=pointer]:
+                                - /url: /realizacje
+                        - listitem [ref=e219]:
+                            - link "Kontakt" [ref=e220] [cursor=pointer]:
+                                - /url: /#kontakt
+                - generic [ref=e221]:
+                    - heading "Narzędzia" [level=3] [ref=e222]
+                    - list [ref=e223]:
+                        - listitem [ref=e224]:
+                            - link "Wszystkie formularze" [ref=e225] [cursor=pointer]:
+                                - /url: /wycena
+                        - listitem [ref=e226]:
+                            - link "Formularz wyceny tarasu" [ref=e227] [cursor=pointer]:
+                                - /url: /wycena/taras
+                        - listitem [ref=e228]:
+                            - link "Formularz wyceny zadaszenia" [ref=e229] [cursor=pointer]:
+                                - /url: /wycena/zadaszenie
+                        - listitem [ref=e230]:
+                            - link "Formularz wyceny żaluzji" [ref=e231] [cursor=pointer]:
+                                - /url: /wycena/zaluzje
+                        - listitem [ref=e232]:
+                            - link "Formularz wyceny schodów" [ref=e233] [cursor=pointer]:
+                                - /url: /wycena/schody
+                - generic [ref=e234]:
+                    - heading "Kontakt" [level=3] [ref=e235]
+                    - generic [ref=e236]:
+                        - paragraph [ref=e237]: CComplex sp. z o.o.
+                        - paragraph [ref=e238]:
+                            - generic [ref=e242]: Kępska 12, 45-130 Opole, pok.20 (parter)
+                        - link "+48 661 242 507" [ref=e243] [cursor=pointer]:
+                            - /url: tel:+48661242507
+                        - link "biuro@ccomplex.pl" [ref=e247] [cursor=pointer]:
+                            - /url: mailto:biuro@ccomplex.pl
+            - generic [ref=e252]:
+                - paragraph [ref=e253]: © 2026 Complex sp. z o.o. Wszelkie prawa zastrzeżone.
+                - generic [ref=e254]:
+                    - link "Polityka prywatności" [ref=e255] [cursor=pointer]:
+                        - /url: /polityka-prywatnosci
+                    - link "Regulamin" [ref=e256] [cursor=pointer]:
+                        - /url: /regulamin
+                    - link "Polityka cookies" [ref=e257] [cursor=pointer]:
+                        - /url: /polityka-cookies
+    - button "Open Next.js Dev Tools" [ref=e263] [cursor=pointer]

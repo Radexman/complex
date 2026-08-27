@@ -1,0 +1,152 @@
+- generic [ref=f1e1]:
+    - region "Notifications alt+T"
+    - banner [ref=f1e2]:
+        - navigation [ref=f1e3]:
+            - link "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=f1e4] [cursor=pointer]:
+                - /url: /
+                - img "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=f1e5]
+            - generic [ref=f1e6]:
+                - link "Strona główna" [ref=f1e7] [cursor=pointer]:
+                    - /url: /
+                - button "Oferta" [ref=f1e9]
+                - generic [ref=f1e12]:
+                    - button "Formularze wycen" [expanded] [active] [ref=f1e13]
+                    - generic [ref=f1e152]:
+                        - link "Wszystkie formularze" [ref=f1e153] [cursor=pointer]:
+                            - /url: /wycena
+                        - link "Formularz wyceny tarasu" [ref=f1e154] [cursor=pointer]:
+                            - /url: /wycena/taras
+                        - link "Formularz wyceny zadaszenia" [ref=f1e155] [cursor=pointer]:
+                            - /url: /wycena/zadaszenie
+                        - link "Formularz wyceny żaluzji" [ref=f1e156] [cursor=pointer]:
+                            - /url: /wycena/zaluzje
+                        - link "Formularz wyceny schodów" [ref=f1e157] [cursor=pointer]:
+                            - /url: /wycena/schody
+                - link "Realizacje" [ref=f1e16] [cursor=pointer]:
+                    - /url: /realizacje
+                - link "O nas" [ref=f1e17] [cursor=pointer]:
+                    - /url: /o-nas
+                - link "Kontakt" [ref=f1e18] [cursor=pointer]:
+                    - /url: /#kontakt
+            - generic [ref=f1e19]:
+                - button "Formularz kontaktowy" [ref=f1e20]
+                - link "Darmowa wycena" [ref=f1e21] [cursor=pointer]:
+                    - /url: /wycena
+    - main [ref=f1e22]:
+        - generic [ref=f1e23]:
+            - generic [ref=f1e25]:
+                - generic [ref=f1e26]:
+                    - paragraph [ref=f1e27]: Bezpłatna wycena
+                    - heading "Wybierz formularz wyceny" [level=1] [ref=f1e28]
+                - paragraph [ref=f1e30]: Wypełnienie formularza zajmuje kilka minut i do niczego nie zobowiązuje. Wybierz produkt, którego dotyczy Twoje zapytanie — dzięki temu od razu zapytamy o właściwe szczegóły.
+            - generic [ref=f1e32]:
+                - link "Formularz wyceny tarasu Najczęściej wybierany Tarasy kompozytowe, gresowe i drewniane. Podaj kształt i wymiary, a przygotujemy wycenę materiału wraz z montażem." [ref=f1e33] [cursor=pointer]:
+                    - /url: /wycena/taras
+                    - generic [ref=f1e34]:
+                        - generic [ref=f1e35]:
+                            - heading "Formularz wyceny tarasu" [level=2] [ref=f1e36]
+                            - generic [ref=f1e37]: Najczęściej wybierany
+                        - paragraph [ref=f1e38]: Tarasy kompozytowe, gresowe i drewniane. Podaj kształt i wymiary, a przygotujemy wycenę materiału wraz z montażem.
+                - link [ref=f1e42] [cursor=pointer]:
+                    - /url: /wycena/zadaszenie
+                    - generic [ref=f1e43]:
+                        - heading "Formularz wyceny zadaszenia" [level=2] [ref=f1e45]
+                        - paragraph [ref=f1e46]: Zadaszenia tarasowe — wybierz model dachu, kolor konstrukcji i wyposażenie dodatkowe.
+                - link [ref=f1e50] [cursor=pointer]:
+                    - /url: /wycena/zaluzje
+                    - generic [ref=f1e51]:
+                        - heading "Formularz wyceny żaluzji" [level=2] [ref=f1e53]
+                        - paragraph [ref=f1e54]: Żaluzje tarasowe i akcesoria do zadaszeń. Wystarczą wymiary otworu do zabudowy.
+                - link [ref=f1e58] [cursor=pointer]:
+                    - /url: /wycena/schody
+                    - generic [ref=f1e59]:
+                        - heading "Formularz wyceny schodów" [level=2] [ref=f1e61]
+                        - paragraph [ref=f1e62]: Schody modułowe — podaj wymiary według schematu, a wyliczymy komplet wraz z montażem.
+    - contentinfo [ref=f1e66]:
+        - generic [ref=f1e67]:
+            - generic [ref=f1e68]:
+                - generic [ref=f1e69]:
+                    - link "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=f1e70] [cursor=pointer]:
+                        - /url: /
+                        - img "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=f1e71]
+                    - paragraph [ref=f1e72]: Nowoczesne zadaszenia tarasowe, pergole aluminiowe i tarasy. Profesjonalny montaż oraz fachowe doradztwo na terenie województwa śląskiego i opolskiego.
+                    - link "facebook" [ref=f1e74] [cursor=pointer]:
+                        - /url: https://www.facebook.com/ccomplex.plTarasy/?notif_id=1782353683768851&notif_t=page_user_activity&ref=notif
+                - generic [ref=f1e77]:
+                    - heading "Oferta" [level=3] [ref=f1e78]
+                    - list [ref=f1e79]:
+                        - listitem [ref=f1e80]:
+                            - link "Cała oferta" [ref=f1e81] [cursor=pointer]:
+                                - /url: /oferta
+                        - listitem [ref=f1e82]:
+                            - link "Zadaszenia tarasowe" [ref=f1e83] [cursor=pointer]:
+                                - /url: /oferta/zadaszenia-tarasowe
+                        - listitem [ref=f1e84]:
+                            - link "Akcesoria do zadaszeń" [ref=f1e85] [cursor=pointer]:
+                                - /url: /oferta/akcesoria-do-zadaszen
+                        - listitem [ref=f1e86]:
+                            - link "Tarasy kompozytowe" [ref=f1e87] [cursor=pointer]:
+                                - /url: /oferta/tarasy-kompozytowe
+                        - listitem [ref=f1e88]:
+                            - link "Tarasy gresowe" [ref=f1e89] [cursor=pointer]:
+                                - /url: /oferta/tarasy-gresowe
+                        - listitem [ref=f1e90]:
+                            - link "Tarasy drewniane" [ref=f1e91] [cursor=pointer]:
+                                - /url: /oferta/tarasy-drewniane
+                        - listitem [ref=f1e92]:
+                            - link "Elewacje kompozytowe" [ref=f1e93] [cursor=pointer]:
+                                - /url: /oferta/elewacje-kompozytowe
+                        - listitem [ref=f1e94]:
+                            - link "Schody modułowe" [ref=f1e95] [cursor=pointer]:
+                                - /url: /oferta/schody-modulowe
+                - generic [ref=f1e96]:
+                    - heading "Firma" [level=3] [ref=f1e97]
+                    - list [ref=f1e98]:
+                        - listitem [ref=f1e99]:
+                            - link "O nas" [ref=f1e100] [cursor=pointer]:
+                                - /url: /o-nas
+                        - listitem [ref=f1e101]:
+                            - link "Realizacje" [ref=f1e102] [cursor=pointer]:
+                                - /url: /realizacje
+                        - listitem [ref=f1e103]:
+                            - link "Kontakt" [ref=f1e104] [cursor=pointer]:
+                                - /url: /#kontakt
+                - generic [ref=f1e105]:
+                    - heading "Narzędzia" [level=3] [ref=f1e106]
+                    - list [ref=f1e107]:
+                        - listitem [ref=f1e108]:
+                            - link "Wszystkie formularze" [ref=f1e109] [cursor=pointer]:
+                                - /url: /wycena
+                        - listitem [ref=f1e110]:
+                            - link "Formularz wyceny tarasu" [ref=f1e111] [cursor=pointer]:
+                                - /url: /wycena/taras
+                        - listitem [ref=f1e112]:
+                            - link "Formularz wyceny zadaszenia" [ref=f1e113] [cursor=pointer]:
+                                - /url: /wycena/zadaszenie
+                        - listitem [ref=f1e114]:
+                            - link "Formularz wyceny żaluzji" [ref=f1e115] [cursor=pointer]:
+                                - /url: /wycena/zaluzje
+                        - listitem [ref=f1e116]:
+                            - link "Formularz wyceny schodów" [ref=f1e117] [cursor=pointer]:
+                                - /url: /wycena/schody
+                - generic [ref=f1e118]:
+                    - heading "Kontakt" [level=3] [ref=f1e119]
+                    - generic [ref=f1e120]:
+                        - paragraph [ref=f1e121]: CComplex sp. z o.o.
+                        - paragraph [ref=f1e122]:
+                            - generic [ref=f1e126]: Kępska 12, 45-130 Opole, pok.20 (parter)
+                        - link "+48 661 242 507" [ref=f1e127] [cursor=pointer]:
+                            - /url: tel:+48661242507
+                        - link "biuro@ccomplex.pl" [ref=f1e131] [cursor=pointer]:
+                            - /url: mailto:biuro@ccomplex.pl
+            - generic [ref=f1e136]:
+                - paragraph [ref=f1e137]: © 2026 Complex sp. z o.o. Wszelkie prawa zastrzeżone.
+                - generic [ref=f1e138]:
+                    - link "Polityka prywatności" [ref=f1e139] [cursor=pointer]:
+                        - /url: /polityka-prywatnosci
+                    - link "Regulamin" [ref=f1e140] [cursor=pointer]:
+                        - /url: /regulamin
+                    - link "Polityka cookies" [ref=f1e141] [cursor=pointer]:
+                        - /url: /polityka-cookies
+    - button "Open Next.js Dev Tools" [ref=f1e147] [cursor=pointer]
+    - alert [ref=f1e151]

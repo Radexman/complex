@@ -11,11 +11,17 @@ import BeforeAfterSlider from '@/app/components/ui/BeforeAfterSlider';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function BeforeAfterSection({ data }: { data: NonNullable<BeforeAfterQueryResult> }) {
+export default function BeforeAfterSection({
+  data,
+}: {
+  data: NonNullable<BeforeAfterQueryResult>;
+}) {
   const container = useRef<HTMLElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const items = (data.items ?? []).filter((item) => item.beforeImage?.asset && item.afterImage?.asset);
+  const items = (data.items ?? []).filter(
+    (item) => item.beforeImage?.asset && item.afterImage?.asset,
+  );
 
   useGSAP(
     () => {
@@ -55,7 +61,9 @@ export default function BeforeAfterSection({ data }: { data: NonNullable<BeforeA
               {data.eyebrow}
             </p>
           )}
-          <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">{data.headline}</h2>
+          <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">
+            {data.headline}
+          </h2>
           {data.subheadline && (
             <p className="mt-4 font-body text-base leading-relaxed text-silver">
               {data.subheadline}
@@ -75,7 +83,9 @@ export default function BeforeAfterSection({ data }: { data: NonNullable<BeforeA
 
           <div className="mt-4 flex flex-wrap items-baseline gap-x-3">
             <h3 className="font-heading text-lg font-semibold text-white">{active.title}</h3>
-            {active.location && <span className="font-body text-sm text-silver">{active.location}</span>}
+            {active.location && (
+              <span className="font-body text-sm text-silver">{active.location}</span>
+            )}
           </div>
         </div>
 

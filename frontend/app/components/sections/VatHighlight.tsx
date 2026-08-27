@@ -81,7 +81,9 @@ export default function VatHighlight({ data }: { data: NonNullable<VatHighlightQ
               {data.eyebrow}
             </p>
           )}
-          <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">{data.headline}</h2>
+          <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">
+            {data.headline}
+          </h2>
           {data.description && (
             <p className="mt-4 font-body text-base leading-relaxed text-silver">
               {data.description}

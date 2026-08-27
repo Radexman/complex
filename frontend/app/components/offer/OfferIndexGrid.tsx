@@ -109,7 +109,9 @@ function ServiceCard({ service, span }: { service: Service; span: ReturnType<typ
           </Link>
         </h2>
         {service.heroSubheadline && (
-          <p className={`mt-1 line-clamp-1 max-w-xl font-body text-sm text-white/70 ${detailsClass}`}>
+          <p
+            className={`mt-1 line-clamp-1 max-w-xl font-body text-sm text-white/70 ${detailsClass}`}
+          >
             {service.heroSubheadline}
           </p>
         )}

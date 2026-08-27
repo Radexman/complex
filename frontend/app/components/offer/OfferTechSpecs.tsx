@@ -128,7 +128,7 @@ export default function OfferTechSpecs({
                 className="glass rounded-xl rounded-t-xl border border-graphite border-t-2 border-t-accent/30 p-6 transition-colors duration-300 hover:border-accent/30"
               >
                 <div className="mb-4 flex items-center gap-3">
-                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-accent/10">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent/10">
                     <Icon className="text-accent" size={20} aria-hidden="true" />
                   </div>
                   <h3 className="font-heading text-lg font-semibold text-white">{spec.title}</h3>

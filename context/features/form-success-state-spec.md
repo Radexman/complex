@@ -107,6 +107,7 @@ Centered column: `max-w-2xl mx-auto text-center py-8`
 Update the success state section in each of the following files, replacing the current minimal inline success block with `<FormSuccessState />`:
 
 ### `TarasForm.tsx`
+
 ```tsx
 // replace current inline success state with:
 <FormSuccessState
@@ -117,13 +118,16 @@ Update the success state section in each of the following files, replacing the c
   primaryCtaHref="/"
 />
 ```
+
 - `submittedEmail`: captured from form data before the state resets on success (store in a `useState`)
 - `steps`: passed as prop from `src/app/wycena/taras/page.tsx` — extend the page's `siteSettings` GROQ query to include `processTimeline.steps`
 
 ### `ZadaszenieForm.tsx`, `ZaluzjeForm.tsx`, `SchodForm.tsx`
+
 Same pattern as `TarasForm` with their respective `formType` values. Extend each quotation page's GROQ query to include `processTimeline.steps` and pass to the form component.
 
 ### `ContactForm.tsx`
+
 ```tsx
 <FormSuccessState
   formType="kontakt"
@@ -133,6 +137,7 @@ Same pattern as `TarasForm` with their respective `formType` values. Extend each
   primaryCtaHref="/"
 />
 ```
+
 Extend `src/app/kontakt/page.tsx` GROQ query to include `processTimeline.steps`.
 
 ---

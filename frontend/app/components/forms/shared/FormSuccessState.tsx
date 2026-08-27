@@ -117,9 +117,7 @@ export default function FormSuccessState({
                   <div key={step._key} data-success-step className="flex items-start gap-4">
                     <div
                       className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 ${
-                        highlighted
-                          ? 'border-accent bg-accent/20'
-                          : 'border-graphite bg-bg-surface'
+                        highlighted ? 'border-accent bg-accent/20' : 'border-graphite bg-bg-surface'
                       }`}
                     >
                       <Icon

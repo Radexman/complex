@@ -21,14 +21,14 @@ Add a `processTimeline` object to the `siteSettings` document with the following
 
 ### Icon lookup map (new icons for this component)
 
-| Value | Lucide Icon | Step |
-|---|---|---|
-| `"mail"` | `Mail` | Zapytanie |
-| `"calculator"` | `Calculator` | Wycena wstępna |
-| `"file-check"` | `FileCheck` | Wycena końcowa |
-| `"file-signature"` | `FileSignature` | Umowa |
-| `"hammer"` | `Hammer` | Montaż |
-| `"shield-check"` | `ShieldCheck` | Gwarancja |
+| Value              | Lucide Icon     | Step           |
+| ------------------ | --------------- | -------------- |
+| `"mail"`           | `Mail`          | Zapytanie      |
+| `"calculator"`     | `Calculator`    | Wycena wstępna |
+| `"file-check"`     | `FileCheck`     | Wycena końcowa |
+| `"file-signature"` | `FileSignature` | Umowa          |
+| `"hammer"`         | `Hammer`        | Montaż         |
+| `"shield-check"`   | `ShieldCheck`   | Gwarancja      |
 
 ---
 

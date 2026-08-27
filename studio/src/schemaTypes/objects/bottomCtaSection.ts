@@ -121,8 +121,7 @@ export const bottomCtaSection = defineType({
     defineField({
       name: 'contactNote',
       title: 'Notatka o preferowanym kontakcie',
-      description:
-        'Krótkie zdanie informujące, że telefon i e-mail to preferowane formy kontaktu.',
+      description: 'Krótkie zdanie informujące, że telefon i e-mail to preferowane formy kontaktu.',
       type: 'text',
       rows: 2,
       group: 'showroom',

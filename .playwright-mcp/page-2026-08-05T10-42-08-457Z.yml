@@ -1,0 +1,195 @@
+- generic [active] [ref=e1]:
+    - region "Notifications alt+T"
+    - banner [ref=e2]:
+        - navigation [ref=e3]:
+            - link "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=e4] [cursor=pointer]:
+                - /url: /
+                - img "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=e5]
+            - generic [ref=e6]:
+                - link "Strona główna" [ref=e7] [cursor=pointer]:
+                    - /url: /
+                - button "Oferta" [ref=e9]
+                - button "Formularze wycen" [ref=e13]
+                - link "Realizacje" [ref=e16] [cursor=pointer]:
+                    - /url: /realizacje
+                - link "O nas" [ref=e17] [cursor=pointer]:
+                    - /url: /o-nas
+                - link "Kontakt" [ref=e18] [cursor=pointer]:
+                    - /url: /#kontakt
+            - generic [ref=e19]:
+                - button "Formularz kontaktowy" [ref=e20]
+                - link "Darmowa wycena" [ref=e21] [cursor=pointer]:
+                    - /url: /wycena
+    - main [ref=e22]:
+        - generic [ref=e23]:
+            - generic [ref=e25]:
+                - generic [ref=e26]:
+                    - paragraph [ref=e27]: Co oferujemy
+                    - heading "Oferta" [level=1] [ref=e28]
+                - paragraph [ref=e30]: Specjalizujemy się w kompleksowej realizacji przestrzeni zewnętrznych. Wybierz kategorię, która Cię interesuje, aby poznać szczegóły i zobaczyć nasze realizacje.
+            - generic [ref=e32]:
+                - article [ref=e33]:
+                    - img "Zadaszenie tarasu przy domu jednorodzinnym z nowoczesną konstrukcją aluminiową." [ref=e34]
+                    - generic [ref=e36]:
+                        - heading [level=2] [ref=e37]:
+                            - link "Zadaszenia tarasowe" [ref=e38] [cursor=pointer]:
+                                - /url: /oferta/zadaszenia-tarasowe
+                        - paragraph [ref=e39]: Trwałe zadaszenia tarasowe, które zwiększają komfort użytkowania tarasu oraz chronią przed słońcem i deszczem.
+                        - generic [ref=e40]:
+                            - link "Dowiedz się więcej" [ref=e41] [cursor=pointer]:
+                                - /url: /oferta/zadaszenia-tarasowe
+                            - link "Formularz wyceny" [ref=e44] [cursor=pointer]:
+                                - /url: /wycena/zadaszenie
+                - article [ref=e47]:
+                    - img "Taras kompozytowy przy domu jednorodzinnym." [ref=e48]
+                    - generic [ref=e50]:
+                        - heading [level=2] [ref=e51]:
+                            - link "Tarasy kompozytowe" [ref=e52] [cursor=pointer]:
+                                - /url: /oferta/tarasy-kompozytowe
+                        - generic [ref=e53]:
+                            - link "Dowiedz się więcej" [ref=e54] [cursor=pointer]:
+                                - /url: /oferta/tarasy-kompozytowe
+                            - link "Formularz wyceny" [ref=e57] [cursor=pointer]:
+                                - /url: /wycena/taras
+                - article [ref=e60]:
+                    - img "Taras gresowy przy domu jednorodzinnym." [ref=e61]
+                    - generic [ref=e63]:
+                        - heading [level=2] [ref=e64]:
+                            - link "Tarasy gresowe" [ref=e65] [cursor=pointer]:
+                                - /url: /oferta/tarasy-gresowe
+                        - generic [ref=e66]:
+                            - link "Dowiedz się więcej" [ref=e67] [cursor=pointer]:
+                                - /url: /oferta/tarasy-gresowe
+                            - link "Formularz wyceny" [ref=e70] [cursor=pointer]:
+                                - /url: /wycena/taras
+                - article [ref=e73]:
+                    - img "Aluminiowe żaluzje tarasowe do zadaszenia." [ref=e74]
+                    - generic [ref=e76]:
+                        - heading [level=2] [ref=e77]:
+                            - link "Akcesoria do zadaszeń" [ref=e78] [cursor=pointer]:
+                                - /url: /oferta/akcesoria-do-zadaszen
+                        - generic [ref=e79]:
+                            - link "Dowiedz się więcej" [ref=e80] [cursor=pointer]:
+                                - /url: /oferta/akcesoria-do-zadaszen
+                            - link "Formularz wyceny" [ref=e83] [cursor=pointer]:
+                                - /url: /wycena/zaluzje
+                - article [ref=e86]:
+                    - img "Taras drewniany przy domu jednorodzinnym." [ref=e87]
+                    - generic [ref=e89]:
+                        - heading [level=2] [ref=e90]:
+                            - link "Tarasy drewniane" [ref=e91] [cursor=pointer]:
+                                - /url: /oferta/tarasy-drewniane
+                        - generic [ref=e92]:
+                            - link "Dowiedz się więcej" [ref=e93] [cursor=pointer]:
+                                - /url: /oferta/tarasy-drewniane
+                            - link "Formularz wyceny" [ref=e96] [cursor=pointer]:
+                                - /url: /wycena/taras
+                - article [ref=e99]:
+                    - img "Elewacja kompozytowa budynku." [ref=e100]
+                    - generic: Nowość
+                    - generic [ref=e102]:
+                        - heading [level=2] [ref=e103]:
+                            - link "Elewacje kompozytowe" [ref=e104] [cursor=pointer]:
+                                - /url: /oferta/elewacje-kompozytowe
+                        - link "Dowiedz się więcej" [ref=e106] [cursor=pointer]:
+                            - /url: /oferta/elewacje-kompozytowe
+                - article [ref=e109]:
+                    - img "Schody modułowe przy budynku." [ref=e110]
+                    - generic: Nowość
+                    - generic [ref=e112]:
+                        - heading [level=2] [ref=e113]:
+                            - link "Schody modułowe" [ref=e114] [cursor=pointer]:
+                                - /url: /oferta/schody-modulowe
+                        - paragraph [ref=e115]: Trwałe i estetyczne schody modułowe łączą funkcjonalność, wygodę użytkowania i solidne wykonanie.
+                        - generic [ref=e116]:
+                            - link "Dowiedz się więcej" [ref=e117] [cursor=pointer]:
+                                - /url: /oferta/schody-modulowe
+                            - link "Formularz wyceny" [ref=e120] [cursor=pointer]:
+                                - /url: /wycena/schody
+    - contentinfo [ref=e123]:
+        - generic [ref=e124]:
+            - generic [ref=e125]:
+                - generic [ref=e126]:
+                    - link "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=e127] [cursor=pointer]:
+                        - /url: /
+                        - img "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=e128]
+                    - paragraph [ref=e129]: Nowoczesne zadaszenia tarasowe, pergole aluminiowe i tarasy. Profesjonalny montaż oraz fachowe doradztwo na terenie województwa śląskiego i opolskiego.
+                    - link "facebook" [ref=e131] [cursor=pointer]:
+                        - /url: https://www.facebook.com/ccomplex.plTarasy/?notif_id=1782353683768851&notif_t=page_user_activity&ref=notif
+                - generic [ref=e134]:
+                    - heading "Oferta" [level=3] [ref=e135]
+                    - list [ref=e136]:
+                        - listitem [ref=e137]:
+                            - link "Cała oferta" [ref=e138] [cursor=pointer]:
+                                - /url: /oferta
+                        - listitem [ref=e139]:
+                            - link "Zadaszenia tarasowe" [ref=e140] [cursor=pointer]:
+                                - /url: /oferta/zadaszenia-tarasowe
+                        - listitem [ref=e141]:
+                            - link "Akcesoria do zadaszeń" [ref=e142] [cursor=pointer]:
+                                - /url: /oferta/akcesoria-do-zadaszen
+                        - listitem [ref=e143]:
+                            - link "Tarasy kompozytowe" [ref=e144] [cursor=pointer]:
+                                - /url: /oferta/tarasy-kompozytowe
+                        - listitem [ref=e145]:
+                            - link "Tarasy gresowe" [ref=e146] [cursor=pointer]:
+                                - /url: /oferta/tarasy-gresowe
+                        - listitem [ref=e147]:
+                            - link "Tarasy drewniane" [ref=e148] [cursor=pointer]:
+                                - /url: /oferta/tarasy-drewniane
+                        - listitem [ref=e149]:
+                            - link "Elewacje kompozytowe" [ref=e150] [cursor=pointer]:
+                                - /url: /oferta/elewacje-kompozytowe
+                        - listitem [ref=e151]:
+                            - link "Schody modułowe" [ref=e152] [cursor=pointer]:
+                                - /url: /oferta/schody-modulowe
+                - generic [ref=e153]:
+                    - heading "Firma" [level=3] [ref=e154]
+                    - list [ref=e155]:
+                        - listitem [ref=e156]:
+                            - link "O nas" [ref=e157] [cursor=pointer]:
+                                - /url: /o-nas
+                        - listitem [ref=e158]:
+                            - link "Realizacje" [ref=e159] [cursor=pointer]:
+                                - /url: /realizacje
+                        - listitem [ref=e160]:
+                            - link "Kontakt" [ref=e161] [cursor=pointer]:
+                                - /url: /#kontakt
+                - generic [ref=e162]:
+                    - heading "Narzędzia" [level=3] [ref=e163]
+                    - list [ref=e164]:
+                        - listitem [ref=e165]:
+                            - link "Wszystkie formularze" [ref=e166] [cursor=pointer]:
+                                - /url: /wycena
+                        - listitem [ref=e167]:
+                            - link "Formularz wyceny tarasu" [ref=e168] [cursor=pointer]:
+                                - /url: /wycena/taras
+                        - listitem [ref=e169]:
+                            - link "Formularz wyceny zadaszenia" [ref=e170] [cursor=pointer]:
+                                - /url: /wycena/zadaszenie
+                        - listitem [ref=e171]:
+                            - link "Formularz wyceny żaluzji" [ref=e172] [cursor=pointer]:
+                                - /url: /wycena/zaluzje
+                        - listitem [ref=e173]:
+                            - link "Formularz wyceny schodów" [ref=e174] [cursor=pointer]:
+                                - /url: /wycena/schody
+                - generic [ref=e175]:
+                    - heading "Kontakt" [level=3] [ref=e176]
+                    - generic [ref=e177]:
+                        - paragraph [ref=e178]: CComplex sp. z o.o.
+                        - paragraph [ref=e179]:
+                            - generic [ref=e183]: Kępska 12, 45-130 Opole, pok.20 (parter)
+                        - link "+48 661 242 507" [ref=e184] [cursor=pointer]:
+                            - /url: tel:+48661242507
+                        - link "biuro@ccomplex.pl" [ref=e188] [cursor=pointer]:
+                            - /url: mailto:biuro@ccomplex.pl
+            - generic [ref=e193]:
+                - paragraph [ref=e194]: © 2026 Complex sp. z o.o. Wszelkie prawa zastrzeżone.
+                - generic [ref=e195]:
+                    - link "Polityka prywatności" [ref=e196] [cursor=pointer]:
+                        - /url: /polityka-prywatnosci
+                    - link "Regulamin" [ref=e197] [cursor=pointer]:
+                        - /url: /regulamin
+                    - link "Polityka cookies" [ref=e198] [cursor=pointer]:
+                        - /url: /polityka-cookies
+    - button "Open Next.js Dev Tools" [ref=e204] [cursor=pointer]

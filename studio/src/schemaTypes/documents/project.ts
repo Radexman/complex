@@ -73,7 +73,8 @@ export const project = defineType({
     defineField({
       name: 'isFeatured',
       title: 'Wyróżniona na stronie głównej',
-      description: 'Gdy zaznaczone, realizacja pojawia się w sekcji „Wybrane projekty” na stronie głównej.',
+      description:
+        'Gdy zaznaczone, realizacja pojawia się w sekcji „Wybrane projekty” na stronie głównej.',
       type: 'boolean',
       initialValue: false,
     }),

@@ -1,0 +1,207 @@
+- generic [active] [ref=e1]:
+    - region "Notifications alt+T"
+    - banner [ref=e2]:
+        - navigation [ref=e3]:
+            - link "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=e4] [cursor=pointer]:
+                - /url: /
+                - img "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=e5]
+            - generic [ref=e6]:
+                - link "Strona główna" [ref=e7] [cursor=pointer]:
+                    - /url: /
+                - button "Oferta" [ref=e9]
+                - button "Formularze wycen" [ref=e13]
+                - link "Realizacje" [ref=e16] [cursor=pointer]:
+                    - /url: /realizacje
+                - link "O nas" [ref=e17] [cursor=pointer]:
+                    - /url: /o-nas
+                - link "Kontakt" [ref=e18] [cursor=pointer]:
+                    - /url: /#kontakt
+            - generic [ref=e19]:
+                - button "Formularz kontaktowy" [ref=e20]
+                - link "Darmowa wycena" [ref=e21] [cursor=pointer]:
+                    - /url: /wycena
+    - main [ref=e22]:
+        - generic [ref=e23]:
+            - generic [ref=e26]:
+                - generic [ref=e27]:
+                    - paragraph [ref=e28]: Complex sp. z o.o.
+                    - heading "O nas" [level=1] [ref=e29]
+                - paragraph [ref=e31]: Firma Complex sp. z o.o. z siedzibą w Opolu — specjaliści w dziedzinie zadaszeń aluminiowych, tarasów i schodów modułowych.
+            - generic [ref=e34]:
+                - generic [ref=e36]:
+                    - generic [ref=e37]:
+                        - paragraph [ref=e38]: 1200+
+                        - paragraph [ref=e39]: Zrealizowanych projektów
+                    - generic [ref=e40]:
+                        - paragraph [ref=e41]: "15"
+                        - paragraph [ref=e42]: Lat doświadczenia
+                    - generic [ref=e43]:
+                        - paragraph [ref=e44]: Śląsk i Opolszczyzna
+                        - paragraph [ref=e45]: Obszar działania
+                - generic [ref=e46]:
+                    - paragraph [ref=e47]: Nasza historia
+                    - heading "Budujemy przestrzenie, które zostają na lata" [level=2] [ref=e48]
+                    - generic [ref=e49]:
+                        - paragraph [ref=e50]: Complex sp. z o.o. to firma z ugruntowaną pozycją w budownictwie zewnętrznym na terenie województwa śląskiego i opolskiego. Specjalizujemy się w kompleksowym wykonaniu tarasów, zadaszeń aluminiowych, żaluzji tarasowych, elewacji kompozytowych oraz schodów modułowych.
+                        - paragraph [ref=e51]: Każdą realizację traktujemy indywidualnie — doradzamy w wyborze materiałów, projektujemy rozwiązania dopasowane do architektury budynku i oczekiwań klienta, a następnie realizujemy montaż własną ekipą z wieloletnim doświadczeniem.
+                        - paragraph [ref=e52]: Nasze standardy to profesjonalizm, jakość wykonania i niezawodność. Każda inwestycja objęta jest pisemną umową i gwarancją, a klienci mogą liczyć na pełne wsparcie — od pierwszego kontaktu po odbiór gotowej realizacji.
+            - generic [ref=e54]:
+                - generic [ref=e55]:
+                    - paragraph [ref=e56]: Nasze wartości
+                    - heading "Co nas wyróżnia" [level=2] [ref=e57]
+                - generic [ref=e58]:
+                    - generic [ref=e59]:
+                        - paragraph [ref=e64]: Jakość wykonania
+                        - paragraph [ref=e65]: Pracujemy wyłącznie ze sprawdzonymi materiałami od renomowanych producentów. Każda realizacja jest objęta gwarancją.
+                    - generic [ref=e66]:
+                        - paragraph [ref=e71]: Profesjonalizm
+                        - paragraph [ref=e72]: Pisemne umowy, ustalony termin, transparentna wycena. Wiemy, że Twój czas i inwestycja są cenne.
+                    - generic [ref=e73]:
+                        - paragraph [ref=e80]: Indywidualne podejście
+                        - paragraph [ref=e81]: Słuchamy potrzeb klienta i projektujemy rozwiązania szyte na miarę — nie gotowe szablony.
+                    - generic [ref=e82]:
+                        - paragraph [ref=e90]: Precyzja
+                        - paragraph [ref=e91]: Każdy pomiar, każde cięcie, każdy montaż wykonujemy z dbałością o detal. Estetyka i funkcjonalność idą w parze.
+                    - generic [ref=e92]:
+                        - paragraph [ref=e97]: Lokalny ekspert
+                        - paragraph [ref=e98]: Działamy na terenie Śląska i Opolszczyzny — znamy specyfikę regionu i jesteśmy blisko naszych klientów.
+                    - generic [ref=e99]:
+                        - paragraph [ref=e104]: Zaufanie klientów
+                        - paragraph [ref=e105]: 98% naszych klientów poleca nas znajomym. Budujemy relacje na długie lata, nie jednorazowe transakcje.
+            - generic [ref=e107]:
+                - generic [ref=e108]:
+                    - paragraph [ref=e109]: Jak to działa
+                    - heading "Od zapytania do gotowej realizacji" [level=2] [ref=e110]
+                    - paragraph [ref=e111]: Przejrzysty proces współpracy – od bezpłatnej wyceny, przez pomiar i podpisanie umowy, aż po profesjonalny montaż.
+                - generic [ref=e113]:
+                    - generic [ref=e120]:
+                        - generic [ref=e121]:
+                            - generic [ref=e122]: "01"
+                            - heading "Zapytanie" [level=3] [ref=e123]
+                        - paragraph [ref=e124]: Prześlij podstawowe informacje o planowanej realizacji za pomocą formularza wyceny, formularza kontaktowego, wiadomości e-mail lub WhatsApp.
+                    - generic [ref=e130]:
+                        - generic [ref=e131]:
+                            - generic [ref=e132]: "02"
+                            - heading "Wycena wstępna" [level=3] [ref=e133]
+                        - paragraph [ref=e134]: Na podstawie otrzymanych informacji przygotowujemy wstępną wycenę.
+                    - generic [ref=e144]:
+                        - generic [ref=e145]:
+                            - generic [ref=e146]: "03"
+                            - heading "Pomiar" [level=3] [ref=e147]
+                        - paragraph [ref=e148]: Wykonujemy pomiar na miejscu. Ustalamy szczegóły i prezentujemy próbki materiałów.
+                    - generic [ref=e156]:
+                        - generic [ref=e157]:
+                            - generic [ref=e158]: "04"
+                            - heading "Wycena końcowa" [level=3] [ref=e159]
+                        - paragraph [ref=e160]: Przygotowujemy końcową wycenę. Uwzględniamy wszystkie ustalenia.
+                    - generic [ref=e168]:
+                        - generic [ref=e169]:
+                            - generic [ref=e170]: "05"
+                            - heading "Umowa" [level=3] [ref=e171]
+                        - paragraph [ref=e172]: Po akceptacji wyceny podpisujemy umowę. Informujemy o terminie realizacji.
+                    - generic [ref=e180]:
+                        - generic [ref=e181]:
+                            - generic [ref=e182]: "06"
+                            - heading "Montaż" [level=3] [ref=e183]
+                        - paragraph [ref=e184]: Wykonujemy montaż zgodnie z ustaleniami.
+                    - generic [ref=e191]:
+                        - generic [ref=e192]:
+                            - generic [ref=e193]: "07"
+                            - heading "Gwarancja" [level=3] [ref=e194]
+                        - paragraph [ref=e195]: Montaż objęty jest 24-miesięczną gwarancją.
+            - generic [ref=e197]:
+                - generic [ref=e199]: Zacznijmy współpracę
+                - heading "Masz pytania lub chcesz poznać naszą ofertę?" [level=2] [ref=e201]
+                - paragraph [ref=e202]: Skontaktuj się z nami — odpowiadamy w ciągu 5 dni roboczych i umawiamy bezpłatną wizytę pomiarową.
+                - generic [ref=e203]:
+                    - link "Skontaktuj się" [ref=e204] [cursor=pointer]:
+                        - /url: /#kontakt
+                    - link "Formularz wyceny" [ref=e207] [cursor=pointer]:
+                        - /url: /wycena
+    - contentinfo [ref=e209]:
+        - generic [ref=e210]:
+            - generic [ref=e211]:
+                - generic [ref=e212]:
+                    - link "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=e213] [cursor=pointer]:
+                        - /url: /
+                        - img "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=e214]
+                    - paragraph [ref=e215]: Nowoczesne zadaszenia tarasowe, pergole aluminiowe i tarasy. Profesjonalny montaż oraz fachowe doradztwo na terenie województwa śląskiego i opolskiego.
+                    - link "facebook" [ref=e217] [cursor=pointer]:
+                        - /url: https://www.facebook.com/ccomplex.plTarasy/?notif_id=1782353683768851&notif_t=page_user_activity&ref=notif
+                - generic [ref=e220]:
+                    - heading "Oferta" [level=3] [ref=e221]
+                    - list [ref=e222]:
+                        - listitem [ref=e223]:
+                            - link "Cała oferta" [ref=e224] [cursor=pointer]:
+                                - /url: /oferta
+                        - listitem [ref=e225]:
+                            - link "Zadaszenia tarasowe" [ref=e226] [cursor=pointer]:
+                                - /url: /oferta/zadaszenia-tarasowe
+                        - listitem [ref=e227]:
+                            - link "Akcesoria do zadaszeń" [ref=e228] [cursor=pointer]:
+                                - /url: /oferta/akcesoria-do-zadaszen
+                        - listitem [ref=e229]:
+                            - link "Tarasy kompozytowe" [ref=e230] [cursor=pointer]:
+                                - /url: /oferta/tarasy-kompozytowe
+                        - listitem [ref=e231]:
+                            - link "Tarasy gresowe" [ref=e232] [cursor=pointer]:
+                                - /url: /oferta/tarasy-gresowe
+                        - listitem [ref=e233]:
+                            - link "Tarasy drewniane" [ref=e234] [cursor=pointer]:
+                                - /url: /oferta/tarasy-drewniane
+                        - listitem [ref=e235]:
+                            - link "Elewacje kompozytowe" [ref=e236] [cursor=pointer]:
+                                - /url: /oferta/elewacje-kompozytowe
+                        - listitem [ref=e237]:
+                            - link "Schody modułowe" [ref=e238] [cursor=pointer]:
+                                - /url: /oferta/schody-modulowe
+                - generic [ref=e239]:
+                    - heading "Firma" [level=3] [ref=e240]
+                    - list [ref=e241]:
+                        - listitem [ref=e242]:
+                            - link "O nas" [ref=e243] [cursor=pointer]:
+                                - /url: /o-nas
+                        - listitem [ref=e244]:
+                            - link "Realizacje" [ref=e245] [cursor=pointer]:
+                                - /url: /realizacje
+                        - listitem [ref=e246]:
+                            - link "Kontakt" [ref=e247] [cursor=pointer]:
+                                - /url: /#kontakt
+                - generic [ref=e248]:
+                    - heading "Narzędzia" [level=3] [ref=e249]
+                    - list [ref=e250]:
+                        - listitem [ref=e251]:
+                            - link "Wszystkie formularze" [ref=e252] [cursor=pointer]:
+                                - /url: /wycena
+                        - listitem [ref=e253]:
+                            - link "Formularz wyceny tarasu" [ref=e254] [cursor=pointer]:
+                                - /url: /wycena/taras
+                        - listitem [ref=e255]:
+                            - link "Formularz wyceny zadaszenia" [ref=e256] [cursor=pointer]:
+                                - /url: /wycena/zadaszenie
+                        - listitem [ref=e257]:
+                            - link "Formularz wyceny żaluzji" [ref=e258] [cursor=pointer]:
+                                - /url: /wycena/zaluzje
+                        - listitem [ref=e259]:
+                            - link "Formularz wyceny schodów" [ref=e260] [cursor=pointer]:
+                                - /url: /wycena/schody
+                - generic [ref=e261]:
+                    - heading "Kontakt" [level=3] [ref=e262]
+                    - generic [ref=e263]:
+                        - paragraph [ref=e264]: CComplex sp. z o.o.
+                        - paragraph [ref=e265]:
+                            - generic [ref=e269]: Kępska 12, 45-130 Opole, pok.20 (parter)
+                        - link "+48 661 242 507" [ref=e270] [cursor=pointer]:
+                            - /url: tel:+48661242507
+                        - link "biuro@ccomplex.pl" [ref=e274] [cursor=pointer]:
+                            - /url: mailto:biuro@ccomplex.pl
+            - generic [ref=e279]:
+                - paragraph [ref=e280]: © 2026 Complex sp. z o.o. Wszelkie prawa zastrzeżone.
+                - generic [ref=e281]:
+                    - link "Polityka prywatności" [ref=e282] [cursor=pointer]:
+                        - /url: /polityka-prywatnosci
+                    - link "Regulamin" [ref=e283] [cursor=pointer]:
+                        - /url: /regulamin
+                    - link "Polityka cookies" [ref=e284] [cursor=pointer]:
+                        - /url: /polityka-cookies
+    - button "Open Next.js Dev Tools" [ref=e290] [cursor=pointer]

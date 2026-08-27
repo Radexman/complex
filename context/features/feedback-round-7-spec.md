@@ -231,8 +231,8 @@ being measured today.
 `/polityka-prywatnosci` **does not exist** — there is no route and no redirect. Six places on the
 live site already link to it, so every one of them is a **404 today**:
 
-| Where                                                                                   | Link text            |
-| --------------------------------------------------------------------------------------- | -------------------- |
+| Where                                                                                    | Link text            |
+| ---------------------------------------------------------------------------------------- | -------------------- |
 | [Footer.tsx:59](frontend/app/components/layout/Footer.tsx#L59) — legal bar               | Polityka prywatności |
 | [ContactForm.tsx:120](frontend/app/components/forms/ContactForm.tsx#L120) — RODO consent | Polityki prywatności |
 | [TarasForm.tsx:293](frontend/app/components/forms/TarasForm.tsx#L293) — RODO consent     | Polityką prywatności |

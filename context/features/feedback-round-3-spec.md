@@ -69,22 +69,23 @@ A before/after image comparison slider, placed **after `FeaturedProjectsSection`
 `ProcessTimeline`.
 
 **Implementation — no daisyUI.** daisyUI's `diff` component is pure CSS (`diff-item-1`/`diff-item-2`
-+ a `resize: horizontal; overflow: hidden` resizer), but installing the plugin drags in its whole
-theme/colour layer alongside this project's Tailwind v4 `@theme` tokens, and its resize grip is a
-browser corner handle that behaves poorly on touch. We build the same layout natively as
-`components/ui/BeforeAfterSlider.tsx` (~60 lines): absolutely-stacked images, the „after" clipped by
-a percentage width, a draggable accent handle (pointer events, so mouse + touch), and
-`role="slider"` + arrow-key support for keyboard users.
+
+- a `resize: horizontal; overflow: hidden` resizer), but installing the plugin drags in its whole
+  theme/colour layer alongside this project's Tailwind v4 `@theme` tokens, and its resize grip is a
+  browser corner handle that behaves poorly on touch. We build the same layout natively as
+  `components/ui/BeforeAfterSlider.tsx` (~60 lines): absolutely-stacked images, the „after" clipped by
+  a percentage width, a draggable accent handle (pointer events, so mouse + touch), and
+  `role="slider"` + arrow-key support for keyboard users.
 
 **Sanity — new `beforeAfterSection` fixed-id singleton** (Studio entry „Sekcja Przed i po",
 `TransferIcon`), matching the repo's singleton precedent:
 
-| Field         | Type                        | Notes                                   |
-| ------------- | --------------------------- | --------------------------------------- |
-| `eyebrow`     | string                      | Polish `initialValue`                   |
-| `headline`    | string (required)           |                                         |
-| `subheadline` | text                        |                                         |
-| `items[]`     | array of `beforeAfterItem`  | min 1; each is one project              |
+| Field         | Type                       | Notes                      |
+| ------------- | -------------------------- | -------------------------- |
+| `eyebrow`     | string                     | Polish `initialValue`      |
+| `headline`    | string (required)          |                            |
+| `subheadline` | text                       |                            |
+| `items[]`     | array of `beforeAfterItem` | min 1; each is one project |
 
 `beforeAfterItem` (inline object): `title` (required), `location`, `beforeImage` (image, hotspot,
 required `alt`), `afterImage` (image, hotspot, required `alt`).

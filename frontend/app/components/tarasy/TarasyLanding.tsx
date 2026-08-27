@@ -129,16 +129,16 @@ export default function TarasyLanding({
             {page?.headline || 'Tarasy'}
           </h1>
           {page?.subheadline && (
-            <p data-tarasy-hero className="mt-5 max-w-2xl font-body text-base text-silver md:text-lg">
+            <p
+              data-tarasy-hero
+              className="mt-5 max-w-2xl font-body text-base text-silver md:text-lg"
+            >
               {page.subheadline}
             </p>
           )}
         </header>
 
-        <div
-          data-terrace-grid
-          className="mt-12 grid grid-cols-1 gap-4 pb-24 md:grid-cols-3"
-        >
+        <div data-terrace-grid className="mt-12 grid grid-cols-1 gap-4 pb-24 md:grid-cols-3">
           {sorted.map((service, index) => (
             <TerraceCard key={service._id} service={service} className={bentoClass(index)} />
           ))}

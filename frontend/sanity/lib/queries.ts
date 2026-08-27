@@ -6,9 +6,7 @@ export const heroQuery = defineQuery(`*[_type == "heroSection"][0]`);
 export const trustQuery = defineQuery(`*[_type == "trustSection"][0]`);
 export const offerQuery = defineQuery(`*[_type == "offerSection"][0]`);
 export const aboutQuery = defineQuery(`*[_type == "aboutSection"][0]`);
-export const featuredProjectsSectionQuery = defineQuery(
-  `*[_type == "featuredProjectsSection"][0]`,
-);
+export const featuredProjectsSectionQuery = defineQuery(`*[_type == "featuredProjectsSection"][0]`);
 export const realizacjePageQuery = defineQuery(`*[_type == "realizacjePage"][0]`);
 export const tarasyPageQuery = defineQuery(`*[_type == "tarasyPage"][0]`);
 export const ofertaPageQuery = defineQuery(`*[_type == "ofertaPage"][0]`);

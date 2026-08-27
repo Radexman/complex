@@ -1,0 +1,57 @@
+- generic [ref=f11e1]:
+    - dialog "Baner zgody na pliki cookie" [ref=f11e2]:
+        - generic [ref=f11e3]:
+            - generic [ref=f11e4]: "Ta strona internetowa korzysta z takich technologii jak pliki cookie, aby umożliwić niezbędną funkcjonalność witryny, a także do następujących celów: analityka, personalizacja i reklama ukierunkowana. Możesz zmienić swoje ustawienia w dowolnym momencie lub zaakceptować ustawienia domyślne. Możesz zamknąć ten baner, aby kontynuować korzystanie tylko z niezbędnych plików cookie."
+            - link "Polityka prywatności" [active] [ref=f11e5] [cursor=pointer]:
+                - /url: /legal/privacy
+        - generic [ref=f11e6]:
+            - button "Zarządzaj preferencjami" [ref=f11e7] [cursor=pointer]
+            - button "Zaakceptuj wszystko" [ref=f11e8] [cursor=pointer]
+            - button "Odrzuć nieistotne" [ref=f11e9] [cursor=pointer]
+    - dialog "Baner zgody na pliki cookie" [ref=f11e10]:
+        - generic [ref=f11e11]:
+            - generic [ref=f11e12]: "Ta strona internetowa korzysta z takich technologii jak pliki cookie, aby umożliwić niezbędną funkcjonalność witryny, a także do następujących celów: analityka, personalizacja i reklama ukierunkowana. Możesz zmienić swoje ustawienia w dowolnym momencie lub zaakceptować ustawienia domyślne. Możesz zamknąć ten baner, aby kontynuować korzystanie tylko z niezbędnych plików cookie."
+            - link "Polityka prywatności" [ref=f11e13] [cursor=pointer]:
+                - /url: /legal/privacy
+        - generic [ref=f11e14]:
+            - button "Zarządzaj preferencjami" [ref=f11e15] [cursor=pointer]
+            - button "Zaakceptuj wszystko" [ref=f11e16] [cursor=pointer]
+            - button "Odrzuć nieistotne" [ref=f11e17] [cursor=pointer]
+    - generic [ref=f11e18]:
+        - link "Go to Sanity homepage" [ref=f11e19] [cursor=pointer]:
+            - /url: https://www.sanity.io
+            - img "Sanity" [ref=f11e20]
+        - generic [ref=f11e29]:
+            - generic [ref=f11e30]:
+                - generic [ref=f11e36]:
+                    - generic [ref=f11e37]: Log in to your account
+                    - generic [ref=f11e40]:
+                        - generic [ref=f11e43]:
+                            - link "Continue with Google" [ref=f11e44] [cursor=pointer]:
+                                - /url: https://api.sanity.io/v1/auth/login/google?type=token&origin=https%3A%2F%2Fwww.sanity.io%2Fapi%2Fdashboard%2Fauthenticate%3FredirectTo%3D%2F%40or787Vn1q%2Fstudio%2Fq9nxij5bpmiuzzjy6swyivcq%2Fdefault%2Fstructure%2FprocessTimeline
+                            - link "Continue with GitHub" [ref=f11e56] [cursor=pointer]:
+                                - /url: https://api.sanity.io/v1/auth/login/github?type=token&origin=https%3A%2F%2Fwww.sanity.io%2Fapi%2Fdashboard%2Fauthenticate%3FredirectTo%3D%2F%40or787Vn1q%2Fstudio%2Fq9nxij5bpmiuzzjy6swyivcq%2Fdefault%2Fstructure%2FprocessTimeline
+                            - button "Continue with email" [ref=f11e65] [cursor=pointer]
+                        - generic [ref=f11e80]:
+                            - link "Continue with SSO" [ref=f11e83] [cursor=pointer]:
+                                - /url: /login/sso?type=token&origin=https%3A%2F%2Fwww.sanity.io%2Fapi%2Fdashboard%2Fauthenticate%3FredirectTo%3D%252F%2540or787Vn1q%252Fstudio%252Fq9nxij5bpmiuzzjy6swyivcq%252Fdefault%252Fstructure%252FprocessTimeline
+                            - generic [ref=f11e85]:
+                                - text: Don't have an account?
+                                - link "Sign up" [ref=f11e86] [cursor=pointer]:
+                                    - /url: /login/sign-up?type=token&origin=https%3A%2F%2Fwww.sanity.io%2Fapi%2Fdashboard%2Fauthenticate%3FredirectTo%3D%252F%2540or787Vn1q%252Fstudio%252Fq9nxij5bpmiuzzjy6swyivcq%252Fdefault%252Fstructure%252FprocessTimeline
+                - generic [ref=f11e87]: Trusted by leaders and innovators
+                - generic [ref=f11e146]:
+                    - text: This site is protected by reCAPTCHA and the Google
+                    - link "Privacy Policy" [ref=f11e147] [cursor=pointer]:
+                        - /url: https://policies.google.com/privacy
+                    - text: and
+                    - link "Terms of Service" [ref=f11e148] [cursor=pointer]:
+                        - /url: https://policies.google.com/terms
+                    - text: apply.
+            - generic [ref=f11e152]:
+                - heading "Build content-powered applications in minutes" [level=1] [ref=f11e153]
+                - generic [ref=f11e155]:
+                    - img "Code editor showing Sanity integration" [ref=f11e157]
+                    - img "Sanity Studio interface" [ref=f11e160]
+        - list
+    - alert [ref=f11e161]

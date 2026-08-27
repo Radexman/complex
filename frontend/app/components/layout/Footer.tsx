@@ -58,9 +58,7 @@ const NARZEDZIA_LINKS: NavLink[] = [
 
 // „Regulamin” and „Polityka cookies” were listed here but never had pages behind
 // them — both 404'd. They come back the moment the client supplies the text.
-const LEGAL_LINKS: NavLink[] = [
-  { label: 'Polityka prywatności', href: '/polityka-prywatnosci' },
-];
+const LEGAL_LINKS: NavLink[] = [{ label: 'Polityka prywatności', href: '/polityka-prywatnosci' }];
 
 function LinkColumn({ heading, links }: { heading: string; links: NavLink[] }) {
   return (

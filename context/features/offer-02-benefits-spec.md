@@ -19,12 +19,12 @@ Append the following fields to `sanity/schemas/service.ts`:
 
 ### Additional icon values to add to the icon lookup map in the component (extend from TrustSection pattern):
 
-| Value | Lucide Icon | Suggested use |
-|---|---|---|
-| `"sun"` | `Sun` | Weather resistance / outdoor use |
-| `"droplets"` | `Droplets` | Waterproofing |
-| `"ruler"` | `Ruler` | Custom dimensions |
-| `"zap"` | `Zap` | Quick installation / smart features |
+| Value        | Lucide Icon | Suggested use                       |
+| ------------ | ----------- | ----------------------------------- |
+| `"sun"`      | `Sun`       | Weather resistance / outdoor use    |
+| `"droplets"` | `Droplets`  | Waterproofing                       |
+| `"ruler"`    | `Ruler`     | Custom dimensions                   |
+| `"zap"`      | `Zap`       | Quick installation / smart features |
 
 ---
 

@@ -6,6 +6,10 @@
         "Authorization": "Bearer sk..."
       }
     },
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    },
     "ark-ui": {
       "command": "npx",
       "args": ["-y", "@ark-ui/mcp"]

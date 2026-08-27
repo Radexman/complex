@@ -1,0 +1,217 @@
+- generic [active] [ref=f1e1]:
+    - region "Notifications alt+T"
+    - banner [ref=f1e2]:
+        - navigation [ref=f1e3]:
+            - link "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=f1e4] [cursor=pointer]:
+                - /url: /
+                - img "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=f1e5]
+            - generic [ref=f1e6]:
+                - link "Strona główna" [ref=f1e7] [cursor=pointer]:
+                    - /url: /
+                - button "Oferta" [ref=f1e9]
+                - button "Formularze wycen" [ref=f1e13]
+                - link "Realizacje" [ref=f1e16] [cursor=pointer]:
+                    - /url: /realizacje
+                - link "O nas" [ref=f1e17] [cursor=pointer]:
+                    - /url: /o-nas
+                - link "Kontakt" [ref=f1e18] [cursor=pointer]:
+                    - /url: /#kontakt
+            - generic [ref=f1e19]:
+                - button "Formularz kontaktowy" [ref=f1e20]
+                - link "Darmowa wycena" [ref=f1e21] [cursor=pointer]:
+                    - /url: /wycena
+    - main [ref=f1e22]:
+        - generic [ref=f1e23]:
+            - generic [ref=f1e25]:
+                - paragraph [ref=f1e26]: Formularze wycen
+                - heading "Formularz Wyceny Tarasu" [level=1] [ref=f1e27]
+                - paragraph [ref=f1e28]: Wypełnij poniższy formularz, a my przygotujemy bezpłatną wycenę i skontaktujemy się z Tobą w ciągu 5 dni roboczych.
+            - generic [ref=f1e30]:
+                - generic [ref=f1e31]:
+                    - generic [ref=f1e32]:
+                        - heading "Kształt tarasu *" [level=2] [ref=f1e33]
+                        - radiogroup [ref=f1e35]:
+                            - generic [ref=f1e36]:
+                                - generic [ref=f1e37] [cursor=pointer]:
+                                    - img "Kształt 1" [ref=f1e39]
+                                    - generic [ref=f1e40]: Kształt 1
+                                    - radio "Kształt 1" [checked] [ref=f1e42]
+                                - generic [ref=f1e43] [cursor=pointer]:
+                                    - img "Kształt 2" [ref=f1e45]
+                                    - generic [ref=f1e46]: Kształt 2
+                                    - radio "Kształt 2" [ref=f1e48]
+                                - generic [ref=f1e49] [cursor=pointer]:
+                                    - img "Kształt 3" [ref=f1e51]
+                                    - generic [ref=f1e52]: Kształt 3
+                                    - radio "Kształt 3" [ref=f1e54]
+                                - generic [ref=f1e55] [cursor=pointer]:
+                                    - img "Kształt 4" [ref=f1e57]
+                                    - generic [ref=f1e58]: Kształt 4
+                                    - radio "Kształt 4" [ref=f1e60]
+                    - generic [ref=f1e61]:
+                        - heading "Wymiary tarasu *" [level=2] [ref=f1e62]
+                        - generic [ref=f1e63]:
+                            - generic [ref=f1e64]:
+                                - generic [ref=f1e65]: Długość boku A [m]
+                                - group [ref=f1e67]:
+                                    - spinbutton "np. 3.5" [ref=f1e68]
+                                    - generic [ref=f1e69]:
+                                        - button "Zwiększ" [ref=f1e70]
+                                        - button "Zmniejsz" [disabled] [ref=f1e73]
+                            - generic [ref=f1e76]:
+                                - generic [ref=f1e77]: Długość boku B [m]
+                                - group [ref=f1e79]:
+                                    - spinbutton "np. 3.5" [ref=f1e80]
+                                    - generic [ref=f1e81]:
+                                        - button "Zwiększ" [ref=f1e82]
+                                        - button "Zmniejsz" [disabled] [ref=f1e85]
+                    - generic [ref=f1e88]:
+                        - paragraph [ref=f1e89]: Określ położenie budynku względem tarasu *
+                        - paragraph [ref=f1e90]: Zaznacz boki, przy których przylega ściana budynku
+                        - generic [ref=f1e91]:
+                            - generic [ref=f1e92] [cursor=pointer]:
+                                - generic [ref=f1e94]: A
+                                - checkbox "A" [ref=f1e95]
+                            - generic [ref=f1e96] [cursor=pointer]:
+                                - generic [ref=f1e98]: B
+                                - checkbox "B" [ref=f1e99]
+                - generic [ref=f1e100]:
+                    - generic [ref=f1e101]:
+                        - generic [ref=f1e102]: Wybierz materiał tarasowy *
+                        - combobox "Wybierz materiał tarasowy *" [ref=f1e104] [cursor=pointer]:
+                            - option "Wybierz…" [disabled] [selected]
+                            - option "Kompozyt"
+                            - option "Płyty Gresowe gr. 2 cm"
+                            - option "Thermo Jesion (Termojesion)"
+                            - option "Thermo Sosna (Thermososna)"
+                            - option "Świerk"
+                    - generic [ref=f1e105]:
+                        - generic [ref=f1e106] [cursor=pointer]:
+                            - generic [ref=f1e108]: Usługa montażu
+                            - checkbox "Usługa montażu" [ref=f1e109]
+                        - paragraph [ref=f1e110]: Zaznacz jeśli chcesz wycenić montaż wraz z materiałem
+                    - generic [ref=f1e111]:
+                        - generic [ref=f1e112]: Imię i nazwisko (opcjonalnie)
+                        - textbox "Imię i nazwisko (opcjonalnie)" [ref=f1e113]
+                    - generic [ref=f1e114]:
+                        - generic [ref=f1e115]: Numer telefonu (opcjonalnie)
+                        - textbox "Numer telefonu (opcjonalnie)" [ref=f1e116]
+                    - generic [ref=f1e117]:
+                        - generic [ref=f1e118]: Adres e-mail *
+                        - textbox "Adres e-mail *" [ref=f1e119]
+                    - generic [ref=f1e120]:
+                        - generic [ref=f1e121]: Kod pocztowy *
+                        - textbox "Kod pocztowy *" [ref=f1e122]:
+                            - /placeholder: 00-000
+                    - generic [ref=f1e123]:
+                        - generic [ref=f1e124]: Uwagi
+                        - paragraph [ref=f1e125]: "Określ dodatkowe wymagania: kolor, producent, nazwa produktu itp."
+                        - textbox "Uwagi" [ref=f1e126]
+                    - generic [ref=f1e127]:
+                        - generic [ref=f1e128]: Zdjęcie miejsca montażu (opcjonalne)
+                        - paragraph [ref=f1e129]: Dodaj zdjęcie ogrodu lub miejsca, gdzie ma powstać taras. Ułatwi nam przygotowanie wyceny.
+                        - button "dropzone" [ref=f1e130] [cursor=pointer]:
+                            - paragraph [ref=f1e135]: Przeciągnij zdjęcia tutaj lub kliknij, aby wybrać
+                            - paragraph [ref=f1e136]: JPG, PNG, WEBP • max. 10 MB • do 3 zdjęć
+                        - list
+                        - button [ref=f1e137]
+                    - generic [ref=f1e140] [cursor=pointer]:
+                        - generic [ref=f1e142]:
+                            - text: Zapoznałem/am się z treścią
+                            - link "Polityki prywatności" [ref=f1e143]:
+                                - /url: /polityka-prywatnosci
+                            - text: i wyrażam zgodę na przetwarzanie moich danych osobowych przez Complex sp. z o.o. w celu przygotowania oferty.
+                        - checkbox "Zapoznałem/am się z treścią Polityki prywatności i wyrażam zgodę na przetwarzanie moich danych osobowych przez Complex sp. z o.o. w celu przygotowania oferty." [ref=f1e144]
+                    - generic [ref=f1e146] [cursor=pointer]:
+                        - generic [ref=f1e148]: Wyrażam zgodę na przetwarzanie moich danych w celach marketingowych i przesyłanie ofert drogą e-mailową lub telefoniczną.
+                        - checkbox "Wyrażam zgodę na przetwarzanie moich danych w celach marketingowych i przesyłanie ofert drogą e-mailową lub telefoniczną." [ref=f1e149]
+                    - button "Wyślij zapytanie" [ref=f1e150]
+                    - paragraph [ref=f1e154]: "* Pola obowiązkowe. Oferta zostanie przesłana w ciągu 5 dni roboczych."
+                    - paragraph [ref=f1e155]: Usługi montażowe wykonujemy na terenie województw śląskiego i opolskiego.
+    - contentinfo [ref=f1e156]:
+        - generic [ref=f1e157]:
+            - generic [ref=f1e158]:
+                - generic [ref=f1e159]:
+                    - link "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=f1e160] [cursor=pointer]:
+                        - /url: /
+                        - img "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=f1e161]
+                    - paragraph [ref=f1e162]: Nowoczesne zadaszenia tarasowe, pergole aluminiowe i tarasy. Profesjonalny montaż oraz fachowe doradztwo na terenie województwa śląskiego i opolskiego.
+                    - link "facebook" [ref=f1e164] [cursor=pointer]:
+                        - /url: https://www.facebook.com/ccomplex.plTarasy/?notif_id=1782353683768851&notif_t=page_user_activity&ref=notif
+                - generic [ref=f1e167]:
+                    - heading "Oferta" [level=3] [ref=f1e168]
+                    - list [ref=f1e169]:
+                        - listitem [ref=f1e170]:
+                            - link "Cała oferta" [ref=f1e171] [cursor=pointer]:
+                                - /url: /oferta
+                        - listitem [ref=f1e172]:
+                            - link "Zadaszenia tarasowe" [ref=f1e173] [cursor=pointer]:
+                                - /url: /oferta/zadaszenia-tarasowe
+                        - listitem [ref=f1e174]:
+                            - link "Akcesoria do zadaszeń" [ref=f1e175] [cursor=pointer]:
+                                - /url: /oferta/akcesoria-do-zadaszen
+                        - listitem [ref=f1e176]:
+                            - link "Tarasy kompozytowe" [ref=f1e177] [cursor=pointer]:
+                                - /url: /oferta/tarasy-kompozytowe
+                        - listitem [ref=f1e178]:
+                            - link "Tarasy gresowe" [ref=f1e179] [cursor=pointer]:
+                                - /url: /oferta/tarasy-gresowe
+                        - listitem [ref=f1e180]:
+                            - link "Tarasy drewniane" [ref=f1e181] [cursor=pointer]:
+                                - /url: /oferta/tarasy-drewniane
+                        - listitem [ref=f1e182]:
+                            - link "Elewacje kompozytowe" [ref=f1e183] [cursor=pointer]:
+                                - /url: /oferta/elewacje-kompozytowe
+                        - listitem [ref=f1e184]:
+                            - link "Schody modułowe" [ref=f1e185] [cursor=pointer]:
+                                - /url: /oferta/schody-modulowe
+                - generic [ref=f1e186]:
+                    - heading "Firma" [level=3] [ref=f1e187]
+                    - list [ref=f1e188]:
+                        - listitem [ref=f1e189]:
+                            - link "O nas" [ref=f1e190] [cursor=pointer]:
+                                - /url: /o-nas
+                        - listitem [ref=f1e191]:
+                            - link "Realizacje" [ref=f1e192] [cursor=pointer]:
+                                - /url: /realizacje
+                        - listitem [ref=f1e193]:
+                            - link "Kontakt" [ref=f1e194] [cursor=pointer]:
+                                - /url: /#kontakt
+                - generic [ref=f1e195]:
+                    - heading "Narzędzia" [level=3] [ref=f1e196]
+                    - list [ref=f1e197]:
+                        - listitem [ref=f1e198]:
+                            - link "Wszystkie formularze" [ref=f1e199] [cursor=pointer]:
+                                - /url: /wycena
+                        - listitem [ref=f1e200]:
+                            - link "Formularz wyceny tarasu" [ref=f1e201] [cursor=pointer]:
+                                - /url: /wycena/taras
+                        - listitem [ref=f1e202]:
+                            - link "Formularz wyceny zadaszenia" [ref=f1e203] [cursor=pointer]:
+                                - /url: /wycena/zadaszenie
+                        - listitem [ref=f1e204]:
+                            - link "Formularz wyceny żaluzji" [ref=f1e205] [cursor=pointer]:
+                                - /url: /wycena/zaluzje
+                        - listitem [ref=f1e206]:
+                            - link "Formularz wyceny schodów" [ref=f1e207] [cursor=pointer]:
+                                - /url: /wycena/schody
+                - generic [ref=f1e208]:
+                    - heading "Kontakt" [level=3] [ref=f1e209]
+                    - generic [ref=f1e210]:
+                        - paragraph [ref=f1e211]: CComplex sp. z o.o.
+                        - paragraph [ref=f1e212]:
+                            - generic [ref=f1e216]: Kępska 12, 45-130 Opole, pok.20 (parter)
+                        - link "+48 661 242 507" [ref=f1e217] [cursor=pointer]:
+                            - /url: tel:+48661242507
+                        - link "biuro@ccomplex.pl" [ref=f1e221] [cursor=pointer]:
+                            - /url: mailto:biuro@ccomplex.pl
+            - generic [ref=f1e226]:
+                - paragraph [ref=f1e227]: © 2026 Complex sp. z o.o. Wszelkie prawa zastrzeżone.
+                - generic [ref=f1e228]:
+                    - link "Polityka prywatności" [ref=f1e229] [cursor=pointer]:
+                        - /url: /polityka-prywatnosci
+                    - link "Regulamin" [ref=f1e230] [cursor=pointer]:
+                        - /url: /regulamin
+                    - link "Polityka cookies" [ref=f1e231] [cursor=pointer]:
+                        - /url: /polityka-cookies
+    - button "Open Next.js Dev Tools" [ref=f1e237] [cursor=pointer]

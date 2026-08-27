@@ -68,7 +68,7 @@ src/
 ## Zod Schema — `src/lib/validations/tarasForm.ts`
 
 ```ts
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const tarasFormSchema = z.object({
   // Shape & dimensions
@@ -92,7 +92,8 @@ export const tarasFormSchema = z.object({
   installationService: z.boolean().default(false),
 
   // Contact & location
-  postalCode: z.string()
+  postalCode: z
+    .string()
     .min(6, 'Podaj kod pocztowy')
     .regex(/^\d{2}-\d{3}$/, 'Format: 00-000'),
   name: z.string().min(2, 'Podaj swoje imię i nazwisko'),
@@ -104,13 +105,13 @@ export const tarasFormSchema = z.object({
   photo: z.any().optional(), // File object, validated separately in component
 
   // Consents
-  consentRodo: z.boolean().refine(val => val === true, {
+  consentRodo: z.boolean().refine((val) => val === true, {
     message: 'Zgoda jest wymagana',
   }),
   consentMarketing: z.boolean().default(false),
-})
+});
 
-export type TarasFormData = z.infer<typeof tarasFormSchema>
+export type TarasFormData = z.infer<typeof tarasFormSchema>;
 ```
 
 ### Dynamic side validation with `.superRefine`
@@ -128,7 +129,7 @@ const REQUIRED_SIDES: Record<string, string[]> = {
   '2': ['A', 'B', 'C', 'D', 'E', 'F'],
   '3': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
   '4': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
-}
+};
 ```
 
 For each required side for the selected shape, add a Zod issue if the value is missing or not a positive number.
@@ -324,38 +325,44 @@ Already described above under Photo Upload. Exported from `shared/` for reuse.
 ## Server Action — `src/lib/actions/submitTarasForm.ts`
 
 ```ts
-'use server'
+'use server';
 
-import { tarasFormSchema } from '@/lib/validations/tarasForm'
+import { tarasFormSchema } from '@/lib/validations/tarasForm';
 
 export async function submitTarasForm(formData: FormData) {
   // Parse and validate
-  const raw = Object.fromEntries(formData.entries())
-  const result = tarasFormSchema.safeParse(raw)
+  const raw = Object.fromEntries(formData.entries());
+  const result = tarasFormSchema.safeParse(raw);
 
   if (!result.success) {
-    return { success: false, errors: result.error.flatten() }
+    return { success: false, errors: result.error.flatten() };
   }
 
-  const data = result.data
+  const data = result.data;
 
   // TODO: Replace with Resend HTML email (future spec)
-  console.log('=== FORMULARZ WYCENY TARASU ===')
-  console.log('Kształt:', data.shape)
+  console.log('=== FORMULARZ WYCENY TARASU ===');
+  console.log('Kształt:', data.shape);
   console.log('Wymiary:', {
-    A: data.sideA, B: data.sideB, C: data.sideC, D: data.sideD,
-    E: data.sideE, F: data.sideF, G: data.sideG, H: data.sideH,
-  })
-  console.log('Położenie budynku:', data.buildingPosition)
-  console.log('Materiał:', data.material)
-  console.log('Montaż:', data.installationService)
-  console.log('Kontakt:', { name: data.name, phone: data.phone, email: data.email })
-  console.log('Kod pocztowy:', data.postalCode)
-  console.log('Uwagi:', data.notes)
-  console.log('Zgody:', { rodo: data.consentRodo, marketing: data.consentMarketing })
-  console.log('===============================')
+    A: data.sideA,
+    B: data.sideB,
+    C: data.sideC,
+    D: data.sideD,
+    E: data.sideE,
+    F: data.sideF,
+    G: data.sideG,
+    H: data.sideH,
+  });
+  console.log('Położenie budynku:', data.buildingPosition);
+  console.log('Materiał:', data.material);
+  console.log('Montaż:', data.installationService);
+  console.log('Kontakt:', { name: data.name, phone: data.phone, email: data.email });
+  console.log('Kod pocztowy:', data.postalCode);
+  console.log('Uwagi:', data.notes);
+  console.log('Zgody:', { rodo: data.consentRodo, marketing: data.consentMarketing });
+  console.log('===============================');
 
-  return { success: true }
+  return { success: true };
 }
 ```
 
@@ -363,13 +370,13 @@ The action uses `FormData` so it is compatible with both client-side `handleSubm
 
 ```ts
 const onSubmit = async (data: TarasFormData) => {
-  const fd = new FormData()
+  const fd = new FormData();
   // append all fields to fd, including photo files
-  const result = await submitTarasForm(fd)
+  const result = await submitTarasForm(fd);
   if (result.success) {
     // show success state
   }
-}
+};
 ```
 
 ### Success State
@@ -389,7 +396,7 @@ After successful submission, replace the form with a centered confirmation panel
 - Validation fires `onBlur` for individual fields, `onSubmit` for the full form — set `mode: 'onBlur'` in `useForm`
 - Error messages appear directly below each field in `text-xs text-red-400`
 - The left column (shape + dimensions) and right column (contact, etc.) scroll independently on tall viewports — use `md:sticky md:top-24` on the right column header if needed
-- Note below submit button: `text-xs text-silver text-center mt-3` — "* Pola obowiązkowe. Oferta zostanie przesłana w ciągu 7 dni roboczych."
+- Note below submit button: `text-xs text-silver text-center mt-3` — "\* Pola obowiązkowe. Oferta zostanie przesłana w ciągu 7 dni roboczych."
 - Second note: `text-xs text-silver text-center mt-1` — "Usługi montażowe wykonujemy na terenie województw śląskiego i opolskiego."
 
 ---

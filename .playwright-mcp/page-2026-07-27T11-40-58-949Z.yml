@@ -1,0 +1,176 @@
+- generic [ref=e1]:
+    - region "Notifications alt+T"
+    - banner [ref=e2]:
+        - navigation [ref=e3]:
+            - link "CComplex - Zadaszenia Tarasowe i Tarasy" [ref=e4] [cursor=pointer]:
+                - /url: /
+                - img "CComplex - Zadaszenia Tarasowe i Tarasy" [ref=e5]
+            - generic [ref=e6]:
+                - link "Strona główna" [ref=e7] [cursor=pointer]:
+                    - /url: /
+                - button "Oferta" [ref=e9]
+                - link "Realizacje" [ref=e12] [cursor=pointer]:
+                    - /url: /realizacje
+                - link "O nas" [ref=e13] [cursor=pointer]:
+                    - /url: /o-nas
+                - link "Kontakt" [ref=e14] [cursor=pointer]:
+                    - /url: /kontakt
+            - generic [ref=e15]:
+                - button "Formularze wycen" [ref=e17]
+                - link "Darmowa wycena" [ref=e20] [cursor=pointer]:
+                    - /url: /wycena/zadaszenie
+    - main [ref=e21]:
+        - generic [ref=e22]:
+            - generic [ref=e24]:
+                - paragraph [ref=e25]: Formularze wycen
+                - heading "Formularz Wyceny Żaluzji" [level=1] [ref=e26]
+                - paragraph [ref=e27]: Wypełnij poniższy formularz, a my przygotujemy bezpłatną wycenę i skontaktujemy się z Tobą w ciągu 24 godzin roboczych.
+            - generic [ref=e29]:
+                - generic [ref=e30]:
+                    - paragraph [ref=e31]: Podaj wymiary otworu do zabudowy *
+                    - paragraph [ref=e32]: Podaj wymiary otworu okiennego lub drzwiowego w centymetrach
+                    - generic [ref=e33]:
+                        - generic [ref=e34]:
+                            - generic [ref=e35]: Wysokość [cm] *
+                            - group [ref=e37]:
+                                - spinbutton "np. 220" [ref=e38]: "220"
+                                - generic [ref=e39]:
+                                    - button "Zwiększ" [ref=e40]
+                                    - button "Zmniejsz" [ref=e43]
+                        - generic [ref=e46]:
+                            - generic [ref=e47]: Szerokość [cm] *
+                            - group [ref=e49]:
+                                - spinbutton "np. 250" [ref=e50]: "250"
+                                - generic [ref=e51]:
+                                    - button "Zwiększ" [ref=e52]
+                                    - button "Zmniejsz" [ref=e55]
+                    - generic [ref=e58]:
+                        - heading "Jak mierzyć otwór?" [level=3] [ref=e59]
+                        - paragraph [ref=e62]: Zmierz szerokość i wysokość otworu okiennego lub drzwiowego, w którym ma być zamontowana żaluzja. Pomiar wykonaj wewnątrz ościeżnicy.
+                - generic [ref=e63]:
+                    - generic [ref=e64]:
+                        - generic [ref=e65]: Imię i nazwisko *
+                        - textbox "Imię i nazwisko *" [ref=e66]: Jan Testowy
+                    - generic [ref=e67]:
+                        - generic [ref=e68]: Numer telefonu *
+                        - textbox "Numer telefonu *" [ref=e69]: "600100200"
+                    - generic [ref=e70]:
+                        - generic [ref=e71]: Adres e-mail *
+                        - textbox "Adres e-mail *" [ref=e72]: jan.testowy@example.com
+                    - generic [ref=e73]:
+                        - generic [ref=e74]: Kod pocztowy *
+                        - textbox "Kod pocztowy *" [ref=e75]:
+                            - /placeholder: 00-000
+                            - text: 45-130
+                    - generic [ref=e76]:
+                        - generic [ref=e77] [cursor=pointer]:
+                            - generic [ref=e79]: Usługa montażu
+                            - checkbox "Usługa montażu" [ref=e80]
+                        - paragraph [ref=e81]: Zaznacz jeśli chcesz wycenić montaż wraz z żaluzjami
+                    - generic [ref=e82]:
+                        - generic [ref=e83]: Uwagi
+                        - paragraph [ref=e84]: "Określ dodatkowe wymagania: kolor, rodzaj sterowania (ręczne/elektryczne), ilość sztuk itp."
+                        - textbox "Uwagi" [ref=e85]
+                    - generic [ref=e86]:
+                        - generic [ref=e87]: Zdjęcie miejsca montażu (opcjonalne)
+                        - paragraph [ref=e88]: Dodaj zdjęcie okna lub miejsca montażu — pomoże nam przygotować dokładną wycenę.
+                        - button "dropzone" [ref=e89] [cursor=pointer]:
+                            - paragraph [ref=e94]: Przeciągnij zdjęcia tutaj lub kliknij, aby wybrać
+                            - paragraph [ref=e95]: JPG, PNG, WEBP • max. 10 MB • do 3 zdjęć
+                        - list
+                        - button [ref=e96]
+                    - generic [ref=e99] [cursor=pointer]:
+                        - generic [ref=e101]:
+                            - text: Zapoznałem/am się z treścią
+                            - link "Polityki prywatności" [ref=e102]:
+                                - /url: /polityka-prywatnosci
+                            - text: i wyrażam zgodę na przetwarzanie moich danych osobowych przez Complex sp. z o.o. w celu przygotowania oferty.
+                        - checkbox "Zapoznałem/am się z treścią Polityki prywatności i wyrażam zgodę na przetwarzanie moich danych osobowych przez Complex sp. z o.o. w celu przygotowania oferty." [checked] [active] [ref=e103]
+                    - generic [ref=e105] [cursor=pointer]:
+                        - generic [ref=e107]: Wyrażam zgodę na przetwarzanie moich danych w celach marketingowych i przesyłanie ofert drogą e-mailową lub telefoniczną.
+                        - checkbox "Wyrażam zgodę na przetwarzanie moich danych w celach marketingowych i przesyłanie ofert drogą e-mailową lub telefoniczną." [ref=e108]
+                    - button "Wyślij zapytanie" [ref=e109]
+                    - paragraph [ref=e113]: "* Pola obowiązkowe. Oferta zostanie przesłana w ciągu 7 dni roboczych."
+                    - paragraph [ref=e114]: Usługi montażowe wykonujemy na terenie województw śląskiego i opolskiego.
+    - contentinfo [ref=e115]:
+        - generic [ref=e116]:
+            - generic [ref=e117]:
+                - generic [ref=e118]:
+                    - link "Complex" [ref=e119] [cursor=pointer]:
+                        - /url: /
+                        - img "Complex" [ref=e120]
+                    - paragraph [ref=e121]: Nowoczesne zadaszenia tarasowe, pergole aluminiowe i tarasy. Profesjonalny montaż oraz fachowe doradztwo na terenie województwa śląskiego i opolskiego.
+                    - link "facebook" [ref=e123] [cursor=pointer]:
+                        - /url: https://www.facebook.com/ccomplex.plTarasy/?notif_id=1782353683768851&notif_t=page_user_activity&ref=notif
+                - generic [ref=e126]:
+                    - heading "Oferta" [level=3] [ref=e127]
+                    - list [ref=e128]:
+                        - listitem [ref=e129]:
+                            - link "Zadaszenia tarasowe" [ref=e130] [cursor=pointer]:
+                                - /url: /oferta/zadaszenia-tarasowe
+                        - listitem [ref=e131]:
+                            - link "Żaluzje tarasowe" [ref=e132] [cursor=pointer]:
+                                - /url: /oferta/zaluzje-tarasowe
+                        - listitem [ref=e133]:
+                            - link "Tarasy kompozytowe" [ref=e134] [cursor=pointer]:
+                                - /url: /oferta/tarasy-kompozytowe
+                        - listitem [ref=e135]:
+                            - link "Tarasy gresowe" [ref=e136] [cursor=pointer]:
+                                - /url: /oferta/tarasy-gresowe
+                        - listitem [ref=e137]:
+                            - link "Tarasy drewniane" [ref=e138] [cursor=pointer]:
+                                - /url: /oferta/tarasy-drewniane
+                        - listitem [ref=e139]:
+                            - link "Elewacje kompozytowe" [ref=e140] [cursor=pointer]:
+                                - /url: /oferta/elewacje-kompozytowe
+                        - listitem [ref=e141]:
+                            - link "Schody modułowe" [ref=e142] [cursor=pointer]:
+                                - /url: /oferta/schody-modulowe
+                - generic [ref=e143]:
+                    - heading "Firma" [level=3] [ref=e144]
+                    - list [ref=e145]:
+                        - listitem [ref=e146]:
+                            - link "O nas" [ref=e147] [cursor=pointer]:
+                                - /url: /o-nas
+                        - listitem [ref=e148]:
+                            - link "Realizacje" [ref=e149] [cursor=pointer]:
+                                - /url: /realizacje
+                        - listitem [ref=e150]:
+                            - link "Kontakt" [ref=e151] [cursor=pointer]:
+                                - /url: /kontakt
+                - generic [ref=e152]:
+                    - heading "Narzędzia" [level=3] [ref=e153]
+                    - list [ref=e154]:
+                        - listitem [ref=e155]:
+                            - link "Formularz wyceny tarasu" [ref=e156] [cursor=pointer]:
+                                - /url: /wycena/taras
+                        - listitem [ref=e157]:
+                            - link "Formularz wyceny zadaszenia" [ref=e158] [cursor=pointer]:
+                                - /url: /wycena/zadaszenie
+                        - listitem [ref=e159]:
+                            - link "Formularz wyceny żaluzji" [ref=e160] [cursor=pointer]:
+                                - /url: /wycena/zaluzje
+                        - listitem [ref=e161]:
+                            - link "Formularz wyceny schodów" [ref=e162] [cursor=pointer]:
+                                - /url: /wycena/schody
+                - generic [ref=e163]:
+                    - heading "Kontakt" [level=3] [ref=e164]
+                    - generic [ref=e165]:
+                        - paragraph [ref=e166]: CComplex sp. z o.o.
+                        - paragraph [ref=e167]:
+                            - generic [ref=e171]: Kępska 12, 45-130 Opole, pok.20 (parter)
+                        - link "+48 661 242 507" [ref=e172] [cursor=pointer]:
+                            - /url: tel:+48661242507
+                        - link "biuro@ccomplex.pl" [ref=e176] [cursor=pointer]:
+                            - /url: mailto:biuro@ccomplex.pl
+            - generic [ref=e181]:
+                - paragraph [ref=e182]: © 2026 Complex sp. z o.o. Wszelkie prawa zastrzeżone.
+                - generic [ref=e183]:
+                    - link "Polityka prywatności" [ref=e184] [cursor=pointer]:
+                        - /url: /polityka-prywatnosci
+                    - link "Regulamin" [ref=e185] [cursor=pointer]:
+                        - /url: /regulamin
+                    - link "Polityka cookies" [ref=e186] [cursor=pointer]:
+                        - /url: /polityka-cookies
+    - button "Open Next.js Dev Tools" [ref=e192] [cursor=pointer]
+    - alert [ref=e196]

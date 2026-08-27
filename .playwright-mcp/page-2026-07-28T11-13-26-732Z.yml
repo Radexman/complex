@@ -1,0 +1,365 @@
+- generic [active] [ref=f3e1]:
+    - region "Notifications alt+T"
+    - banner [ref=f3e2]:
+        - navigation [ref=f3e3]:
+            - link "CComplex - Zadaszenia Tarasowe i Tarasy" [ref=f3e4] [cursor=pointer]:
+                - /url: /
+                - img "CComplex - Zadaszenia Tarasowe i Tarasy" [ref=f3e5]
+            - generic [ref=f3e6]:
+                - link "Strona główna" [ref=f3e7] [cursor=pointer]:
+                    - /url: /
+                - button "Oferta" [ref=f3e9]
+                - link "Realizacje" [ref=f3e12] [cursor=pointer]:
+                    - /url: /realizacje
+                - link "O nas" [ref=f3e13] [cursor=pointer]:
+                    - /url: /o-nas
+                - link "Kontakt" [ref=f3e14] [cursor=pointer]:
+                    - /url: /kontakt
+            - generic [ref=f3e15]:
+                - button "Formularze wycen" [ref=f3e17]
+                - link "Darmowa wycena" [ref=f3e20] [cursor=pointer]:
+                    - /url: /wycena/zadaszenie
+    - main [ref=f3e21]:
+        - generic [ref=f3e23]:
+            - generic [ref=f3e24]:
+                - paragraph [ref=f3e25]: Nasze portfolio
+                - heading "Realizacje" [level=1] [ref=f3e26]
+                - paragraph [ref=f3e27]: Przeglądaj nasze projekty tarasów, zadaszeń, żaluzji i schodów modułowych. Każda realizacja to indywidualne podejście i dbałość o każdy detal.
+            - tablist [ref=f3e29]:
+                - tab "Wszystkie" [selected] [ref=f3e30] [cursor=pointer]
+                - tab "Zadaszenia tarasowe" [ref=f3e31] [cursor=pointer]
+                - tab "Akcesoria do zadaszeń" [ref=f3e32] [cursor=pointer]
+                - tab "Tarasy kompozytowe" [ref=f3e33] [cursor=pointer]
+                - tab "Tarasy gresowe" [ref=f3e34] [cursor=pointer]
+                - tab "Tarasy drewniane" [ref=f3e35] [cursor=pointer]
+                - tab "Elewacje kompozytowe" [ref=f3e36] [cursor=pointer]
+                - tab "Schody modułowe" [ref=f3e37] [cursor=pointer]
+            - paragraph [ref=f3e38]: Wyświetlono 44 realizacji
+            - generic [ref=f3e39]:
+                - button "zadaszenie tarasowe Akcesoria do zadaszeń Opole" [ref=f3e40] [cursor=pointer]:
+                    - img "zadaszenie tarasowe" [ref=f3e41]
+                    - generic [ref=f3e43]: Akcesoria do zadaszeń
+                    - paragraph [ref=f3e45]: Opole
+                - button "Pergola aluminiowa na wymiar Zadaszenia tarasowe Pszczyna 30 m²" [ref=f3e46] [cursor=pointer]:
+                    - img "Pergola aluminiowa na wymiar" [ref=f3e47]
+                    - generic [ref=f3e49]: Zadaszenia tarasowe
+                    - generic [ref=f3e50]:
+                        - paragraph [ref=f3e51]: Pszczyna
+                        - paragraph [ref=f3e52]: 30 m²
+                - button "Schody modułowe ogrodowe Schody modułowe Łódź" [ref=f3e53] [cursor=pointer]:
+                    - img "Schody modułowe ogrodowe" [ref=f3e54]
+                    - generic [ref=f3e56]: Schody modułowe
+                    - paragraph [ref=f3e58]: Łódź
+                - button "Schody modułowe z balustradą szklaną Schody modułowe Poznań" [ref=f3e59] [cursor=pointer]:
+                    - img "Schody modułowe z balustradą szklaną" [ref=f3e60]
+                    - generic [ref=f3e62]: Schody modułowe
+                    - paragraph [ref=f3e64]: Poznań
+                - button "Schody modułowe stalowo-kompozytowe Schody modułowe Warszawa" [ref=f3e65] [cursor=pointer]:
+                    - img "Schody modułowe stalowo-kompozytowe" [ref=f3e66]
+                    - generic [ref=f3e68]: Schody modułowe
+                    - paragraph [ref=f3e70]: Warszawa
+                - button "Schody modułowe zewnętrzne Schody modułowe Częstochowa" [ref=f3e71] [cursor=pointer]:
+                    - img "Schody modułowe zewnętrzne" [ref=f3e72]
+                    - generic [ref=f3e74]: Schody modułowe
+                    - paragraph [ref=f3e76]: Częstochowa
+                - button "Elewacja kompozytowa willi Elewacje kompozytowe Opole 140 m²" [ref=f3e77] [cursor=pointer]:
+                    - img "Elewacja kompozytowa willi" [ref=f3e78]
+                    - generic [ref=f3e80]: Elewacje kompozytowe
+                    - generic [ref=f3e81]:
+                        - paragraph [ref=f3e82]: Opole
+                        - paragraph [ref=f3e83]: 140 m²
+                - button "Schody modułowe na taras Schody modułowe Kraków" [ref=f3e84] [cursor=pointer]:
+                    - img "Schody modułowe na taras" [ref=f3e85]
+                    - generic [ref=f3e87]: Schody modułowe
+                    - paragraph [ref=f3e89]: Kraków
+                - button "Taras z płyt gresowych Tarasy gresowe Bielsko-Biała 42 m²" [ref=f3e90] [cursor=pointer]:
+                    - img "Taras z płyt gresowych" [ref=f3e91]
+                    - generic [ref=f3e93]: Tarasy gresowe
+                    - generic [ref=f3e94]:
+                        - paragraph [ref=f3e95]: Bielsko-Biała
+                        - paragraph [ref=f3e96]: 42 m²
+                - button "Zadaszenie aluminiowe z dachem szklanym Akcesoria do zadaszeń Kraków 38 m²" [ref=f3e97] [cursor=pointer]:
+                    - img "Zadaszenie aluminiowe z dachem szklanym" [ref=f3e98]
+                    - generic [ref=f3e100]: Akcesoria do zadaszeń
+                    - generic [ref=f3e101]:
+                        - paragraph [ref=f3e102]: Kraków
+                        - paragraph [ref=f3e103]: 38 m²
+                - button "Żaluzje tarasowe zewnętrzne Akcesoria do zadaszeń Szczecin 18 m²" [ref=f3e104] [cursor=pointer]:
+                    - img "Żaluzje tarasowe zewnętrzne" [ref=f3e105]
+                    - generic [ref=f3e107]: Akcesoria do zadaszeń
+                    - generic [ref=f3e108]:
+                        - paragraph [ref=f3e109]: Szczecin
+                        - paragraph [ref=f3e110]: 18 m²
+                - button "Elewacja z desek kompozytowych Elewacje kompozytowe Rybnik 120 m²" [ref=f3e111] [cursor=pointer]:
+                    - img "Elewacja z desek kompozytowych" [ref=f3e112]
+                    - generic [ref=f3e114]: Elewacje kompozytowe
+                    - generic [ref=f3e115]:
+                        - paragraph [ref=f3e116]: Rybnik
+                        - paragraph [ref=f3e117]: 120 m²
+                - button "Żaluzje z napędem elektrycznym Akcesoria do zadaszeń Bydgoszcz 26 m²" [ref=f3e118] [cursor=pointer]:
+                    - img "Żaluzje z napędem elektrycznym" [ref=f3e119]
+                    - generic [ref=f3e121]: Akcesoria do zadaszeń
+                    - generic [ref=f3e122]:
+                        - paragraph [ref=f3e123]: Bydgoszcz
+                        - paragraph [ref=f3e124]: 26 m²
+                - button "Zadaszenie tarasu narożnego Zadaszenia tarasowe Tychy 28 m²" [ref=f3e125] [cursor=pointer]:
+                    - img "Zadaszenie tarasu narożnego" [ref=f3e126]
+                    - generic [ref=f3e128]: Zadaszenia tarasowe
+                    - generic [ref=f3e129]:
+                        - paragraph [ref=f3e130]: Tychy
+                        - paragraph [ref=f3e131]: 28 m²
+                - button "Taras z deski egzotycznej Tarasy drewniane Gdynia 34 m²" [ref=f3e132] [cursor=pointer]:
+                    - img "Taras z deski egzotycznej" [ref=f3e133]
+                    - generic [ref=f3e135]: Tarasy drewniane
+                    - generic [ref=f3e136]:
+                        - paragraph [ref=f3e137]: Gdynia
+                        - paragraph [ref=f3e138]: 34 m²
+                - button "Żaluzje tarasowe apartament Akcesoria do zadaszeń Lublin 20 m²" [ref=f3e139] [cursor=pointer]:
+                    - img "Żaluzje tarasowe apartament" [ref=f3e140]
+                    - generic [ref=f3e142]: Akcesoria do zadaszeń
+                    - generic [ref=f3e143]:
+                        - paragraph [ref=f3e144]: Lublin
+                        - paragraph [ref=f3e145]: 20 m²
+                - button "Elewacja wentylowana kompozytowa Elewacje kompozytowe Gliwice 95 m²" [ref=f3e146] [cursor=pointer]:
+                    - img "Elewacja wentylowana kompozytowa" [ref=f3e147]
+                    - generic [ref=f3e149]: Elewacje kompozytowe
+                    - generic [ref=f3e150]:
+                        - paragraph [ref=f3e151]: Gliwice
+                        - paragraph [ref=f3e152]: 95 m²
+                - button "Taras z deski tarasowej Tarasy drewniane Bytom 30 m²" [ref=f3e153] [cursor=pointer]:
+                    - img "Taras z deski tarasowej" [ref=f3e154]
+                    - generic [ref=f3e156]: Tarasy drewniane
+                    - generic [ref=f3e157]:
+                        - paragraph [ref=f3e158]: Bytom
+                        - paragraph [ref=f3e159]: 30 m²
+                - button "Taras kompozytowy dwupoziomowy Tarasy kompozytowe Toruń 48 m²" [ref=f3e160] [cursor=pointer]:
+                    - img "Taras kompozytowy dwupoziomowy" [ref=f3e161]
+                    - generic [ref=f3e163]: Tarasy kompozytowe
+                    - generic [ref=f3e164]:
+                        - paragraph [ref=f3e165]: Toruń
+                        - paragraph [ref=f3e166]: 48 m²
+                - button "Taras gresowy z podejściem Tarasy gresowe Sosnowiec 28 m²" [ref=f3e167] [cursor=pointer]:
+                    - img "Taras gresowy z podejściem" [ref=f3e168]
+                    - generic [ref=f3e170]: Tarasy gresowe
+                    - generic [ref=f3e171]:
+                        - paragraph [ref=f3e172]: Sosnowiec
+                        - paragraph [ref=f3e173]: 28 m²
+                - button "Zadaszenie aluminiowe z roletami Zadaszenia tarasowe Poznań 30 m²" [ref=f3e174] [cursor=pointer]:
+                    - img "Zadaszenie aluminiowe z roletami" [ref=f3e175]
+                    - generic [ref=f3e177]: Zadaszenia tarasowe
+                    - generic [ref=f3e178]:
+                        - paragraph [ref=f3e179]: Poznań
+                        - paragraph [ref=f3e180]: 30 m²
+                - button "Okładzina elewacyjna kompozytowa Elewacje kompozytowe Strzelce Opolskie 80 m²" [ref=f3e181] [cursor=pointer]:
+                    - img "Okładzina elewacyjna kompozytowa" [ref=f3e182]
+                    - generic [ref=f3e184]: Elewacje kompozytowe
+                    - generic [ref=f3e185]:
+                        - paragraph [ref=f3e186]: Strzelce Opolskie
+                        - paragraph [ref=f3e187]: 80 m²
+                - button "Elewacja kompozytowa imitująca drewno Elewacje kompozytowe Częstochowa 110 m²" [ref=f3e188] [cursor=pointer]:
+                    - img "Elewacja kompozytowa imitująca drewno" [ref=f3e189]
+                    - generic [ref=f3e191]: Elewacje kompozytowe
+                    - generic [ref=f3e192]:
+                        - paragraph [ref=f3e193]: Częstochowa
+                        - paragraph [ref=f3e194]: 110 m²
+                - button "Taras kompozytowy z oświetleniem LED Tarasy kompozytowe Rzeszów 32 m²" [ref=f3e195] [cursor=pointer]:
+                    - img "Taras kompozytowy z oświetleniem LED" [ref=f3e196]
+                    - generic [ref=f3e198]: Tarasy kompozytowe
+                    - generic [ref=f3e199]:
+                        - paragraph [ref=f3e200]: Rzeszów
+                        - paragraph [ref=f3e201]: 32 m²
+                - button "Taras drewniany z modrzewia Tarasy drewniane Sopot 28 m²" [ref=f3e202] [cursor=pointer]:
+                    - img "Taras drewniany z modrzewia" [ref=f3e203]
+                    - generic [ref=f3e205]: Tarasy drewniane
+                    - generic [ref=f3e206]:
+                        - paragraph [ref=f3e207]: Sopot
+                        - paragraph [ref=f3e208]: 28 m²
+                - button "Zadaszenie z ruchomymi lamelami Zadaszenia tarasowe Łódź 36 m²" [ref=f3e209] [cursor=pointer]:
+                    - img "Zadaszenie z ruchomymi lamelami" [ref=f3e210]
+                    - generic [ref=f3e212]: Zadaszenia tarasowe
+                    - generic [ref=f3e213]:
+                        - paragraph [ref=f3e214]: Łódź
+                        - paragraph [ref=f3e215]: 36 m²
+                - button "Taras kompozytowy z pergolą Tarasy kompozytowe Wrocław 40 m²" [ref=f3e216] [cursor=pointer]:
+                    - img "Taras kompozytowy z pergolą" [ref=f3e217]
+                    - generic [ref=f3e219]: Tarasy kompozytowe
+                    - generic [ref=f3e220]:
+                        - paragraph [ref=f3e221]: Wrocław
+                        - paragraph [ref=f3e222]: 40 m²
+                - button "Taras gresowy z fontanną Tarasy gresowe Racibórz 50 m²" [ref=f3e223] [cursor=pointer]:
+                    - img "Taras gresowy z fontanną" [ref=f3e224]
+                    - generic [ref=f3e226]: Tarasy gresowe
+                    - generic [ref=f3e227]:
+                        - paragraph [ref=f3e228]: Racibórz
+                        - paragraph [ref=f3e229]: 50 m²
+                - button "Taras gresowy imitujący drewno Tarasy gresowe Zabrze 36 m²" [ref=f3e230] [cursor=pointer]:
+                    - img "Taras gresowy imitujący drewno" [ref=f3e231]
+                    - generic [ref=f3e233]: Tarasy gresowe
+                    - generic [ref=f3e234]:
+                        - paragraph [ref=f3e235]: Zabrze
+                        - paragraph [ref=f3e236]: 36 m²
+                - button "Żaluzje ochronne na taras Akcesoria do zadaszeń Kielce 24 m²" [ref=f3e237] [cursor=pointer]:
+                    - img "Żaluzje ochronne na taras" [ref=f3e238]
+                    - generic [ref=f3e240]: Akcesoria do zadaszeń
+                    - generic [ref=f3e241]:
+                        - paragraph [ref=f3e242]: Kielce
+                        - paragraph [ref=f3e243]: 24 m²
+                - button "Taras drewniany z pergolą Tarasy drewniane Kluczbork 38 m²" [ref=f3e244] [cursor=pointer]:
+                    - img "Taras drewniany z pergolą" [ref=f3e245]
+                    - generic [ref=f3e247]: Tarasy drewniane
+                    - generic [ref=f3e248]:
+                        - paragraph [ref=f3e249]: Kluczbork
+                        - paragraph [ref=f3e250]: 38 m²
+                - button "Taras kompozytowy nad basenem Tarasy kompozytowe Opole 55 m²" [ref=f3e251] [cursor=pointer]:
+                    - img "Taras kompozytowy nad basenem" [ref=f3e252]
+                    - generic [ref=f3e254]: Tarasy kompozytowe
+                    - generic [ref=f3e255]:
+                        - paragraph [ref=f3e256]: Opole
+                        - paragraph [ref=f3e257]: 55 m²
+                - button "Taras kompozytowy w ogrodzie Tarasy kompozytowe Olsztyn 35 m²" [ref=f3e258] [cursor=pointer]:
+                    - img "Taras kompozytowy w ogrodzie" [ref=f3e259]
+                    - generic [ref=f3e261]: Tarasy kompozytowe
+                    - generic [ref=f3e262]:
+                        - paragraph [ref=f3e263]: Olsztyn
+                        - paragraph [ref=f3e264]: 35 m²
+                - button "Pergola bioklimatyczna Tarasy kompozytowe Warszawa 45 m²" [ref=f3e265] [cursor=pointer]:
+                    - img "Pergola bioklimatyczna" [ref=f3e266]
+                    - generic [ref=f3e268]: Tarasy kompozytowe
+                    - generic [ref=f3e269]:
+                        - paragraph [ref=f3e270]: Warszawa
+                        - paragraph [ref=f3e271]: 45 m²
+                - button "Taras drewniany wokół domu Tarasy drewniane Nysa 46 m²" [ref=f3e272] [cursor=pointer]:
+                    - img "Taras drewniany wokół domu" [ref=f3e273]
+                    - generic [ref=f3e275]: Tarasy drewniane
+                    - generic [ref=f3e276]:
+                        - paragraph [ref=f3e277]: Nysa
+                        - paragraph [ref=f3e278]: 46 m²
+                - button "Taras z drewna kompozytowego Tarasy drewniane Brzeg 25 m²" [ref=f3e279] [cursor=pointer]:
+                    - img "Taras z drewna kompozytowego" [ref=f3e280]
+                    - generic [ref=f3e282]: Tarasy drewniane
+                    - generic [ref=f3e283]:
+                        - paragraph [ref=f3e284]: Brzeg
+                        - paragraph [ref=f3e285]: 25 m²
+                - button "Żaluzje fasadowe Akcesoria do zadaszeń Gdańsk 22 m²" [ref=f3e286] [cursor=pointer]:
+                    - img "Żaluzje fasadowe" [ref=f3e287]
+                    - generic [ref=f3e289]: Akcesoria do zadaszeń
+                    - generic [ref=f3e290]:
+                        - paragraph [ref=f3e291]: Gdańsk
+                        - paragraph [ref=f3e292]: 22 m²
+                - button "Taras gresowy na wspornikach Tarasy gresowe Katowice 30 m²" [ref=f3e293] [cursor=pointer]:
+                    - img "Taras gresowy na wspornikach" [ref=f3e294]
+                    - generic [ref=f3e296]: Tarasy gresowe
+                    - generic [ref=f3e297]:
+                        - paragraph [ref=f3e298]: Katowice
+                        - paragraph [ref=f3e299]: 30 m²
+                - button "Taras z desek kompozytowych Tarasy kompozytowe Smolnica 100 m²" [ref=f3e300] [cursor=pointer]:
+                    - img "Taras z desek kompozytowych" [ref=f3e301]
+                    - generic [ref=f3e303]: Tarasy kompozytowe
+                    - generic [ref=f3e304]:
+                        - paragraph [ref=f3e305]: Smolnica
+                        - paragraph [ref=f3e306]: 100 m²
+                - button "Zadaszenie aluminiowe Zadaszenia tarasowe Gliwice" [ref=f3e307] [cursor=pointer]:
+                    - img "Zadaszenie aluminiowe" [ref=f3e308]
+                    - generic [ref=f3e310]: Zadaszenia tarasowe
+                    - paragraph [ref=f3e312]: Gliwice
+                - button "Elewacja kompozytowa Elewacje kompozytowe Rybnik" [ref=f3e313] [cursor=pointer]:
+                    - img "Elewacja kompozytowa" [ref=f3e314]
+                    - generic [ref=f3e316]: Elewacje kompozytowe
+                    - paragraph [ref=f3e318]: Rybnik
+                - button "Taras gresowy z oświetleniem Tarasy gresowe Czarnowąsy 73 m²" [ref=f3e319] [cursor=pointer]:
+                    - img "Taras gresowy z oświetleniem" [ref=f3e320]
+                    - generic [ref=f3e322]: Tarasy gresowe
+                    - generic [ref=f3e323]:
+                        - paragraph [ref=f3e324]: Czarnowąsy
+                        - paragraph [ref=f3e325]: 73 m²
+                - button "Schody modułowe Schody modułowe Częstochowa" [ref=f3e326] [cursor=pointer]:
+                    - img "Schody modułowe" [ref=f3e327]
+                    - generic [ref=f3e329]: Schody modułowe
+                    - paragraph [ref=f3e331]: Częstochowa
+                - button "Taras z desek drewnianych termososna Tarasy drewniane Nysa 20 m²" [ref=f3e332] [cursor=pointer]:
+                    - img "Taras z desek drewnianych termososna" [ref=f3e333]
+                    - generic [ref=f3e335]: Tarasy drewniane
+                    - generic [ref=f3e336]:
+                        - paragraph [ref=f3e337]: Nysa
+                        - paragraph [ref=f3e338]: 20 m²
+    - contentinfo [ref=f3e339]:
+        - generic [ref=f3e340]:
+            - generic [ref=f3e341]:
+                - generic [ref=f3e342]:
+                    - link "Complex" [ref=f3e343] [cursor=pointer]:
+                        - /url: /
+                        - img "Complex" [ref=f3e344]
+                    - paragraph [ref=f3e345]: Nowoczesne zadaszenia tarasowe, pergole aluminiowe i tarasy. Profesjonalny montaż oraz fachowe doradztwo na terenie województwa śląskiego i opolskiego.
+                    - link "facebook" [ref=f3e347] [cursor=pointer]:
+                        - /url: https://www.facebook.com/ccomplex.plTarasy/?notif_id=1782353683768851&notif_t=page_user_activity&ref=notif
+                - generic [ref=f3e350]:
+                    - heading "Oferta" [level=3] [ref=f3e351]
+                    - list [ref=f3e352]:
+                        - listitem [ref=f3e353]:
+                            - link "Zadaszenia tarasowe" [ref=f3e354] [cursor=pointer]:
+                                - /url: /oferta/zadaszenia-tarasowe
+                        - listitem [ref=f3e355]:
+                            - link "Akcesoria do zadaszeń" [ref=f3e356] [cursor=pointer]:
+                                - /url: /oferta/akcesoria-do-zadaszen
+                        - listitem [ref=f3e357]:
+                            - link "Tarasy kompozytowe" [ref=f3e358] [cursor=pointer]:
+                                - /url: /oferta/tarasy-kompozytowe
+                        - listitem [ref=f3e359]:
+                            - link "Tarasy gresowe" [ref=f3e360] [cursor=pointer]:
+                                - /url: /oferta/tarasy-gresowe
+                        - listitem [ref=f3e361]:
+                            - link "Tarasy drewniane" [ref=f3e362] [cursor=pointer]:
+                                - /url: /oferta/tarasy-drewniane
+                        - listitem [ref=f3e363]:
+                            - link "Elewacje kompozytowe" [ref=f3e364] [cursor=pointer]:
+                                - /url: /oferta/elewacje-kompozytowe
+                        - listitem [ref=f3e365]:
+                            - link "Schody modułowe" [ref=f3e366] [cursor=pointer]:
+                                - /url: /oferta/schody-modulowe
+                - generic [ref=f3e367]:
+                    - heading "Firma" [level=3] [ref=f3e368]
+                    - list [ref=f3e369]:
+                        - listitem [ref=f3e370]:
+                            - link "O nas" [ref=f3e371] [cursor=pointer]:
+                                - /url: /o-nas
+                        - listitem [ref=f3e372]:
+                            - link "Realizacje" [ref=f3e373] [cursor=pointer]:
+                                - /url: /realizacje
+                        - listitem [ref=f3e374]:
+                            - link "Kontakt" [ref=f3e375] [cursor=pointer]:
+                                - /url: /kontakt
+                - generic [ref=f3e376]:
+                    - heading "Narzędzia" [level=3] [ref=f3e377]
+                    - list [ref=f3e378]:
+                        - listitem [ref=f3e379]:
+                            - link "Formularz wyceny tarasu" [ref=f3e380] [cursor=pointer]:
+                                - /url: /wycena/taras
+                        - listitem [ref=f3e381]:
+                            - link "Formularz wyceny zadaszenia" [ref=f3e382] [cursor=pointer]:
+                                - /url: /wycena/zadaszenie
+                        - listitem [ref=f3e383]:
+                            - link "Formularz wyceny żaluzji" [ref=f3e384] [cursor=pointer]:
+                                - /url: /wycena/zaluzje
+                        - listitem [ref=f3e385]:
+                            - link "Formularz wyceny schodów" [ref=f3e386] [cursor=pointer]:
+                                - /url: /wycena/schody
+                - generic [ref=f3e387]:
+                    - heading "Kontakt" [level=3] [ref=f3e388]
+                    - generic [ref=f3e389]:
+                        - paragraph [ref=f3e390]: CComplex sp. z o.o.
+                        - paragraph [ref=f3e391]:
+                            - generic [ref=f3e395]: Kępska 12, 45-130 Opole, pok.20 (parter)
+                        - link "+48 661 242 507" [ref=f3e396] [cursor=pointer]:
+                            - /url: tel:+48661242507
+                        - link "biuro@ccomplex.pl" [ref=f3e400] [cursor=pointer]:
+                            - /url: mailto:biuro@ccomplex.pl
+            - generic [ref=f3e405]:
+                - paragraph [ref=f3e406]: © 2026 Complex sp. z o.o. Wszelkie prawa zastrzeżone.
+                - generic [ref=f3e407]:
+                    - link "Polityka prywatności" [ref=f3e408] [cursor=pointer]:
+                        - /url: /polityka-prywatnosci
+                    - link "Regulamin" [ref=f3e409] [cursor=pointer]:
+                        - /url: /regulamin
+                    - link "Polityka cookies" [ref=f3e410] [cursor=pointer]:
+                        - /url: /polityka-cookies
+    - button "Open Next.js Dev Tools" [ref=f3e416] [cursor=pointer]

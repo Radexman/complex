@@ -1,0 +1,104 @@
+- generic [active] [ref=e1]:
+    - region "Notifications alt+T"
+    - banner [ref=e2]:
+        - navigation [ref=e3]:
+            - link "CComplex - Zadaszenia Tarasowe i Tarasy" [ref=e4] [cursor=pointer]:
+                - /url: /
+                - img "CComplex - Zadaszenia Tarasowe i Tarasy" [ref=e5]
+            - generic [ref=e6]:
+                - link "Strona główna" [ref=e7] [cursor=pointer]:
+                    - /url: /
+                - button "Oferta" [ref=e9]
+                - link "Realizacje" [ref=e12] [cursor=pointer]:
+                    - /url: /realizacje
+                - link "O nas" [ref=e13] [cursor=pointer]:
+                    - /url: /o-nas
+                - link "Kontakt" [ref=e14] [cursor=pointer]:
+                    - /url: /kontakt
+            - generic [ref=e15]:
+                - button "Formularze wycen" [ref=e17]
+                - link "Darmowa wycena" [ref=e20] [cursor=pointer]:
+                    - /url: /wycena/zadaszenie
+    - main [ref=e21]
+    - contentinfo [ref=e24]:
+        - generic [ref=e25]:
+            - generic [ref=e26]:
+                - generic [ref=e27]:
+                    - link "Complex" [ref=e28] [cursor=pointer]:
+                        - /url: /
+                        - img "Complex" [ref=e29]
+                    - paragraph [ref=e30]: Nowoczesne zadaszenia tarasowe, pergole aluminiowe i tarasy. Profesjonalny montaż oraz fachowe doradztwo na terenie województwa śląskiego i opolskiego.
+                    - link "facebook" [ref=e32] [cursor=pointer]:
+                        - /url: https://www.facebook.com/ccomplex.plTarasy/?notif_id=1782353683768851&notif_t=page_user_activity&ref=notif
+                - generic [ref=e35]:
+                    - heading "Oferta" [level=3] [ref=e36]
+                    - list [ref=e37]:
+                        - listitem [ref=e38]:
+                            - link "Zadaszenia tarasowe" [ref=e39] [cursor=pointer]:
+                                - /url: /oferta/zadaszenia-tarasowe
+                        - listitem [ref=e40]:
+                            - link "Żaluzje tarasowe" [ref=e41] [cursor=pointer]:
+                                - /url: /oferta/zaluzje-tarasowe
+                        - listitem [ref=e42]:
+                            - link "Tarasy kompozytowe" [ref=e43] [cursor=pointer]:
+                                - /url: /oferta/tarasy-kompozytowe
+                        - listitem [ref=e44]:
+                            - link "Tarasy gresowe" [ref=e45] [cursor=pointer]:
+                                - /url: /oferta/tarasy-gresowe
+                        - listitem [ref=e46]:
+                            - link "Tarasy drewniane" [ref=e47] [cursor=pointer]:
+                                - /url: /oferta/tarasy-drewniane
+                        - listitem [ref=e48]:
+                            - link "Elewacje kompozytowe" [ref=e49] [cursor=pointer]:
+                                - /url: /oferta/elewacje-kompozytowe
+                        - listitem [ref=e50]:
+                            - link "Schody modułowe" [ref=e51] [cursor=pointer]:
+                                - /url: /oferta/schody-modulowe
+                - generic [ref=e52]:
+                    - heading "Firma" [level=3] [ref=e53]
+                    - list [ref=e54]:
+                        - listitem [ref=e55]:
+                            - link "O nas" [ref=e56] [cursor=pointer]:
+                                - /url: /o-nas
+                        - listitem [ref=e57]:
+                            - link "Realizacje" [ref=e58] [cursor=pointer]:
+                                - /url: /realizacje
+                        - listitem [ref=e59]:
+                            - link "Kontakt" [ref=e60] [cursor=pointer]:
+                                - /url: /kontakt
+                - generic [ref=e61]:
+                    - heading "Narzędzia" [level=3] [ref=e62]
+                    - list [ref=e63]:
+                        - listitem [ref=e64]:
+                            - link "Formularz wyceny tarasu" [ref=e65] [cursor=pointer]:
+                                - /url: /wycena/taras
+                        - listitem [ref=e66]:
+                            - link "Formularz wyceny zadaszenia" [ref=e67] [cursor=pointer]:
+                                - /url: /wycena/zadaszenie
+                        - listitem [ref=e68]:
+                            - link "Formularz wyceny żaluzji" [ref=e69] [cursor=pointer]:
+                                - /url: /wycena/zaluzje
+                        - listitem [ref=e70]:
+                            - link "Formularz wyceny schodów" [ref=e71] [cursor=pointer]:
+                                - /url: /wycena/schody
+                - generic [ref=e72]:
+                    - heading "Kontakt" [level=3] [ref=e73]
+                    - generic [ref=e74]:
+                        - paragraph [ref=e75]: CComplex sp. z o.o.
+                        - paragraph [ref=e76]:
+                            - generic [ref=e80]: Kępska 12, 45-130 Opole, pok.20 (parter)
+                        - link "+48 661 242 507" [ref=e81] [cursor=pointer]:
+                            - /url: tel:+48661242507
+                        - link "biuro@ccomplex.pl" [ref=e85] [cursor=pointer]:
+                            - /url: mailto:biuro@ccomplex.pl
+            - generic [ref=e90]:
+                - paragraph [ref=e91]: © 2026 Complex sp. z o.o. Wszelkie prawa zastrzeżone.
+                - generic [ref=e92]:
+                    - link "Polityka prywatności" [ref=e93] [cursor=pointer]:
+                        - /url: /polityka-prywatnosci
+                    - link "Regulamin" [ref=e94] [cursor=pointer]:
+                        - /url: /regulamin
+                    - link "Polityka cookies" [ref=e95] [cursor=pointer]:
+                        - /url: /polityka-cookies
+    - button "Open Next.js Dev Tools" [ref=e101] [cursor=pointer]
+    - alert [ref=e105]

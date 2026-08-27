@@ -12,15 +12,15 @@ All visible text in Polish. All content editable from Sanity Studio.
 
 The following 7 offer pages must exist. Each is a `service` document in Sanity with a unique slug:
 
-| Polish Name | Slug | Related Form |
-|---|---|---|
-| Zadaszenia aluminiowe | `zadaszenia-aluminiowe` | `/wycena/zadaszenie` |
-| Żaluzje tarasowe | `zaluzje-tarasowe` | `/wycena/zaluzje` |
-| Tarasy kompozytowe | `tarasy-kompozytowe` | `/wycena/taras` |
-| Tarasy z płyt gresowych | `tarasy-gresowe` | `/wycena/taras` |
-| Tarasy drewniane | `tarasy-drewniane` | `/wycena/taras` |
-| Schody modułowe | `schody-modulowe` | `/wycena/schody` |
-| Elewacje kompozytowe | `elewacje-kompozytowe` | `null` — no form, contact section only |
+| Polish Name             | Slug                    | Related Form                           |
+| ----------------------- | ----------------------- | -------------------------------------- |
+| Zadaszenia aluminiowe   | `zadaszenia-aluminiowe` | `/wycena/zadaszenie`                   |
+| Żaluzje tarasowe        | `zaluzje-tarasowe`      | `/wycena/zaluzje`                      |
+| Tarasy kompozytowe      | `tarasy-kompozytowe`    | `/wycena/taras`                        |
+| Tarasy z płyt gresowych | `tarasy-gresowe`        | `/wycena/taras`                        |
+| Tarasy drewniane        | `tarasy-drewniane`      | `/wycena/taras`                        |
+| Schody modułowe         | `schody-modulowe`       | `/wycena/schody`                       |
+| Elewacje kompozytowe    | `elewacje-kompozytowe`  | `null` — no form, contact section only |
 
 ---
 
@@ -49,27 +49,27 @@ fields: [
 
 ### `relatedFormSlug` allowed values (`options.list`):
 
-| Value | Label |
-|---|---|
+| Value          | Label                       |
+| -------------- | --------------------------- |
 | `"zadaszenie"` | Formularz Wyceny Zadaszenia |
-| `"zaluzje"` | Formularz Wyceny Żaluzji |
-| `"taras"` | Formularz Wyceny Tarasu |
-| `"schody"` | Formularz Wyceny Schodów |
-| `null` | Brak formularza |
+| `"zaluzje"`    | Formularz Wyceny Żaluzji    |
+| `"taras"`      | Formularz Wyceny Tarasu     |
+| `"schody"`     | Formularz Wyceny Schodów    |
+| `null`         | Brak formularza             |
 
 ### `category` allowed values (`options.list`):
 
 Must match the category values in the `project` schema exactly so gallery filtering works:
 
-| Value | Label |
-|---|---|
-| `"zadaszenia-aluminiowe"` | Zadaszenia aluminiowe |
-| `"zaluzje-tarasowe"` | Żaluzje tarasowe |
-| `"tarasy-kompozytowe"` | Tarasy kompozytowe |
-| `"tarasy-gresowe"` | Tarasy z płyt gresowych |
-| `"tarasy-drewniane"` | Tarasy drewniane |
-| `"elewacje-kompozytowe"` | Elewacje kompozytowe |
-| `"schody-modulowe"` | Schody modułowe |
+| Value                     | Label                   |
+| ------------------------- | ----------------------- |
+| `"zadaszenia-aluminiowe"` | Zadaszenia aluminiowe   |
+| `"zaluzje-tarasowe"`      | Żaluzje tarasowe        |
+| `"tarasy-kompozytowe"`    | Tarasy kompozytowe      |
+| `"tarasy-gresowe"`        | Tarasy z płyt gresowych |
+| `"tarasy-drewniane"`      | Tarasy drewniane        |
+| `"elewacje-kompozytowe"`  | Elewacje kompozytowe    |
+| `"schody-modulowe"`       | Schody modułowe         |
 
 ---
 
@@ -143,15 +143,15 @@ Must match the category values in the `project` schema exactly so gallery filter
 
 Create 7 `service` documents in Sanity with the following hero field defaults. Remaining fields (added in specs 2–7) will be seeded in their respective specs.
 
-| Slug | heroHeadline | heroSubheadline |
-|---|---|---|
+| Slug                    | heroHeadline                                                 | heroSubheadline                                                                                          |
+| ----------------------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
 | `zadaszenia-aluminiowe` | "Zadaszenia aluminiowe — elegancja i ochrona przez cały rok" | "Nowoczesne zadaszenia tarasowe z aluminium. Projektujemy i montujemy na terenie Śląska i Opolszczyzny." |
-| `zaluzje-tarasowe` | "Żaluzje tarasowe — komfort i prywatność na zewnątrz" | "Wysokiej jakości żaluzje zewnętrzne dopasowane do każdej architektury." |
-| `tarasy-kompozytowe` | "Tarasy kompozytowe — trwałość i nowoczesny design" | "Deski kompozytowe odporne na warunki atmosferyczne. Estetyka drewna bez jego wad." |
-| `tarasy-gresowe` | "Tarasy z płyt gresowych — premium pod stopami" | "Płyty gresowe 2 cm — wyjątkowa trwałość i elegancja dla wymagających." |
-| `tarasy-drewniane` | "Tarasy drewniane — naturalne piękno przestrzeni" | "Klasyczne tarasy z drewna egzotycznego i krajowego. Ciepło natury w Twoim ogrodzie." |
-| `elewacje-kompozytowe` | "Elewacje kompozytowe — nowoczesny wygląd budynku" | "Trwałe i estetyczne elewacje z desek kompozytowych. Odporność na warunki zewnętrzne." |
-| `schody-modulowe` | "Schody modułowe — innowacyjne i szybkie w montażu" | "Funkcjonalne schody modułowe idealnie komponujące się z tarasem i nowoczesną architekturą." |
+| `zaluzje-tarasowe`      | "Żaluzje tarasowe — komfort i prywatność na zewnątrz"        | "Wysokiej jakości żaluzje zewnętrzne dopasowane do każdej architektury."                                 |
+| `tarasy-kompozytowe`    | "Tarasy kompozytowe — trwałość i nowoczesny design"          | "Deski kompozytowe odporne na warunki atmosferyczne. Estetyka drewna bez jego wad."                      |
+| `tarasy-gresowe`        | "Tarasy z płyt gresowych — premium pod stopami"              | "Płyty gresowe 2 cm — wyjątkowa trwałość i elegancja dla wymagających."                                  |
+| `tarasy-drewniane`      | "Tarasy drewniane — naturalne piękno przestrzeni"            | "Klasyczne tarasy z drewna egzotycznego i krajowego. Ciepło natury w Twoim ogrodzie."                    |
+| `elewacje-kompozytowe`  | "Elewacje kompozytowe — nowoczesny wygląd budynku"           | "Trwałe i estetyczne elewacje z desek kompozytowych. Odporność na warunki zewnętrzne."                   |
+| `schody-modulowe`       | "Schody modułowe — innowacyjne i szybkie w montażu"          | "Funkcjonalne schody modułowe idealnie komponujące się z tarasem i nowoczesną architekturą."             |
 
 ## References
 

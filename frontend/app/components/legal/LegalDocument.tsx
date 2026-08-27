@@ -36,7 +36,10 @@ function LegalSectionBlock({ section }: { section: Section }) {
         <ul className="mt-4 flex flex-col gap-2">
           {bullets.map((bullet, index) => (
             <li key={index} className="flex gap-3 font-body text-base leading-relaxed text-silver">
-              <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+              <span
+                className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
+                aria-hidden="true"
+              />
               <span>{bullet}</span>
             </li>
           ))}

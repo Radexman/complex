@@ -15,11 +15,7 @@ gsap.registerPlugin(ScrollTrigger);
 type AboutPage = NonNullable<AboutPageQueryResult>;
 type AboutValuesProps = Pick<AboutPage, 'valuesEyebrow' | 'valuesHeadline' | 'values'>;
 
-export default function AboutValues({
-  valuesEyebrow,
-  valuesHeadline,
-  values,
-}: AboutValuesProps) {
+export default function AboutValues({ valuesEyebrow, valuesHeadline, values }: AboutValuesProps) {
   const container = useRef<HTMLElement>(null);
 
   useGSAP(

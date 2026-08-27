@@ -56,16 +56,18 @@ All shared components (`FormInput`, `FormSelect`, `FormTextarea`, `FormCheckbox`
 ## Zod Schema — `src/lib/validations/zadaszenieForm.ts`
 
 ```ts
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const zadaszenieFormSchema = z.object({
   // Product config
   roofType: z.string().min(1, 'Wybierz rodzaj zadaszenia'),
   frameColor: z.string().min(1, 'Wybierz kolor konstrukcji'),
-  width: z.coerce.number()
+  width: z.coerce
+    .number()
     .positive('Podaj szerokość zadaszenia')
     .max(20, 'Maksymalna szerokość to 20 m'),
-  depth: z.coerce.number()
+  depth: z.coerce
+    .number()
     .positive('Podaj głębokość zadaszenia')
     .max(10, 'Maksymalna głębokość to 10 m'),
 
@@ -82,7 +84,8 @@ export const zadaszenieFormSchema = z.object({
   terraceBlinds: z.string().optional(),
 
   // Contact & location
-  postalCode: z.string()
+  postalCode: z
+    .string()
     .min(6, 'Podaj kod pocztowy')
     .regex(/^\d{2}-\d{3}$/, 'Format: 00-000'),
   name: z.string().min(2, 'Podaj swoje imię i nazwisko'),
@@ -95,13 +98,13 @@ export const zadaszenieFormSchema = z.object({
   photo: z.any().optional(),
 
   // Consents
-  consentRodo: z.boolean().refine(val => val === true, {
+  consentRodo: z.boolean().refine((val) => val === true, {
     message: 'Zgoda jest wymagana',
   }),
   consentMarketing: z.boolean().default(false),
-})
+});
 
-export type ZadaszenieFormData = z.infer<typeof zadaszenieFormSchema>
+export type ZadaszenieFormData = z.infer<typeof zadaszenieFormSchema>;
 ```
 
 ---
@@ -198,12 +201,14 @@ Same pattern and field set as `TarasForm`, in this order:
 ### Consent Checkboxes
 
 Identical to `TarasForm` — reuse exactly:
+
 - `consentRodo` (required) with Polityki prywatności link
 - `consentMarketing` (optional)
 
 ### Submit Button
 
 Identical pattern to `TarasForm`:
+
 - Label: "Wyślij zapytanie"
 - Loading: "Wysyłanie..."
 - Notes below button identical to `TarasForm`
@@ -215,25 +220,25 @@ Identical pattern to `TarasForm`:
 Same pattern as `submitTarasForm.ts`. Validate with `zadaszenieFormSchema.safeParse`, then log structured data:
 
 ```ts
-'use server'
+'use server';
 
-import { zadaszenieFormSchema } from '@/lib/validations/zadaszenieForm'
+import { zadaszenieFormSchema } from '@/lib/validations/zadaszenieForm';
 
 export async function submitZadaszenieForm(formData: FormData) {
-  const raw = Object.fromEntries(formData.entries())
-  const result = zadaszenieFormSchema.safeParse(raw)
+  const raw = Object.fromEntries(formData.entries());
+  const result = zadaszenieFormSchema.safeParse(raw);
 
   if (!result.success) {
-    return { success: false, errors: result.error.flatten() }
+    return { success: false, errors: result.error.flatten() };
   }
 
-  const data = result.data
+  const data = result.data;
 
   // TODO: Replace with Resend HTML email (future spec)
-  console.log('=== FORMULARZ WYCENY ZADASZENIA ===')
-  console.log('Rodzaj zadaszenia:', data.roofType)
-  console.log('Kolor konstrukcji:', data.frameColor)
-  console.log('Wymiary:', { szerokość: data.width, głębokość: data.depth })
+  console.log('=== FORMULARZ WYCENY ZADASZENIA ===');
+  console.log('Rodzaj zadaszenia:', data.roofType);
+  console.log('Kolor konstrukcji:', data.frameColor);
+  console.log('Wymiary:', { szerokość: data.width, głębokość: data.depth });
   console.log('Wyposażenie dodatkowe:', {
     trójkąt_boczny: data.equip_triangleSide,
     oświetlenie_LED: data.equip_ledLighting,
@@ -242,16 +247,16 @@ export async function submitZadaszenieForm(formData: FormData) {
     szyby_przesuwne_prawa: data.equip_glasslessDoorsSliding_right,
     szyby_przesuwne_lewa: data.equip_glasslessDoorsSliding_left,
     szyby_przesuwne_front: data.equip_glasslessDoorsSliding_front,
-  })
-  console.log('Żaluzje tarasowe:', data.terraceBlinds)
-  console.log('Montaż:', data.installationService)
-  console.log('Kontakt:', { name: data.name, phone: data.phone, email: data.email })
-  console.log('Kod pocztowy:', data.postalCode)
-  console.log('Uwagi:', data.notes)
-  console.log('Zgody:', { rodo: data.consentRodo, marketing: data.consentMarketing })
-  console.log('===================================')
+  });
+  console.log('Żaluzje tarasowe:', data.terraceBlinds);
+  console.log('Montaż:', data.installationService);
+  console.log('Kontakt:', { name: data.name, phone: data.phone, email: data.email });
+  console.log('Kod pocztowy:', data.postalCode);
+  console.log('Uwagi:', data.notes);
+  console.log('Zgody:', { rodo: data.consentRodo, marketing: data.consentMarketing });
+  console.log('===================================');
 
-  return { success: true }
+  return { success: true };
 }
 ```
 

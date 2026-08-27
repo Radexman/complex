@@ -27,11 +27,7 @@ function BrandItem({ brand }: { brand: Brand }) {
     : undefined;
 
   return (
-    <Accordion.Item
-      value={brand._key}
-      data-brands-item
-      className="overflow-hidden rounded-xl"
-    >
+    <Accordion.Item value={brand._key} data-brands-item className="overflow-hidden rounded-xl">
       <Accordion.ItemTrigger className="group flex w-full cursor-pointer items-center justify-between rounded-xl border border-graphite bg-bg-surface px-6 py-5 outline-none transition-all duration-200 hover:border-accent/40 data-[state=open]:border-accent/60">
         <span className="text-left">
           <span className="block font-heading text-lg font-semibold text-white">{brand.name}</span>
@@ -153,7 +149,11 @@ export default function OfferBrands({
           )}
         </div>
 
-        <Accordion.Root collapsible multiple={false} className="mt-10 flex max-w-4xl flex-col gap-2">
+        <Accordion.Root
+          collapsible
+          multiple={false}
+          className="mt-10 flex max-w-4xl flex-col gap-2"
+        >
           {brands.map((brand) => (
             <BrandItem key={brand._key} brand={brand} />
           ))}

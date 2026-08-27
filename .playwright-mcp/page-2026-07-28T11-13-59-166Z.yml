@@ -1,0 +1,293 @@
+- generic [active] [ref=f4e1]:
+    - region "Notifications alt+T"
+    - banner [ref=f4e2]:
+        - navigation [ref=f4e3]:
+            - link "CComplex - Zadaszenia Tarasowe i Tarasy" [ref=f4e4] [cursor=pointer]:
+                - /url: /
+                - img "CComplex - Zadaszenia Tarasowe i Tarasy" [ref=f4e5]
+            - generic [ref=f4e6]:
+                - link "Strona główna" [ref=f4e7] [cursor=pointer]:
+                    - /url: /
+                - button "Oferta" [ref=f4e9]
+                - link "Realizacje" [ref=f4e12] [cursor=pointer]:
+                    - /url: /realizacje
+                - link "O nas" [ref=f4e13] [cursor=pointer]:
+                    - /url: /o-nas
+                - link "Kontakt" [ref=f4e14] [cursor=pointer]:
+                    - /url: /kontakt
+            - generic [ref=f4e15]:
+                - button "Formularze wycen" [ref=f4e17]
+                - link "Darmowa wycena" [ref=f4e20] [cursor=pointer]:
+                    - /url: /wycena/zaluzje
+    - main [ref=f4e21]:
+        - main [ref=f4e22]:
+            - generic [ref=f4e23]:
+                - img "Żaluzje boczne do pergoli aluminiowej." [ref=f4e24]
+                - generic [ref=f4e26]:
+                    - navigation "Ścieżka nawigacji" [ref=f4e27]:
+                        - link "Oferta" [ref=f4e28] [cursor=pointer]:
+                            - /url: /oferta
+                        - generic [ref=f4e31]: Akcesoria do zadaszeń
+                    - heading "Akcesoria do zadaszeń tarasowych" [level=1] [ref=f4e32]
+                    - paragraph [ref=f4e33]: Uzupełnij zadaszenie tarasu lub pergolę o praktyczne akcesoria. Oferujemy oświetlenie LED, żaluzje, ściany szklane, drzwi przesuwne oraz inne rozwiązania zwiększające komfort użytkowania.
+                    - link "Bezpłatna wycena" [ref=f4e35] [cursor=pointer]:
+                        - /url: /wycena/zaluzje
+                        - text: Bezpłatna wycena
+                        - generic [ref=f4e36]: →
+            - generic [ref=f4e40]:
+                - generic [ref=f4e41]:
+                    - paragraph [ref=f4e42]: Zalety produktu
+                    - heading "Komfort i prywatność przez cały rok" [level=2] [ref=f4e43]
+                    - paragraph [ref=f4e44]: Żaluzje tarasowe to idealne rozwiązanie dla osób ceniących prywatność i swobodę regulacji nasłonecznienia. Dostępne w wielu kolorach i wymiarach, pasują zarówno do nowoczesnych, jak i klasycznych budynków.
+                - generic [ref=f4e45]:
+                    - generic [ref=f4e46]:
+                        - heading "Regulacja nasłonecznienia" [level=3] [ref=f4e54]
+                        - paragraph [ref=f4e55]: Precyzyjna kontrola ilości światła wpadającego na taras.
+                    - generic [ref=f4e56]:
+                        - heading "Ochrona przed wiatrem" [level=3] [ref=f4e61]
+                        - paragraph [ref=f4e62]: Żaluzje zewnętrzne skutecznie chronią przed podmuchami wiatru.
+                    - generic [ref=f4e63]:
+                        - heading "Wymiary na zamówienie" [level=3] [ref=f4e71]
+                        - paragraph [ref=f4e72]: Produkowane dokładnie pod wymiary okna lub drzwi tarasowych.
+                    - generic [ref=f4e73]:
+                        - heading "Sterowanie elektryczne" [level=3] [ref=f4e77]
+                        - paragraph [ref=f4e78]: Opcja automatycznego sterowania pilotem lub aplikacją mobilną.
+                    - generic [ref=f4e79]:
+                        - heading "Trwałe materiały" [level=3] [ref=f4e84]
+                        - paragraph [ref=f4e85]: Aluminium i tkaniny wysokiej jakości odporne na UV i warunki atmosferyczne.
+            - generic [ref=f4e87]:
+                - generic [ref=f4e88]:
+                    - paragraph [ref=f4e89]: Jak to działa
+                    - heading "Twoja droga do wymarzonego tarasu" [level=2] [ref=f4e90]
+                    - paragraph [ref=f4e91]: Od pierwszego zapytania po gotową realizację objętą gwarancją — proces zaprojektowany tak, aby był prosty i przejrzysty na każdym etapie.
+                - generic [ref=f4e94]:
+                    - generic [ref=f4e101]:
+                        - generic [ref=f4e102]:
+                            - generic [ref=f4e103]: "01"
+                            - heading "Zapytanie" [level=3] [ref=f4e104]
+                        - paragraph [ref=f4e105]: Wysyłasz zapytanie poprzez formularz wyceny, e-mail lub telefonicznie. Opisujesz swoje potrzeby i wstępne oczekiwania dotyczące projektu.
+                    - generic [ref=f4e111]:
+                        - generic [ref=f4e112]:
+                            - generic [ref=f4e113]: "02"
+                            - heading "Wycena wstępna" [level=3] [ref=f4e114]
+                        - paragraph [ref=f4e115]: Na podstawie przesłanych informacji przygotowujemy orientacyjną wycenę, która pozwala oszacować koszt realizacji jeszcze przed wizją lokalną.
+                    - generic [ref=f4e125]:
+                        - generic [ref=f4e126]:
+                            - generic [ref=f4e127]: "03"
+                            - heading "Pomiar" [level=3] [ref=f4e128]
+                        - paragraph [ref=f4e129]: Umawiamy bezpłatną wizytę pomiarową na miejscu inwestycji. Dokładnie mierzymy przestrzeń i weryfikujemy warunki montażu.
+                    - generic [ref=f4e137]:
+                        - generic [ref=f4e138]:
+                            - generic [ref=f4e139]: "04"
+                            - heading "Wycena końcowa" [level=3] [ref=f4e140]
+                        - paragraph [ref=f4e141]: Na podstawie wykonanych pomiarów przygotowujemy szczegółową, ostateczną wycenę uwzględniającą wszystkie ustalenia.
+                    - generic [ref=f4e149]:
+                        - generic [ref=f4e150]:
+                            - generic [ref=f4e151]: "05"
+                            - heading "Umowa" [level=3] [ref=f4e152]
+                        - paragraph [ref=f4e153]: Po akceptacji wyceny podpisujemy umowę z jasno określonym zakresem prac, materiałami, terminem realizacji i warunkami płatności.
+                    - generic [ref=f4e161]:
+                        - generic [ref=f4e162]:
+                            - generic [ref=f4e163]: "06"
+                            - heading "Montaż" [level=3] [ref=f4e164]
+                        - paragraph [ref=f4e165]: Nasza ekipa montażowa realizuje projekt zgodnie z umową i ustalonym harmonogramem, dbając o porządek i sprawny przebieg prac.
+                    - generic [ref=f4e172]:
+                        - generic [ref=f4e173]:
+                            - generic [ref=f4e174]: "07"
+                            - heading "Gwarancja" [level=3] [ref=f4e175]
+                        - paragraph [ref=f4e176]: Po odbiorze prac przekazujemy gwarancję na montaż oraz materiały. Pozostajemy do dyspozycji w razie pytań lub potrzeby serwisu.
+            - generic [ref=f4e178]:
+                - generic [ref=f4e179]:
+                    - paragraph [ref=f4e180]: Nasze realizacje
+                    - heading "Galeria — Akcesoria do zadaszeń" [level=2] [ref=f4e181]
+                - generic [ref=f4e182]:
+                    - button "zadaszenie tarasowe Opole" [ref=f4e183] [cursor=pointer]:
+                        - img "zadaszenie tarasowe" [ref=f4e184]
+                        - generic [ref=f4e186]: Opole
+                    - button "Zadaszenie aluminiowe z dachem szklanym Kraków" [ref=f4e187] [cursor=pointer]:
+                        - img "Zadaszenie aluminiowe z dachem szklanym" [ref=f4e188]
+                        - generic [ref=f4e190]: Kraków
+                    - button "Żaluzje tarasowe zewnętrzne Szczecin" [ref=f4e191] [cursor=pointer]:
+                        - img "Żaluzje tarasowe zewnętrzne" [ref=f4e192]
+                        - generic [ref=f4e194]: Szczecin
+                    - button "Żaluzje z napędem elektrycznym Bydgoszcz" [ref=f4e195] [cursor=pointer]:
+                        - img "Żaluzje z napędem elektrycznym" [ref=f4e196]
+                        - generic [ref=f4e198]: Bydgoszcz
+                    - button "Żaluzje tarasowe apartament Lublin" [ref=f4e199] [cursor=pointer]:
+                        - img "Żaluzje tarasowe apartament" [ref=f4e200]
+                        - generic [ref=f4e202]: Lublin
+                    - button "Żaluzje ochronne na taras Kielce" [ref=f4e203] [cursor=pointer]:
+                        - img "Żaluzje ochronne na taras" [ref=f4e204]
+                        - generic [ref=f4e206]: Kielce
+                    - button "Żaluzje fasadowe Gdańsk" [ref=f4e207] [cursor=pointer]:
+                        - img "Żaluzje fasadowe" [ref=f4e208]
+                        - generic [ref=f4e210]: Gdańsk
+            - generic [ref=f4e212]:
+                - generic [ref=f4e213]:
+                    - paragraph [ref=f4e214]: Producenci i systemy
+                    - heading "Dostępne systemy żaluzji" [level=2] [ref=f4e215]
+                    - paragraph [ref=f4e216]: Dobieramy systemy żaluzji zewnętrznych do architektury budynku i oczekiwań klienta.
+                - generic [ref=f4e217]:
+                    - button "Żaluzje zewnętrzne aluminiowe Trwałe lamele aluminiowe do każdego okna i drzwi" [ref=f4e219] [cursor=pointer]:
+                        - generic [ref=f4e220]:
+                            - generic [ref=f4e221]: Żaluzje zewnętrzne aluminiowe
+                            - generic [ref=f4e222]: Trwałe lamele aluminiowe do każdego okna i drzwi
+                    - button "Żaluzje z napędem elektrycznym Komfortowe sterowanie pilotem lub aplikacją" [ref=f4e226] [cursor=pointer]:
+                        - generic [ref=f4e227]:
+                            - generic [ref=f4e228]: Żaluzje z napędem elektrycznym
+                            - generic [ref=f4e229]: Komfortowe sterowanie pilotem lub aplikacją
+            - generic [ref=f4e233]:
+                - generic [ref=f4e234]:
+                    - paragraph [ref=f4e235]: Specyfikacja
+                    - heading "Montaż i specyfikacja techniczna" [level=2] [ref=f4e236]
+                - generic [ref=f4e237]:
+                    - generic [ref=f4e238]:
+                        - heading "Montaż żaluzji" [level=3] [ref=f4e243]
+                        - paragraph [ref=f4e244]: Montaż żaluzji zewnętrznych realizujemy na terenie Śląska i Opolszczyzny. Czas realizacji od zamówienia to zazwyczaj 2–4 tygodnie.
+                    - generic [ref=f4e245]:
+                        - heading "Wymiary na zamówienie" [level=3] [ref=f4e254]
+                        - paragraph [ref=f4e255]: Każda żaluzja produkowana jest na wymiar okna lub drzwi. Mierzymy i wyceniamy bezpłatnie podczas wizyty pomiarowej.
+                    - generic [ref=f4e256]:
+                        - heading "Opcja elektryczna" [level=3] [ref=f4e261]
+                        - paragraph [ref=f4e262]: Dostępne napędy elektryczne 240V oraz solarne. Możliwość integracji z systemem smart home i automatycznym czujnikiem wiatru.
+                    - generic [ref=f4e263]:
+                        - heading "Gwarancja i serwis" [level=3] [ref=f4e269]
+                        - paragraph [ref=f4e270]: Udzielamy gwarancji na montaż i materiały. Zapewniamy serwis pogwarancyjny i dostępność części zamiennych.
+                    - generic [ref=f4e271]:
+                        - heading "Podatek VAT" [level=3] [ref=f4e276]
+                        - paragraph [ref=f4e277]: Przy montażu żaluzji na budynkach mieszkalnych może obowiązywać obniżona stawka VAT 8%. Szczegóły ustalamy na etapie wyceny.
+                    - generic [ref=f4e278]:
+                        - heading "Bezpłatna wycena" [level=3] [ref=f4e283]
+                        - paragraph [ref=f4e284]: Skontaktuj się z nami, aby umówić bezpłatną wizytę pomiarową i otrzymać indywidualną wycenę.
+            - generic [ref=f4e286]:
+                - generic [ref=f4e287]: Bezpłatna wycena
+                - heading "Zamów bezpłatną wycenę żaluzji" [level=2] [ref=f4e289]
+                - paragraph [ref=f4e290]: Wypełnij formularz — skontaktujemy się i umówimy bezpłatną wizytę pomiarową w Twoim domu.
+                - generic [ref=f4e291]:
+                    - link "Wypełnij formularz wyceny żaluzji" [ref=f4e292] [cursor=pointer]:
+                        - /url: /wycena/zaluzje
+                    - generic [ref=f4e295]:
+                        - text: "Prowadzi do:"
+                        - generic [ref=f4e299]: Formularz wyceny żaluzji
+                - generic [ref=f4e300]:
+                    - generic [ref=f4e301]: Bez zobowiązań
+                    - generic [ref=f4e303]: Pomiar w Twoim domu
+                    - generic [ref=f4e305]: Szybka realizacja
+            - generic [ref=f4e308]:
+                - generic [ref=f4e309]:
+                    - paragraph [ref=f4e310]: Kontakt bezpośredni
+                    - heading "Odwiedź naszą ekspozycję" [level=3] [ref=f4e311]
+                    - paragraph [ref=f4e312]: Najszybciej skontaktujesz się z nami telefonicznie lub mailowo — to nasze preferowane formy kontaktu.
+                    - generic [ref=f4e313]:
+                        - link "+48 661 242 507" [ref=f4e314] [cursor=pointer]:
+                            - /url: tel:+48661242507
+                        - link "biuro@ccomplex.pl" [ref=f4e317] [cursor=pointer]:
+                            - /url: mailto:biuro@ccomplex.pl
+                    - paragraph [ref=f4e321]: Na naszej zewnętrznej ekspozycji możesz zobaczyć zadaszenia tarasowe, materiały tarasowe oraz elementy dodatkowego wyposażenia. To najlepszy sposób, aby porównać rozwiązania i wybrać to, które najlepiej pasuje do Twojego domu. Przyjedź, zobacz i porównaj dostępne rozwiązania przed podjęciem decyzji. Teren wystawki jest ogólnodostępny – możesz odwiedzić ją w dogodnym dla siebie czasie.
+                    - paragraph [ref=f4e322]: Kępska 12, 45-130 Opole
+                    - generic [ref=f4e331]:
+                        - heading "Biuro" [level=4] [ref=f4e332]
+                        - paragraph [ref=f4e333]: Spotkania odbywają się po wcześniejszym umówieniu telefonicznym, ponieważ większość czasu pracujemy u klientów oraz na realizacjach. ☎ Umów dogodny termin spotkania.
+                - generic [ref=f4e335]:
+                    - generic:
+                        - button [ref=f4e336] [cursor=pointer]
+                        - generic [ref=f4e338]:
+                            - generic [ref=f4e340]:
+                                - generic [ref=f4e341]: CCOMPLEX ZADASZENIA I TARASY
+                                - generic [ref=f4e342]: Kępska 12, 46-020 Opole
+                                - link "Nawiguj" [ref=f4e343] [cursor=pointer]:
+                                    - /url: https://www.google.com/maps/dir/?api=1&destination=K%C4%99pska+12%2C+46-020+Opole
+                            - button "Close popup" [ref=f4e345] [cursor=pointer]: ×
+                    - generic:
+                        - generic [ref=f4e346]:
+                            - button "Zoom in" [ref=f4e347] [cursor=pointer]: +
+                            - button "Zoom out" [ref=f4e348] [cursor=pointer]: −
+                        - generic [ref=f4e349]:
+                            - link "Leaflet" [ref=f4e350] [cursor=pointer]:
+                                - /url: https://leafletjs.com
+                            - text: "| ©"
+                            - link "OpenStreetMap" [ref=f4e355] [cursor=pointer]:
+                                - /url: https://www.openstreetmap.org/copyright
+                            - text: contributors
+    - contentinfo [ref=f4e356]:
+        - generic [ref=f4e357]:
+            - generic [ref=f4e358]:
+                - generic [ref=f4e359]:
+                    - link "Complex" [ref=f4e360] [cursor=pointer]:
+                        - /url: /
+                        - img "Complex" [ref=f4e361]
+                    - paragraph [ref=f4e362]: Nowoczesne zadaszenia tarasowe, pergole aluminiowe i tarasy. Profesjonalny montaż oraz fachowe doradztwo na terenie województwa śląskiego i opolskiego.
+                    - link "facebook" [ref=f4e364] [cursor=pointer]:
+                        - /url: https://www.facebook.com/ccomplex.plTarasy/?notif_id=1782353683768851&notif_t=page_user_activity&ref=notif
+                - generic [ref=f4e367]:
+                    - heading "Oferta" [level=3] [ref=f4e368]
+                    - list [ref=f4e369]:
+                        - listitem [ref=f4e370]:
+                            - link "Zadaszenia tarasowe" [ref=f4e371] [cursor=pointer]:
+                                - /url: /oferta/zadaszenia-tarasowe
+                        - listitem [ref=f4e372]:
+                            - link "Akcesoria do zadaszeń" [ref=f4e373] [cursor=pointer]:
+                                - /url: /oferta/akcesoria-do-zadaszen
+                        - listitem [ref=f4e374]:
+                            - link "Tarasy kompozytowe" [ref=f4e375] [cursor=pointer]:
+                                - /url: /oferta/tarasy-kompozytowe
+                        - listitem [ref=f4e376]:
+                            - link "Tarasy gresowe" [ref=f4e377] [cursor=pointer]:
+                                - /url: /oferta/tarasy-gresowe
+                        - listitem [ref=f4e378]:
+                            - link "Tarasy drewniane" [ref=f4e379] [cursor=pointer]:
+                                - /url: /oferta/tarasy-drewniane
+                        - listitem [ref=f4e380]:
+                            - link "Elewacje kompozytowe" [ref=f4e381] [cursor=pointer]:
+                                - /url: /oferta/elewacje-kompozytowe
+                        - listitem [ref=f4e382]:
+                            - link "Schody modułowe" [ref=f4e383] [cursor=pointer]:
+                                - /url: /oferta/schody-modulowe
+                - generic [ref=f4e384]:
+                    - heading "Firma" [level=3] [ref=f4e385]
+                    - list [ref=f4e386]:
+                        - listitem [ref=f4e387]:
+                            - link "O nas" [ref=f4e388] [cursor=pointer]:
+                                - /url: /o-nas
+                        - listitem [ref=f4e389]:
+                            - link "Realizacje" [ref=f4e390] [cursor=pointer]:
+                                - /url: /realizacje
+                        - listitem [ref=f4e391]:
+                            - link "Kontakt" [ref=f4e392] [cursor=pointer]:
+                                - /url: /kontakt
+                - generic [ref=f4e393]:
+                    - heading "Narzędzia" [level=3] [ref=f4e394]
+                    - list [ref=f4e395]:
+                        - listitem [ref=f4e396]:
+                            - link "Formularz wyceny tarasu" [ref=f4e397] [cursor=pointer]:
+                                - /url: /wycena/taras
+                        - listitem [ref=f4e398]:
+                            - link "Formularz wyceny zadaszenia" [ref=f4e399] [cursor=pointer]:
+                                - /url: /wycena/zadaszenie
+                        - listitem [ref=f4e400]:
+                            - link "Formularz wyceny żaluzji" [ref=f4e401] [cursor=pointer]:
+                                - /url: /wycena/zaluzje
+                        - listitem [ref=f4e402]:
+                            - link "Formularz wyceny schodów" [ref=f4e403] [cursor=pointer]:
+                                - /url: /wycena/schody
+                - generic [ref=f4e404]:
+                    - heading "Kontakt" [level=3] [ref=f4e405]
+                    - generic [ref=f4e406]:
+                        - paragraph [ref=f4e407]: CComplex sp. z o.o.
+                        - paragraph [ref=f4e408]:
+                            - generic [ref=f4e412]: Kępska 12, 45-130 Opole, pok.20 (parter)
+                        - link "+48 661 242 507" [ref=f4e413] [cursor=pointer]:
+                            - /url: tel:+48661242507
+                        - link "biuro@ccomplex.pl" [ref=f4e417] [cursor=pointer]:
+                            - /url: mailto:biuro@ccomplex.pl
+            - generic [ref=f4e422]:
+                - paragraph [ref=f4e423]: © 2026 Complex sp. z o.o. Wszelkie prawa zastrzeżone.
+                - generic [ref=f4e424]:
+                    - link "Polityka prywatności" [ref=f4e425] [cursor=pointer]:
+                        - /url: /polityka-prywatnosci
+                    - link "Regulamin" [ref=f4e426] [cursor=pointer]:
+                        - /url: /regulamin
+                    - link "Polityka cookies" [ref=f4e427] [cursor=pointer]:
+                        - /url: /polityka-cookies
+    - button "Open Next.js Dev Tools" [ref=f4e433] [cursor=pointer]
+    - alert [ref=f4e437]

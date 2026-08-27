@@ -115,7 +115,6 @@ schody) was already resolved in the CMS before the session. Four decisions confi
   `OfferTechSpecs.tsx`, `.claude/settings.local.json`, and the untracked `.playwright-mcp/`
   artifacts.
 
-
 ### Client Feedback Round 6 — formularz żaluzji (2026-08-06)
 
 The blinds form, from a third redlined client PDF (`form. wyceny zluzje.pdf`), loaded via
@@ -133,7 +132,7 @@ The blinds form, from a third redlined client PDF (`form. wyceny zluzje.pdf`), l
   „Jak mierzyć otwór?" glass card deleted outright (its `Info` import went with it), the montaż
   helper reworded, the Uwagi helper deleted with no replacement, the photo helper reworded.
 - **Both caps were mirrored onto the steppers** (`aria-valuemax` 300 / 1000) — slightly beyond a
-  literal copy edit, but the client wrote „Zmiana przedziału" for *both* fields, and a stepper that
+  literal copy edit, but the client wrote „Zmiana przedziału" for _both_ fields, and a stepper that
   disagrees with the schema is just a latent bug. Adds no visible „max" text, which she explicitly
   did not want („ale nie wpisujemy słowa max" — nothing to remove, the placeholder is „np. 220" and
   there was no helper).
@@ -142,7 +141,7 @@ The blinds form, from a third redlined client PDF (`form. wyceny zluzje.pdf`), l
   surfaces „Maksymalna wysokość to 300 cm" — the person is told why instead of being silently
   corrected to 300.
 - **„Zgoda jest wymagana" was KEPT** even though the PDF strikes it — third round running. It is the
-  *validation error* under an unticked RODO box, not static copy; the strike is almost certainly
+  _validation error_ under an unticked RODO box, not static copy; the strike is almost certainly
   collateral from crossing out the marketing paragraph above it. Verified it still fires.
 - ⚠️ **G1 carries an ordering mismatch, flagged and left.** The new header says „(szerokość ×
   wysokość)" but the inputs render **Wysokość first**, and the client left both field labels
@@ -164,7 +163,7 @@ The blinds form, from a third redlined client PDF (`form. wyceny zluzje.pdf`), l
   `OfferTechSpecs.tsx` and `ProjectsGrid.tsx`, `.claude/settings.local.json`, the untracked
   `.playwright-mcp/` artifacts, and the **content-identical** `sanity.schema.json` /
   `frontend/sanity.types.ts` / `studio/sanity.types.ts` (verified: `git diff --stat` reports
-  *nothing* — pure CRLF drift again).
+  _nothing_ — pure CRLF drift again).
 - Verified: **172/172 Vitest** (171 baseline + 1 new), `type-check` (both workspaces), `lint` (only
   the pre-existing `useCountUp` warning at `TrustSection.tsx:65`), clean `next build` after
   `rm -rf .next` — all routes prerender as before, 7 offer slugs still SSG. In-browser
@@ -172,7 +171,7 @@ The blinds form, from a third redlined client PDF (`form. wyceny zluzje.pdf`), l
   string absent; the Round 5 items still hold („opcjonalnie" and „marketingow" match nothing, two
   „3 dni roboczych"); an empty submit yields **5** inline errors with **none** for name or phone; no
   horizontal overflow at 390 px (the longer header wraps to two lines there, as expected).
-- **Not driven in-browser:** a real form *send* — it would e-mail the dev inbox through Resend. The
+- **Not driven in-browser:** a real form _send_ — it would e-mail the dev inbox through Resend. The
   action's success and failure paths stay unit-tested.
 
 ### Mapa strony + Client Feedback Round 5 — formularze wyceny (2026-08-06)
@@ -187,7 +186,7 @@ zadaszenia.pdf`) plus a WhatsApp note, loaded via `/feature load`.
 
 - ⚠️ **Every URL was missing its scheme.** The old file used the bare `host` header as the
   base, so entries read `complex-puce.vercel.app/oferta` — **not a valid `<loc>`**. Nobody had
-  noticed because the file *looked* right. Now `NEXT_PUBLIC_SITE_URL` wins when set, falling
+  noticed because the file _looked_ right. Now `NEXT_PUBLIC_SITE_URL` wins when set, falling
   back to `x-forwarded-proto` + `host` (https assumed remotely, http for localhost).
 - **The resolution lives in a pure `app/lib/siteUrl.ts`** rather than inline in `sitemap.ts` —
   it is the only unit-testable part (9 new tests: scheme-less config, trailing slashes, blank
@@ -204,7 +203,7 @@ zadaszenia.pdf`) plus a WhatsApp note, loaded via `/feature load`.
 - **The four form pages deliberately carry no `lastModified`** — their content is entirely in
   code, so any date would be fiction. `lastModified` is optional; omitting beats inventing.
 - ⚠️ **`/sitemap.xml` still builds as dynamic (`ƒ`)** because it reads request headers. Setting
-  `NEXT_PUBLIC_SITE_URL` on Vercel makes it prerender **static** *and* pins the canonical host —
+  `NEXT_PUBLIC_SITE_URL` on Vercel makes it prerender **static** _and_ pins the canonical host —
   which will matter the moment the site moves off `complex-puce.vercel.app`.
 - ⚠️ **There is still no `robots.ts`**, so nothing points crawlers at the sitemap. Offered, not
   taken this round.
@@ -214,19 +213,19 @@ the items reach into the Zod schemas, both server actions, the lead e-mails and 
 Flagged before starting; the user confirmed and added two decisions of their own.
 
 - **Turnaround 5 → 3 dni robocze, „wszędzie" (user's call, wider than the PDFs):** 4 page heroes
-  + their `metadata.description`, the 4 forms' fine print, `FormSuccessState` (×2),
-  `renderConfirmationEmail.ts` **and `AboutCta.tsx`** outside the forms. The „my" was dropped
-  from the intro sentence. **The CMS was audited too** (GROQ across `processTimeline`, `service`
-  techSpecs/benefits, `bottomCtaSection`, `wycenaPage`) — it carries **no** turnaround promise;
-  the single „1–5 dni roboczych" hit is install *duration* on Tarasy kompozytowe and was left,
-  same call as Round 3.
+  - their `metadata.description`, the 4 forms' fine print, `FormSuccessState` (×2),
+    `renderConfirmationEmail.ts` **and `AboutCta.tsx`** outside the forms. The „my" was dropped
+    from the intro sentence. **The CMS was audited too** (GROQ across `processTimeline`, `service`
+    techSpecs/benefits, `bottomCtaSection`, `wycenaPage`) — it carries **no** turnaround promise;
+    the single „1–5 dni roboczych" hit is install _duration_ on Tarasy kompozytowe and was left,
+    same call as Round 3.
 - ⚠️ **The marketing consent is gone from all four forms** — user's decision („leave only
   rodo"), matching the struck-out paragraph in both PDFs. Removed from the checkbox, the Zod
   field, `defaultValues`, the `formData` append and the „Zgoda marketingowa" row in the lead
   e-mail. **Quotation leads now collect RODO only — no marketing permission is captured at
   all.** Reversible, but re-consenting the existing list is not.
 - **„Zgoda jest wymagana" was deliberately KEPT** even though the PDFs strike it — that string
-  is the *validation error* under an unticked RODO box, not static copy. Striking it was almost
+  is the _validation error_ under an unticked RODO box, not static copy. Striking it was almost
   certainly collateral from crossing out the marketing paragraph above it; deleting it would
   leave a failed submit unexplained. Verified it still fires.
 - **„(opcjonalnie)" deleted from every label** („wystarczy gwiazdki"), plus the reworded RODO
@@ -241,7 +240,7 @@ Flagged before starting; the user confirmed and added two decisions of their own
   encoded actual models (Pinela, Verdeca, Ekonomiczny); „Wolnostojący + Materiał" had no product
   behind it, and „Szkło" is new. **Nothing in the code prevents an impossible combination** —
   raised with the user, still open with the client.
-- **Depth capped at 6 m** in the schema *and* on the stepper — `FormNumberInput` gained a `max`
+- **Depth capped at 6 m** in the schema _and_ on the stepper — `FormNumberInput` gained a `max`
   prop (it only had `min`). Left **unclamped** (`clampValueOnBlur={false}` kept) so an
   out-of-range value reaches Zod and the person is told why, instead of being silently
   corrected. Width's Zod cap of 20 m stays, but no UI `max` was added — the client only
@@ -256,7 +255,7 @@ Flagged before starting; the user confirmed and added two decisions of their own
   out of all six files anyway, and a positive test now asserts the parsed output has **no**
   `consentMarketing` property.
 - ⚠️ **`ContactForm.tsx` was left alone** — it still says „(opcjonalnie)" and still has a
-  marketing consent. The client's feedback covered the *quotation* forms; widening the scope to
+  marketing consent. The client's feedback covered the _quotation_ forms; widening the scope to
   a form she has not reviewed (and dropping a consent there) was not ours to decide. **The site
   is knowingly inconsistent** until that is confirmed.
 - **`FormNumberInput.tsx` carried a pre-existing uncommitted edit** (default `step` 0.01 → 0.1)
@@ -271,7 +270,7 @@ Flagged before starting; the user confirmed and added two decisions of their own
 - **Left untouched (same precedent as prior features):** the pre-existing uncommitted
   `.mcp.json`, `OfferTechSpecs.tsx` and `ProjectsGrid.tsx`, `.claude/settings.local.json`, the
   untracked `.playwright-mcp/` artifacts, and the **content-identical** `sanity.schema.json` /
-  `studio/sanity.types.ts` (verified: `git diff --stat` reports *nothing* — pure CRLF drift).
+  `studio/sanity.types.ts` (verified: `git diff --stat` reports _nothing_ — pure CRLF drift).
   `frontend/sanity.types.ts` **was** committed, carrying only the `SitemapQueryResult` addition.
 - ⚠️ **`prettier --check` flags 64 files**, including four `przeslany-formularz/page.tsx` and
   `wycena/page.tsx` that this branch never touched — the pre-existing repo-wide line-ending
@@ -287,7 +286,7 @@ Flagged before starting; the user confirmed and added two decisions of their own
   and `aria-valuemax="6"` on depth, and an empty submit yields **8** inline errors (**none** for
   name or phone); żaluzje **5**, schody **11**; „opcjonalnie" and „marketingow" match **nothing**
   on any of the four pages.
-- **Not driven in-browser:** a real form *send* — it would e-mail the dev inbox through Resend.
+- **Not driven in-browser:** a real form _send_ — it would e-mail the dev inbox through Resend.
   The actions' success and failure paths stay unit-tested.
 
 ### Drobne zmiany — materiały tarasu, etykieta „Nowość", opcjonalne dane kontaktowe (2026-08-05)
@@ -316,9 +315,9 @@ implemented and the „Nowość" flag had been published.
   Round 4, carried over to `/wycena/*`. The `optionalText()` helper was **private to
   `contactForm.ts`**; extracted to `app/lib/validations/optionalText.ts` and imported by all five
   schemas, so the five can't drift (the `benefitIcons.ts` precedent). An untouched input arrives as
-  `''` → `undefined`; a value that *was* typed is still length-checked.
+  `''` → `undefined`; a value that _was_ typed is still length-checked.
 - **Three ripples the schema change forced, none of them obvious from the request:** (1) the
-  `preprocess` makes the RHF *input* type `unknown`, so each `error` prop needs a
+  `preprocess` makes the RHF _input_ type `unknown`, so each `error` prop needs a
   `FieldError | undefined` cast — `TarasForm` also needed the `FieldError` type imported, the other
   three already had it; (2) `formData.append('name', data.name)` no longer type-checks, so all four
   onSubmit handlers take `?? ''`; (3) each action's subject line would have read
@@ -336,7 +335,7 @@ implemented and the „Nowość" flag had been published.
   repo-wide condition (line endings), not caused by this work. Deliberately not „fixed", since a
   reformat of 142 files would bury the actual diff.
 - **Clearing `.next` for the clean build killed the running dev server again** (they share the
-  directory) — the same footgun as the offer-index session. Do the browser verification *first*,
+  directory) — the same footgun as the offer-index session. Do the browser verification _first_,
   then clear and build.
 - Verified: **155/155 Vitest** (151 baseline + 4 new „accepts a submission with no name and no
   phone" cases, one per form — the too-short-value tests were kept, retitled „still rejects…"),
@@ -347,7 +346,7 @@ implemented and the „Nowość" flag had been published.
   show „(opcjonalnie)" on both labels and an empty submit yields **7 / 7 / 5 / 11** inline errors
   (taras / zadaszenie / żaluzje / schody) with **none** for name or phone; „123" in a phone field
   still errors.
-- **Not driven in-browser:** a real form *send* — it would e-mail the dev inbox through Resend. The
+- **Not driven in-browser:** a real form _send_ — it would e-mail the dev inbox through Resend. The
   actions' success and failure paths stay unit-tested.
 - **Left untouched (same precedent as prior features):** the pre-existing uncommitted `.mcp.json`,
   `OfferTechSpecs.tsx`, `ProjectsGrid.tsx` and `FormNumberInput.tsx`, `.claude/settings.local.json`,
@@ -381,10 +380,10 @@ front; a third — **deleting the team section outright** — came from the user
   bold/links/lists, so the richer editor would have bought nothing today.
 - ⚠️ **The spec's `<div className="bg-bg-deep">` wrapper around `ProcessTimeline` is a no-op** —
   that section paints its own `bg-bg-mid` (`ProcessTimeline.tsx:116`), so a wrapper is invisible.
-  The intended alternating rhythm was achieved by assigning the *surrounding* sections instead:
+  The intended alternating rhythm was achieved by assigning the _surrounding_ sections instead:
   Hero **deep** → Story **mid** → Values **deep** → Timeline **mid** (fixed) → Cta **deep**.
   Measured in-browser as `#0B0B0C / #111111 / #0B0B0C / #111111 / #0B0B0C`. The Cta ended up back
-  on the spec's `bg-bg-deep` only *after* the team section was cut — with it, the parity flipped.
+  on the spec's `bg-bg-deep` only _after_ the team section was cut — with it, the parity flipped.
 - **Icon map extracted to `app/lib/benefitIcons.ts`** (`BENEFIT_ICON_MAP`), now shared by
   `AboutValues` and `OfferBenefits` — the spec asked for a shared `iconMap.ts` that did not exist.
   Mirrors the Studio's `BENEFIT_ICONS`, so the dropdown and the lookup can't drift.
@@ -440,7 +439,7 @@ brightness) added mid-session by the user.
 
 - **#1 Contact form — name and phone optional, „Temat wiadomości" deleted.** A new `optionalText()`
   helper reuses the repo's `preprocess` pattern: an untouched input arrives as `''` and becomes
-  **`undefined`**, but a value that *was* typed is still length-checked — „123" in the phone field
+  **`undefined`**, but a value that _was_ typed is still length-checked — „123" in the phone field
   still errors, clearing it removes the error (both verified in-browser). Only **e-mail, wiadomość
   and the RODO consent** remain required. `CONTACT_SUBJECTS` deleted outright (no other consumer).
   The lead subject line falls back to the **address** when there's no name. **The e-mail layer
@@ -517,7 +516,7 @@ brightness) added mid-session by the user.
   **exactly 3** inline errors on an empty submit and has no subject select; `/wycena` stripes
   uniform with no horizontal overflow at 390; the desktop dropdown opens with all 5 links on-screen
   and the drawer accordion expands with 5 visible links.
-- **Not driven in-browser:** a real contact-form *send* — it would e-mail the dev inbox through
+- **Not driven in-browser:** a real contact-form _send_ — it would e-mail the dev inbox through
   Resend. The success and failure paths stay unit-tested.
 
 ### Client Feedback — Round 3: nav, contact modal, Przed i po, VAT, `/wycena` (2026-08-03)
@@ -537,11 +536,11 @@ across two question rounds, then **two of them were superseded mid-session**.
   the client promotes a different form by reordering rather than by editing code. Cards reuse the
   matching offer's `heroImage` — no new uploads needed. The `NavDropdown` `cta` variant and the
   now-dead `WYCENA_ITEMS` / `OFFER_FORM_HREFS` constants were deleted (eslint caught them).
-- ⚠️ **The stretched card link never covered the card — on `/oferta` *or* `/wycena` — and the first
+- ⚠️ **The stretched card link never covered the card — on `/oferta` _or_ `/wycena` — and the first
   verification wrongly reported that it did.** `after:absolute after:inset-0` positions against the
   nearest **positioned** ancestor, which was the `absolute inset-x-0 bottom-0` text wrapper, not the
   `relative` card. Only the bottom text strip was clickable; the image was dead. The original probe
-  hit the *banner* card's centre, which happens to fall inside that strip, and Playwright's
+  hit the _banner_ card's centre, which happens to fall inside that strip, and Playwright's
   „stretched link intercepts pointer events" message was misread as proof. **The user reported it.**
   Fixed by making the wrapper `absolute inset-0 flex flex-col justify-end p-6` — it spans the card,
   so the `::after` does too, and content still sits at the bottom. Re-verified by probing **near the
@@ -554,7 +553,7 @@ across two question rounds, then **two of them were superseded mid-session**.
   Revealed on hover from `md` up, **always visible on touch widths** where there is no hover.
 - **„Formularz kontaktowy" is a modal, not a subpage** (the client's „nie podstrona").
   `ContactFormDialog` is **controlled from `Navbar`** — state lifted so the mobile drawer closes
-  *before* the modal opens, instead of nesting two Ark dialogs. `lazyMount` + `unmountOnExit` resets
+  _before_ the modal opens, instead of nesting two Ark dialogs. `lazyMount` + `unmountOnExit` resets
   the form between openings. Enter/exit use **distinctly named** keyframes (the Zag presence-machine
   lesson from the mobile-drawer feature: matching names unmount instantly). `FormSuccessState` is
   reused with `steps={[]}`, which skips the process recap and keeps the confirmation modal-sized —
@@ -602,7 +601,7 @@ across two question rounds, then **two of them were superseded mid-session**.
 - **„5 dni roboczych" everywhere** (user instruction). Six occurrences still said 7: the fine print
   under all four form submit buttons, `FormSuccessState`'s closing note, and the customer
   confirmation email — the last two **contradicting copy a few lines above them**. The CMS was
-  audited too and was already correct; the remaining „1–5 dni roboczych" is install *duration* and
+  audited too and was already correct; the remaining „1–5 dni roboczych" is install _duration_ and
   was deliberately left.
 - ⚠️ **Three buttons read „Darmowa wycena".** The header CTA and the home CTA block now both point
   at `/wycena` (the block was changed to match, since the labels are identical), but the **hero**
@@ -638,7 +637,7 @@ across two question rounds, then **two of them were superseded mid-session**.
   single column at 390 with no horizontal overflow; empty contact submit produced all **6** inline
   errors; Oferta → Tarasy opens expanded; map popup reads the footer address; VAT row measured
   `222px 56px 222px` at 1440 and stacked with the arrow at `rotate: 90deg` at 390.
-- **Not driven in-browser:** a real contact-form *send* — it would email the dev inbox through
+- **Not driven in-browser:** a real contact-form _send_ — it would email the dev inbox through
   Resend. The action's success and failure paths are unit-tested instead.
 
 ### Offer Index Page `/oferta` + „Akcesoria do zadaszeń" rename (2026-07-28)
@@ -663,7 +662,7 @@ subpages — plus a **client-mandated category rename** that grew out of it mid-
   `md:aspect-square` silently beat the banner's `md:aspect-21/6` → the finale rendered **square
   (1184×1184)**. Caught by measuring in-browser, not by reading the class list. Fix: the `md:` ratio
   lives **only** in `SPAN_CLASSES`, never on the base. Comment records it.
-- **Nested anchors avoided.** The spec wraps the quotation-form pill in its own `<Link>` *inside*
+- **Nested anchors avoided.** The spec wraps the quotation-form pill in its own `<Link>` _inside_
   the card `<Link>` with `stopPropagation` — invalid HTML. Card link is now a **stretched
   `after:absolute after:inset-0` overlay** on the title anchor (so the accessible name stays the
   title) with the pill as a `z-10` sibling. Measured **0 nested anchors** on all 7 cards.
@@ -698,10 +697,10 @@ to carry it through everywhere, so the **category value** moved too (slug === ca
   `app/lib/categories.ts`. That duplication (flagged as a risk back on 2026-07-13) is precisely what
   let the two copies drift. Its pre-existing uncommitted `data-[selected]:`→`data-selected:` tidy-up
   rode along, same precedent as the Easy Wins branch.
-- **The żaluzje *form* is untouched** — `/wycena/zaluzje`, „Formularz Wyceny Żaluzji" and the blinds
+- **The żaluzje _form_ is untouched** — `/wycena/zaluzje`, „Formularz Wyceny Żaluzji" and the blinds
   add-on inside the canopy form all still say Żaluzje (they describe the physical product). ⚠️ Worth
   confirming with the client, since the offer those lead to is now called Akcesoria. Two migrated
-  realizations are still *titled* „Żaluzje…" — category moved, titles left alone (they describe
+  realizations are still _titled_ „Żaluzje…" — category moved, titles left alone (they describe
   specific installed jobs).
 - **Studio redeployed** (`npm run deploy` from `studio/`) — in place via the pinned `appId`, same
   URL, `Deployed 1/1 schemas`. **Verified against the deployed schema via MCP**, not assumed:
@@ -755,9 +754,9 @@ TypeGen regen, no new server actions/utilities → no new tests.
   (`animation-direction: reverse`) would NOT work** — the name would be unchanged and the machine
   would still unmount instantly. A comment above the keyframe records this.
 - **The backdrop needed its own fix.** `Dialog.Backdrop` calls `usePresence` itself (its own machine
-  + its own node ref), whereas `Dialog.Content`/`Positioner` share the root's presence context — so
-  the backdrop had the identical same-name bug and got its own `nav-fade-out`. Without it the page
-  would flash un-dimmed the moment the panel started sliding.
+  - its own node ref), whereas `Dialog.Content`/`Positioner` share the root's presence context — so
+    the backdrop had the identical same-name bug and got its own `nav-fade-out`. Without it the page
+    would flash un-dimmed the moment the panel started sliding.
 - **Traced the close frame-by-frame** rather than eyeballing it: panel `x: 0 → 12 → 62 → 137 → 232
 → 344` (of 390) while backdrop opacity ran `1.00 → 0.08`, then settled `hidden` / `display:none`
   with **nothing tabbable** (18 links present but `offsetParent === null`) — that mounted-but-hidden
@@ -766,7 +765,7 @@ TypeGen regen, no new server actions/utilities → no new tests.
 - ⚠️ **Dev-server gotcha worth remembering — a CSS-only edit can silently not apply.** The exit
   animation appeared dead at first: `data-state="closed"` and `animation-name:
 nav-slide-out-right` were both correct, but `getAnimations()` was **empty** and `transform: none`
-  — Chromium won't create an animation for an unknown keyframe name. The served CSS chunk *did*
+  — Chromium won't create an animation for an unknown keyframe name. The served CSS chunk _did_
   contain the string (Turbopack had rebuilt it for the new **utility class** from `Navbar.tsx`) but
   held only the **three old** `@keyframes` blocks from `globals.css`. **A hard reload did not fix
   it**; touching `globals.css` did. Same stale-cache family as the earlier `.next` incident. Probe
@@ -774,7 +773,7 @@ nav-slide-out-right` were both correct, but `getAnimations()` was **empty** and 
   the class reference and the keyframe block both match a naive `includes`.
 - **Self-correction during the session:** initially bumped `Dialog.Title` to `text-xl`, which made
   the long CMS brand string („CComplex - Zadaszenia Tarasowe i Tarasy") wrap into the close button.
-  Reverted to `text-lg` + `pr-4` — the goal was bigger *nav links*, not the title.
+  Reverted to `text-lg` + `pr-4` — the goal was bigger _nav links_, not the title.
 - **Playwright gotcha:** `document.querySelectorAll('[data-scope="accordion"][data-part="item-trigger"]')[0]`
   matched an accordion **elsewhere on the page**, not the drawer's — scope drawer queries under
   `[data-scope="dialog"][data-part="content"]`. Also, an MCP click round-trip exceeds the 300 ms
@@ -798,7 +797,7 @@ The router wants to navigate to `https://complex-puce.vercel.app/`, but the orig
 Branch `fix/presentation-allow-origins`. **One file changed:** `studio/sanity.config.ts`.
 
 - **What the error actually gates.** Presentation trusts exactly **one** origin — that allow list
-  guards the Comlink (`postMessage`) channel behind click-to-edit *and* any navigation requested via
+  guards the Comlink (`postMessage`) channel behind click-to-edit _and_ any navigation requested via
   the Studio URL's `?preview=…` param. Traced the string to
   `preview-search-param.configuration.error` in `sanity/lib/_chunks-es/PresentationToolGrantsCheck.js`
   (`useReportInvalidPreviewSearchParam`); with no `allowOrigins` configured the default list is
@@ -810,14 +809,14 @@ Branch `fix/presentation-allow-origins`. **One file changed:** `studio/sanity.co
   — `studio/.env` = `http://localhost:3000`, `studio/.env.production` = the Vercel URL — so the allow
   list flipped with whatever built the bundle and could never cover both.
 - **Fix:** `origin` → `initial` (still fed by `SANITY_STUDIO_PREVIEW_URL`, so the env var keeps
-  deciding which URL Presentation *opens*), plus a top-level
+  deciding which URL Presentation _opens_), plus a top-level
   `allowOrigins: ['http://localhost:*', 'https://complex-puce.vercel.app']` held in a named
   `PREVIEW_ALLOW_ORIGINS` const. **Deliberately decoupled from the env var** — trusting an origin and
   opening it are different concerns, so every build now trusts both and the list can't silently
   change. `allowOrigins` is a top-level `presentationTool` option (needs `sanity` ≥ 3.85).
-- **Ruled out first, so nobody re-runs this:** *not* the accumulated stale-Studio debt from earlier
+- **Ruled out first, so nobody re-runs this:** _not_ the accumulated stale-Studio debt from earlier
   in the day — fetched the then-live `complex.sanity.studio/static/sanity.config-BeIsjVeh.js` and it
-  **did** contain the Vercel URL (as `previewUrl.origin`); and *not* version skew — `autoUpdates: true`
+  **did** contain the Vercel URL (as `previewUrl.origin`); and _not_ version skew — `autoUpdates: true`
   resolves within `^5.31.1`, and the module CDN's `x-resolved-version` header confirmed the deployed
   Studio runs **5.31.1**, identical to local. Also noted: `complex.sanity.studio` now **302s** to the
   Dashboard-hosted app (`www.sanity.io/@or787Vn1q/studio/<appId>`), but its `/static/*` assets are
@@ -835,7 +834,7 @@ Branch `fix/presentation-allow-origins`. **One file changed:** `studio/sanity.co
   limitation as the earlier redeploy session), so the toast being gone and click-to-edit working were
   **not** observed in a browser — the evidence is the live bundle's contents plus the replayed
   matching algorithm. If it still misbehaves, a **different** message (`Preview URL origin mismatch`,
-  which names a *reported* origin) would mean the frontend answers from another origin — a different
+  which names a _reported_ origin) would mean the frontend answers from another origin — a different
   fix. Editors should hard-reload: the old bundle may be cached and the previous toast has
   `duration: Infinity`, so it survives soft navigation.
 - **When the site moves to a real domain** (e.g. `ccomplex.pl`), that origin **must** be added to
@@ -939,7 +938,7 @@ przeslany-formularz`. Chosen over one shared page so GA gets a **distinct URL pe
   Deliberately **not** a query param — the address would land in every GA pageview URL (RODO/PII).
   **Two layers, because neither alone is enough:** a module-level `Map` that survives the client-side
   `router.push` (same JS context) and keeps working when storage is blocked (Safari private mode,
-  hardened settings — property access *throws*, hence the `try/catch` around it), plus
+  hardened settings — property access _throws_, hence the `try/catch` around it), plus
   `sessionStorage` so a **refresh** of the thank-you page still renders. Keyed per form, so a
   `taras` submission does not unlock the `schody` confirmation.
 - **Guarded.** `FormThankYouPanel` reads the record on mount; absent → `router.replace` back to the
@@ -949,7 +948,7 @@ przeslany-formularz`. Chosen over one shared page so GA gets a **distinct URL pe
 - **The panel is client-only, by necessity — the one non-obvious call.** Reading storage in a
   `useEffect` trips this repo's **`react-hooks/set-state-in-effect` as an _error_** (not a warning),
   and `useSyncExternalStore` would **race the redirect against hydration**: the hook's internal
-  effect re-reads the client snapshot *after* a sibling effect already fired with the server
+  effect re-reads the client snapshot _after_ a sibling effect already fired with the server
   snapshot, so a legitimate submitter would get bounced back to the form. Resolved by mounting the
   panel through **`next/dynamic` with `ssr: false`** — no server render, so the guard can read
   storage in a lazy `useState` initializer with no hydration ambiguity. That's the reason for the
@@ -974,7 +973,7 @@ przeslany-formularz`. Chosen over one shared page so GA gets a **distinct URL pe
   after the żaluzje submission (cross-form isolation). **0 console errors** across the session.
 - ⚠️ **No GA/GTM tag exists in the repo** (`grep` for `gtag`/`dataLayer`/`GoogleAnalytics` → 0 hits).
   This feature creates the trackable URLs; installing the analytics tag is still an open job.
-- **Note on the guard's tradeoff:** the record is *not* cleared after reading, so a refresh works but
+- **Note on the guard's tradeoff:** the record is _not_ cleared after reading, so a refresh works but
   a second pageview is possible within the same session. Tied to a real submission either way.
 - **Left untouched (same precedent as prior features):** the pre-existing uncommitted `.mcp.json`,
   `OfferTechSpecs.tsx`, `FeaturedProjectsSection.tsx`, the user's `renderConfirmationEmail.ts` edit,
@@ -1016,11 +1015,11 @@ Spec: `context/features/form-success-state-spec.md` (committed with the feature)
   **`app/lib/processStepIcons.ts`** (`PROCESS_STEP_ICON_MAP`) and pointed both `ProcessTimeline` and
   `FormSuccessState` at it — one source, no duplication.
 - **No new Sanity schema/query.** Reused the existing standalone **`processTimeline` singleton**
-  (`processTimelineQuery`), *not* `siteSettings.processTimeline` as the spec's phrasing assumed (this
+  (`processTimelineQuery`), _not_ `siteSettings.processTimeline` as the spec's phrasing assumed (this
   repo split section configs into fixed-id singletons long ago). Each `/wycena/*` page now fetches
   `processTimelineQuery` — `taras`/`schody` already `await`, so added it to their `Promise.all`;
   `zadaszenie`/`zaluzje` were sync, made them `async` — and threads `steps={processTimeline?.steps ??
-  []}` to the form. Each form captures `submittedEmail` from `data.email` **before** flipping to the
+[]}` to the form. Each form captures `submittedEmail` from `data.email` **before** flipping to the
   success state.
 - **Removed the now-unused `CheckCircle` import** from all four forms (it moved into the shared
   component); `Link` stayed (still used for the RODO/Polityka-prywatności consent links).
@@ -1096,7 +1095,7 @@ repo (`resend@^6`).
 - **Stayed on the existing server actions — no `/api/quote` route** (the project overview lists one;
   confirmed with the user that a route only earns its keep for webhooks / non-web clients).
 - **`app/lib/email/` — one shared layer, four thin callers.** `renderQuoteEmail.ts` is **pure** and
-  owns *every* formatting rule, so the four forms cannot drift: `Section[] → HTML`, where
+  owns _every_ formatting rule, so the four forms cannot drift: `Section[] → HTML`, where
   `formatRowValue` **drops empty rows entirely** (`undefined`/`null`/`''`/`[]` — so shape 1 shows only
   sides A and B, no `C: undefined`), maps booleans to **„Tak"/„Nie"**, joins arrays („A, B"), and
   **escapes** user text (`notes`, `name`) while preserving its line breaks. A section whose every row

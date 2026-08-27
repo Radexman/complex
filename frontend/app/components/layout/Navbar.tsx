@@ -270,7 +270,6 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
   const navLinkClass = (active: boolean) =>
     `text-sm transition-colors duration-200 ${active ? 'text-white' : 'text-white/80 hover:text-white'}`;
 
-
   return (
     <header
       className={`fixed top-0 left-0 z-50 w-full animate-[nav-slide-down_0.45s_cubic-bezier(0.22,1,0.36,1)] transition-all duration-300 ${

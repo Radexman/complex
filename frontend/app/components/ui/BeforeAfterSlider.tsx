@@ -101,10 +101,7 @@ export default function BeforeAfterSlider({
       />
       {/* The „before" layer keeps the container's full size and is revealed by a
           clip-path, so the image never squashes as the divider moves. */}
-      <div
-        className="absolute inset-0"
-        style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
-      >
+      <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}>
         <Image
           src={beforeSrc}
           alt={beforeAlt}

@@ -37,18 +37,18 @@ number, so those two stop being required; the subject select goes away entirely.
 
 ### Files
 
-| File | Change |
-| --- | --- |
-| `frontend/app/lib/validations/contactForm.ts` | `name` + `phone` optional; drop `subject` and `CONTACT_SUBJECTS` |
-| `frontend/app/components/forms/ContactForm.tsx` | drop `required` on the two fields, delete the `FormSelect` block |
-| `frontend/app/lib/actions/submitContactForm.ts` | drop the „Temat" row; subject-line + confirmation-name fallbacks |
-| `frontend/app/lib/validations/contactForm.test.ts` | rewrite the subject cases, add optional-field cases |
-| `frontend/app/lib/actions/submitContactForm.test.ts` | same |
+| File                                                 | Change                                                           |
+| ---------------------------------------------------- | ---------------------------------------------------------------- |
+| `frontend/app/lib/validations/contactForm.ts`        | `name` + `phone` optional; drop `subject` and `CONTACT_SUBJECTS` |
+| `frontend/app/components/forms/ContactForm.tsx`      | drop `required` on the two fields, delete the `FormSelect` block |
+| `frontend/app/lib/actions/submitContactForm.ts`      | drop the „Temat" row; subject-line + confirmation-name fallbacks |
+| `frontend/app/lib/validations/contactForm.test.ts`   | rewrite the subject cases, add optional-field cases              |
+| `frontend/app/lib/actions/submitContactForm.test.ts` | same                                                             |
 
 ### Validation
 
 - `name` and `phone`: empty string → `undefined` via the repo's existing `z.preprocess` pattern (the
-  one the dimension fields use), so a blank input is *absent*, not a failed `.min()`.
+  one the dimension fields use), so a blank input is _absent_, not a failed `.min()`.
 - **When typed, they are still validated** — `phone` keeps its `min(9, 'Podaj numer telefonu')` and
   `name` its `min(2)`. Someone entering „12" should still be told it's wrong; only leaving it blank
   is now allowed.
@@ -69,10 +69,10 @@ number, so those two stop being required; the subject select goes away entirely.
 ### Copy
 
 - Both labels become „Imię i nazwisko (opcjonalnie)" / „Numer telefonu (opcjonalnie)", so the
-  existing footnote „* Pola obowiązkowe" stays truthful.
+  existing footnote „\* Pola obowiązkowe" stays truthful.
 - ⚠️ **Tell the client:** a lead can now arrive with an e-mail address and nothing else. If they
   want to keep phoning people back, the phone field is the one to argue about — this is a
-  deliberate trade of lead *quality* for lead *volume*, which is what she asked for.
+  deliberate trade of lead _quality_ for lead _volume_, which is what she asked for.
 
 ---
 
@@ -149,7 +149,7 @@ but the form's name and description.
   `bg-bg-surface`; left = `font-heading` title (`text-xl md:text-2xl`) over a `text-silver`
   description; right = an arrow (`ArrowRight`) that translates on hover. Container `max-w-4xl`.
 - The optional `badge` („Najczęściej wybierany") stays, as a small accent pill inline with the
-  title. ⚠️ **assumption:** the client objected to *photos*, not to the promotion marker — one
+  title. ⚠️ **assumption:** the client objected to _photos_, not to the promotion marker — one
   small pill on one row is a recommendation, not a distraction. Trivial to drop.
 - CMS header (`eyebrow` / `headline` / `subheadline`) and the array-order-drives-display rule are
   unchanged. GSAP keeps a simple staggered row reveal.
@@ -203,9 +203,11 @@ defineField({
   description: 'Zdjęcia wystawki pokazywane pod mapą w sekcji kontaktu. Możesz dodać od 1 do 6.',
   type: 'array',
   group: 'showroom',
-  of: [ /* image, hotspot: true, required `alt` string */ ],
+  of: [
+    /* image, hotspot: true, required `alt` string */
+  ],
   validation: (rule) => rule.max(6),
-})
+});
 ```
 
 **Frontend** — `frontend/app/components/sections/ContactShowroom.tsx`:

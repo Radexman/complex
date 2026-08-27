@@ -8,19 +8,22 @@ This spec covers the `OfferFormCta` component — the sixth section on every off
 
 ## Pages where this section renders
 
-| Offer page | Form target |
-|---|---|
-| Zadaszenia aluminiowe | `/wycena/zadaszenie` |
-| Żaluzje tarasowe | `/wycena/zaluzje` |
-| Tarasy kompozytowe | `/wycena/taras` |
-| Tarasy z płyt gresowych | `/wycena/taras` |
-| Tarasy drewniane | `/wycena/taras` |
-| Schody modułowe | `/wycena/schody` |
-| Elewacje kompozytowe | ❌ not rendered |
+| Offer page              | Form target          |
+| ----------------------- | -------------------- |
+| Zadaszenia aluminiowe   | `/wycena/zadaszenie` |
+| Żaluzje tarasowe        | `/wycena/zaluzje`    |
+| Tarasy kompozytowe      | `/wycena/taras`      |
+| Tarasy z płyt gresowych | `/wycena/taras`      |
+| Tarasy drewniane        | `/wycena/taras`      |
+| Schody modułowe         | `/wycena/schody`     |
+| Elewacje kompozytowe    | ❌ not rendered      |
 
 Rendering condition in `OfferPage.tsx`:
+
 ```tsx
-{service.relatedFormSlug && <OfferFormCta {...formCtaProps} />}
+{
+  service.relatedFormSlug && <OfferFormCta {...formCtaProps} />;
+}
 ```
 
 ---

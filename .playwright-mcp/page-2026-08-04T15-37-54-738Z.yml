@@ -1,0 +1,317 @@
+- generic:
+    - region "Notifications alt+T"
+    - banner:
+        - navigation:
+            - link:
+                - /url: /
+            - generic:
+                - link:
+                    - /url: /
+                    - text: Strona główna
+                - generic:
+                    - button: Oferta
+                - generic:
+                    - button: Formularze wycen
+                - link:
+                    - /url: /realizacje
+                    - text: Realizacje
+                - link:
+                    - /url: /o-nas
+                    - text: O nas
+                - link:
+                    - /url: /#kontakt
+                    - text: Kontakt
+            - generic:
+                - button: Formularz kontaktowy
+                - link:
+                    - /url: /wycena
+                    - text: Darmowa wycena
+    - main:
+        - generic:
+            - generic:
+                - generic:
+                    - paragraph: Nasze portfolio
+                    - heading [level=1]: Realizacje
+                    - paragraph: Poznaj wybrane realizacje zadaszeń tarasowych, tarasów oraz pozostałych rozwiązań. Każda realizacja wykonywana jest z dbałością o każdy detal.
+                - generic:
+                    - tablist:
+                        - tab [selected]: Wszystkie
+                        - tab: Zadaszenia tarasowe
+                        - tab: Akcesoria do zadaszeń
+                        - tab: Tarasy kompozytowe
+                        - tab: Tarasy gresowe
+                        - tab: Tarasy drewniane
+                        - tab: Elewacje kompozytowe
+                        - tab: Schody modułowe
+                - paragraph: Wyświetlono 31 realizacji
+                - generic:
+                    - button:
+                        - generic: Tarasy kompozytowe
+                        - generic:
+                            - paragraph: Ruda Śląska
+                    - button:
+                        - generic: Tarasy kompozytowe
+                        - generic:
+                            - paragraph: Opole
+                    - button:
+                        - generic: Tarasy kompozytowe
+                        - generic:
+                            - paragraph: Opole
+                    - button:
+                        - generic: Tarasy kompozytowe
+                        - generic:
+                            - paragraph: Opole
+                    - button:
+                        - generic: Tarasy kompozytowe
+                        - generic:
+                            - paragraph: Zieleniec
+                    - button:
+                        - generic: Tarasy kompozytowe
+                        - generic:
+                            - paragraph: Będzin
+                    - button:
+                        - generic: Tarasy kompozytowe
+                        - generic:
+                            - paragraph: Prudnik
+                    - button:
+                        - generic: Tarasy kompozytowe
+                        - generic:
+                            - paragraph: Smolnica
+                    - button:
+                        - generic: Tarasy kompozytowe
+                        - generic:
+                            - paragraph: Zgorzelec
+                    - button:
+                        - generic: Tarasy gresowe
+                        - generic:
+                            - paragraph: Katowice
+                    - button:
+                        - generic: Tarasy gresowe
+                        - generic:
+                            - paragraph: Opole
+                    - button:
+                        - generic: Tarasy gresowe
+                        - generic:
+                            - paragraph: Czarnowąsy
+                    - button:
+                        - generic: Tarasy gresowe
+                        - generic:
+                            - paragraph: Bytom
+                    - button:
+                        - generic: Tarasy gresowe
+                        - generic:
+                            - paragraph: Knurów
+                    - button:
+                        - generic: Tarasy gresowe
+                        - generic:
+                            - paragraph: Tychy
+                    - button:
+                        - generic: Tarasy gresowe
+                        - generic:
+                            - paragraph: Piekar Śląskie
+                    - button:
+                        - generic: Tarasy gresowe
+                        - generic:
+                            - paragraph: Opole
+                    - button:
+                        - generic: Tarasy gresowe
+                        - generic:
+                            - paragraph: Rybnik
+                    - button:
+                        - generic: Tarasy gresowe
+                        - generic:
+                            - paragraph: Opole
+                    - button:
+                        - generic: Tarasy gresowe
+                        - generic:
+                            - paragraph: Siemianowice Śląskie
+                    - button:
+                        - generic: Zadaszenia tarasowe
+                        - generic:
+                            - paragraph: Opole
+                    - button:
+                        - generic: Zadaszenia tarasowe
+                        - generic:
+                            - paragraph: Śląsk
+                    - button:
+                        - generic: Zadaszenia tarasowe
+                        - generic:
+                            - paragraph: Ziemięcice
+                    - button:
+                        - generic: Zadaszenia tarasowe
+                        - generic:
+                            - paragraph: Opole
+                    - button:
+                        - generic: Zadaszenia tarasowe
+                        - generic:
+                            - paragraph: Luboszyce
+                    - button:
+                        - generic: Zadaszenia tarasowe
+                        - generic:
+                            - paragraph: Opole
+                    - button:
+                        - generic: Zadaszenia tarasowe
+                        - generic:
+                            - paragraph: Pszczyna
+                    - button:
+                        - generic: Akcesoria do zadaszeń
+                        - generic:
+                            - paragraph: Dobrzeń Mały
+                    - button:
+                        - generic: Zadaszenia tarasowe
+                        - generic:
+                            - paragraph: Rokitno Szlacheckie
+                    - button:
+                        - generic: Tarasy gresowe
+                        - generic:
+                            - paragraph: Czarnowąsy
+                    - button:
+                        - generic: Tarasy drewniane
+                        - generic:
+                            - paragraph: Nysa
+    - contentinfo:
+        - generic:
+            - generic:
+                - generic:
+                    - link:
+                        - /url: /
+                    - paragraph: Nowoczesne zadaszenia tarasowe, pergole aluminiowe i tarasy. Profesjonalny montaż oraz fachowe doradztwo na terenie województwa śląskiego i opolskiego.
+                    - generic:
+                        - link:
+                            - /url: https://www.facebook.com/ccomplex.plTarasy/?notif_id=1782353683768851&notif_t=page_user_activity&ref=notif
+                - generic:
+                    - heading [level=3]: Oferta
+                    - list:
+                        - listitem:
+                            - link:
+                                - /url: /oferta
+                                - text: Cała oferta
+                        - listitem:
+                            - link:
+                                - /url: /oferta/zadaszenia-tarasowe
+                                - text: Zadaszenia tarasowe
+                        - listitem:
+                            - link:
+                                - /url: /oferta/akcesoria-do-zadaszen
+                                - text: Akcesoria do zadaszeń
+                        - listitem:
+                            - link:
+                                - /url: /oferta/tarasy-kompozytowe
+                                - text: Tarasy kompozytowe
+                        - listitem:
+                            - link:
+                                - /url: /oferta/tarasy-gresowe
+                                - text: Tarasy gresowe
+                        - listitem:
+                            - link:
+                                - /url: /oferta/tarasy-drewniane
+                                - text: Tarasy drewniane
+                        - listitem:
+                            - link:
+                                - /url: /oferta/elewacje-kompozytowe
+                                - text: Elewacje kompozytowe
+                        - listitem:
+                            - link:
+                                - /url: /oferta/schody-modulowe
+                                - text: Schody modułowe
+                - generic:
+                    - heading [level=3]: Firma
+                    - list:
+                        - listitem:
+                            - link:
+                                - /url: /o-nas
+                                - text: O nas
+                        - listitem:
+                            - link:
+                                - /url: /realizacje
+                                - text: Realizacje
+                        - listitem:
+                            - link:
+                                - /url: /#kontakt
+                                - text: Kontakt
+                - generic:
+                    - heading [level=3]: Narzędzia
+                    - list:
+                        - listitem:
+                            - link:
+                                - /url: /wycena
+                                - text: Wszystkie formularze
+                        - listitem:
+                            - link:
+                                - /url: /wycena/taras
+                                - text: Formularz wyceny tarasu
+                        - listitem:
+                            - link:
+                                - /url: /wycena/zadaszenie
+                                - text: Formularz wyceny zadaszenia
+                        - listitem:
+                            - link:
+                                - /url: /wycena/zaluzje
+                                - text: Formularz wyceny żaluzji
+                        - listitem:
+                            - link:
+                                - /url: /wycena/schody
+                                - text: Formularz wyceny schodów
+                - generic:
+                    - heading [level=3]: Kontakt
+                    - generic:
+                        - paragraph: CComplex sp. z o.o.
+                        - paragraph:
+                            - generic: Kępska 12, 45-130 Opole, pok.20 (parter)
+                        - link:
+                            - /url: tel:+48661242507
+                            - generic: +48 661 242 507
+                        - link:
+                            - /url: mailto:biuro@ccomplex.pl
+                            - generic: biuro@ccomplex.pl
+            - generic:
+                - paragraph: © 2026 Complex sp. z o.o. Wszelkie prawa zastrzeżone.
+                - generic:
+                    - link:
+                        - /url: /polityka-prywatnosci
+                        - text: Polityka prywatności
+                    - link:
+                        - /url: /regulamin
+                        - text: Regulamin
+                    - link:
+                        - /url: /polityka-cookies
+                        - text: Polityka cookies
+    - button "Open Next.js Dev Tools" [ref=f2e308] [cursor=pointer]
+    - generic:
+        - alert
+    - dialog [ref=f2e313]:
+        - generic [ref=f2e314]:
+            - generic [ref=f2e315]:
+                - paragraph [ref=f2e316]: Napisz do nas
+                - heading "Formularz kontaktowy" [level=2] [ref=f2e317]
+                - generic [ref=f2e318]: Masz pytanie, które nie dotyczy konkretnej wyceny? Napisz — odpowiemy najszybciej jak to możliwe.
+            - button "Zamknij formularz" [ref=f2e319]
+        - generic [ref=f2e323]:
+            - generic [ref=f2e324]:
+                - generic [ref=f2e325]: Imię i nazwisko (opcjonalnie)
+                - textbox "Imię i nazwisko (opcjonalnie)" [ref=f2e326]
+            - generic [ref=f2e327]:
+                - generic [ref=f2e328]: Numer telefonu (opcjonalnie)
+                - textbox "Numer telefonu (opcjonalnie)" [ref=f2e329]
+            - generic [ref=f2e330]:
+                - generic [ref=f2e331]: Adres e-mail *
+                - textbox "Adres e-mail *" [active] [invalid] [ref=f2e332]
+                - paragraph [ref=f2e353]: Podaj poprawny adres e-mail
+            - generic [ref=f2e333]:
+                - generic [ref=f2e334]: Wiadomość *
+                - textbox "Wiadomość *" [invalid] [ref=f2e335]
+                - paragraph [ref=f2e354]: Wiadomość jest za krótka — napisz przynajmniej kilka słów
+            - generic [ref=f2e337]:
+                - generic [ref=f2e338] [cursor=pointer]:
+                    - generic [ref=f2e340]:
+                        - text: Zapoznałem/am się z treścią
+                        - link "Polityki prywatności" [ref=f2e341]:
+                            - /url: /polityka-prywatnosci
+                        - text: i wyrażam zgodę na przetwarzanie moich danych osobowych przez Complex sp. z o.o. w celu udzielenia odpowiedzi na moją wiadomość.
+                    - checkbox "Zapoznałem/am się z treścią Polityki prywatności i wyrażam zgodę na przetwarzanie moich danych osobowych przez Complex sp. z o.o. w celu udzielenia odpowiedzi na moją wiadomość." [invalid] [ref=f2e342]
+                - paragraph [ref=f2e355]: Zgoda jest wymagana
+            - generic [ref=f2e344] [cursor=pointer]:
+                - generic [ref=f2e346]: Wyrażam zgodę na przetwarzanie moich danych w celach marketingowych i przesyłanie ofert drogą e-mailową lub telefoniczną.
+                - checkbox "Wyrażam zgodę na przetwarzanie moich danych w celach marketingowych i przesyłanie ofert drogą e-mailową lub telefoniczną." [ref=f2e347]
+            - button "Wyślij wiadomość" [ref=f2e348]
+            - paragraph [ref=f2e352]: "* Pola obowiązkowe. Odpowiadamy najszybciej jak to możliwe."

@@ -1,0 +1,350 @@
+- generic [active] [ref=f2e1]:
+    - region "Notifications alt+T"
+    - banner [ref=f2e2]:
+        - navigation [ref=f2e3]:
+            - link "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=f2e4] [cursor=pointer]:
+                - /url: /
+                - img "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=f2e5]
+            - generic [ref=f2e6]:
+                - link "Strona główna" [ref=f2e7] [cursor=pointer]:
+                    - /url: /
+                - button "Oferta" [ref=f2e9]
+                - link "Realizacje" [ref=f2e12] [cursor=pointer]:
+                    - /url: /realizacje
+                - link "O nas" [ref=f2e13] [cursor=pointer]:
+                    - /url: /o-nas
+                - link "Kontakt" [ref=f2e14] [cursor=pointer]:
+                    - /url: /#kontakt
+            - generic [ref=f2e15]:
+                - button "Formularz kontaktowy" [ref=f2e16]
+                - link "Darmowa wycena" [ref=f2e17] [cursor=pointer]:
+                    - /url: /wycena
+    - main [ref=f2e18]:
+        - generic [ref=f2e19]:
+            - img "Zadaszenie tarasowe aluminiowe z profesjonalnym montażem przy domu jednorodzinnym." [ref=f2e20]
+            - generic [ref=f2e23]:
+                - heading "Zadaszenia tarasowe profesjonalny montaż" [level=1] [ref=f2e24]
+                - paragraph [ref=f2e25]: Wykonujemy nowoczesne zadaszenia tarasowe na wymiar, pergole aluminiowe oraz tarasy kompozytowe i gresowe, zapewniamy profesjonalny montaż na terenie województwa śląskiego i opolskiego.
+                - generic [ref=f2e26]:
+                    - link "Darmowa wycena" [ref=f2e27] [cursor=pointer]:
+                        - /url: /wycena/zadaszenie
+                    - link "Nasze realizacje" [ref=f2e30] [cursor=pointer]:
+                        - /url: /realizacje
+                - generic [ref=f2e33]:
+                    - generic [ref=f2e34]:
+                        - generic [ref=f2e35]: 300+
+                        - generic [ref=f2e36]: Realizacji
+                    - generic [ref=f2e37]:
+                        - generic [ref=f2e38]: 12 lat+
+                        - generic [ref=f2e39]: Doświadczenia
+                    - generic [ref=f2e40]:
+                        - generic [ref=f2e41]: 24 miesiące
+                        - generic [ref=f2e42]: Gwarancja na montaż
+                    - generic [ref=f2e43]:
+                        - generic [ref=f2e44]: 100%
+                        - generic [ref=f2e45]: Pisemnych umów
+        - generic [ref=f2e47]:
+            - generic [ref=f2e48]:
+                - paragraph [ref=f2e49]: Zaufanie budowane doświadczeniem
+                - heading "Dlaczego warto zaufać CComplex?" [level=2] [ref=f2e50]
+                - paragraph [ref=f2e51]: Od ponad 12 lat pomagamy tworzyć trwałe i funkcjonalne przestrzenie wokół domu. Stawiamy na fachowe doradztwo, profesjonalny montaż i uczciwe zasady współpracy.
+            - generic [ref=f2e52]:
+                - generic [ref=f2e53]:
+                    - paragraph [ref=f2e58]: montaż
+                    - paragraph [ref=f2e59]: profesjonalny
+                    - paragraph [ref=f2e60]: Pracujemy według sprawdzonych standardów montażu, dbając o estetykę, bezpieczeństwo i jakość wykonania.
+                - generic [ref=f2e61]:
+                    - paragraph [ref=f2e66]: jakość
+                    - paragraph [ref=f2e67]: sprawdzeni producenci
+                    - paragraph [ref=f2e68]: Współpracujemy ze sprawdzonymi producentami z Polski i Europy, dobierając system odpowiedni do konkretnej realizacji.
+                - generic [ref=f2e69]:
+                    - paragraph [ref=f2e74]: doradztwo
+                    - paragraph [ref=f2e75]: indywidualne podejście
+                    - paragraph [ref=f2e76]: Pomagamy dobrać rozwiązanie dopasowane do budynku, potrzeb i budżetu inwestora.
+                - generic [ref=f2e77]:
+                    - paragraph [ref=f2e82]: umowa
+                    - paragraph [ref=f2e83]: jasne warunki współpracy
+                    - paragraph [ref=f2e84]: Każdą realizację rozpoczynamy od podpisania umowy określającej zakres prac, termin i warunki gwarancji.
+        - generic [ref=f2e86]:
+            - generic [ref=f2e87]:
+                - generic [ref=f2e88]:
+                    - paragraph [ref=f2e89]: Nasza oferta
+                    - heading "Kompleksowe rozwiązania – zadaszenia tarasowe, pergole i tarasy." [level=2] [ref=f2e90]
+                    - paragraph [ref=f2e91]: Oferujemy nowoczesne zadaszenia tarasowe, pergole aluminiowe i tarasy, które podnoszą komfort korzystania z przestrzeni wokół domu. Pomagamy dobrać odpowiedni system i zapewniamy profesjonalny montaż.
+                - link "Zobacz całą ofertę" [ref=f2e92] [cursor=pointer]:
+                    - /url: /oferta
+            - generic [ref=f2e96]:
+                - link "Pergola tarasowa z profesjonalnym montażem Wyróżnione Zadaszenia tarasowe Nowoczesne systemy zadaszeń tarasowych z profesjonalnym montażem, dopasowane do każdego domu. Na wymiar i standardowe Zabudowa szkłem i poliwęglanem Akcesoria Sprawdzone systemy" [ref=f2e97] [cursor=pointer]:
+                    - /url: /oferta/zadaszenia-tarasowe
+                    - img "Pergola tarasowa z profesjonalnym montażem" [ref=f2e98]
+                    - generic [ref=f2e104]:
+                        - generic [ref=f2e105]: Wyróżnione
+                        - heading "Zadaszenia tarasowe" [level=3] [ref=f2e111]
+                        - paragraph [ref=f2e112]: Nowoczesne systemy zadaszeń tarasowych z profesjonalnym montażem, dopasowane do każdego domu.
+                        - generic [ref=f2e113]:
+                            - generic [ref=f2e114]: Na wymiar i standardowe
+                            - generic [ref=f2e115]: Zabudowa szkłem i poliwęglanem
+                            - generic [ref=f2e116]: Akcesoria
+                            - generic [ref=f2e117]: Sprawdzone systemy
+                - link [ref=f2e118] [cursor=pointer]:
+                    - /url: /oferta/tarasy-kompozytowe
+                    - img "Taras kompozytowy z desek kompozytowych." [ref=f2e119]
+                    - generic [ref=f2e129]:
+                        - heading "Tarasy kompozytowe" [level=3] [ref=f2e130]
+                        - paragraph [ref=f2e131]: Trwałe i łatwe w pielęgnacji tarasy kompozytowe o naturalnym wyglądzie.
+                - link [ref=f2e132] [cursor=pointer]:
+                    - /url: /oferta/tarasy-gresowe
+                    - img "Nowoczesny taras gresowy z płyt gresowych." [ref=f2e133]
+                    - generic [ref=f2e143]:
+                        - heading "Tarasy gresowe" [level=3] [ref=f2e144]
+                        - paragraph [ref=f2e145]: Nowoczesne tarasy wentylowane o wysokiej odporności na warunki atmosferyczne.
+        - generic [ref=f2e148]:
+            - generic [ref=f2e149]:
+                - img "Pergola aluminiowa na wymiar" [ref=f2e151]
+                - generic [ref=f2e152]:
+                    - paragraph [ref=f2e153]: Profesjonalny montaż
+                    - paragraph [ref=f2e154]: Pracujemy według sprawdzonych standardów montażu, dbając o estetykę, trwałość i bezpieczeństwo wykonania.
+            - generic [ref=f2e155]:
+                - paragraph [ref=f2e156]: Poznaj CComplex
+                - heading "Tworzymy komfortowe przestrzenie do życia na świeżym powietrzu." [level=2] [ref=f2e157]
+                - generic [ref=f2e158]:
+                    - paragraph [ref=f2e159]: Od ponad 12 lat pomagamy tworzyć funkcjonalne przestrzenie wokół domu, specjalizując się w zadaszeniach tarasowych, pergolach i tarasach. Łączymy wiedzę techniczną z praktycznym doświadczeniem, pomagając dobrać rozwiązania dopasowane do potrzeb klientów oraz charakteru inwestycji.
+                    - paragraph [ref=f2e160]: Współpracujemy ze sprawdzonymi producentami systemów zadaszeń i pergoli, dzięki czemu możemy zaoferować rozwiązania dopasowane do różnych wymagań technicznych i estetycznych. Zapewniamy profesjonalny montaż oraz kompleksową realizację na terenie województwa śląskiego i opolskiego.
+                    - paragraph [ref=f2e161]: Zaplecze techniczne firmy wspiera inż. Sebastian Kożuch, posiadający uprawnienia budowlane oraz doświadczenie w prowadzeniu i nadzorowaniu inwestycji budowlanych. Dzięki temu zapewniamy fachowe doradztwo i odpowiedzialne podejście do każdej realizacji.
+                - generic [ref=f2e162]:
+                    - generic [ref=f2e168]:
+                        - paragraph [ref=f2e169]: Rzetelne doradztwo
+                        - paragraph [ref=f2e170]: Pomagamy dobrać rozwiązanie dopasowane do budynku, potrzeb i budżetu inwestycji.
+                    - generic [ref=f2e176]:
+                        - paragraph [ref=f2e177]: Doświadczenie
+                        - paragraph [ref=f2e178]: Wieloletnia praktyka w realizacji inwestycji.
+                    - generic [ref=f2e184]:
+                        - paragraph [ref=f2e185]: Kompleksowa realizacja
+                        - paragraph [ref=f2e186]: Od bezpłatnej wyceny, przez dobór rozwiązania, aż po profesjonalny montaż.
+                    - generic [ref=f2e192]:
+                        - paragraph [ref=f2e193]: Nadzór tachniczny
+                        - paragraph [ref=f2e194]: Wsparcie techniczne osoby z uprawnieniami budowlanymi.
+        - generic [ref=f2e196]:
+            - generic [ref=f2e197]:
+                - generic [ref=f2e198]:
+                    - paragraph [ref=f2e199]: Nasze realizacje
+                    - heading "Wybrane realizacje" [level=2] [ref=f2e200]
+                    - paragraph [ref=f2e201]: Przedstawiamy wybrane realizacje zadaszeń tarasowych, tarasów kompozytowych, gresowych i drewnianych. Więcej zdjęć oraz aktualne realizacje publikujemy na naszym profilu Facebook.
+                - link "Zobacz wszystkie realizacje" [ref=f2e202] [cursor=pointer]:
+                    - /url: /realizacje
+            - tablist [ref=f2e207]:
+                - tab "Wszystkie" [selected] [ref=f2e208] [cursor=pointer]
+                - tab "Zadaszenia tarasowe" [ref=f2e209] [cursor=pointer]
+                - tab "Tarasy kompozytowe" [ref=f2e210] [cursor=pointer]
+                - tab "Tarasy gresowe" [ref=f2e211] [cursor=pointer]
+            - generic [ref=f2e212]:
+                - button [ref=f2e213] [cursor=pointer]:
+                    - img "Taras z desek kompozytowych pod zadaszeniem przy domu jednorodzinnym" [ref=f2e214]
+                    - generic [ref=f2e216]:
+                        - paragraph [ref=f2e217]: Taras kompozytowy przy nowoczesnym domu
+                        - paragraph [ref=f2e218]: Opole
+                - button [ref=f2e219] [cursor=pointer]:
+                    - img "Aluminiowe zadaszenie tarasu na wymiar" [ref=f2e220]
+                    - generic [ref=f2e222]:
+                        - paragraph [ref=f2e223]: Zadaszenie tarasu na wymiar
+                        - paragraph [ref=f2e224]: Pszczyna
+                - button [ref=f2e225] [cursor=pointer]:
+                    - img "Nowoczesny taras z płyt gresowych 120 × 60 cm przy domu jednorodzinnym" [ref=f2e226]
+                    - generic [ref=f2e228]:
+                        - paragraph [ref=f2e229]: Nowoczesny taras z płyt gresowych
+                        - paragraph [ref=f2e230]: Czarnowąsy
+        - generic [ref=f2e232]:
+            - generic [ref=f2e233]:
+                - paragraph [ref=f2e234]: Metamorfozy
+                - heading "Przed i po" [level=2] [ref=f2e235]
+                - paragraph [ref=f2e236]: Przesuń suwak, aby zobaczyć, jak zmieniają się przestrzenie naszych klientów. Po lewej stan przed realizacją, po prawej efekt końcowy.
+            - generic [ref=f2e237]:
+                - generic [ref=f2e238]:
+                    - img "Zadaszenie tarasowe" [ref=f2e239]
+                    - img "Zadaszenie tarasowe" [ref=f2e241]
+                    - generic: Przed
+                    - generic: Po
+                    - slider "Porównanie przed i po" [ref=f2e242]
+                - generic [ref=f2e247]:
+                    - heading "Zadaszenia tarasowe" [level=3] [ref=f2e248]
+                    - generic [ref=f2e249]: Opole
+        - generic [ref=f2e251]:
+            - generic [ref=f2e252]:
+                - paragraph [ref=f2e253]: Korzyść podatkowa
+                - heading "Kupujemy materiał za Ciebie — płacisz niższy VAT" [level=2] [ref=f2e257]
+                - paragraph [ref=f2e258]: Gdy materiał kupujesz samodzielnie, płacisz za niego pełną stawkę VAT. Gdy zamawiasz u nas całą realizację razem z materiałem, do rozliczenia wchodzi obniżona stawka — a różnica zostaje w Twoim budżecie.
+                - link "Zapytaj o wycenę" [ref=f2e259] [cursor=pointer]:
+                    - /url: /wycena
+            - generic [ref=f2e262]:
+                - generic [ref=f2e263]:
+                    - generic [ref=f2e264]:
+                        - paragraph [ref=f2e265]: 23%
+                        - paragraph [ref=f2e266]: Materiał kupujesz sam
+                        - paragraph [ref=f2e267]: Kupując materiał na własną rękę, płacisz za niego podstawową stawkę VAT, niezależnie od tego, kto wykona montaż.
+                    - generic [ref=f2e272]:
+                        - paragraph [ref=f2e273]: 8%
+                        - paragraph [ref=f2e274]: Materiał kupujemy my
+                        - paragraph [ref=f2e275]: Zamawiasz u nas usługę razem z materiałem — całość rozliczamy jedną, obniżoną stawką.
+                - paragraph [ref=f2e276]: Obniżona stawka VAT dotyczy robót w obiektach budownictwa objętego społecznym programem mieszkaniowym i wymaga spełnienia warunków ustawowych. Ostateczną stawkę potwierdzamy indywidualnie na etapie wyceny.
+        - generic [ref=f2e278]:
+            - generic [ref=f2e279]:
+                - paragraph [ref=f2e280]: Jak to działa
+                - heading "Od zapytania do gotowej realizacji" [level=2] [ref=f2e281]
+                - paragraph [ref=f2e282]: Przejrzysty proces współpracy – od bezpłatnej wyceny, przez pomiar i podpisanie umowy, aż po profesjonalny montaż.
+            - generic [ref=f2e284]:
+                - generic [ref=f2e291]:
+                    - generic [ref=f2e292]:
+                        - generic [ref=f2e293]: "01"
+                        - heading "Zapytanie" [level=3] [ref=f2e294]
+                    - paragraph [ref=f2e295]: Prześlij podstawowe informacje o planowanej realizacji za pomocą formularza wyceny, formularza kontaktowego, wiadomości e-mail lub WhatsApp.
+                - generic [ref=f2e301]:
+                    - generic [ref=f2e302]:
+                        - generic [ref=f2e303]: "02"
+                        - heading "Wycena wstępna" [level=3] [ref=f2e304]
+                    - paragraph [ref=f2e305]: Na podstawie otrzymanych informacji przygotowujemy wstępną wycenę.
+                - generic [ref=f2e315]:
+                    - generic [ref=f2e316]:
+                        - generic [ref=f2e317]: "03"
+                        - heading "Pomiar" [level=3] [ref=f2e318]
+                    - paragraph [ref=f2e319]: Wykonujemy pomiar na miejscu. Ustalamy szczegóły i prezentujemy próbki materiałów.
+                - generic [ref=f2e327]:
+                    - generic [ref=f2e328]:
+                        - generic [ref=f2e329]: "04"
+                        - heading "Wycena końcowa" [level=3] [ref=f2e330]
+                    - paragraph [ref=f2e331]: Przygotowujemy końcową wycenę. Uwzględniamy wszystkie ustalenia.
+                - generic [ref=f2e339]:
+                    - generic [ref=f2e340]:
+                        - generic [ref=f2e341]: "05"
+                        - heading "Umowa" [level=3] [ref=f2e342]
+                    - paragraph [ref=f2e343]: Po akceptacji wyceny podpisujemy umowę. Informujemy o terminie realizacji.
+                - generic [ref=f2e351]:
+                    - generic [ref=f2e352]:
+                        - generic [ref=f2e353]: "06"
+                        - heading "Montaż" [level=3] [ref=f2e354]
+                    - paragraph [ref=f2e355]: Wykonujemy montaż zgodnie z ustaleniami.
+                - generic [ref=f2e362]:
+                    - generic [ref=f2e363]:
+                        - generic [ref=f2e364]: "07"
+                        - heading "Gwarancja" [level=3] [ref=f2e365]
+                    - paragraph [ref=f2e366]: Montaż objęty jest 24-miesięczną gwarancją.
+        - generic [ref=f2e367]:
+            - generic [ref=f2e368]:
+                - img "Aluminiowe zadaszenie tarasu" [ref=f2e369]
+                - generic [ref=f2e371]:
+                    - generic [ref=f2e372]: Bezpłatna wycena
+                    - heading "Zacznij od bezpłatnej wyceny" [level=2] [ref=f2e374]
+                    - paragraph [ref=f2e375]: Przygotujemy bezpłatną wycenę i dobierzemy rozwiązanie dopasowane do Twojego domu. Możesz również obejrzeć nasze realizacje.
+                    - generic [ref=f2e376]:
+                        - link "Darmowa wycena" [ref=f2e377] [cursor=pointer]:
+                            - /url: /wycena
+                            - text: Darmowa wycena
+                            - generic [ref=f2e378]: →
+                        - link "Zobacz nasze realizacje" [ref=f2e379] [cursor=pointer]:
+                            - /url: /realizacje
+                    - generic [ref=f2e380]:
+                        - generic [ref=f2e381]: Bez zobowiązań
+                        - generic [ref=f2e383]: Umowa pisemna
+                        - generic [ref=f2e385]: Profesjonalny montaż
+            - generic [ref=f2e389]:
+                - paragraph [ref=f2e390]: Kontakt bezpośredni
+                - heading "Odwiedź naszą ekspozycję" [level=3] [ref=f2e391]
+                - paragraph [ref=f2e392]: Na naszej zewnętrznej ekspozycji można zobaczyć zadaszenie tarasowe, deski tarasowe kompozytowe, płyty gresowe oraz deski elewacyjne. Teren ekspozycji jest ogólnodostępny.
+                - paragraph [ref=f2e393]: Kępska 12, 45-130 Opole
+                - generic [ref=f2e402]:
+                    - heading "Biuro" [level=4] [ref=f2e403]
+                    - paragraph [ref=f2e404]: Spotkania w biurze odbywają się po wcześniejszym umówieniu telefonicznym. Zadzwoń, umów spotkanie w dogodnym dla Ciebie czasie i terminie.
+                - generic [ref=f2e410]:
+                    - heading "Obszar działania" [level=4] [ref=f2e411]
+                    - paragraph [ref=f2e412]: Realizacje i montaż wykonujemy na terenie województw śląskiego i opolskiego. Jeśli Twoja inwestycja znajduje się poza tym obszarem, zadzwoń — ustalimy indywidualnie, czy możemy się jej podjąć.
+                - generic [ref=f2e413]:
+                    - link "+48 661 242 507" [ref=f2e414] [cursor=pointer]:
+                        - /url: tel:+48661242507
+                    - link "biuro@ccomplex.pl" [ref=f2e417] [cursor=pointer]:
+                        - /url: mailto:biuro@ccomplex.pl
+    - contentinfo [ref=f2e422]:
+        - generic [ref=f2e423]:
+            - generic [ref=f2e424]:
+                - generic [ref=f2e425]:
+                    - link "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=f2e426] [cursor=pointer]:
+                        - /url: /
+                        - img "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=f2e427]
+                    - paragraph [ref=f2e428]: Nowoczesne zadaszenia tarasowe, pergole aluminiowe i tarasy. Profesjonalny montaż oraz fachowe doradztwo na terenie województwa śląskiego i opolskiego.
+                    - link "facebook" [ref=f2e430] [cursor=pointer]:
+                        - /url: https://www.facebook.com/ccomplex.plTarasy/?notif_id=1782353683768851&notif_t=page_user_activity&ref=notif
+                - generic [ref=f2e433]:
+                    - heading "Oferta" [level=3] [ref=f2e434]
+                    - list [ref=f2e435]:
+                        - listitem [ref=f2e436]:
+                            - link "Cała oferta" [ref=f2e437] [cursor=pointer]:
+                                - /url: /oferta
+                        - listitem [ref=f2e438]:
+                            - link "Zadaszenia tarasowe" [ref=f2e439] [cursor=pointer]:
+                                - /url: /oferta/zadaszenia-tarasowe
+                        - listitem [ref=f2e440]:
+                            - link "Akcesoria do zadaszeń" [ref=f2e441] [cursor=pointer]:
+                                - /url: /oferta/akcesoria-do-zadaszen
+                        - listitem [ref=f2e442]:
+                            - link "Tarasy kompozytowe" [ref=f2e443] [cursor=pointer]:
+                                - /url: /oferta/tarasy-kompozytowe
+                        - listitem [ref=f2e444]:
+                            - link "Tarasy gresowe" [ref=f2e445] [cursor=pointer]:
+                                - /url: /oferta/tarasy-gresowe
+                        - listitem [ref=f2e446]:
+                            - link "Tarasy drewniane" [ref=f2e447] [cursor=pointer]:
+                                - /url: /oferta/tarasy-drewniane
+                        - listitem [ref=f2e448]:
+                            - link "Elewacje kompozytowe" [ref=f2e449] [cursor=pointer]:
+                                - /url: /oferta/elewacje-kompozytowe
+                        - listitem [ref=f2e450]:
+                            - link "Schody modułowe" [ref=f2e451] [cursor=pointer]:
+                                - /url: /oferta/schody-modulowe
+                - generic [ref=f2e452]:
+                    - heading "Firma" [level=3] [ref=f2e453]
+                    - list [ref=f2e454]:
+                        - listitem [ref=f2e455]:
+                            - link "O nas" [ref=f2e456] [cursor=pointer]:
+                                - /url: /o-nas
+                        - listitem [ref=f2e457]:
+                            - link "Realizacje" [ref=f2e458] [cursor=pointer]:
+                                - /url: /realizacje
+                        - listitem [ref=f2e459]:
+                            - link "Kontakt" [ref=f2e460] [cursor=pointer]:
+                                - /url: /#kontakt
+                - generic [ref=f2e461]:
+                    - heading "Narzędzia" [level=3] [ref=f2e462]
+                    - list [ref=f2e463]:
+                        - listitem [ref=f2e464]:
+                            - link "Wszystkie formularze" [ref=f2e465] [cursor=pointer]:
+                                - /url: /wycena
+                        - listitem [ref=f2e466]:
+                            - link "Formularz wyceny tarasu" [ref=f2e467] [cursor=pointer]:
+                                - /url: /wycena/taras
+                        - listitem [ref=f2e468]:
+                            - link "Formularz wyceny zadaszenia" [ref=f2e469] [cursor=pointer]:
+                                - /url: /wycena/zadaszenie
+                        - listitem [ref=f2e470]:
+                            - link "Formularz wyceny żaluzji" [ref=f2e471] [cursor=pointer]:
+                                - /url: /wycena/zaluzje
+                        - listitem [ref=f2e472]:
+                            - link "Formularz wyceny schodów" [ref=f2e473] [cursor=pointer]:
+                                - /url: /wycena/schody
+                - generic [ref=f2e474]:
+                    - heading "Kontakt" [level=3] [ref=f2e475]
+                    - generic [ref=f2e476]:
+                        - paragraph [ref=f2e477]: CComplex sp. z o.o.
+                        - paragraph [ref=f2e478]:
+                            - generic [ref=f2e482]: Kępska 12, 45-130 Opole, pok.20 (parter)
+                        - link "+48 661 242 507" [ref=f2e483] [cursor=pointer]:
+                            - /url: tel:+48661242507
+                        - link "biuro@ccomplex.pl" [ref=f2e487] [cursor=pointer]:
+                            - /url: mailto:biuro@ccomplex.pl
+            - generic [ref=f2e492]:
+                - paragraph [ref=f2e493]: © 2026 Complex sp. z o.o. Wszelkie prawa zastrzeżone.
+                - generic [ref=f2e494]:
+                    - link "Polityka prywatności" [ref=f2e495] [cursor=pointer]:
+                        - /url: /polityka-prywatnosci
+                    - link "Regulamin" [ref=f2e496] [cursor=pointer]:
+                        - /url: /regulamin
+                    - link "Polityka cookies" [ref=f2e497] [cursor=pointer]:
+                        - /url: /polityka-cookies
+    - button "Open Next.js Dev Tools" [ref=f2e503] [cursor=pointer]

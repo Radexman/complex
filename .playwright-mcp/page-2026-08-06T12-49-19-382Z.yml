@@ -1,0 +1,216 @@
+- generic [active] [ref=f3e1]:
+    - region "Notifications alt+T"
+    - banner [ref=f3e2]:
+        - navigation [ref=f3e3]:
+            - link "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=f3e4] [cursor=pointer]:
+                - /url: /
+                - img "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=f3e5]
+            - generic [ref=f3e6]:
+                - link "Strona główna" [ref=f3e7] [cursor=pointer]:
+                    - /url: /
+                - button "Oferta" [ref=f3e9]
+                - button "Formularze wycen" [ref=f3e13]
+                - link "Realizacje" [ref=f3e16] [cursor=pointer]:
+                    - /url: /realizacje
+                - link "O nas" [ref=f3e17] [cursor=pointer]:
+                    - /url: /o-nas
+                - link "Kontakt" [ref=f3e18] [cursor=pointer]:
+                    - /url: /#kontakt
+            - generic [ref=f3e19]:
+                - button "Formularz kontaktowy" [ref=f3e20]
+                - link "Darmowa wycena" [ref=f3e21] [cursor=pointer]:
+                    - /url: /wycena
+    - main [ref=f3e22]:
+        - generic [ref=f3e23]:
+            - generic [ref=f3e25]:
+                - paragraph [ref=f3e26]: Formularze wycen
+                - heading "Formularz Wyceny Schodów" [level=1] [ref=f3e27]
+                - paragraph [ref=f3e28]: Wypełnij poniższy formularz, a przygotujemy bezpłatną wycenę i skontaktujemy się z Tobą w ciągu 3 dni roboczych.
+            - generic [ref=f3e30]:
+                - generic [ref=f3e31]:
+                    - img "Schemat schodów" [ref=f3e33]
+                    - paragraph [ref=f3e34]: Schemat wymiarów schodów (zgodnie z rysunkiem)
+                    - generic [ref=f3e35]:
+                        - paragraph [ref=f3e36]: Dane do wyceny
+                        - radiogroup "Czy budynek jest ocieplony? (w przypadku schodów zewnętrznych) *" [ref=f3e38]:
+                            - generic [ref=f3e40]:
+                                - generic [ref=f3e41] [cursor=pointer]:
+                                    - text: Tak
+                                    - radio "Tak" [ref=f3e42]
+                                - generic [ref=f3e43] [cursor=pointer]:
+                                    - text: Nie
+                                    - radio "Nie" [ref=f3e44]
+                    - paragraph [ref=f3e45]: Wymiary [cm] *
+                    - paragraph [ref=f3e46]: Podaj wymiary zgodnie z rysunkiem powyżej
+                    - generic [ref=f3e47]:
+                        - generic [ref=f3e48]:
+                            - generic [ref=f3e49]: A — szerokość otworu [cm] *
+                            - group [ref=f3e51]:
+                                - spinbutton [ref=f3e52]
+                                - generic [ref=f3e53]:
+                                    - button "Zwiększ" [ref=f3e54]
+                                    - button "Zmniejsz" [disabled] [ref=f3e57]
+                        - generic [ref=f3e60]:
+                            - generic [ref=f3e61]: B — głębokość otworu [cm] *
+                            - group [ref=f3e63]:
+                                - spinbutton [ref=f3e64]
+                                - generic [ref=f3e65]:
+                                    - button "Zwiększ" [ref=f3e66]
+                                    - button "Zmniejsz" [disabled] [ref=f3e69]
+                        - generic [ref=f3e72]:
+                            - generic [ref=f3e73]: C — grubość stropu [cm] *
+                            - group [ref=f3e75]:
+                                - spinbutton [ref=f3e76]
+                                - generic [ref=f3e77]:
+                                    - button "Zwiększ" [ref=f3e78]
+                                    - button "Zmniejsz" [disabled] [ref=f3e81]
+                        - generic [ref=f3e84]:
+                            - generic [ref=f3e85]: D — długość schodów [cm] *
+                            - group [ref=f3e87]:
+                                - spinbutton [ref=f3e88]
+                                - generic [ref=f3e89]:
+                                    - button "Zwiększ" [ref=f3e90]
+                                    - button "Zmniejsz" [disabled] [ref=f3e93]
+                        - generic [ref=f3e96]:
+                            - generic [ref=f3e97]: E — szerokość stopni [cm] *
+                            - group [ref=f3e99]:
+                                - spinbutton [ref=f3e100]
+                                - generic [ref=f3e101]:
+                                    - button "Zwiększ" [ref=f3e102]
+                                    - button "Zmniejsz" [disabled] [ref=f3e105]
+                        - generic [ref=f3e108]:
+                            - generic [ref=f3e109]: H — wysokość od podłoża wraz ze stropem [cm] *
+                            - group [ref=f3e111]:
+                                - spinbutton [ref=f3e112]
+                                - generic [ref=f3e113]:
+                                    - button "Zwiększ" [ref=f3e114]
+                                    - button "Zmniejsz" [disabled] [ref=f3e117]
+                        - generic [ref=f3e120]:
+                            - generic [ref=f3e121]: h — wysokość od podłoża do stropu [cm] *
+                            - group [ref=f3e123]:
+                                - spinbutton [ref=f3e124]
+                                - generic [ref=f3e125]:
+                                    - button "Zwiększ" [ref=f3e126]
+                                    - button "Zmniejsz" [disabled] [ref=f3e129]
+                - generic [ref=f3e132]:
+                    - generic [ref=f3e133]:
+                        - generic [ref=f3e134]: Imię i nazwisko
+                        - textbox "Imię i nazwisko" [ref=f3e135]
+                    - generic [ref=f3e136]:
+                        - generic [ref=f3e137]: Numer telefonu
+                        - textbox "Numer telefonu" [ref=f3e138]
+                    - generic [ref=f3e139]:
+                        - generic [ref=f3e140]: Adres e-mail *
+                        - textbox "Adres e-mail *" [ref=f3e141]
+                    - generic [ref=f3e142]:
+                        - generic [ref=f3e143]: Kod pocztowy *
+                        - textbox "Kod pocztowy *" [ref=f3e144]:
+                            - /placeholder: 00-000
+                    - generic [ref=f3e145]:
+                        - generic [ref=f3e146]: Uwagi
+                        - textbox "Uwagi" [ref=f3e147]
+                    - generic [ref=f3e148]:
+                        - generic [ref=f3e149]: Zdjęcie lub projekt techniczny
+                        - paragraph [ref=f3e150]: Zdjęcie miejsca, w którym mają znajdować się schody lub projekt techniczny.
+                        - button "dropzone" [ref=f3e151] [cursor=pointer]:
+                            - paragraph [ref=f3e156]: Przeciągnij zdjęcia tutaj lub kliknij, aby wybrać
+                            - paragraph [ref=f3e157]: JPG, PNG, WEBP • max. 10 MB • do 3 zdjęć
+                        - list
+                        - button [ref=f3e158]
+                    - generic [ref=f3e161] [cursor=pointer]:
+                        - generic [ref=f3e163]:
+                            - text: Zapoznałem(-am) się z
+                            - link "Polityką prywatności" [ref=f3e164]:
+                                - /url: /polityka-prywatnosci
+                            - text: oraz wyrażam zgodę na przetwarzanie moich danych osobowych w celu przygotowania wyceny i kontaktu w sprawie przesłanego zapytania. *
+                        - checkbox "Zapoznałem(-am) się z Polityką prywatności oraz wyrażam zgodę na przetwarzanie moich danych osobowych w celu przygotowania wyceny i kontaktu w sprawie przesłanego zapytania. *" [ref=f3e165]
+                    - button "Wyślij zapytanie" [ref=f3e166]
+                    - paragraph [ref=f3e170]: "* Pola obowiązkowe. Oferta zostanie przesłana w ciągu 3 dni roboczych."
+                    - paragraph [ref=f3e171]: Usługi montażowe wykonujemy na wybranych obszarach województw śląskiego i opolskiego.
+    - contentinfo [ref=f3e172]:
+        - generic [ref=f3e173]:
+            - generic [ref=f3e174]:
+                - generic [ref=f3e175]:
+                    - link "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=f3e176] [cursor=pointer]:
+                        - /url: /
+                        - img "CComplex | Zadaszenia i tarasy | Śląsk i Opole" [ref=f3e177]
+                    - paragraph [ref=f3e178]: Nowoczesne zadaszenia tarasowe, pergole aluminiowe i tarasy. Profesjonalny montaż oraz fachowe doradztwo na terenie województwa śląskiego i opolskiego.
+                    - link "facebook" [ref=f3e180] [cursor=pointer]:
+                        - /url: https://www.facebook.com/ccomplex.plTarasy/?notif_id=1782353683768851&notif_t=page_user_activity&ref=notif
+                - generic [ref=f3e183]:
+                    - heading "Oferta" [level=3] [ref=f3e184]
+                    - list [ref=f3e185]:
+                        - listitem [ref=f3e186]:
+                            - link "Cała oferta" [ref=f3e187] [cursor=pointer]:
+                                - /url: /oferta
+                        - listitem [ref=f3e188]:
+                            - link "Zadaszenia tarasowe" [ref=f3e189] [cursor=pointer]:
+                                - /url: /oferta/zadaszenia-tarasowe
+                        - listitem [ref=f3e190]:
+                            - link "Akcesoria do zadaszeń" [ref=f3e191] [cursor=pointer]:
+                                - /url: /oferta/akcesoria-do-zadaszen
+                        - listitem [ref=f3e192]:
+                            - link "Tarasy kompozytowe" [ref=f3e193] [cursor=pointer]:
+                                - /url: /oferta/tarasy-kompozytowe
+                        - listitem [ref=f3e194]:
+                            - link "Tarasy gresowe" [ref=f3e195] [cursor=pointer]:
+                                - /url: /oferta/tarasy-gresowe
+                        - listitem [ref=f3e196]:
+                            - link "Tarasy drewniane" [ref=f3e197] [cursor=pointer]:
+                                - /url: /oferta/tarasy-drewniane
+                        - listitem [ref=f3e198]:
+                            - link "Elewacje kompozytowe" [ref=f3e199] [cursor=pointer]:
+                                - /url: /oferta/elewacje-kompozytowe
+                        - listitem [ref=f3e200]:
+                            - link "Schody modułowe" [ref=f3e201] [cursor=pointer]:
+                                - /url: /oferta/schody-modulowe
+                - generic [ref=f3e202]:
+                    - heading "Firma" [level=3] [ref=f3e203]
+                    - list [ref=f3e204]:
+                        - listitem [ref=f3e205]:
+                            - link "O nas" [ref=f3e206] [cursor=pointer]:
+                                - /url: /o-nas
+                        - listitem [ref=f3e207]:
+                            - link "Realizacje" [ref=f3e208] [cursor=pointer]:
+                                - /url: /realizacje
+                        - listitem [ref=f3e209]:
+                            - link "Kontakt" [ref=f3e210] [cursor=pointer]:
+                                - /url: /#kontakt
+                - generic [ref=f3e211]:
+                    - heading "Narzędzia" [level=3] [ref=f3e212]
+                    - list [ref=f3e213]:
+                        - listitem [ref=f3e214]:
+                            - link "Wszystkie formularze" [ref=f3e215] [cursor=pointer]:
+                                - /url: /wycena
+                        - listitem [ref=f3e216]:
+                            - link "Formularz wyceny tarasu" [ref=f3e217] [cursor=pointer]:
+                                - /url: /wycena/taras
+                        - listitem [ref=f3e218]:
+                            - link "Formularz wyceny zadaszenia" [ref=f3e219] [cursor=pointer]:
+                                - /url: /wycena/zadaszenie
+                        - listitem [ref=f3e220]:
+                            - link "Formularz wyceny żaluzji" [ref=f3e221] [cursor=pointer]:
+                                - /url: /wycena/zaluzje
+                        - listitem [ref=f3e222]:
+                            - link "Formularz wyceny schodów" [ref=f3e223] [cursor=pointer]:
+                                - /url: /wycena/schody
+                - generic [ref=f3e224]:
+                    - heading "Kontakt" [level=3] [ref=f3e225]
+                    - generic [ref=f3e226]:
+                        - paragraph [ref=f3e227]: CComplex sp. z o.o.
+                        - paragraph [ref=f3e228]:
+                            - generic [ref=f3e232]: Kępska 12, 45-130 Opole, pok.20 (parter)
+                        - link "+48 661 242 507" [ref=f3e233] [cursor=pointer]:
+                            - /url: tel:+48661242507
+                        - link "biuro@ccomplex.pl" [ref=f3e237] [cursor=pointer]:
+                            - /url: mailto:biuro@ccomplex.pl
+            - generic [ref=f3e242]:
+                - paragraph [ref=f3e243]: © 2026 Complex sp. z o.o. Wszelkie prawa zastrzeżone.
+                - generic [ref=f3e244]:
+                    - link "Polityka prywatności" [ref=f3e245] [cursor=pointer]:
+                        - /url: /polityka-prywatnosci
+                    - link "Regulamin" [ref=f3e246] [cursor=pointer]:
+                        - /url: /regulamin
+                    - link "Polityka cookies" [ref=f3e247] [cursor=pointer]:
+                        - /url: /polityka-cookies
+    - button "Open Next.js Dev Tools" [ref=f3e253] [cursor=pointer]

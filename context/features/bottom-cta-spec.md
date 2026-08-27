@@ -97,7 +97,7 @@ Add a `bottomCtaSection` object to the `homePage` document with the following fi
   - Clicking "Nawiguj" opens this URL in a new tab: `https://www.google.com/maps/dir/?api=1&destination=K%C4%99pska+12%2C+46-020+Opole`
 - Leaflet is SSR-incompatible — wrap the map in a dynamic import with `ssr: false`:
   ```ts
-  const ShowroomMap = dynamic(() => import('@/components/ShowroomMap'), { ssr: false })
+  const ShowroomMap = dynamic(() => import('@/components/ShowroomMap'), { ssr: false });
   ```
 - Create `src/components/ShowroomMap.tsx` as the extracted client-only map component
 - Import Leaflet CSS in `ShowroomMap.tsx`: `import 'leaflet/dist/leaflet.css'`

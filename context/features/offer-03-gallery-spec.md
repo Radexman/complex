@@ -103,10 +103,10 @@ Use Tailwind utility classes where possible. For the `grid-column: span 2` and a
 
 ```tsx
 const getBentoClass = (index: number) => {
-  const position = index % 6
-  if (position === 0 || position === 5) return 'col-span-2 aspect-video'
-  return 'col-span-1 aspect-[3/4]'
-}
+  const position = index % 6;
+  if (position === 0 || position === 5) return 'col-span-2 aspect-video';
+  return 'col-span-1 aspect-[3/4]';
+};
 ```
 
 #### Overflow items (7th project onwards):
