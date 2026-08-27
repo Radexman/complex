@@ -1,72 +1,120 @@
-# Current Feature: Client Feedback — Round 7
+# Current Feature
 
 ## Status
 
-In Progress
+Not Started
 
 ## Goals
 
-Spec: `context/features/feedback-round-7-spec.md`. Six actionable items from the client's WhatsApp
-messages of 26.08.2026 (item 1, the schody catalogue, is already resolved in the CMS).
-
-- **#2 — Header CTA reads „Bezpłatna wycena".** Publish the `navbar` draft, which has held the
-  corrected label since 6 August. CMS-only; no deploy.
-- **#3 — Facebook is prominent and links out.** A bold Facebook link in the „nasze realizacje"
-  areas of the home page and `/realizacje`, plus a stronger footer icon. Clean the stored profile
-  URL of its `notif_*` notification parameters.
-- **#4 — Footer tagline says „na wybranych obszarach woj. śląskiego i opolskiego".** CMS-only.
-- **#5 — WhatsApp row in the footer**, directly under the phone number, driven by a new optional
-  `footer.contactWhatsApp` field.
-- **#6 — Google tags installable.** Confirm to the client that the codes can be installed, gather
-  what is actually needed (product, IDs, conversion definition), and install once she sends them.
-- **#7 — `/polityka-prywatnosci` exists and returns 200**, ending the six live 404s that already
-  link to it (footer + all five forms). Decide `/regulamin` and `/polityka-cookies` too.
-
 ## Notes
 
-**The largest item is #7, and it is a live bug, not a new page.** Six places already link to
-`/polityka-prywatnosci` — the footer legal bar and the RODO consent in `ContactForm`, `TarasForm`,
-`ZadaszenieForm`, `ZaluzjeForm` and `SchodyForm`. There is no route and no redirect, so all six are
-404s today. Creating the page satisfies the client's „przekierowania ze wszystkich formularzy"
-without touching a single form. `/regulamin` and `/polityka-cookies` are 404s in the footer as well
-and she supplied neither.
-
-**#2 is a publish, not a code change.** Verified against the dataset: `drafts.navbar` says
-„Bezpłatna wycena" (updated 2026-08-06), the published `navbar` still says „Darmowa wycena"
-(2026-08-03), and the two documents differ by **that field alone**. Worth telling the client that
-Studio edits go live only on Publish — and worth auditing for other stranded drafts.
-
-**Six decisions are open before `start`** (full detail in the spec):
-
-1. **#2** — literal caps „BEZPŁATNA WYCENA", or sentence case matching the site's three other
-   „Bezpłatna wycena" buttons?
-2. **#3** — does „pogrubiony" mean the footer icon, the new realizacje links, or both? Is
-   `facebook.com/ccomplex.plTarasy` the canonical profile URL?
-3. **#5** — which number is WhatsApp: **661 242 507** or **781 429 378**? A pre-filled message?
-4. **#6** — which Google products, and does she accept that ad tags in the EEA realistically need a
-   cookie-consent banner (a separate feature)?
-5. **#7** — CMS-editable legal page or hardcoded? And `/regulamin` + `/polityka-cookies`: supply the
-   text, or remove the links?
-6. **General** — any other unpublished drafts sitting in the Studio?
-
-⚠️ **The supplied privacy-policy text must not be published as-is.** It opens mid-word („iniejsza"),
-and it describes a sp. z o.o. as registered in **CEIDG** while quoting a **KRS** number — a limited
-company is in KRS, and is not a sole trader. It also omits the retention period and the list of
-recipients, though the site genuinely passes personal data to Resend, Vercel, Sanity and (after #6)
-Google. Those are the client's or her lawyer's corrections to make, not ours.
-
-⚠️ **A cookie-consent banner does not exist on this site** and is out of scope this round, but #6
-cannot be honestly called finished without one for EEA ad traffic (Consent Mode v2).
-
-**Scope notes:** #5 needs a Studio redeploy (schema change); so does #7 if the legal text becomes
-CMS-owned. `/polityka-prywatnosci` must be added to `sitemap.ts` (17 → 18 URLs). The five forms'
-RODO consents say „Complex sp. z o.o." (one C) while the policy and footer say „CComplex"/„CCOMPLEX"
-— worth aligning on a consent checkbox. `robots.ts` is still missing (offered in Round 5, not
-taken). The usual pre-existing working-tree noise (`.mcp.json`, `OfferTechSpecs.tsx`,
-`ProjectsGrid.tsx`, `.claude/settings.local.json`, `.playwright-mcp/`, CRLF drift in the generated
-Sanity files) stays untouched, same precedent as every prior round.
-
 ## History
+
+### Client Feedback Round 7 — polityka prywatności, WhatsApp, Facebook (2026-08-27)
+
+Six actionable items from the client's WhatsApp messages of 26.08.2026, comprehended into
+`context/features/feedback-round-7-spec.md` (written this session, committed with the feature) and
+loaded via `/feature load`. Branch `feature/feedback-round-7`, cut from `main`. Item 1 (katalog
+schody) was already resolved in the CMS before the session. Four decisions confirmed up front.
+
+- ⚠️ **Item #2 was not a bug — it was an unpublished draft.** „W menu jest darmowa" looked like a
+  stale deployment; it wasn't. The label is CMS-driven, and the dataset held **`drafts.navbar` =
+  „Bezpłatna wycena" (2026-08-06)** against **published `navbar` = „Darmowa wycena" (2026-08-03)**.
+  The client made the edit herself three weeks ago and never hit Publish. **Diffed draft against
+  published before publishing** — they differed by that one field, nothing else. Fixed by a publish;
+  no code, no deploy. Worth saying to her explicitly: **Studio edits go live only on Publish.**
+- **Item #7 was the real work, and it fixed a live bug rather than adding a page.**
+  `/polityka-prywatnosci` had **no route and no redirect**, yet **six** places linked to it — the
+  footer legal bar and the RODO consent in `ContactForm`, `TarasForm`, `ZadaszenieForm`,
+  `ZaluzjeForm` and `SchodyForm`. All six were 404s. So the client's „przekierowania ze wszystkich
+  formularzy" needed **zero form edits** — the page alone fixed every one.
+- **The legal text is CMS-owned (user's call), not hardcoded.** New **`legalPage` fixed-id
+  singleton** + a `legalSection` object (`heading` → `body` → `bullets` → `footnote`). Deliberately
+  more structured than `aboutPage.storyBody`'s blank-line split, which **cannot express** this
+  document's numbered clauses with bulleted lists inside them. Modelled as **6 sections** preserving
+  her clause numbering verbatim. Chosen over Portable Text (still absent from this repo) — the
+  four-field shape covers the document without introducing a renderer.
+- ⚠️ **`/regulamin` and `/polityka-cookies` were 404s in the footer too**, and she supplied neither.
+  Removed from `LEGAL_LINKS` (user's call) rather than left broken; a comment records that they
+  return when she sends the text. Verified `/regulamin` now 404s **with no link pointing at it**.
+- **One character of her text was changed: „iniejsza" → „Niniejsza".** An unambiguous paste
+  truncation — a policy opening mid-word reads as broken. ⚠️ **The CEIDG/KRS contradiction was left
+  verbatim and flagged**: the text calls a sp. z o.o. registered in CEIDG while quoting
+  KRS 0001031202. A limited company is in KRS, and is not a sole trader. That is her lawyer's
+  correction, not ours. Also still missing: retention period and the list of recipients, though the
+  site genuinely passes personal data to Resend, Vercel, Sanity — and to Google once #6 lands.
+- **#3 Facebook — the URL was a copy-pasted notification link.** The stored value carried
+  `?notif_id=…&notif_t=page_user_activity&ref=notif`, parameters belonging to one notification in
+  her own account. Cleaned to the bare profile URL. Shipped the (c) reading of „pogrubiony": a bold
+  accent-pill link on **both** realizacje surfaces plus a stronger footer button (accent border +
+  glyph at rest, not grey-until-hover).
+- **The Facebook URL has one home.** Rather than hardcoding it or duplicating a field, a focused
+  **`facebookUrlQuery`** reads it out of the footer's `socialLinks`
+  (`socialLinks[platform == "facebook"][0].href`) and is threaded into both sections. Removing the
+  profile in the CMS removes every link at once. Shared `FacebookRealizacjeLink` so the two surfaces
+  can't drift.
+- **The reveal attribute needed a props passthrough, not a class.** First attempt passed
+  `className="[&]:data-fp-reveal"` — nonsense: `data-fp-reveal` is a **GSAP target attribute**, not
+  a utility. Fixed by spreading `...rest` (typed `Omit<ComponentPropsWithoutRef<'a'>, …>`, with
+  `ComponentPropsWithoutRef` imported explicitly rather than relying on the UMD `React` namespace)
+  so each caller tags the link with its own section's attribute (`data-fp-reveal` / `data-pg-reveal`).
+- ⚠️ **The GSAP stagger trap from the `/o-nas` session repeated exactly.** Both new links first
+  measured `opacity: 0` and looked stuck. They were **mid-stagger** — the tell is the descending
+  ramp across siblings (`1 → 0.99 → 0.98 → 0.89 → 0.62 → 0.005`). GSAP is rAF-driven and throttled
+  in headless, so a 0.15 stagger takes far longer than wall-clock expectation. Both reach ≥0.99
+  given a 6–7 s settle. **Do not conclude „stuck" from one sample.**
+- **#5 WhatsApp on 661 242 507** (user's choice between the two numbers in the policy text). New
+  optional `footer.contactWhatsApp`; `wa.me` needs digits with country code and no `+`/spaces, so
+  the href strips `\D`. Verified the rendered contact order is **tel → wa.me → mailto**, i.e. under
+  the phone as asked. Icon `FaWhatsapp` from `react-icons/fa6` — lucide still has no brand glyphs
+  (the Round-1 footer lesson).
+- **#6 Google — nothing installed, and that is the correct outcome.** Confirmed the repo has **zero**
+  analytics (no `gtag`, `dataLayer`, `googletagmanager`, `GoogleAnalytics`). There is nothing to
+  install until she sends the actual IDs. The July thank-you routes already give **a distinct URL
+  per form**, which is exactly what Ads wants as a conversion page — that groundwork is done.
+  ⚠️ **No cookie-consent banner exists**, and EEA ad tags need Consent Mode v2; scoped separately.
+- ⚠️ **Found mid-session, not fixed: `/oferta/elewacje-kompozytowe` is a live 404**, linked from
+  **both the navbar and the footer**. The published `service` is gone — it survives only as an
+  **unpublished draft** last touched **26.08**, the same day she sent this feedback. Caught because
+  the build prerendered **6** offer slugs where every prior round recorded 7; confirmed against a
+  real production server (404) rather than inferred. Left alone: publishing her draft or deleting
+  the links is a content decision, and she may be mid-rebuild of that offer.
+- ⚠️ **Other stranded drafts exist** (the round's sixth open question, now answered): `aboutPage`
+  (05.08), `siteSettings` (10.08), two `project` drafts (one edited the same day) and that `service`.
+  None published — out of scope, but she should be told.
+- **Left knowingly inconsistent:** the five forms' RODO consents say „Complex sp. z o.o." (one C)
+  while the policy says „CCOMPLEX" and the footer „CComplex". Which spelling belongs on a consent
+  notice is a legal decision for her, not a formatting tidy-up.
+- **`ProjectsGrid.tsx` carried a pre-existing uncommitted edit** (prettier + `data-[selected]:` →
+  `data-selected:`) which **rode along**, since this feature genuinely edits that file — the
+  `Footer.tsx` / `FormNumberInput.tsx` precedent.
+- ⚠️ **A stale read nearly excluded a real change.** `studio/sanity.types.ts` looked like the usual
+  CRLF-only drift when checked early, but the **Studio deploy regenerated it mid-session**; by
+  commit time it carried 28 real lines (`LegalPage`, `LegalSection`). Re-checked with `--numstat`
+  before staging instead of trusting the earlier reading. `frontend/sanity.types.ts` and
+  `sanity.schema.json` carry only this feature's additions.
+- **No new tests.** Nothing unit-testable was added — no server action, no `app/lib` utility. The
+  `paragraphs()` split lives inside the presentational component, matching `AboutStory`, which does
+  the same split untested. Suite stays at **172/172**.
+- **Studio redeployed** (`npm run deploy` from `studio/`) — in place via the pinned `appId`, same
+  URL, `Deployed 1/1 schemas`. **Verified against the deployed schema via MCP**, not assumed:
+  `legalPage` live with all 5 fields, and `contactWhatsApp` live on `footer` between phone and
+  e-mail. ⚠️ The Studio **UI** is unverified as always (Playwright isn't logged in).
+- **Seeded + published:** `legalPage` (6 sections) and the `footer` patch (tagline, cleaned Facebook
+  URL, WhatsApp). The footer had **no pending draft**, so nothing of the client's was clobbered.
+- Verified: **172/172 Vitest**, `type-check` (both workspaces), `lint` (only the pre-existing
+  `useCountUp` warning at `TrustSection.tsx:65`), clean `next build` after `rm -rf .next` —
+  `/polityka-prywatnosci` prerenders **static**. Against a real production server:
+  `/polityka-prywatnosci` **200**, `/regulamin` **404**, **sitemap 17 URLs** including the new page
+  (7 offer slugs → 6, +1 legal, net unchanged). In-browser (Playwright/Chromium): **0 console
+  errors, 0 warnings**; page title „Polityka prywatności | …" with no doubled brand; all **7**
+  clauses and both headings render; footer shows **1** legal link, WhatsApp between phone and
+  e-mail, and the cleaned Facebook URL; „darmowa" matches **nothing** on the home page; **0** nested
+  anchors; no horizontal overflow at 390 px on the legal page or the home page.
+- **Left untouched (same precedent as prior rounds):** the pre-existing uncommitted `.mcp.json` and
+  `OfferTechSpecs.tsx`, `.claude/settings.local.json`, and the untracked `.playwright-mcp/`
+  artifacts.
+
 
 ### Client Feedback Round 6 — formularz żaluzji (2026-08-06)
 
