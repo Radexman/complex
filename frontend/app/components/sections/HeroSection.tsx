@@ -95,7 +95,7 @@ export default function HeroSection({ data }: { data: HeroSectionType }) {
         {subheadline && (
           <p
             data-hero-animate
-            className="mt-6 max-w-150 text-pretty font-body text-base text-silver/110 sm:text-lg"
+            className="mt-6 max-w-150 text-pretty font-body text-base text-white/80 sm:text-lg"
           >
             {subheadline}
           </p>

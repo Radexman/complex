@@ -55,10 +55,11 @@ export default function OfferPage({
         benefitsDescription={service.benefitsDescription}
         benefits={service.benefits}
       />
-      {processTimeline && <ProcessTimeline data={processTimeline} />}
       <OfferGallery
         projects={galleryProjects}
         categoryLabel={categoryLabel(stegaClean(service.category))}
+        footerText={service.galleryFooterText}
+        facebookUrl={service.galleryFacebookUrl}
       />
       <OfferBrands
         brandsEyebrow={service.brandsEyebrow}
@@ -82,6 +83,7 @@ export default function OfferPage({
           relatedFormSlug={service.relatedFormSlug}
         />
       )}
+      {processTimeline && <ProcessTimeline data={processTimeline} />}
       {contact && (
         <ContactShowroom
           contactEyebrow={contact.contactEyebrow}

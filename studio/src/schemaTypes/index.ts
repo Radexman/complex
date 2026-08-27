@@ -30,6 +30,8 @@ import { legalSection } from './objects/legalSection';
 import { tarasFormConfig } from './objects/tarasFormConfig';
 import { tarasShape } from './objects/tarasShape';
 import { schodyFormConfig } from './objects/schodyFormConfig';
+import { zadaszenieFormConfig } from './objects/zadaszenieFormConfig';
+import { zaluzjeFormConfig } from './objects/zaluzjeFormConfig';
 import { project } from './documents/project';
 import { service } from './documents/service';
 
@@ -57,6 +59,8 @@ export const schemaTypes = [
   legalPage,
   tarasFormConfig,
   schodyFormConfig,
+  zadaszenieFormConfig,
+  zaluzjeFormConfig,
   // Collections (multiple documents)
   project,
   service,

@@ -83,6 +83,8 @@ export const facebookUrlQuery = defineQuery(
 export const legalPageQuery = defineQuery(`*[_type == "legalPage"][0]`);
 export const tarasFormConfigQuery = defineQuery(
   `*[_type == "tarasFormConfig"][0]{
+    title,
+    description,
     shapes[]{
       _key,
       shapeNumber,
@@ -92,8 +94,22 @@ export const tarasFormConfigQuery = defineQuery(
     }
   }`,
 );
+export const zadaszenieFormConfigQuery = defineQuery(
+  `*[_type == "zadaszenieFormConfig"][0]{
+    title,
+    description
+  }`,
+);
+export const zaluzjeFormConfigQuery = defineQuery(
+  `*[_type == "zaluzjeFormConfig"][0]{
+    title,
+    description
+  }`,
+);
 export const schodyFormConfigQuery = defineQuery(
   `*[_type == "schodyFormConfig"][0]{
+    title,
+    description,
     diagram
   }`,
 );
@@ -149,8 +165,12 @@ export const serviceBySlugQuery = defineQuery(
       _key,
       icon,
       title,
-      description
+      description,
+      linkText,
+      linkUrl
     },
+    galleryFooterText,
+    galleryFacebookUrl,
     brandsEyebrow,
     brandsHeadline,
     brandsDescription,
@@ -159,8 +179,14 @@ export const serviceBySlugQuery = defineQuery(
       name,
       shortDescription,
       fullDescription,
-      image,
-      specs
+      variants[]{
+        _key,
+        name,
+        image,
+        specs,
+        description,
+        manufacturer
+      }
     },
     techSpecsHeadline,
     techSpecsDescription,

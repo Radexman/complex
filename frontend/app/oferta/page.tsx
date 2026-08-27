@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   // The root layout appends the site name via its `title.template`.
   title: 'Oferta',
   description:
-    'Poznaj pełną ofertę CComplex — zadaszenia tarasowe, tarasy kompozytowe, gresowe i drewniane, żaluzje tarasowe, elewacje kompozytowe oraz schody modułowe na terenie Śląska i Opolszczyzny.',
+    'Poznaj pełną ofertę CComplex — zadaszenia tarasowe, tarasy kompozytowe, gresowe i drewniane, żaluzje tarasowe oraz schody modułowe na terenie Śląska i Opolszczyzny.',
 };
 
 export default async function OfertaPage() {

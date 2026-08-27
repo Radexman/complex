@@ -12,6 +12,7 @@ import {
   serviceSlugsQuery,
   vatHighlightQuery,
 } from '@/sanity/lib/queries';
+import { resolveOpenGraphImage } from '@/sanity/lib/utils';
 import OfferPage from '@/app/components/offer/OfferPage';
 
 type PageProps = {
@@ -33,9 +34,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!service) return {};
 
+  const ogImage = resolveOpenGraphImage(service.heroImage);
+
   return {
     title: `${service.title} — Complex`,
     description: service.seoDescription ?? undefined,
+    openGraph: { images: ogImage ? [ogImage] : [] },
   };
 }
 

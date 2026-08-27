@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 
 import ZadaszenieForm from '@/app/components/forms/ZadaszenieForm';
+import { zadaszenieFormConfigQuery } from '@/sanity/lib/queries';
+import { sanityFetch } from '@/sanity/lib/live';
 
 export const metadata: Metadata = {
   title: 'Formularz Wyceny Zadaszenia — Complex',
@@ -8,7 +10,9 @@ export const metadata: Metadata = {
     'Wypełnij formularz wyceny zadaszenia aluminiowego i otrzymaj bezpłatną ofertę w ciągu 3 dni roboczych.',
 };
 
-export default function WycenaZadaszeniePage() {
+export default async function WycenaZadaszeniePage() {
+  const { data: config } = await sanityFetch({ query: zadaszenieFormConfigQuery });
+
   return (
     <div className="bg-bg-deep">
       <section className="border-b border-graphite bg-bg-mid pt-28 pb-16">
@@ -17,11 +21,11 @@ export default function WycenaZadaszeniePage() {
             Formularze wycen
           </p>
           <h1 className="mt-2 font-heading text-4xl font-bold text-white">
-            Formularz Wyceny Zadaszenia
+            {config?.title || 'Formularz Wyceny Zadaszenia'}
           </h1>
           <p className="mt-3 max-w-xl font-body text-base text-silver">
-            Wypełnij poniższy formularz, a przygotujemy bezpłatną wycenę i skontaktujemy się z Tobą
-            w ciągu 3 dni roboczych.
+            {config?.description ||
+              'Wypełnij poniższy formularz, a przygotujemy bezpłatną wycenę i skontaktujemy się z Tobą w ciągu 3 dni roboczych.'}
           </p>
         </div>
       </section>

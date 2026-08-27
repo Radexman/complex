@@ -159,7 +159,6 @@ export type OfferCard = {
     | 'tarasy-kompozytowe'
     | 'tarasy-gresowe'
     | 'tarasy-drewniane'
-    | 'elewacje-kompozytowe'
     | 'schody-modulowe';
 };
 
@@ -205,7 +204,6 @@ export type Service = {
     | 'tarasy-kompozytowe'
     | 'tarasy-gresowe'
     | 'tarasy-drewniane'
-    | 'elewacje-kompozytowe'
     | 'schody-modulowe';
   benefitsEyebrow?: string;
   benefitsHeadline?: string;
@@ -226,9 +224,13 @@ export type Service = {
       | 'zap';
     title: string;
     description?: string;
+    linkText?: string;
+    linkUrl?: string;
     _type: 'benefit';
     _key: string;
   }>;
+  galleryFooterText?: string;
+  galleryFacebookUrl?: string;
   brandsEyebrow?: string;
   brandsHeadline?: string;
   brandsDescription?: string;
@@ -236,15 +238,22 @@ export type Service = {
     name: string;
     shortDescription?: string;
     fullDescription?: string;
-    image?: {
-      asset?: SanityImageAssetReference;
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      alt?: string;
-      _type: 'image';
-    };
-    specs?: Array<string>;
+    variants?: Array<{
+      name: string;
+      image: {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt: string;
+        _type: 'image';
+      };
+      specs?: Array<string>;
+      description?: string;
+      manufacturer?: string;
+      _type: 'brandVariant';
+      _key: string;
+    }>;
     _type: 'brand';
     _key: string;
   }>;
@@ -315,7 +324,6 @@ export type Project = {
     | 'tarasy-kompozytowe'
     | 'tarasy-gresowe'
     | 'tarasy-drewniane'
-    | 'elewacje-kompozytowe'
     | 'schody-modulowe';
   coverImage: {
     asset?: SanityImageAssetReference;
@@ -329,12 +337,34 @@ export type Project = {
   isFeatured?: boolean;
 };
 
+export type ZaluzjeFormConfig = {
+  _id: string;
+  _type: 'zaluzjeFormConfig';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  description?: string;
+};
+
+export type ZadaszenieFormConfig = {
+  _id: string;
+  _type: 'zadaszenieFormConfig';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  description?: string;
+};
+
 export type SchodyFormConfig = {
   _id: string;
   _type: 'schodyFormConfig';
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  title?: string;
+  description?: string;
   diagram?: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -351,6 +381,8 @@ export type TarasFormConfig = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  title?: string;
+  description?: string;
   shapes: Array<
     {
       _key: string;
@@ -997,6 +1029,8 @@ export type AllSanitySchemaTypes =
   | SanityImageHotspot
   | Slug
   | Project
+  | ZaluzjeFormConfig
+  | ZadaszenieFormConfig
   | SchodyFormConfig
   | TarasFormConfig
   | LegalPage

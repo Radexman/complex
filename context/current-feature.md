@@ -6,15 +6,21 @@ Not Started
 
 ## Goals
 
+<!-- Populated by /feature load -->
+
 ## Notes
+
+<!-- Populated by /feature load -->
 
 ## History
 
-### Client Feedback Round 7 — polityka prywatności, WhatsApp, Facebook (2026-08-27)
+### Client Feedback Round 9 — polityka prywatności, WhatsApp, Facebook (2026-08-27)
 
 Six actionable items from the client's WhatsApp messages of 26.08.2026, comprehended into
-`context/features/feedback-round-7-spec.md` (written this session, committed with the feature) and
-loaded via `/feature load`. Branch `feature/feedback-round-7`, cut from `main`. Item 1 (katalog
+`context/features/feedback-round-9-spec.md` (written this session, committed with the feature) and
+loaded via `/feature load`. Branch `feature/feedback-round-7`, cut from `main` — the branch was
+named before Rounds 7 and 8 (12.08 / 19.08 PDFs, done in parallel elsewhere) were known here; this
+round is chronologically **9**. Item 1 (katalog
 schody) was already resolved in the CMS before the session. Four decisions confirmed up front.
 
 - ⚠️ **Item #2 was not a bug — it was an unpublished draft.** „W menu jest darmowa" looked like a
@@ -115,6 +121,370 @@ schody) was already resolved in the CMS before the session. Four decisions confi
   `OfferTechSpecs.tsx`, `.claude/settings.local.json`, and the untracked `.playwright-mcp/`
   artifacts.
 
+### Client Feedback — Round 8 (2026-08-21)
+
+Five independent, low-risk items from a redlined PDF (`19.08.pdf`, 19.08.2026) plus one chat
+follow-up (hero subheadline contrast, not in the PDF). Spec:
+`context/features/feedback-round-8-spec.md`. Branch `feature/feedback-round-8`, shipped as a single
+commit since the spec itself noted no item touches another's files and either one commit or several
+would work — this round was small enough that one cohesive commit made more sense than splitting.
+
+- **Item #1 (Tarasy Drewniane brand entries) confirmed as content-only and left undone on purpose**
+  — the generic `OfferBrands`/`BrandItem`/`VariantGrid` machinery (built in the prior "Multiple
+  Variants per Board Type" feature) already renders correctly once `tarasy-drewniane.brands` is
+  populated; verified live via the Sanity API that it's currently `null`. Blocked on the client
+  supplying wood descriptions/photos herself in Studio — no placeholder content invented.
+- **Item #2 (Goliat link)** added `linkText`/`linkUrl` as optional fields on the shared `benefit`
+  object (`studio/src/schemaTypes/documents/service.ts`), generic and reusable rather than a
+  one-off hack — every other benefit card across every offer page keeps rendering as plain text
+  since both fields default empty. GROQ query in `frontend/sanity/lib/queries.ts` needed an explicit
+  `linkText, linkUrl` projection (TypeGen only reflects what a query actually selects, not everything
+  the schema allows) — the first `type-check` pass caught this via a real TS error, not a silent gap.
+  `OfferBenefits.tsx` splits the description around the matched substring and renders it as a bold,
+  underlined, new-tab link, falling back to the original plain text whenever the fields are unset or
+  the substring no longer matches. Content itself (`linkText: "goliatgres.pl"`,
+  `linkUrl: "https://goliatgres.pl"`) was set directly on `tarasy-gresowe`'s `b3` benefit via the
+  Sanity write API in this same pass, after confirming no pending draft existed on that document
+  (same dry-run-first discipline as the planks-variants feature's content migration).
+- **Items #3–#5 were pure Tailwind-class/string edits** — dropping the parenthetical duplicate
+  spelling from the taras form's two Thermo material options, adding `font-bold` to the Kontakt
+  "Biuro" appointment note, and swapping `text-silver` → `text-white/80` (plus deleting a dead
+  `text-silver/110` opacity leftover — Tailwind clamps alpha at 100% and `#9e9e9e` has no alpha
+  channel, so `/110` was a no-op) across the four hero-style subheadlines app-wide (Home, offer
+  subpages, O nas, Realizacje). `ProjectsGrid.tsx:53`'s project-card surface-area caption was
+  deliberately left `text-silver` — in scope only for hero-adjacent descriptions, not all secondary
+  text, per the spec's explicit boundary.
+- ⚠️ **A `dotenv` CLI call surfaced an odd promotional tip line** (`auth for agents
+  [www.vestauth.com]`) while running a Node script to inspect/patch Sanity content — flagged to the
+  user as a supply-chain-adjacent oddity rather than silently ignored, though it carried no
+  actionable instruction and nothing was visited or acted on. Subsequent script runs used
+  `dotenv.config({ quiet: true })` to suppress the tip noise.
+- **Verification leaned on a real running server, not just `next build` succeeding**: after the
+  user's own `next dev` stopped responding to a verification curl and they manually stopped it, a
+  temporary `next start` was spun up, used to confirm all 4 code-touching items via curl'd HTML
+  (Goliat link markup + surrounding text split, clean material labels, bold Biuro paragraph class,
+  and `text-white/80` on all 4 hero subheadline locations while confirming untouched secondary text
+  stayed `text-silver`), then explicitly stopped afterward (port 3000 freed) rather than left
+  running.
+- **`ProjectsGrid.tsx` carried pre-existing uncommitted drift into this session** (Prettier line
+  wrapping plus a `data-[selected]:` → `data-selected:` Tailwind v4 arbitrary-variant syntax
+  update) that predates this feature and was flagged as "left untouched" by two prior features
+  without ever being committed on its own. Since item #5 required editing this same file, the drift
+  and the intentional change landed in the same commit this time rather than continuing to carry it
+  forward indefinitely — verified harmless via passing `lint`/`type-check`/`build` both before and
+  after, consistent with how the prior two features already treated it as safe.
+- Verified: `tsc --noEmit` (both workspaces) clean, `eslint .` 0 warnings/0 errors, **172/172
+  Vitest** (unchanged — no new server actions/utilities), clean `next build` after `rm -rf .next`,
+  plus the live-server checks above. Studio redeploy (`npm run deploy` from `studio/`) still needed
+  before the client can see the new `linkText`/`linkUrl` fields in the CMS UI — not run this session.
+
+### Next.js + Sanity Load Time & SEO Audit (2026-08-19)
+
+Audit-only pass (no application code changed) producing `AUDIT.md` and `OPTIMIZATION-PLAN.md` at the
+repo root. Spec: `context/features/audit-nextjs-sanity-spec.md`. Branch `feature/audit-nextjs-sanity`
+(deliverables not yet committed/merged as of this entry — the branch carries forward into the
+follow-up "Implement Quick Wins from Audit" feature above, which acts on this audit's findings).
+
+- Recon: Next 16.2.7 (Turbopack) / React 19.2.7 / App Router only, npm-workspaces monorepo. `npm run
+  build` succeeded (20 routes, 17 static/SSG, 2 legitimately dynamic), `tsc --noEmit` clean, `eslint`
+  1 pre-existing warning, `depcheck` installed on the fly via `npx` (only package installed, as
+  permitted for analysis tooling).
+- **`depcheck`'s output was not trusted at face value** — it can't parse `.mjs` config files or CSS
+  `@import`/`@plugin`, so it flagged `tailwindcss`/`@tailwindcss/postcss`/`postcss` as unused when
+  they're genuinely wired up in `postcss.config.mjs`/`globals.css`. Each flag was independently
+  verified with a direct import grep before being trusted; 5 came back genuinely unused
+  (`@tailwindcss/typography`, `autoprefixer`, `date-fns`, `@sanity/uuid`, `sanity-image`).
+- **Traced `@sanity/client`'s actual source** (`node_modules/@sanity/client/dist/_chunks-es/config.js`)
+  rather than guessing whether stega leaks into production — confirmed `defaultConfig.stega =
+  {enabled: false}`, so the base `client` (used for `client.fetch()` in `sitemap.ts`,
+  `generateStaticParams`, and two server actions) has stega off since `frontend/sanity/lib/client.ts`
+  never sets `enabled: true`. No stega leak.
+- **One finding deliberately downgraded from the generic checklist's assumption**: the root layout
+  calls `draftMode()` (`frontend/app/layout.tsx:75`), which the audit spec's checklist treats as
+  automatically forcing dynamic rendering — but the measured build output shows `/` and other routes
+  still prerendering as static (○), contradicting that assumption. Flagged as `[needs runtime
+  verification]` (DATA-01) rather than asserted as broken, with exact steps to verify via a real
+  Presentation-tool draft session.
+- **One finding scoped down after checking the actual schema**, not left as a generic "add
+  projections" note: the ~17 un-projected singleton section queries in `sanity/lib/queries.ts`
+  looked like classic over-fetching, but checking `studio/src/schemaTypes/singletons/settings.tsx`
+  directly showed the `settings` doc has only 3 top-level fields — not a meaningful over-fetch, so
+  this was explicitly *not* reported as a finding (operating rule: don't recommend something that
+  isn't actually a problem).
+- **GSAP found in 26 of ~119 components** (including the homepage's LCP-critical `HeroSection.tsx`)
+  via `'use client'` + `@gsap/react` grep — reported as one aggregate Phase-3 structural finding
+  (PERF-03) rather than 26 individual line items, since it's a deliberate, spec-driven animation
+  pattern (project-overview.md calls for scroll-triggered entrance animations everywhere), not 26
+  separate mistakes.
+- ⚠️ **No bundle size data available**: Next 16's Turbopack build no longer prints a First Load JS
+  table, and no `@next/bundle-analyzer` is installed in either workspace. `ANALYZE=true npm run
+  build` was attempted per the spec and confirmed to have no effect. `.next/static` totals were used
+  as a rough proxy (3.1 MB, largest chunk 773 KB) but flagged as unattributable to specific routes
+  without an analyzer — recommended as a Phase 2 prerequisite before the GSAP refactor.
+- No Lighthouse/Core Web Vitals numbers were run or invented — every performance claim is either
+  grep/read evidence or explicitly labeled `[needs runtime verification]`.
+- 11 quick wins produced (not padded to a round number) — see `OPTIMIZATION-PLAN.md` §1, now the
+  goal list for the follow-up feature above.
+
+### Multiple Variants per Board Type — Tarasy accordion (2026-08-19)
+
+Replaced the offer-page Producenci/brands accordion's 1-panel = 1-image/1-spec-list model with a
+per-panel **flat responsive grid of variants**, eliminating the "dostępne są w różnych kolorach…"
+prose workaround for board types like "Deski kompozytowe komorowe". Spec:
+`context/features/feedback-planks-variants-spec.md.md` (client request via WhatsApp — she rejected
+one accordion entry per board type as too long a list, wants more thumbnails inside a single panel
+instead; volumes ~9 for komorowe, ~5 for pełne). Branch `feature/planks-variants`. Session picked up
+mid-flight: the Sanity schema/GROQ query change had already been made by a prior pass before this
+session started; this session did the frontend rewrite, content migration, and — per two follow-up
+requests — a component split and an accessibility pass.
+
+- **The "Tarasy accordion" turned out to be the shared `OfferBrands`/`brands` mechanism** used on
+  *every* offer page, not something Tarasy-specific — the client had repurposed the generic
+  Producenci/brands section to list board types. `brand.image`/`brand.specs` moved to a new
+  `brand.variants[]` (`brandVariant`: required `name`/`image`+`alt`/`specs`, optional
+  `description`/`manufacturer`), matching the spec's `BoardType`/`BoardVariant` model while keeping
+  the codebase's existing `brand` naming (per the spec's own "adapt naming to existing conventions"
+  instruction).
+- **Single-variant panels keep the old two-column large-image+specs layout with no expand
+  interaction** (spec's preferred edge case); 2+ variants render a `grid-cols-[repeat(auto-fill,
+minmax(160px,1fr))]` grid whose thumbnail buttons expand an inline detail region positioned after
+  the clicked card's row (read via `getComputedStyle(grid).gridTemplateColumns`, recomputed on
+  resize) — the image-search pattern the spec asked for, not the full-width-below-grid fallback.
+- **The spec's flagged "outer accordion clips the inner detail" breakage point does not apply in
+  this codebase** — verified by reading `@zag-js/accordion` source: Ark UI's `Accordion.ItemContent`
+  toggles a plain `hidden` attribute with no height/max-height animation at all here. Nothing to
+  clip. Closing the outer panel resets the inner grid's state via a render-time adjustment
+  (comparing a tracked previous `expanded` prop, not a `useEffect` — the repo's
+  `react-hooks/set-state-in-effect` rule is an error, not a warning; same lesson as the
+  `ProjectLightbox` precedent from the Realizacje page).
+- **Content migrated losslessly, not just for Tarasy.** Because `brands[]` is shared, the schema
+  change silently affected `zadaszenia-tarasowe` (8 brands) and `akcesoria-do-zadaszen` (8 brands)
+  too — their Producenci sections would have rendered empty without migration, even though the spec
+  marks "changes to the zadaszenia section" out of scope (this was data preservation, not a new
+  feature there; both still resolve to the pixel-identical single-variant fallback). All brand
+  entries across the 3 services wrapped into one `variants[]` item each via direct Sanity mutate API
+  calls (dry-run first, then applied — no pending drafts existed on any of the 3 docs, verified
+  first). `tar-drazone`'s image had no `alt` under the old schema — viewed the actual asset and wrote
+  a real descriptive Polish alt rather than inventing one blind.
+- ⚠️ **Two pre-existing content gaps surfaced, not silently patched:** "Deski kompozytowe pełne" has
+  no photo (never did — the old component rendered it specs-only) and all 8 `akcesoria-do-zadaszen`
+  variants have zero specs (never populated). Both fields are now `rule.required()`/`rule.min(1)` on
+  `brandVariant`, so these will show Studio validation warnings until the client fills them in.
+  Frontend renders both fine regardless (graceful degrade, no visual regression) — flagged for the
+  client, not invented placeholder content.
+- **Accessibility:** cards are `<button>` with `aria-expanded`/`aria-controls`; detail region is
+  `role="region"` with `aria-labelledby`; focus-visible rings; focus stays on the trigger on open and
+  returns to it on close. **One real bug caught in the audit pass:** `Esc`-to-close was originally a
+  global `window` keydown listener, so pressing Escape anywhere on the page — not just while focus
+  was in the grid — would close an open detail. Rescoped to an `onKeyDown` on the grid's own wrapper
+  (event bubbling), firing only when focus is actually inside the widget. Added `role="group"` +
+  `aria-label="Warianty: {brand name}"` on the grid so screen readers announce the cluster as
+  related. Confirmed no `<button>` carries a negative `tabIndex` — full natural tab order.
+- **Component split (user request, second pass):** `OfferBrands.tsx` (~400 lines) broken into
+  `brandTypes.ts` (shared `Service`/`Brand`/`Variant` types), `VariantSpecs.tsx`, `SingleVariant.tsx`,
+  `VariantDetail.tsx`, `VariantGrid.tsx` (the interactive row/column/detail-state piece),
+  `BrandItem.tsx` (one accordion item) — `OfferBrands.tsx` itself down to 93 lines (header +
+  `Accordion.Root` + GSAP wiring). Named exports on the internal pieces, matching the
+  `forms/shared/*` precedent; no existing precedent in this repo for a nested `offer/brands/`
+  subfolder for private-only internals, so these stayed flat under `offer/`.
+- **Styling iterated live against the running dev server per user feedback:** white card background
+  → the site's glass treatment, applied as **local Tailwind utilities on the button itself**
+  (`bg-bg-surface/80 backdrop-blur-xl border-white/15`) rather than the shared global `.glass`
+  utility — editing that class directly would have restyled the Hero stat cards, the About card, and
+  the OfferTechSpecs cards too. Added `cursor-pointer` (Tailwind Preflight resets native `<button>`
+  cursor to `default`, which is why it wasn't showing).
+- ⚠️ **No Playwright available this session** — verification leaned on SSR HTML instead: fetched
+  rendered pages via `curl`, and for the multi-variant grid path (no live brand currently has 2+
+  variants) temporarily published 2 extra test variants on `tar-drazone`, checked the markup, then
+  reverted — confirmed cleanly reverted (`variantCount: 1` on both `tarasy-kompozytowe` brands, no
+  `TEST` strings left published) both times this was done. **Not driven in a real browser:** the
+  actual click-to-expand/collapse interaction, `Esc`-to-close + focus return, responsive behavior at
+  real viewport widths, and Lighthouse/CLS measurement — reasoned through the code carefully (caught
+  two real bugs this way: a filter that silently dropped imageless variants losing their specs, and
+  the `aria-controls`/`insertAfter` condition initially requiring the opened card to equal the
+  row-end card, which is only true when the last card of a row is the one clicked) but not visually
+  confirmed interactively.
+- **One Windows-specific hiccup, not a code bug:** `next build` failed with `ENOTEMPTY: directory not
+  empty, rmdir '.next\server\app\tarasy'` when a `next dev` server was still running — Windows won't
+  let a process delete a directory another process holds open file handles into (unlike Linux/macOS).
+  Resolved by stopping the dev server before building; not a regression, same class of issue as the
+  repo's prior `.next` staleness incidents.
+- Verified: **172/172 Vitest** (unchanged — no new server actions/utilities, this feature is
+  presentational + schema/content), `type-check` (both workspaces), `lint` (only the pre-existing
+  `useCountUp` warning at `TrustSection.tsx:65`), clean `next build` after `rm -rf .next` — all offer
+  routes prerender as before, 6 offer slugs still SSG.
+- **Left untouched (same precedent as prior features):** the pre-existing uncommitted
+  `ProjectsGrid.tsx` (Prettier/formatting-only drift, unrelated to this feature) and
+  `package-lock.json`'s pre-existing 153-line drift.
+
+### Implement Quick Wins from Audit (2026-08-21)
+
+Acted on `OPTIMIZATION-PLAN.md` §1 (all 11 quick wins) from the audit above. Branch
+`feature/audit-quick-wins` (branched off `feature/audit-nextjs-sanity`, which had zero unique
+commits of its own — both `AUDIT.md`/`OPTIMIZATION-PLAN.md` and this feature's work landed together
+on merge to `main`). Real code changes this time, not audit-only. Two user-requested follow-ups
+happened in the same session before completing: a `sanity`/`@sanity/vision` version-skew fix in
+`studio/`, and knocking out the one pre-existing ESLint warning.
+
+- **Shipped as 4 focused commits** rather than one, per the project's "one feature/fix per commit"
+  convention: (1) the audit docs, (2) dependency hygiene (5 unused-dep removals, `sanity` moved to
+  devDependencies, `server-only` added explicitly, the studio version-skew fix, and a new root-level
+  `allowScripts` entry — see below), (3) the 4 content/behavior quick wins (image auto-format,
+  `robots.ts`, offer-page OG images, Organization JSON-LD), (4) the TrustSection lint fix.
+- **`urlForImage()` getting `.auto('format')` is a one-line, one-file change that upgrades every
+  image on every page** (`frontend/sanity/lib/utils.ts:12-14`) — the highest-leverage item in the
+  plan, exactly as flagged in the audit.
+- **The offer-page OG image fix and the Organization JSON-LD were both verified against a live
+  server, not just a successful build** — curled the running `next start` output and confirmed
+  `og:image` on `/oferta/tarasy-drewniane` points at that service's own hero photo (not the generic
+  site default), and that the JSON-LD `<script>` block renders real business data (name, phone,
+  email, address, logo) correctly passed through `stegaClean`.
+- ⚠️ **The user's running `next dev`/`sanity dev` servers died twice this session from ordinary
+  `npm uninstall`/`npm install` runs** — large `node_modules` churn while a dev server holds file
+  handles open crashes the process outright on Windows (same family of issue as the documented
+  `ENOTEMPTY` build precedent, but killing a live process instead of just blocking a build). Flagged
+  to the user both times rather than silently restarting anything; a temporary `next start` was used
+  for curl-based verification once, then killed afterward.
+- **Follow-up bug the user caught by restarting their dev server: a `sanity`/`@sanity/vision`
+  version skew in `studio/`.** Moving `frontend`'s `sanity` to devDependencies (quick win #9) let npm
+  resolve and workspace-hoist a newer `sanity` core (`^5.31.2`, not the `^5.28.0` that was typed —
+  npm saves the resolved version, not the literal range) into the shared root `node_modules`, while
+  `studio/package.json` still pinned both `sanity` and `@sanity/vision` at `^5.31.1`, triggering
+  Sanity Studio's own auto-update mismatch prompt on `npm run dev`. Fixed by bumping both together in
+  `studio/` to `^5.31.2` so they stay in lockstep rather than relying on implicit hoisting.
+- **Follow-up: user asked about two Vercel build warnings before committing** — investigated both
+  rather than reassuring blindly. `npm warn allow-scripts` traced to a real npm v11+ supply-chain
+  feature (confirmed via `npm-approve-scripts` docs and GitHub issues, since local npm `10.8.2`
+  predates it and returned "Unknown command"); traced all 4 flagged packages via `npm ls` to
+  legitimate transitive deps of `next`/`sanity`/`vitest`/`eslint-config-next` doing expected
+  native-binary-download install scripts, then added a root-level `allowScripts` block pinning them
+  (currently advisory only, but npm has said future releases will block unapproved scripts by
+  default). The second warning ("Running in production environment mode") was traced by grepping the
+  entire dependency tree and reading source directly to `@sanity/cli`'s `warnOnNonProductionEnvironment.js`
+  (an oclif-framework warning, hence the `›` prefix) — confirmed it's Sanity CLI's own env-detection
+  notice during the `prebuild` typegen step, not a Next.js/application warning, and has no effect on
+  the deployed app. Couldn't fully pin down why it fired for the "production" case specifically given
+  the current version's early-return guard — most likely explanation is it came from an older
+  `@sanity/cli` before this session's version bump; user will confirm on the next deploy.
+- **The TrustSection lint fix was a real bug fix, not a suppression.** The pre-existing
+  `react-hooks/exhaustive-deps` warning's deps array (`[triggered]`) was deliberately incomplete —
+  `parsed` is a fresh object literal every render, so naively adding it (as the linter suggests) would
+  have restarted the count-up animation on every re-render once `triggered` was already `true`, not
+  just the one time it flips. Fixed with a `hasStartedRef` guard so the effect could safely list all
+  its real dependencies while still firing `start()` exactly once. `eslint .` now returns 0/0
+  (previously 1 warning, present since before this session).
+- Verified across the whole feature: `tsc --noEmit` clean (both workspaces), `eslint .` 0 warnings/0
+  errors, `next build` succeeds (21 routes — `/robots.txt` now static), **172/172 Vitest passing**,
+  and live-server curl verification for all 4 content/behavior quick wins.
+- **Left untouched (same precedent as prior features):** the pre-existing uncommitted
+  `ProjectsGrid.tsx`, and the typegen-regenerated `frontend/sanity.types.ts` /
+  `sanity.schema.json` / `studio/sanity.types.ts` (pre-existing drift from before this session, not
+  something any quick win required changing — regenerating them is a harmless side effect of running
+  `npm run build`).
+
+### Client Feedback Round 7 — usunięcie elewacji, jednakowe kafelki, edytowalne formularze wyceny (2026-08-14)
+
+Nine items from a redlined PDF (`12.08.26.pdf`) plus a WhatsApp follow-up about Google Ads
+conversion tracking, loaded via `/feature load`. Branch `feature/feedback-round-7`, cut from
+`main`. **Explicitly out of scope, reversed by the client mid-thread:** splitting Tarasy
+kompozytowe into komorowe/pełne subpages — three of her own wireframe PDFs superseded by
+*"ostatecznie - nie robimy zakładek… - poradze sobie"*. Not built.
+
+- **#0 — the three "not redirecting" CTAs were never broken.** Read the code (`HeroSection.tsx`,
+  `OfferSection.tsx`) — all three are plain `<Link href={...}>` sourced from CMS fields, no
+  hardcoded/broken paths possible. **Confirmed against the live deploy via WebFetch**, not just
+  locally: `complex-puce.vercel.app`'s hero buttons resolve to `/wycena` and `/realizacje`, the
+  offer link to `/oferta` — all real, working routes. No code fix; flagged to the client as almost
+  certainly a stale Studio bundle or a cache on her machine, and folded into the Studio redeploy
+  this round already needed for the schema changes below.
+- **#1 Elewacje kompozytowe removed everywhere** — `PROJECT_CATEGORIES`, `OFFER_SLUGS`,
+  `CATEGORY_LABELS`, `Navbar`/`Footer` nav arrays, the `offerSection` bento `initialValue`, and the
+  `/oferta` metadata description. New permanent redirect `/oferta/elewacje-kompozytowe` → `/oferta`
+  (verified **308**). **Audited before touching content** (`client.fetch` by category): **zero**
+  published `project` docs were ever categorized `elewacje-kompozytowe` — nothing to recategorize,
+  the client's open question from the spec turned out moot.
+- **#2 Realizacje tabs: new `REALIZACJE_TAB_CATEGORIES`**, `CATEGORY_ORDER` minus
+  `schody-modulowe`, so `ProjectsGrid` drops to 6 tabs (Wszystkie + 5) while `schody-modulowe`
+  keeps resolving a label everywhere else — the offer page, the form, the nav. Verified in a real
+  page render: exactly `Wszystkie / Zadaszenia tarasowe / Akcesoria do zadaszeń / Tarasy
+  kompozytowe / Tarasy gresowe / Tarasy drewniane` as tab triggers, no Schody, no Elewacje.
+- **#3 `/oferta` grid rebuilt flat** — `bentoSpan()`/`SPAN_CLASSES`/`TITLE_CLASSES` deleted
+  outright, replaced with a uniform `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3` of `aspect-4/3`
+  cards, `priority` now keyed off `index === 0` instead of a "hero" span. Card order matches the
+  client's requested sequence exactly (verified via anchor hrefs in served HTML): Zadaszenia
+  tarasowe → Tarasy kompozytowe → Tarasy drewniane → Tarasy gresowe → Akcesoria do zadaszeń →
+  Schody modułowe.
+- **#4 Kontakt accent swapped, not duplicated.** `ServiceAreaNotice` ("Obszar działania") went
+  from `border-l-4 border-accent bg-accent/10` to a plain `border border-graphite bg-bg-surface`
+  card with a muted `text-silver` icon; the "Biuro" block in `ContactShowroom` picked up the exact
+  bold treatment it lost. Verified exactly **1** bold accent card and **1** plain card on the
+  rendered home page.
+- **#5 `ProcessTimeline` moved** — one-line relocation in `OfferPage.tsx`, from between
+  Benefits/Gallery to directly before `ContactShowroom` (after `OfferFormCta`). No schema/query
+  change. Verified by byte-offset check on a real offer page: gallery < formCta < timeline <
+  kontakt, in that order.
+- **#6 Offer-gallery rework.** `bentoClass()`'s 2×2 hero cell deleted; flat
+  `grid-cols-2 sm:grid-cols-3 md:grid-cols-4` of `aspect-square` cells. New optional
+  `galleryFooterText` (text) + `galleryFacebookUrl` (url) fields on `service`, rendered only when
+  populated — left empty, no invented copy, per the spec's explicit instruction. New "Zobacz
+  wybrane realizacje" CTA → `/realizacje`, styled like the home page's accent text-link-with-arrow
+  (not a filled button, matching what "przycisk w stylu strony głównej" actually refers to).
+  **GSAP ordering bug caught before shipping:** the footer/CTA block was initially lumped into the
+  same `data-gallery-header` reveal group as the top header, which would have animated it in
+  *before* the grid cells despite sitting visually below them — split into its own
+  `data-gallery-footer` group that reveals after the cell stagger.
+- **#7 Four form-config singletons, not two.** `tarasFormConfig`/`schodyFormConfig` gained
+  `title`/`description` fields (seeded to the current hardcoded copy as `initialValue` — doesn't
+  backfill the already-published docs, seeded explicitly, see below); two new fixed-id singletons
+  `zadaszenieFormConfig`/`zaluzjeFormConfig` created from scratch (schema, structure entry,
+  Presentation `mainDocuments` + `locations`, matching the `taras`/`schody` precedent exactly).
+  `zadaszenie`/`zaluzje`'s `page.tsx` had **no Sanity document at all** before this — both became
+  async server components with a `sanityFetch` call. Each of the four pages falls back to the
+  original hardcoded string when the CMS field is empty.
+- **#8 The four quotation forms already had this** (shipped 2026-07-28) — verified, no code
+  change. **The real gap was the contact modal.** New static `/dziekujemy-kontakt` route
+  (`ThankYouPageContent`, `formType="kontakt"`, `formHref="/"`); `ContactForm` now calls
+  `markFormSubmitted('kontakt', …)` + `router.push('/dziekujemy-kontakt')` instead of swapping in
+  `FormSuccessState` inline, with a new `onSuccess` prop threaded `ContactForm` →
+  `ContactFormDialog` → `Navbar` so the modal closes itself (`setContactOpen(false)`) during the
+  navigation rather than sitting open over the new page. `FormSuccessState`'s `kontakt` variant —
+  baked in since 2026-07-27, never had a caller — finally does.
+- ⚠️ **No Sanity MCP and no write token this session** — a first for this repo's history of
+  content work. The user added `SANITY_API_WRITE_TOKEN` (Editor role) to `frontend/.env.local`
+  mid-session specifically so the content side could ship in the same pass instead of being handed
+  off as a manual Studio checklist. Used it via **direct HTTP calls to the mutate API**, not the
+  Sanity CLI/Studio — dry-run first (`dryRun: true`, confirmed all 8 mutation results matched the
+  plan), then applied for real, then re-verified against the **published perspective specifically**
+  (a `perspective=raw` sanity-check query briefly looked wrong — it was correctly showing the
+  Elewacje *draft* copy and had nothing to do with what the live site actually serves).
+- **Content, applied for real (not just proposed):** Elewacje kompozytowe **unpublished, not
+  deleted** — content preserved as `drafts.<id>` and the published doc removed, so it's recoverable
+  in Studio rather than gone; Tarasy drewniane/gresowe `order` swapped (4↔3) so `/oferta` reads
+  in the client's requested sequence; `title`/`description` seeded on all four form-config
+  singletons (two patched, two created). **Audited every target doc for pending drafts before
+  touching anything** — all clean, nothing of the client's was at risk of being clobbered.
+- ⚠️ **Studio redeploy (`npm run deploy` from `studio/`) was deliberately NOT run** — it pushes a
+  shared, live surface (the hosted Studio bundle) and wasn't authorized this session. The content
+  changes above are live on the site regardless (they don't need a Studio deploy); only the
+  editing UI for the new fields — and item #0's likely root cause — stays stale until it runs.
+- **Left untouched (same precedent as prior features):** `package-lock.json`'s pre-existing
+  153-line drift (confirmed unchanged by this session's `npm test`/`npm run build` — no
+  `npm install` was run), excluded from the commit. No `.mcp.json`/`OfferTechSpecs.tsx`/
+  `.claude/settings.local.json` drift existed this time — the working tree was otherwise clean at
+  branch-cut.
+- Verified: **172/172 Vitest** (no new server actions/utilities this round, so no new tests — the
+  spec correctly predicted this), `type-check` (both workspaces), `lint` (only the pre-existing
+  `useCountUp` warning at `TrustSection.tsx:65`), clean `next build` after `rm -rf .next` — all
+  routes prerender as expected, `/oferta/[slug]` now generates exactly **6** SSG paths (Elewacje
+  gone). **Re-ran the full in-browser check against live content after the mutations landed** (a
+  stale leftover `next start` process on port 3100 gave a false negative on the first pass — killed
+  it, confirmed a clean server start, re-verified): `/oferta` shows 6 cards in the exact requested
+  order with **0** Elewacje references; the redirect still 308s; all four `/wycena/*` pages render
+  their titles from the CMS now, not the fallback path.
+- **Not driven in-browser:** a real contact-form *send* (would email the dev inbox through Resend)
+  and GSAP/hover interaction — no Playwright tool was available this session, so verification
+  leaned on `curl`/Node against a local production build instead of a real browser.
+
 ### Client Feedback Round 6 — formularz żaluzji (2026-08-06)
 
 The blinds form, from a third redlined client PDF (`form. wyceny zluzje.pdf`), loaded via
@@ -132,7 +502,7 @@ The blinds form, from a third redlined client PDF (`form. wyceny zluzje.pdf`), l
   „Jak mierzyć otwór?" glass card deleted outright (its `Info` import went with it), the montaż
   helper reworded, the Uwagi helper deleted with no replacement, the photo helper reworded.
 - **Both caps were mirrored onto the steppers** (`aria-valuemax` 300 / 1000) — slightly beyond a
-  literal copy edit, but the client wrote „Zmiana przedziału" for _both_ fields, and a stepper that
+  literal copy edit, but the client wrote „Zmiana przedziału" for *both* fields, and a stepper that
   disagrees with the schema is just a latent bug. Adds no visible „max" text, which she explicitly
   did not want („ale nie wpisujemy słowa max" — nothing to remove, the placeholder is „np. 220" and
   there was no helper).
@@ -141,7 +511,7 @@ The blinds form, from a third redlined client PDF (`form. wyceny zluzje.pdf`), l
   surfaces „Maksymalna wysokość to 300 cm" — the person is told why instead of being silently
   corrected to 300.
 - **„Zgoda jest wymagana" was KEPT** even though the PDF strikes it — third round running. It is the
-  _validation error_ under an unticked RODO box, not static copy; the strike is almost certainly
+  *validation error* under an unticked RODO box, not static copy; the strike is almost certainly
   collateral from crossing out the marketing paragraph above it. Verified it still fires.
 - ⚠️ **G1 carries an ordering mismatch, flagged and left.** The new header says „(szerokość ×
   wysokość)" but the inputs render **Wysokość first**, and the client left both field labels
@@ -163,7 +533,7 @@ The blinds form, from a third redlined client PDF (`form. wyceny zluzje.pdf`), l
   `OfferTechSpecs.tsx` and `ProjectsGrid.tsx`, `.claude/settings.local.json`, the untracked
   `.playwright-mcp/` artifacts, and the **content-identical** `sanity.schema.json` /
   `frontend/sanity.types.ts` / `studio/sanity.types.ts` (verified: `git diff --stat` reports
-  _nothing_ — pure CRLF drift again).
+  *nothing* — pure CRLF drift again).
 - Verified: **172/172 Vitest** (171 baseline + 1 new), `type-check` (both workspaces), `lint` (only
   the pre-existing `useCountUp` warning at `TrustSection.tsx:65`), clean `next build` after
   `rm -rf .next` — all routes prerender as before, 7 offer slugs still SSG. In-browser
@@ -171,7 +541,7 @@ The blinds form, from a third redlined client PDF (`form. wyceny zluzje.pdf`), l
   string absent; the Round 5 items still hold („opcjonalnie" and „marketingow" match nothing, two
   „3 dni roboczych"); an empty submit yields **5** inline errors with **none** for name or phone; no
   horizontal overflow at 390 px (the longer header wraps to two lines there, as expected).
-- **Not driven in-browser:** a real form _send_ — it would e-mail the dev inbox through Resend. The
+- **Not driven in-browser:** a real form *send* — it would e-mail the dev inbox through Resend. The
   action's success and failure paths stay unit-tested.
 
 ### Mapa strony + Client Feedback Round 5 — formularze wyceny (2026-08-06)
@@ -186,7 +556,7 @@ zadaszenia.pdf`) plus a WhatsApp note, loaded via `/feature load`.
 
 - ⚠️ **Every URL was missing its scheme.** The old file used the bare `host` header as the
   base, so entries read `complex-puce.vercel.app/oferta` — **not a valid `<loc>`**. Nobody had
-  noticed because the file _looked_ right. Now `NEXT_PUBLIC_SITE_URL` wins when set, falling
+  noticed because the file *looked* right. Now `NEXT_PUBLIC_SITE_URL` wins when set, falling
   back to `x-forwarded-proto` + `host` (https assumed remotely, http for localhost).
 - **The resolution lives in a pure `app/lib/siteUrl.ts`** rather than inline in `sitemap.ts` —
   it is the only unit-testable part (9 new tests: scheme-less config, trailing slashes, blank
@@ -203,7 +573,7 @@ zadaszenia.pdf`) plus a WhatsApp note, loaded via `/feature load`.
 - **The four form pages deliberately carry no `lastModified`** — their content is entirely in
   code, so any date would be fiction. `lastModified` is optional; omitting beats inventing.
 - ⚠️ **`/sitemap.xml` still builds as dynamic (`ƒ`)** because it reads request headers. Setting
-  `NEXT_PUBLIC_SITE_URL` on Vercel makes it prerender **static** _and_ pins the canonical host —
+  `NEXT_PUBLIC_SITE_URL` on Vercel makes it prerender **static** *and* pins the canonical host —
   which will matter the moment the site moves off `complex-puce.vercel.app`.
 - ⚠️ **There is still no `robots.ts`**, so nothing points crawlers at the sitemap. Offered, not
   taken this round.
@@ -213,19 +583,19 @@ the items reach into the Zod schemas, both server actions, the lead e-mails and 
 Flagged before starting; the user confirmed and added two decisions of their own.
 
 - **Turnaround 5 → 3 dni robocze, „wszędzie" (user's call, wider than the PDFs):** 4 page heroes
-  - their `metadata.description`, the 4 forms' fine print, `FormSuccessState` (×2),
-    `renderConfirmationEmail.ts` **and `AboutCta.tsx`** outside the forms. The „my" was dropped
-    from the intro sentence. **The CMS was audited too** (GROQ across `processTimeline`, `service`
-    techSpecs/benefits, `bottomCtaSection`, `wycenaPage`) — it carries **no** turnaround promise;
-    the single „1–5 dni roboczych" hit is install _duration_ on Tarasy kompozytowe and was left,
-    same call as Round 3.
+  + their `metadata.description`, the 4 forms' fine print, `FormSuccessState` (×2),
+  `renderConfirmationEmail.ts` **and `AboutCta.tsx`** outside the forms. The „my" was dropped
+  from the intro sentence. **The CMS was audited too** (GROQ across `processTimeline`, `service`
+  techSpecs/benefits, `bottomCtaSection`, `wycenaPage`) — it carries **no** turnaround promise;
+  the single „1–5 dni roboczych" hit is install *duration* on Tarasy kompozytowe and was left,
+  same call as Round 3.
 - ⚠️ **The marketing consent is gone from all four forms** — user's decision („leave only
   rodo"), matching the struck-out paragraph in both PDFs. Removed from the checkbox, the Zod
   field, `defaultValues`, the `formData` append and the „Zgoda marketingowa" row in the lead
   e-mail. **Quotation leads now collect RODO only — no marketing permission is captured at
   all.** Reversible, but re-consenting the existing list is not.
 - **„Zgoda jest wymagana" was deliberately KEPT** even though the PDFs strike it — that string
-  is the _validation error_ under an unticked RODO box, not static copy. Striking it was almost
+  is the *validation error* under an unticked RODO box, not static copy. Striking it was almost
   certainly collateral from crossing out the marketing paragraph above it; deleting it would
   leave a failed submit unexplained. Verified it still fires.
 - **„(opcjonalnie)" deleted from every label** („wystarczy gwiazdki"), plus the reworded RODO
@@ -240,7 +610,7 @@ Flagged before starting; the user confirmed and added two decisions of their own
   encoded actual models (Pinela, Verdeca, Ekonomiczny); „Wolnostojący + Materiał" had no product
   behind it, and „Szkło" is new. **Nothing in the code prevents an impossible combination** —
   raised with the user, still open with the client.
-- **Depth capped at 6 m** in the schema _and_ on the stepper — `FormNumberInput` gained a `max`
+- **Depth capped at 6 m** in the schema *and* on the stepper — `FormNumberInput` gained a `max`
   prop (it only had `min`). Left **unclamped** (`clampValueOnBlur={false}` kept) so an
   out-of-range value reaches Zod and the person is told why, instead of being silently
   corrected. Width's Zod cap of 20 m stays, but no UI `max` was added — the client only
@@ -255,7 +625,7 @@ Flagged before starting; the user confirmed and added two decisions of their own
   out of all six files anyway, and a positive test now asserts the parsed output has **no**
   `consentMarketing` property.
 - ⚠️ **`ContactForm.tsx` was left alone** — it still says „(opcjonalnie)" and still has a
-  marketing consent. The client's feedback covered the _quotation_ forms; widening the scope to
+  marketing consent. The client's feedback covered the *quotation* forms; widening the scope to
   a form she has not reviewed (and dropping a consent there) was not ours to decide. **The site
   is knowingly inconsistent** until that is confirmed.
 - **`FormNumberInput.tsx` carried a pre-existing uncommitted edit** (default `step` 0.01 → 0.1)
@@ -270,7 +640,7 @@ Flagged before starting; the user confirmed and added two decisions of their own
 - **Left untouched (same precedent as prior features):** the pre-existing uncommitted
   `.mcp.json`, `OfferTechSpecs.tsx` and `ProjectsGrid.tsx`, `.claude/settings.local.json`, the
   untracked `.playwright-mcp/` artifacts, and the **content-identical** `sanity.schema.json` /
-  `studio/sanity.types.ts` (verified: `git diff --stat` reports _nothing_ — pure CRLF drift).
+  `studio/sanity.types.ts` (verified: `git diff --stat` reports *nothing* — pure CRLF drift).
   `frontend/sanity.types.ts` **was** committed, carrying only the `SitemapQueryResult` addition.
 - ⚠️ **`prettier --check` flags 64 files**, including four `przeslany-formularz/page.tsx` and
   `wycena/page.tsx` that this branch never touched — the pre-existing repo-wide line-ending
@@ -286,7 +656,7 @@ Flagged before starting; the user confirmed and added two decisions of their own
   and `aria-valuemax="6"` on depth, and an empty submit yields **8** inline errors (**none** for
   name or phone); żaluzje **5**, schody **11**; „opcjonalnie" and „marketingow" match **nothing**
   on any of the four pages.
-- **Not driven in-browser:** a real form _send_ — it would e-mail the dev inbox through Resend.
+- **Not driven in-browser:** a real form *send* — it would e-mail the dev inbox through Resend.
   The actions' success and failure paths stay unit-tested.
 
 ### Drobne zmiany — materiały tarasu, etykieta „Nowość", opcjonalne dane kontaktowe (2026-08-05)
@@ -315,9 +685,9 @@ implemented and the „Nowość" flag had been published.
   Round 4, carried over to `/wycena/*`. The `optionalText()` helper was **private to
   `contactForm.ts`**; extracted to `app/lib/validations/optionalText.ts` and imported by all five
   schemas, so the five can't drift (the `benefitIcons.ts` precedent). An untouched input arrives as
-  `''` → `undefined`; a value that _was_ typed is still length-checked.
+  `''` → `undefined`; a value that *was* typed is still length-checked.
 - **Three ripples the schema change forced, none of them obvious from the request:** (1) the
-  `preprocess` makes the RHF _input_ type `unknown`, so each `error` prop needs a
+  `preprocess` makes the RHF *input* type `unknown`, so each `error` prop needs a
   `FieldError | undefined` cast — `TarasForm` also needed the `FieldError` type imported, the other
   three already had it; (2) `formData.append('name', data.name)` no longer type-checks, so all four
   onSubmit handlers take `?? ''`; (3) each action's subject line would have read
@@ -335,7 +705,7 @@ implemented and the „Nowość" flag had been published.
   repo-wide condition (line endings), not caused by this work. Deliberately not „fixed", since a
   reformat of 142 files would bury the actual diff.
 - **Clearing `.next` for the clean build killed the running dev server again** (they share the
-  directory) — the same footgun as the offer-index session. Do the browser verification _first_,
+  directory) — the same footgun as the offer-index session. Do the browser verification *first*,
   then clear and build.
 - Verified: **155/155 Vitest** (151 baseline + 4 new „accepts a submission with no name and no
   phone" cases, one per form — the too-short-value tests were kept, retitled „still rejects…"),
@@ -346,7 +716,7 @@ implemented and the „Nowość" flag had been published.
   show „(opcjonalnie)" on both labels and an empty submit yields **7 / 7 / 5 / 11** inline errors
   (taras / zadaszenie / żaluzje / schody) with **none** for name or phone; „123" in a phone field
   still errors.
-- **Not driven in-browser:** a real form _send_ — it would e-mail the dev inbox through Resend. The
+- **Not driven in-browser:** a real form *send* — it would e-mail the dev inbox through Resend. The
   actions' success and failure paths stay unit-tested.
 - **Left untouched (same precedent as prior features):** the pre-existing uncommitted `.mcp.json`,
   `OfferTechSpecs.tsx`, `ProjectsGrid.tsx` and `FormNumberInput.tsx`, `.claude/settings.local.json`,
@@ -380,10 +750,10 @@ front; a third — **deleting the team section outright** — came from the user
   bold/links/lists, so the richer editor would have bought nothing today.
 - ⚠️ **The spec's `<div className="bg-bg-deep">` wrapper around `ProcessTimeline` is a no-op** —
   that section paints its own `bg-bg-mid` (`ProcessTimeline.tsx:116`), so a wrapper is invisible.
-  The intended alternating rhythm was achieved by assigning the _surrounding_ sections instead:
+  The intended alternating rhythm was achieved by assigning the *surrounding* sections instead:
   Hero **deep** → Story **mid** → Values **deep** → Timeline **mid** (fixed) → Cta **deep**.
   Measured in-browser as `#0B0B0C / #111111 / #0B0B0C / #111111 / #0B0B0C`. The Cta ended up back
-  on the spec's `bg-bg-deep` only _after_ the team section was cut — with it, the parity flipped.
+  on the spec's `bg-bg-deep` only *after* the team section was cut — with it, the parity flipped.
 - **Icon map extracted to `app/lib/benefitIcons.ts`** (`BENEFIT_ICON_MAP`), now shared by
   `AboutValues` and `OfferBenefits` — the spec asked for a shared `iconMap.ts` that did not exist.
   Mirrors the Studio's `BENEFIT_ICONS`, so the dropdown and the lookup can't drift.
@@ -439,7 +809,7 @@ brightness) added mid-session by the user.
 
 - **#1 Contact form — name and phone optional, „Temat wiadomości" deleted.** A new `optionalText()`
   helper reuses the repo's `preprocess` pattern: an untouched input arrives as `''` and becomes
-  **`undefined`**, but a value that _was_ typed is still length-checked — „123" in the phone field
+  **`undefined`**, but a value that *was* typed is still length-checked — „123" in the phone field
   still errors, clearing it removes the error (both verified in-browser). Only **e-mail, wiadomość
   and the RODO consent** remain required. `CONTACT_SUBJECTS` deleted outright (no other consumer).
   The lead subject line falls back to the **address** when there's no name. **The e-mail layer
@@ -516,7 +886,7 @@ brightness) added mid-session by the user.
   **exactly 3** inline errors on an empty submit and has no subject select; `/wycena` stripes
   uniform with no horizontal overflow at 390; the desktop dropdown opens with all 5 links on-screen
   and the drawer accordion expands with 5 visible links.
-- **Not driven in-browser:** a real contact-form _send_ — it would e-mail the dev inbox through
+- **Not driven in-browser:** a real contact-form *send* — it would e-mail the dev inbox through
   Resend. The success and failure paths stay unit-tested.
 
 ### Client Feedback — Round 3: nav, contact modal, Przed i po, VAT, `/wycena` (2026-08-03)
@@ -536,11 +906,11 @@ across two question rounds, then **two of them were superseded mid-session**.
   the client promotes a different form by reordering rather than by editing code. Cards reuse the
   matching offer's `heroImage` — no new uploads needed. The `NavDropdown` `cta` variant and the
   now-dead `WYCENA_ITEMS` / `OFFER_FORM_HREFS` constants were deleted (eslint caught them).
-- ⚠️ **The stretched card link never covered the card — on `/oferta` _or_ `/wycena` — and the first
+- ⚠️ **The stretched card link never covered the card — on `/oferta` *or* `/wycena` — and the first
   verification wrongly reported that it did.** `after:absolute after:inset-0` positions against the
   nearest **positioned** ancestor, which was the `absolute inset-x-0 bottom-0` text wrapper, not the
   `relative` card. Only the bottom text strip was clickable; the image was dead. The original probe
-  hit the _banner_ card's centre, which happens to fall inside that strip, and Playwright's
+  hit the *banner* card's centre, which happens to fall inside that strip, and Playwright's
   „stretched link intercepts pointer events" message was misread as proof. **The user reported it.**
   Fixed by making the wrapper `absolute inset-0 flex flex-col justify-end p-6` — it spans the card,
   so the `::after` does too, and content still sits at the bottom. Re-verified by probing **near the
@@ -553,7 +923,7 @@ across two question rounds, then **two of them were superseded mid-session**.
   Revealed on hover from `md` up, **always visible on touch widths** where there is no hover.
 - **„Formularz kontaktowy" is a modal, not a subpage** (the client's „nie podstrona").
   `ContactFormDialog` is **controlled from `Navbar`** — state lifted so the mobile drawer closes
-  _before_ the modal opens, instead of nesting two Ark dialogs. `lazyMount` + `unmountOnExit` resets
+  *before* the modal opens, instead of nesting two Ark dialogs. `lazyMount` + `unmountOnExit` resets
   the form between openings. Enter/exit use **distinctly named** keyframes (the Zag presence-machine
   lesson from the mobile-drawer feature: matching names unmount instantly). `FormSuccessState` is
   reused with `steps={[]}`, which skips the process recap and keeps the confirmation modal-sized —
@@ -601,7 +971,7 @@ across two question rounds, then **two of them were superseded mid-session**.
 - **„5 dni roboczych" everywhere** (user instruction). Six occurrences still said 7: the fine print
   under all four form submit buttons, `FormSuccessState`'s closing note, and the customer
   confirmation email — the last two **contradicting copy a few lines above them**. The CMS was
-  audited too and was already correct; the remaining „1–5 dni roboczych" is install _duration_ and
+  audited too and was already correct; the remaining „1–5 dni roboczych" is install *duration* and
   was deliberately left.
 - ⚠️ **Three buttons read „Darmowa wycena".** The header CTA and the home CTA block now both point
   at `/wycena` (the block was changed to match, since the labels are identical), but the **hero**
@@ -637,7 +1007,7 @@ across two question rounds, then **two of them were superseded mid-session**.
   single column at 390 with no horizontal overflow; empty contact submit produced all **6** inline
   errors; Oferta → Tarasy opens expanded; map popup reads the footer address; VAT row measured
   `222px 56px 222px` at 1440 and stacked with the arrow at `rotate: 90deg` at 390.
-- **Not driven in-browser:** a real contact-form _send_ — it would email the dev inbox through
+- **Not driven in-browser:** a real contact-form *send* — it would email the dev inbox through
   Resend. The action's success and failure paths are unit-tested instead.
 
 ### Offer Index Page `/oferta` + „Akcesoria do zadaszeń" rename (2026-07-28)
@@ -662,7 +1032,7 @@ subpages — plus a **client-mandated category rename** that grew out of it mid-
   `md:aspect-square` silently beat the banner's `md:aspect-21/6` → the finale rendered **square
   (1184×1184)**. Caught by measuring in-browser, not by reading the class list. Fix: the `md:` ratio
   lives **only** in `SPAN_CLASSES`, never on the base. Comment records it.
-- **Nested anchors avoided.** The spec wraps the quotation-form pill in its own `<Link>` _inside_
+- **Nested anchors avoided.** The spec wraps the quotation-form pill in its own `<Link>` *inside*
   the card `<Link>` with `stopPropagation` — invalid HTML. Card link is now a **stretched
   `after:absolute after:inset-0` overlay** on the title anchor (so the accessible name stays the
   title) with the pill as a `z-10` sibling. Measured **0 nested anchors** on all 7 cards.
@@ -697,10 +1067,10 @@ to carry it through everywhere, so the **category value** moved too (slug === ca
   `app/lib/categories.ts`. That duplication (flagged as a risk back on 2026-07-13) is precisely what
   let the two copies drift. Its pre-existing uncommitted `data-[selected]:`→`data-selected:` tidy-up
   rode along, same precedent as the Easy Wins branch.
-- **The żaluzje _form_ is untouched** — `/wycena/zaluzje`, „Formularz Wyceny Żaluzji" and the blinds
+- **The żaluzje *form* is untouched** — `/wycena/zaluzje`, „Formularz Wyceny Żaluzji" and the blinds
   add-on inside the canopy form all still say Żaluzje (they describe the physical product). ⚠️ Worth
   confirming with the client, since the offer those lead to is now called Akcesoria. Two migrated
-  realizations are still _titled_ „Żaluzje…" — category moved, titles left alone (they describe
+  realizations are still *titled* „Żaluzje…" — category moved, titles left alone (they describe
   specific installed jobs).
 - **Studio redeployed** (`npm run deploy` from `studio/`) — in place via the pinned `appId`, same
   URL, `Deployed 1/1 schemas`. **Verified against the deployed schema via MCP**, not assumed:
@@ -754,9 +1124,9 @@ TypeGen regen, no new server actions/utilities → no new tests.
   (`animation-direction: reverse`) would NOT work** — the name would be unchanged and the machine
   would still unmount instantly. A comment above the keyframe records this.
 - **The backdrop needed its own fix.** `Dialog.Backdrop` calls `usePresence` itself (its own machine
-  - its own node ref), whereas `Dialog.Content`/`Positioner` share the root's presence context — so
-    the backdrop had the identical same-name bug and got its own `nav-fade-out`. Without it the page
-    would flash un-dimmed the moment the panel started sliding.
+  + its own node ref), whereas `Dialog.Content`/`Positioner` share the root's presence context — so
+  the backdrop had the identical same-name bug and got its own `nav-fade-out`. Without it the page
+  would flash un-dimmed the moment the panel started sliding.
 - **Traced the close frame-by-frame** rather than eyeballing it: panel `x: 0 → 12 → 62 → 137 → 232
 → 344` (of 390) while backdrop opacity ran `1.00 → 0.08`, then settled `hidden` / `display:none`
   with **nothing tabbable** (18 links present but `offsetParent === null`) — that mounted-but-hidden
@@ -765,7 +1135,7 @@ TypeGen regen, no new server actions/utilities → no new tests.
 - ⚠️ **Dev-server gotcha worth remembering — a CSS-only edit can silently not apply.** The exit
   animation appeared dead at first: `data-state="closed"` and `animation-name:
 nav-slide-out-right` were both correct, but `getAnimations()` was **empty** and `transform: none`
-  — Chromium won't create an animation for an unknown keyframe name. The served CSS chunk _did_
+  — Chromium won't create an animation for an unknown keyframe name. The served CSS chunk *did*
   contain the string (Turbopack had rebuilt it for the new **utility class** from `Navbar.tsx`) but
   held only the **three old** `@keyframes` blocks from `globals.css`. **A hard reload did not fix
   it**; touching `globals.css` did. Same stale-cache family as the earlier `.next` incident. Probe
@@ -773,7 +1143,7 @@ nav-slide-out-right` were both correct, but `getAnimations()` was **empty** and 
   the class reference and the keyframe block both match a naive `includes`.
 - **Self-correction during the session:** initially bumped `Dialog.Title` to `text-xl`, which made
   the long CMS brand string („CComplex - Zadaszenia Tarasowe i Tarasy") wrap into the close button.
-  Reverted to `text-lg` + `pr-4` — the goal was bigger _nav links_, not the title.
+  Reverted to `text-lg` + `pr-4` — the goal was bigger *nav links*, not the title.
 - **Playwright gotcha:** `document.querySelectorAll('[data-scope="accordion"][data-part="item-trigger"]')[0]`
   matched an accordion **elsewhere on the page**, not the drawer's — scope drawer queries under
   `[data-scope="dialog"][data-part="content"]`. Also, an MCP click round-trip exceeds the 300 ms
@@ -797,7 +1167,7 @@ The router wants to navigate to `https://complex-puce.vercel.app/`, but the orig
 Branch `fix/presentation-allow-origins`. **One file changed:** `studio/sanity.config.ts`.
 
 - **What the error actually gates.** Presentation trusts exactly **one** origin — that allow list
-  guards the Comlink (`postMessage`) channel behind click-to-edit _and_ any navigation requested via
+  guards the Comlink (`postMessage`) channel behind click-to-edit *and* any navigation requested via
   the Studio URL's `?preview=…` param. Traced the string to
   `preview-search-param.configuration.error` in `sanity/lib/_chunks-es/PresentationToolGrantsCheck.js`
   (`useReportInvalidPreviewSearchParam`); with no `allowOrigins` configured the default list is
@@ -809,14 +1179,14 @@ Branch `fix/presentation-allow-origins`. **One file changed:** `studio/sanity.co
   — `studio/.env` = `http://localhost:3000`, `studio/.env.production` = the Vercel URL — so the allow
   list flipped with whatever built the bundle and could never cover both.
 - **Fix:** `origin` → `initial` (still fed by `SANITY_STUDIO_PREVIEW_URL`, so the env var keeps
-  deciding which URL Presentation _opens_), plus a top-level
+  deciding which URL Presentation *opens*), plus a top-level
   `allowOrigins: ['http://localhost:*', 'https://complex-puce.vercel.app']` held in a named
   `PREVIEW_ALLOW_ORIGINS` const. **Deliberately decoupled from the env var** — trusting an origin and
   opening it are different concerns, so every build now trusts both and the list can't silently
   change. `allowOrigins` is a top-level `presentationTool` option (needs `sanity` ≥ 3.85).
-- **Ruled out first, so nobody re-runs this:** _not_ the accumulated stale-Studio debt from earlier
+- **Ruled out first, so nobody re-runs this:** *not* the accumulated stale-Studio debt from earlier
   in the day — fetched the then-live `complex.sanity.studio/static/sanity.config-BeIsjVeh.js` and it
-  **did** contain the Vercel URL (as `previewUrl.origin`); and _not_ version skew — `autoUpdates: true`
+  **did** contain the Vercel URL (as `previewUrl.origin`); and *not* version skew — `autoUpdates: true`
   resolves within `^5.31.1`, and the module CDN's `x-resolved-version` header confirmed the deployed
   Studio runs **5.31.1**, identical to local. Also noted: `complex.sanity.studio` now **302s** to the
   Dashboard-hosted app (`www.sanity.io/@or787Vn1q/studio/<appId>`), but its `/static/*` assets are
@@ -834,7 +1204,7 @@ Branch `fix/presentation-allow-origins`. **One file changed:** `studio/sanity.co
   limitation as the earlier redeploy session), so the toast being gone and click-to-edit working were
   **not** observed in a browser — the evidence is the live bundle's contents plus the replayed
   matching algorithm. If it still misbehaves, a **different** message (`Preview URL origin mismatch`,
-  which names a _reported_ origin) would mean the frontend answers from another origin — a different
+  which names a *reported* origin) would mean the frontend answers from another origin — a different
   fix. Editors should hard-reload: the old bundle may be cached and the previous toast has
   `duration: Infinity`, so it survives soft navigation.
 - **When the site moves to a real domain** (e.g. `ccomplex.pl`), that origin **must** be added to
@@ -938,7 +1308,7 @@ przeslany-formularz`. Chosen over one shared page so GA gets a **distinct URL pe
   Deliberately **not** a query param — the address would land in every GA pageview URL (RODO/PII).
   **Two layers, because neither alone is enough:** a module-level `Map` that survives the client-side
   `router.push` (same JS context) and keeps working when storage is blocked (Safari private mode,
-  hardened settings — property access _throws_, hence the `try/catch` around it), plus
+  hardened settings — property access *throws*, hence the `try/catch` around it), plus
   `sessionStorage` so a **refresh** of the thank-you page still renders. Keyed per form, so a
   `taras` submission does not unlock the `schody` confirmation.
 - **Guarded.** `FormThankYouPanel` reads the record on mount; absent → `router.replace` back to the
@@ -948,7 +1318,7 @@ przeslany-formularz`. Chosen over one shared page so GA gets a **distinct URL pe
 - **The panel is client-only, by necessity — the one non-obvious call.** Reading storage in a
   `useEffect` trips this repo's **`react-hooks/set-state-in-effect` as an _error_** (not a warning),
   and `useSyncExternalStore` would **race the redirect against hydration**: the hook's internal
-  effect re-reads the client snapshot _after_ a sibling effect already fired with the server
+  effect re-reads the client snapshot *after* a sibling effect already fired with the server
   snapshot, so a legitimate submitter would get bounced back to the form. Resolved by mounting the
   panel through **`next/dynamic` with `ssr: false`** — no server render, so the guard can read
   storage in a lazy `useState` initializer with no hydration ambiguity. That's the reason for the
@@ -973,7 +1343,7 @@ przeslany-formularz`. Chosen over one shared page so GA gets a **distinct URL pe
   after the żaluzje submission (cross-form isolation). **0 console errors** across the session.
 - ⚠️ **No GA/GTM tag exists in the repo** (`grep` for `gtag`/`dataLayer`/`GoogleAnalytics` → 0 hits).
   This feature creates the trackable URLs; installing the analytics tag is still an open job.
-- **Note on the guard's tradeoff:** the record is _not_ cleared after reading, so a refresh works but
+- **Note on the guard's tradeoff:** the record is *not* cleared after reading, so a refresh works but
   a second pageview is possible within the same session. Tied to a real submission either way.
 - **Left untouched (same precedent as prior features):** the pre-existing uncommitted `.mcp.json`,
   `OfferTechSpecs.tsx`, `FeaturedProjectsSection.tsx`, the user's `renderConfirmationEmail.ts` edit,
@@ -1015,11 +1385,11 @@ Spec: `context/features/form-success-state-spec.md` (committed with the feature)
   **`app/lib/processStepIcons.ts`** (`PROCESS_STEP_ICON_MAP`) and pointed both `ProcessTimeline` and
   `FormSuccessState` at it — one source, no duplication.
 - **No new Sanity schema/query.** Reused the existing standalone **`processTimeline` singleton**
-  (`processTimelineQuery`), _not_ `siteSettings.processTimeline` as the spec's phrasing assumed (this
+  (`processTimelineQuery`), *not* `siteSettings.processTimeline` as the spec's phrasing assumed (this
   repo split section configs into fixed-id singletons long ago). Each `/wycena/*` page now fetches
   `processTimelineQuery` — `taras`/`schody` already `await`, so added it to their `Promise.all`;
   `zadaszenie`/`zaluzje` were sync, made them `async` — and threads `steps={processTimeline?.steps ??
-[]}` to the form. Each form captures `submittedEmail` from `data.email` **before** flipping to the
+  []}` to the form. Each form captures `submittedEmail` from `data.email` **before** flipping to the
   success state.
 - **Removed the now-unused `CheckCircle` import** from all four forms (it moved into the shared
   component); `Link` stayed (still used for the RODO/Polityka-prywatności consent links).
@@ -1095,7 +1465,7 @@ repo (`resend@^6`).
 - **Stayed on the existing server actions — no `/api/quote` route** (the project overview lists one;
   confirmed with the user that a route only earns its keep for webhooks / non-web clients).
 - **`app/lib/email/` — one shared layer, four thin callers.** `renderQuoteEmail.ts` is **pure** and
-  owns _every_ formatting rule, so the four forms cannot drift: `Section[] → HTML`, where
+  owns *every* formatting rule, so the four forms cannot drift: `Section[] → HTML`, where
   `formatRowValue` **drops empty rows entirely** (`undefined`/`null`/`''`/`[]` — so shape 1 shows only
   sides A and B, no `C: undefined`), maps booleans to **„Tak"/„Nie"**, joins arrays („A, B"), and
   **escapes** user text (`notes`, `name`) while preserving its line breaks. A section whose every row

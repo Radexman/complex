@@ -1,424 +1,322 @@
-# Client Feedback — Round 7
+# Client Feedback — Round 7 (drop Elewacje, uniform tiles, Kontakt swap, form copy editability, GA thank-you pages)
 
-> **Source:** WhatsApp messages from the client, 26.08.2026 (+48 781 429 378), forwarded 27.08.2026.
-> Seven numbered items in the first message plus three follow-up messages about RODO / polityka
-> prywatności. All visible copy is **Polish**; all identifiers stay **English**.
+Nine items distilled from a redlined screenshot PDF (`12.08.26.pdf`, sent 12.08.2026) plus a
+14.08.2026 WhatsApp follow-up about Google Ads conversion tracking. Three other PDFs
+(`pełne.pdf`, `komorowe.pdf`, `tarasy kompozytowe.pdf`) were the client's own draft wireframes for
+splitting Tarasy kompozytowe into komorowe/pełne subpages — **superseded**, she explicitly reversed
+that direction in the same WhatsApp thread (*"ostatecznie - nie robimy zakładek do strony
+zadaszenia i tarasy - poradze sobie"*, 14.08). Not in scope; do not build them.
 
-**Suggested branch:** `feature/feedback-round-7`, cut from `main`.
+Decisions below were confirmed with the user up front (see the four recommended options chosen);
+assumptions are marked **⚠️ assumption**.
 
----
-
-## Status
-
-Not started — this document is the comprehension pass, not the implementation.
-
----
-
-## Overview
-
-| #     | Item                                                     | Where it lives                | Needs deploy?               | Difficulty  |
-| ----- | -------------------------------------------------------- | ----------------------------- | --------------------------- | ----------- |
-| ~~1~~ | ~~Katalog schody — 2 sekcje (wew./zew.) + więcej zdjęć~~ | ~~CMS~~                       | ~~no~~                      | **DONE**    |
-| 2     | Menu: „BEZPŁATNA WYCENA” zamiast „Darmowa wycena”        | CMS (`navbar` singleton)      | **no** — publish only       | trivial     |
-| 3     | Facebook — pogrubiony + przekierowanie                   | Code (2 sections) + CMS (URL) | yes                         | small       |
-| 4     | Stopka — zmiana tekstu (obszar działania)                | CMS (`footer.tagline`)        | **no** — CMS edit           | trivial     |
-| 5     | Stopka — WhatsApp pod numerem telefonu                   | Code + CMS (new field)        | yes + **Studio redeploy**   | small       |
-| 6     | Kody Google (Ads / Analytics / GTM)                      | Code (`layout.tsx`) + env     | yes                         | medium      |
-| 7     | Polityka prywatności — strona + linki                    | Code (new route) + CMS?       | yes (+ Studio if CMS-owned) | **largest** |
-
-Item 7 is the one that matters most technically: **six links on the live site already point at
-`/polityka-prywatnosci`, and that page does not exist.** See below.
+All visible copy is Polish; all identifiers English.
 
 ---
 
-## ~~1. Katalog schody — dwie sekcje + więcej zdjęć~~
+## Client's feedback (paraphrased from the PDF + WhatsApp)
 
-**Out of scope — already resolved** by adding the new items to the proper section in the CMS.
-Listed here only so the round's numbering matches the client's message.
-
----
-
-## 2. Menu: „BEZPŁATNA WYCENA” (nie „Darmowa”)
-
-> _„wgrała sie Nie ta wersja – w menu u góry powinno być BEZPŁATNA WYCENA (a jest ''darmowa'')”_
-
-### Root cause — not a code bug, and not a stale deployment
-
-The label is CMS-driven (`navbar.ctaButton.label`, read at
-[Navbar.tsx:263](frontend/app/components/layout/Navbar.tsx#L263)). Queried the dataset:
-
-| Document        | `ctaButton.label`    | `_updatedAt`         |
-| --------------- | -------------------- | -------------------- |
-| `drafts.navbar` | **Bezpłatna wycena** | 2026-08-06T08:17:08Z |
-| `navbar`        | **Darmowa wycena**   | 2026-08-03T15:31:32Z |
-
-**The client already made the change — she just never hit Publish.** The draft has been sitting
-unpublished since 6 August.
-
-### Fix
-
-**Publish the `navbar` draft.** Verified the draft differs from published by **the CTA label only**
-(logo, href and brand text are byte-identical), so publishing pushes nothing unintended live. No
-code change, no `next build`, no Studio redeploy — the site picks it up through the Live Content API.
-
-### Decision needed
-
-The client wrote it in caps („BEZPŁATNA WYCENA”). The button is **not** CSS-uppercased, so it will
-render exactly as typed: „Bezpłatna wycena”. Ask whether she wants:
-
-- **(a)** the label as currently drafted — sentence case „Bezpłatna wycena” _(recommended: matches
-  the hero CTA, the home CTA block and `/wycena`, all of which already say „Bezpłatna wycena”)_, or
-- **(b)** literal caps — either retype the CMS value or add `uppercase` to the button class.
-
-Do **not** silently type it in caps: three other buttons on the site read „Bezpłatna wycena” in
-sentence case, and caps in one of them would look like a mistake.
-
-### Also worth telling her
-
-There is a general lesson here worth one sentence back to her: **edits in the Studio go live only
-after „Publish”.** Worth checking whether other drafts are waiting — a quick audit of unpublished
-drafts should be part of this round.
+> 1. Realizacje: usuwamy 2 kategorie z filtrów — schody i elewacje (nie mam realizacji w tych
+>    kategoriach do pokazania).
+> 2–4. "Zobacz całą ofertę", "Bezpłatna wycena", "Nasze realizacje" nie przekierowują u mnie.
+> 5. Kontakt: "obszar działania" ma nie być zielony — zwykłe czarne tło. Ma się rzucać w oczy że
+>    mają umawiać wizytę — ten zielony pasek jak w obszarze działania dać do "BIURO".
+> 6. Oferta: mniejsze, jednakowej wielkości kafelki (moje zdjęcia nie są dobrej jakości).
+>    Usuwamy Elewacje z siatki.
+> 7. Elewacje — ściągamy całkowicie (z menu, ze wszystkiego).
+> 8. Brak możliwości zmiany tekstu we wszystkich formularzach wyceny.
+> 9. Sekcja "Jak to działa" na podstronach oferty — przenieść na dół, przed Kontakt.
+> 10. Galerie na podstronach oferty — mniejsze kafelki (x3 lub max4), plus tekst pod galerią
+>     (chce napisać coś o Facebooku) i przycisk w stylu strony głównej — też nieedytowalny.
+> 11. (WhatsApp, 14.08) Każdy formularz — w tym formularz kontaktowy — musi przekierowywać po
+>     wysłaniu na własny, osobny adres URL, żeby Google Ads mógł liczyć konwersje per kampania.
 
 ---
 
-## 3. Facebook — pogrubiony + przekierowanie
+## 0 — Verify first: the three "not redirecting" CTAs (items #2–4)
 
-> _„Facebook = pogrubiony + przekierowanie (nasze realizacje - strona STRAT+strona REALIZACJE)”_
+*"Zobacz całą ofertę"* (`OfferSection.tsx` → `/oferta`), *"Bezpłatna wycena"* (hero →
+`/wycena/zadaszenie`), *"Nasze realizacje"* (hero → `/realizacje`) are all already wired correctly
+per prior feature history — no bug expected in the code. Most likely a stale hosted-Studio bundle
+or a CDN/browser cache on her end (this repo has hit that exact failure mode repeatedly — see
+history entries from 2026-06-15 through 2026-07-28).
 
-⚠️ **This is the most ambiguous item in the round.** Reading „STRAT” as a typo for „START”, the
-intent appears to be:
+**Action: check in a real browser against the live deploy before touching any code.** If all three
+work, tell her directly (likely a cache issue on her machine) and redeploy Studio (`npm run
+deploy` from `studio/`) as routine hygiene since this round touches schema anyway. Only write code
+if a genuine bug reproduces.
 
-> _Add a prominent (bold) Facebook link that redirects to the company profile, in the „nasze
-> realizacje” area of **both** the home page and the Realizacje page._
+---
 
-### Proposed implementation (confirm before building)
+## 1 — Remove "Elewacje kompozytowe" completely
 
-1. **Home page — `FeaturedProjectsSection`.** The header row already carries a „Zobacz wszystkie
-   realizacje” accent link
-   ([FeaturedProjectsSection.tsx:153-163](frontend/app/components/sections/FeaturedProjectsSection.tsx#L153-L163)).
-   Add a second, **bold** link beside it — e.g. „Więcej realizacji na Facebooku” with the
-   `FaFacebookF` glyph — opening the profile in a new tab (`target="_blank" rel="noopener noreferrer"`).
-2. **`/realizacje` — `ProjectsGrid`.** The same link under the page header, so the „see more of our
-   work” route exists on the standalone listing page too.
-3. **Footer social icon — „pogrubiony”.** The Facebook button is currently a `text-silver` outline
-   tile that only turns accent on hover ([Footer.tsx](frontend/app/components/layout/Footer.tsx)).
-   Make it read as a real call to action at rest: accent border + brighter glyph, or a labelled
-   button („Facebook”) rather than a bare icon.
+Full removal, not a soft hide — confirmed twice (§1's struck-out table, §7's explicit "z menu — ze
+wszystkiego").
 
-### One thing to fix regardless of the above
+### Files
 
-The stored Facebook URL is a **copy-pasted notification link**:
+| File | Change |
+| --- | --- |
+| `studio/src/schemaTypes/documents/project.ts:15` | remove the `Elewacje kompozytowe` entry from `PROJECT_CATEGORIES` |
+| `studio/src/schemaTypes/objects/offerCard.ts:22` | remove the `Elewacje kompozytowe` entry from `OFFER_SLUGS` |
+| `frontend/app/lib/categories.ts` | remove the `'elewacje-kompozytowe'` entry from `CATEGORY_LABELS` |
+| `frontend/app/components/layout/Navbar.tsx:34` | remove the Elewacje entry from `OFERTA_ITEMS` |
+| `frontend/app/components/layout/Footer.tsx:39` | remove the Elewacje entry from `OFERTA_LINKS` |
+| `frontend/next.config.ts` | add a permanent redirect `/oferta/elewacje-kompozytowe` → `/oferta`, same pattern as the existing `zaluzje-tarasowe` → `akcesoria-do-zadaszen` redirect |
 
+### Content (Sanity, published)
+
+- Unpublish (or delete) the `elewacje-kompozytowe` `service` document — its dynamic route
+  `/oferta/elewacje-kompozytowe` then 404s without the code redirect above.
+- Any published `project` documents categorized `elewacje-kompozytowe` need to be recategorized or
+  unpublished — audit first (`client.fetch` count by category), don't guess. ⚠️ **Confirm with the
+  client** whether those realizations should be deleted, hidden, or recategorized (e.g. under
+  Zadaszenia tarasowe if the actual job included one).
+- `sitemap.ts`'s offer-slugs query is driven live off published `service` docs, so it self-corrects
+  once the document is unpublished — no code change needed there.
+
+### TypeGen
+
+Both schema edits regenerate the `ProjectCategory` / offer-slug union types
+(`cd frontend && npm run sanity:typegen`) — `CATEGORY_LABELS`'s `Record<ProjectCategory, string>`
+will fail to compile until its own entry is dropped too, so do the frontend edit in the same pass.
+
+---
+
+## 2 — Realizacje filter tabs: drop Schody + Elewacje
+
+**Schody stays a real offer/product** (form, nav entry, `/oferta/schody-modulowe` — all untouched).
+Only its Realizacje *filter tab* goes, because there's nothing to show under it yet. This is why it
+can't just piggyback on Elewacje's removal from `CATEGORY_LABELS` above — schody-modulowe must
+still resolve a label everywhere else (`OfferGallery`'s "Galeria — {categoryLabel}" header on that
+offer page, the category badge on any future schody project card).
+
+- `frontend/app/lib/categories.ts`: `CATEGORY_ORDER` currently `= Object.keys(CATEGORY_LABELS)` and
+  is consumed only by `ProjectsGrid.tsx:140` for the tab list. Split it: keep `CATEGORY_LABELS` as
+  the full label map (6 entries after Elewacje's removal above, schody-modulowe included), and add
+  a new `REALIZACJE_TAB_CATEGORIES` — the same list minus `'schody-modulowe'` — for `ProjectsGrid`
+  to map its tabs from instead of `CATEGORY_ORDER`.
+- `frontend/app/components/sections/ProjectsGrid.tsx:140`: swap the `CATEGORY_ORDER.map(...)` tab
+  loop to use `REALIZACJE_TAB_CATEGORIES`. Tab count goes from 8 → 6 (Wszystkie + 5 categories).
+
+---
+
+## 3 — `/oferta` grid: uniform tiles, no hero/banner
+
+`frontend/app/components/offer/OfferIndexGrid.tsx` currently sizes cards via `bentoSpan()` (2×2
+hero + trailing full-width banner + squares) — built for exactly 7 cards with zero empty cells. At
+6 cards (post-Elewacje) that math no longer holds cleanly, and the client's own ask is simpler than
+what's there: **"najlepiej wszystkie takiej samej wielkości"** — she wants every card the same size
+regardless of card count, both because her photos are inconsistent quality and because it removes
+the "does this still tile cleanly" maintenance burden every time a service is added/removed.
+
+- Delete `bentoSpan()`, `SPAN_CLASSES`, `TITLE_CLASSES` entirely.
+- Replace the grid with a plain uniform layout: `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`, every
+  `ServiceCard` the same `aspect-4/3` (or `aspect-video` — pick one, apply everywhere), same title
+  size, no `priority`-only-on-hero special case (⚠️ **assumption**: give the first-rendered card
+  `priority` instead, since it's still the most likely LCP element).
+- The stretched-link pattern (`after:absolute after:inset-0` on the title anchor), the hover action
+  buttons, and the `isNew` badge are unaffected — those already work per-card, independent of span.
+- **Content — new order** (`service.order` field, published): Zadaszenia tarasowe, Tarasy
+  kompozytowe, Tarasy drewniane, Tarasy gresowe, Akcesoria do zadaszeń, Schody modułowe (6 cards).
+
+---
+
+## 4 — Kontakt section: swap the green accent from "Obszar działania" to "Biuro"
+
+Two components inside `ContactShowroom.tsx`, both already touch green — swap which one is
+*prominent*, don't just add/remove color blindly:
+
+- **`frontend/app/components/ui/ServiceAreaNotice.tsx:19`** ("Obszar działania") currently:
+  `border-l-4 border-accent bg-accent/10`, icon `text-accent`. This is the bold, eye-catching
+  treatment — remove it. New: plain dark card, no accent border/background (e.g. `bg-bg-surface`,
+  `border border-graphite`), icon goes muted (`text-silver`).
+- **`frontend/app/components/sections/ContactShowroom.tsx:126-138`** ("Biuro" block) currently:
+  `border border-accent/30 bg-accent/10` — a subtler accent than ServiceAreaNotice's. Promote it to
+  the exact bold treatment ServiceAreaNotice is losing: `border-l-4 border-accent bg-accent/10`
+  (`CalendarClock` icon stays `text-accent`).
+
+No schema change — both blocks already read from CMS fields (`serviceAreaLabel`/
+`serviceAreaDescription`, `officeLabel`/`officeDescription`); this is styling only.
+
+---
+
+## 5 — `ProcessTimeline` relocation on offer subpages
+
+`frontend/app/components/offer/OfferPage.tsx:58` currently renders `<ProcessTimeline>` between
+`OfferBenefits` and `OfferGallery`. Move it to immediately before `ContactShowroom` — i.e. after
+the `OfferFormCta` block (line 76-84), right before the `contact &&` block (line 85). New
+composition: Hero → Benefits → Gallery → Brands → TechSpecs → VatHighlight → FormCta →
+**ProcessTimeline** → Contact.
+
+One-line move in `OfferPage.tsx` — no schema/query change (still `processTimeline &&
+<ProcessTimeline data={processTimeline} />`).
+
+---
+
+## 6 — Offer-page gallery: smaller tiles + Facebook note + "see selected" CTA
+
+`frontend/app/components/offer/OfferGallery.tsx`:
+
+- **Fewer/smaller columns.** Current grid is `grid-cols-2 md:grid-cols-3` with a 2×2 hero cell
+  (`bentoClass`, lines 23-25, 128). Client wants 3, max 4 per row and no hero cell (same "hide weak
+  photo quality with uniform small tiles" reasoning as items #2 and #6). Drop `bentoClass`/
+  `SPAN_CLASSES`-equivalent, use a flat `grid-cols-2 sm:grid-cols-3 md:grid-cols-4` with every cell
+  `aspect-square`.
+- **New optional CMS text field below the gallery.** She wants to write something referencing
+  Facebook (a link to the page, presumably) but hasn't drafted the copy yet. Add an optional
+  `galleryFooterNote` (or similar) — ⚠️ **assumption**: a simple `text` field is enough (no rich
+  text/links needed unless she wants a clickable Facebook URL, in which case make it two fields:
+  `galleryFooterText` + optional `facebookUrl`). Render only when populated; leave empty until she
+  fills it in — don't invent copy.
+- **New CTA button under the gallery.** There is currently **no** button in `OfferGallery` at all
+  (verified — only `FeaturedProjectsSection.tsx:158` has a "Zobacz wszystkie realizacje" link, on
+  the *home* page). The client's screenshot shows one under "Galeria — {category}", so this is a
+  net-new addition, not a fix to something broken. Add a button styled like the homepage's ("Zobacz
+  wybrane realizacje" — "selected", not "all", since this gallery is already filtered by category),
+  linking to `/realizacje`. ⚠️ **assumption**: deep-linking to `/realizacje` pre-filtered by
+  category is out of scope here — `ProjectsGrid` filters via local component state, not a URL
+  param, so a category-scoped link would need new plumbing. Link to plain `/realizacje` unless the
+  client asks for the filtered version.
+- Her *"tez nie umiem zmienić"* about this button (and about the home page's "Zobacz wszystkie
+  realizacje") is the same hardcoded-copy complaint as item #8 below — see that section for the
+  scope decision (header/description only; button labels stay hardcoded static Polish copy this
+  round, not CMS fields, to keep scope contained).
+
+---
+
+## 7 — CMS-editable quotation-form intro copy
+
+**Scope: header title + description only** (confirmed) — not submit fine-print, not success-screen
+copy. All four hardcoded today, verified in each `page.tsx`:
+
+| Route | File | Hardcoded strings |
+| --- | --- | --- |
+| `/wycena/taras` | `frontend/app/wycena/taras/page.tsx:25,28` | "Formularz Wyceny Tarasu" / "Wypełnij poniższy formularz…" |
+| `/wycena/zadaszenie` | `frontend/app/wycena/zadaszenie/page.tsx:20,23` | same pattern |
+| `/wycena/zaluzje` | `frontend/app/wycena/zaluzje/page.tsx:20,23` | same pattern |
+| `/wycena/schody` | `frontend/app/wycena/schody/page.tsx:24,27` | same pattern |
+
+`taras` and `schody` already have a per-form Sanity singleton (`tarasFormConfig`,
+`schodyFormConfig` — both currently diagram-only, see `studio/src/schemaTypes/objects/
+schodyFormConfig.ts`). `zadaszenie` and `zaluzje` have **no Sanity document at all** today (pure
+code, confirmed — no `sanityFetch` call in either page).
+
+- Add `title` (string) and `description` (text) fields to `tarasFormConfig` and `schodyFormConfig`,
+  each with the current hardcoded string as its Studio `initialValue` (doesn't backfill the
+  existing published singletons — seed them explicitly after schema deploy).
+- Create two new fixed-id singletons, `zadaszenieFormConfig` and `zaluzjeFormConfig`, matching the
+  same shape (`title` + `description` only — no diagram, they don't have one). Register in
+  `schemaTypes/index.ts`, add structure entries, wire Presentation `locations`/`mainDocuments` for
+  `/wycena/zadaszenie` and `/wycena/zaluzje`, same as the `taras`/`schody` precedent.
+- Each `page.tsx` fetches its config via `sanityFetch` and renders `config?.title ?? '<current
+  hardcoded fallback>'` / same for description — in-component fallback so the page never breaks
+  before she fills the field in.
+- **TypeGen + Studio redeploy required** (new singletons + fields).
+
+---
+
+## 8 — Google Ads: distinct thank-you URL per form (WhatsApp, 14.08)
+
+**The 4 quotation forms already satisfy this** — `/wycena/{taras,zadaszenie,zaluzje,schody}/
+przeslany-formularz` shipped 2026-07-28, each a genuinely distinct, GA-trackable URL. **No code
+change** — confirmed decision: don't rename these to her literal `/dziekujemy-wycena-*/` paths, GA
+doesn't care about the exact string, only that the URL is unique per form. Verify in-browser
+against the live deploy (folds into item #0's verification pass) and explain this to her directly —
+she may be testing against a stale deploy, or generalizing from the one form that's actually
+missing this (below).
+
+**The real gap: the contact form.** It's a modal (`ContactFormDialog.tsx`, deliberate Round 3
+decision — *"nie podstrona"*) with no URL at all; submitting it just swaps in `FormSuccessState`
+inline (`ContactForm.tsx:70`). Confirmed approach: **keep the modal for fill-out**, but on a
+successful submit, navigate to a new `/dziekujemy-kontakt` page instead of rendering the success
+state inline — closes the modal in transit.
+
+This reuses the exact infrastructure already built for the quotation forms — `FormType` in
+`frontend/app/lib/formSubmissionSession.ts:16` already includes `'kontakt'` (built ahead of need),
+and `FormSuccessState` already has a `kontakt` variant (baked in since 2026-07-27, never had a
+caller until now).
+
+### New route
+
+`frontend/app/dziekujemy-kontakt/page.tsx`, modeled directly on
+`frontend/app/wycena/taras/przeslany-formularz/page.tsx`:
+
+```tsx
+import type { Metadata } from 'next';
+import ThankYouPageContent from '@/app/components/forms/shared/ThankYouPageContent';
+
+export const metadata: Metadata = {
+  title: 'Wiadomość wysłana — Complex',
+  robots: { index: false, follow: false },
+};
+
+export default function DziekujemyKontaktPage() {
+  return <ThankYouPageContent formType="kontakt" formHref="/" />;
+}
 ```
-https://www.facebook.com/ccomplex.plTarasy/?notif_id=1782353683768851&notif_t=page_user_activity&ref=notif
-```
 
-Those `notif_*` / `ref=notif` parameters belong to one notification in her own account and have no
-business in a public link. Clean the CMS value to `https://www.facebook.com/ccomplex.plTarasy/`
-(and confirm that is the canonical profile URL).
+`formHref="/"` — a direct/bookmarked visit with no submission record redirects home (there is no
+dedicated `/kontakt` page to send them back to; the form only exists as a modal).
 
-### Question to put to the client
+### `ContactForm.tsx` change
 
-Whether „pogrubiony” means (a) the footer icon should be visually stronger, (b) the new links in the
-realizacje sections should be bold, or (c) both. Build (c) unless she says otherwise — it is the
-reading that satisfies every part of the sentence.
+- On successful submit: call `markFormSubmitted('kontakt', data.email)` (same call the four
+  quotation forms make), then `router.push('/dziekujemy-kontakt')` instead of rendering
+  `<FormSuccessState formType="kontakt" …>` inline (line 70 goes away).
+- The dialog needs to actually close during this navigation — `ContactFormDialog` is controlled
+  from `Navbar`; thread an `onSuccess` callback down (`ContactForm` → `ContactFormDialog` →
+  `Navbar`'s `setContactOpen(false)`) so the modal unmounts as the route changes, rather than
+  sitting open over the new page.
 
----
+### Not needed
 
-## 4. Stopka — zmiana tekstu
-
-> _„stopka - zmiana tekstu: .........fachowe doradztwo na wybranych obszarach woj. śląskiego i
-> opolskiego”_
-
-Pure CMS content — `footer.tagline`, no draft pending.
-
-**Current (published):**
-
-> Nowoczesne zadaszenia tarasowe, pergole aluminiowe i tarasy. Profesjonalny montaż oraz fachowe
-> doradztwo **na terenie województwa śląskiego i opolskiego**.
-
-**Target:**
-
-> Nowoczesne zadaszenia tarasowe, pergole aluminiowe i tarasy. Profesjonalny montaż oraz fachowe
-> doradztwo **na wybranych obszarach woj. śląskiego i opolskiego**.
-
-The leading „.........” in her message is an ellipsis for the unchanged opening, not literal text.
-
-This continues the „na wybranych obszarach” wording standardised across the four quotation forms in
-Round 5. **Note the site is still not fully consistent:** `bottomCtaSection.serviceAreaDescription`
-(shown on the home page **and all 8 offer pages**) says „na wybranych obszarach **województwa
-opolskiego i śląskiego**” — right phrase, opposite voivodeship order. Worth aligning to one wording
-while we are in here; both fields are hers to edit in the Studio.
+- `/dziekujemy-kontakt` follows the existing `noindex` + sitemap-exclusion pattern the four
+  `przeslany-formularz` pages already use — nothing new to configure there.
 
 ---
 
-## 5. Stopka — WhatsApp pod numerem telefonu
+## Cross-cutting work
 
-> _„a da sie w stopce jeszcze dopisać WhadsApp/ stopka -kontakt - pod nr telefonu”_
-
-Yes. Add a WhatsApp row to the footer's Kontakt column, directly under the existing phone link.
-
-### Implementation
-
-- **Schema:** new optional `contactWhatsApp` field on the `footer` singleton
-  (`studio/src/schemaTypes/objects/footer.ts`), in the „Kontakt” group, described in Polish for the
-  client.
-- **Frontend:** an `<a href="https://wa.me/48XXXXXXXXX">` row in `Footer.tsx` matching the existing
-  phone/e-mail rows (icon + text, `hover:text-white`). Icon: `FaWhatsapp` from `react-icons/fa6` —
-  lucide has no brand glyphs (the Round-1 footer lesson). Sanitise the number the way the `tel:`
-  href already is; `wa.me` needs digits with the country code and **no** `+` or spaces.
-- ⚠️ **Requires a Studio redeploy** (`npm run deploy` from `studio/`) before she can edit the field
-  herself — it is a schema change.
-
-### Decision needed — which number?
-
-The privacy-policy text lists **two**: `661 242 507` (the one in the footer today) and
-`781 429 378` (the number she messages from, and the likelier WhatsApp Business line). **Ask.**
-Guessing here means putting a wrong number in front of customers.
-
-Optionally add a pre-filled message (`?text=Dzień%20dobry…`) — nice touch, but ask first.
-
----
-
-## 6. Kody Google (Ads / Analytics) — „MEGA WAŻNE”
-
-> _„jak ci przesle kody + instrukcje google - to zainstalujesz je na stronie - to jest niezbedne do
-> reklam”_
-
-**Answer: yes.** Confirmed the repo currently has **no** analytics of any kind — zero hits for
-`gtag`, `dataLayer`, `googletagmanager` or `GoogleAnalytics` anywhere in `frontend/`. Nothing is
-being measured today.
-
-### What to ask her to send
-
-1. **Which product(s):** Google Ads conversion tracking, GA4, Google Tag Manager, or Search Console
-   verification. Each is a different snippet and they are routinely confused for one another.
-2. **The IDs**, not screenshots: `G-XXXXXXXXXX` (GA4), `AW-XXXXXXXXX` + the conversion label (Ads),
-   `GTM-XXXXXXX` (Tag Manager), or the `google-site-verification` string.
-3. **What counts as a conversion** — almost certainly a submitted quotation form.
-
-### How it will be installed
-
-- Tags go in `frontend/app/layout.tsx` via `next/script` or `@next/third-parties/google`, with IDs in
-  env vars (`NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_GOOGLE_ADS_ID`) so they can change without a code edit.
-  These are public by nature — unlike the Resend/Sanity secrets, they belong in `NEXT_PUBLIC_*`.
-- **Conversions are already trackable by URL.** The thank-you routes built in July
-  (`/wycena/{taras,zadaszenie,zaluzje,schody}/przeslany-formularz`) give a **distinct URL per form**,
-  reachable only after a real submission — exactly what Google Ads wants as a conversion page. That
-  groundwork is done; only the tag is missing.
-- ⚠️ **The contact form is a modal with no URL,** so it cannot be counted the same way. It needs an
-  explicit event push instead, if she wants it measured.
-
-### Two things to raise with her before the tags go live
-
-1. ⚠️ **A cookie-consent banner does not exist on this site.** Under EU/Polish law, advertising and
-   analytics cookies require prior consent, and Google requires **Consent Mode v2** for EEA traffic
-   in Ads. The privacy policy she sent already promises visitors information about cookies. So
-   installing ad tags realistically means adding a consent banner too — a feature of its own, worth
-   scoping and pricing separately.
-2. ⚠️ **There is still no `robots.ts`,** so nothing points crawlers at the sitemap (flagged in
-   Round 5 and still open). Cheap to add while we are doing SEO/ads plumbing.
-
----
-
-## 7. Polityka prywatności / RODO — strona + linki
-
-> _„jeszcze RODO do wstawienia” / „polityka prywatności - chyba w stopce + przekierowania ze
-> wszystkich formularzy”_
-
-### ⚠️ This fixes a live bug, not just a missing page
-
-`/polityka-prywatnosci` **does not exist** — there is no route and no redirect. Six places on the
-live site already link to it, so every one of them is a **404 today**:
-
-| Where                                                                                    | Link text            |
-| ---------------------------------------------------------------------------------------- | -------------------- |
-| [Footer.tsx:59](frontend/app/components/layout/Footer.tsx#L59) — legal bar               | Polityka prywatności |
-| [ContactForm.tsx:120](frontend/app/components/forms/ContactForm.tsx#L120) — RODO consent | Polityki prywatności |
-| [TarasForm.tsx:293](frontend/app/components/forms/TarasForm.tsx#L293) — RODO consent     | Polityką prywatności |
-| [ZadaszenieForm.tsx:256](frontend/app/components/forms/ZadaszenieForm.tsx#L256)          | Polityką prywatności |
-| [ZaluzjeForm.tsx:181](frontend/app/components/forms/ZaluzjeForm.tsx#L181)                | Polityką prywatności |
-| [SchodyForm.tsx:212](frontend/app/components/forms/SchodyForm.tsx#L212)                  | Polityką prywatności |
-
-So the client's „przekierowania ze wszystkich formularzy” **already exist as links** — they simply
-have nothing to land on. Creating the page fixes all six at once; no form edits needed.
-
-⚠️ **The footer's other two legal links are 404s as well:** `/regulamin` and `/polityka-cookies`
-([Footer.tsx:58-62](frontend/app/components/layout/Footer.tsx#L58-L62)). The client sent only the
-privacy policy. **Decide with her:** supply that text too, or remove the two links until she has it.
-Leaving visible 404s in the footer is the worst of the three options.
-
-### Implementation
-
-**New route `frontend/app/polityka-prywatnosci/page.tsx`** — a static, readable legal page: page
-title „Polityka prywatności” (the layout's `%s | <site>` template appends the brand — do not repeat
-it), prose styling consistent with `/o-nas`, and the `/o-nas` metadata pattern. Add it to
-`app/sitemap.ts` (currently 17 URLs → 18).
-
-**Decision needed — where does the text live?**
-
-- **(a) Hardcoded in the page component.** Fastest; matches how the forms' fine print is handled.
-  Any wording change is then a developer job — and she has said before that she wants to edit copy
-  herself („w formularzach nie mogę sama zmieniać”).
-- **(b) A `legalPage` CMS singleton** (fixed id, `title` + body), the `aboutPage` precedent.
-  _Recommended._ Legal text changes (new address, new consent purpose, a lawyer's revision) then
-  cost her nothing. Costs one schema type and a Studio redeploy.
-  Note `/o-nas` renders long copy from a plain `text` field split on `\n{2,}` and deliberately
-  avoids Portable Text — but this document has **numbered clauses and bullet lists**, which that
-  splitter cannot express. Either accept Portable Text here (a first for this repo) or model the
-  page as an array of `{heading, paragraphs[], bullets[]}` sections.
-
-### ⚠️ Problems in the supplied text — flag to the client, do not silently fix
-
-The text is reproduced verbatim in the appendix. Four things need her (or her lawyer's) decision:
-
-1. **It opens mid-word:** „**iniejsza** polityka prywatności…” — the „N” was lost in the paste.
-2. **Legal-form contradiction.** It says the owners are two named people „prowadzący działalność
-   gospodarczą pod nazwą CCOMPLEX sp. z o.o. … wpisany do **Centralnej Ewidencji i Informacji
-   Działalności Gospodarczej**” while simultaneously giving a **KRS 0001031202**. A sp. z o.o. is
-   registered in the **KRS**, not CEIDG, and a limited company is not a sole trader. This is a real
-   defect in a legal document — it must be corrected by her, not by us.
-3. **No retention period and no list of recipients.** Clause 7 covers profiling, but the standard
-   RODO items „okres przechowywania danych” and „odbiorcy danych” are missing — and the site really
-   does pass personal data to third parties: **Resend** (form e-mails), **Vercel** (hosting),
-   **Sanity** (CMS), and — once item 6 lands — **Google**. A lawyer should look at that.
-4. **The cookies section describes storing „hasło czy login”**, which this site has no accounts for,
-   and it will need to describe the advertising cookies from item 6 once those are installed.
-
-### Also: a name inconsistency worth one edit
-
-The company is **„CCOMPLEX sp. z o.o.”** in the supplied policy and **„CComplex sp. z o.o.”** in the
-footer contact block, but the five forms' RODO consents say **„Complex sp. z o.o.”** (one C). On a
-consent checkbox the controller's name should match the policy exactly. One string in each of the
-five form components.
-
----
-
-## Open questions for the client
-
-1. **#2** — „BEZPŁATNA WYCENA” in literal caps, or sentence case to match the site's three other
-   „Bezpłatna wycena” buttons?
-2. **#3** — Does „pogrubiony” mean the footer Facebook icon, the new realizacje links, or both?
-   And is `facebook.com/ccomplex.plTarasy` the canonical profile URL?
-3. **#5** — Which number is the WhatsApp line: **661 242 507** or **781 429 378**? Pre-filled
-   message text?
-4. **#6** — Which Google products, and does she accept that a cookie-consent banner is needed
-   alongside the ad tags (separate feature)?
-5. **#7** — CMS-editable legal page or hardcoded? Corrected text for the CEIDG/KRS contradiction and
-   the missing „N”? And: supply `/regulamin` + `/polityka-cookies`, or remove those two footer links?
-6. **General** — are there other unpublished drafts sitting in the Studio, like the navbar one?
-
----
-
-## Explicitly out of scope this round
-
-- Item 1 (schody catalogue) — already resolved in the CMS.
-- The cookie-consent banner — flagged under #6, scoped separately.
-- `robots.ts` — offered in Round 5, still not taken.
-- The pre-existing uncommitted working-tree noise: `.mcp.json`, `OfferTechSpecs.tsx`,
-  `ProjectsGrid.tsx`, `.claude/settings.local.json`, `.playwright-mcp/`, and the content-identical
-  CRLF drift in `sanity.schema.json` / `frontend/sanity.types.ts` / `studio/sanity.types.ts`.
-  Same precedent as every prior round: leave them alone.
-
----
+- **TypeGen:** items #1 (category unions), #7 (two new singletons + fields on two existing ones) →
+  `cd frontend && npm run sanity:typegen`.
+- **Studio redeploy required** — `npm run deploy` from `studio/`. Without it the client can't see
+  the new form-config fields, can't fill in the Facebook gallery note, and (per item #0) may still
+  be looking at a stale bundle that's the actual cause of the "not redirecting" complaints.
+- **Content work the client owns after this ships:** fill in `zadaszenieFormConfig`/
+  `zaluzjeFormConfig`/`tarasFormConfig`/`schodyFormConfig` title+description (safe to leave the
+  seeded hardcoded-text default as-is if she has no changes), the Facebook gallery note, and decide
+  what happens to any `elewacje-kompozytowe` realizations.
+- **Tests:** nothing in this round touches `app/actions/` or `app/lib/` in a way that needs new
+  Vitest coverage except possibly `formSubmissionSession` (already tested, `'kontakt'` was already
+  a valid `FormType`) — no new unit-testable surface expected. Everything else is presentational/
+  schema.
 
 ## Verification checklist
 
-- [ ] `navbar` published; header CTA reads the agreed label on the live site.
-- [ ] Footer tagline says „na wybranych obszarach woj. śląskiego i opolskiego”.
-- [ ] Facebook link present and bold in **both** realizacje contexts; `target="_blank"` +
-      `rel="noopener noreferrer"`; URL free of `notif_*` parameters.
-- [ ] WhatsApp row under the phone in the footer; the `wa.me` link opens the right number on a phone.
-- [ ] `/polityka-prywatnosci` returns **200**; all six links reach it (footer + 5 forms).
-- [ ] `/regulamin` and `/polityka-cookies` either resolve or are removed from the footer.
-- [ ] `/polityka-prywatnosci` added to `sitemap.ts` (17 → 18 URLs).
-- [ ] Google tags fire on the live domain and register a conversion from a
-      `/wycena/*/przeslany-formularz` pageview (test with Google Tag Assistant).
-- [ ] `npm test`, `npm run type-check`, `npm run lint`, clean `next build` after `rm -rf .next`.
-- [ ] In-browser (Playwright/Chromium): 0 console errors, 0 warnings; no horizontal overflow at
-      390 px on the new legal page and the footer.
-- [ ] Studio redeployed (`npm run deploy` from `studio/`) **if** #5 or a CMS-owned #7 lands — she
-      cannot see new fields until then.
+- `npm test`, `npm run type-check` (both workspaces), `npm run lint`, clean `next build` after
+  `rm -rf .next` — `/oferta`, all remaining offer slugs, and the new `/dziekujemy-kontakt` route
+  prerender as expected (the latter static or dynamic depending on how Next treats the guard).
+- In-browser (Playwright/Chromium), 0 console errors/warnings:
+  - the three CTAs from item #0 actually navigate on the live/dev deploy;
+  - `/realizacje` shows exactly 6 tabs (Wszystkie + 5), no Schody/Elewacje;
+  - `/oferta` shows 6 uniform-sized cards, no Elewacje, old `/oferta/elewacje-kompozytowe` 308s;
+  - Kontakt block: "Obszar działania" plain, "Biuro" carries the green left-border accent;
+  - each offer subpage: ProcessTimeline renders directly above the Contact block, not between
+    Benefits/Gallery;
+  - all four `/wycena/[type]` pages render their CMS title/description (fallback text if unseeded);
+  - contact modal: submitting closes the modal and lands on `/dziekujemy-kontakt` with the echoed
+    e-mail; a direct visit to `/dziekujemy-kontakt` redirects to `/`; the four existing
+    `przeslany-formularz` pages are unaffected.
+- ⚠️ Do **not** drive a real contact-form send if it would e-mail the dev inbox through Resend
+  outside a controlled test — same standing caveat as every prior round.
 
----
+## Out of scope / still open
 
-## Appendix — polityka prywatności, tekst od klientki (verbatim)
-
-> Reproduced exactly as received, including the truncated first word. **Do not publish as-is** —
-> see the four issues flagged in item 7.
-
-```
-iniejsza polityka prywatności określa zasady przetwarzania danych osobowych przez witrynę pod nazwą
-www.ccomplex.pl, której właścicielem jest Agnieszka Jaszczyk-Kożuch i Sebastian Kożuch, prowadzący
-działalność gospodarczą pod nazwą CCOMPLEX sp. z o.o. pod adresem Opole 45-130, ul. Kępska 12,
-wpisany do Centralnej Ewidencji i Informacji Działalności Gospodarczej prowadzonej przez Ministra
-ds. Gospodarki pod numerem NIP: 7543359039, REGON: 525049847, KRS 0001031202, adres poczty
-elektronicznej e-mail: info@ccomplex.pl i biuro@ccomplex.pl oraz numery telefonu 661 242 507 i
-781 429 378 (zwaną dalej „Administratorem”).
-
-Ochrona danych osobowych
-
-Szanowni Państwo,
-
-Ochrona danych osobowych Klientów firmy CCOMPLEX sp. z o.o. to jeden z najważniejszych aspektów
-naszej pracy. Szanujemy Państwa prywatność i dokładamy wszelkich starań, aby Państwa dane osobowe
-były bezpieczne. W związku z tym przekazujemy Państwu informacje o najważniejszych kwestiach
-związanych z przetwarzaniem Państwa danych osobowych.
-
-Firma CCOMPLEX sp. z o.o. informuje, że zgodnie z art. 13 ust. 1 i 2 ogólnego Rozporządzenia
-o Ochronie Danych Osobowych z dnia 27 kwietnia 2016 r. (dalej RODO):
-
-1. Administratorem Pani/Pana danych osobowych jest firma CCOMPLEX sp. z o.o., Opole 45-130,
-   ul. Kępska 12.
-
-2. Pani/Pana dane osobowe przetwarzane będą w celu przesłania:
-   * formularza wyceny tarasu,
-   * formularza wyceny zadaszenia,
-   * formularza wyceny żaluzji,
-   * formularza wyceny schodów,
-   * formularza kontaktowego.
-
-3. Osobie, której dane są przetwarzane przez Administratora, przysługuje:
-   * prawo dostępu do treści danych, na podstawie art. 15 RODO;
-   * prawo do sprostowania danych, na podstawie art. 16 RODO;
-   * prawo do usunięcia danych, na podstawie art. 17 RODO;
-   * prawo do ograniczenia przetwarzania danych, na podstawie art. 18 RODO;
-   * prawo do przenoszenia danych, na podstawie art. 20 RODO;
-   * prawo wniesienia sprzeciwu wobec przetwarzania danych, na podstawie art. 21 RODO.
-
-(Uwaga: realizacja powyższych praw musi być zgodna z przepisami prawa, na podstawie których odbywa
-się przetwarzanie danych).
-
-4. W przypadku, w którym przetwarzanie Pani/Pana danych odbywa się na podstawie zgody (tj. art. 6
-   ust. 1 lit. a RODO), przysługuje Pani/Panu prawo do wycofania zgody w dowolnym momencie, przy
-   czym cofnięcie zgody nie ma wpływu na zgodność przetwarzania, którego dokonano na jej podstawie
-   przed cofnięciem zgody.
-
-5. Ma Pani/Pan prawo wniesienia skargi do organu nadzorczego, tj. Prezesa Urzędu Ochrony Danych
-   Osobowych, gdy Pani/Pan uzna, że przetwarzanie danych osobowych narusza przepisy RODO.
-
-6. Podanie przez Panią/Pana danych osobowych jest warunkiem kontaktu, w tym w sprawie wycen i innych
-   zapytań związanych z prowadzoną przez nas działalnością.
-
-7. Pani/Pana dane osobowe nie podlegają zautomatyzowanemu podejmowaniu decyzji, w tym profilowaniu.
-
-Pliki cookies
-
-Witryna internetowa nie zbiera w sposób automatyczny żadnych danych, z wyjątkiem danych zawartych
-w plikach cookies podczas samego korzystania z witryny. Pliki cookies to małe pliki tekstowe
-wysyłane przez Witrynę internetową i przechowywane na Państwa komputerze, zawierające pewne
-informacje związane z korzystaniem przez Państwa z Witryny internetowej. Wykorzystywane przez
-Witrynę internetową pliki cookies mogą mieć charakter tymczasowy lub trwały. Tymczasowe pliki
-cookies są usuwane z chwilą zamknięcia przeglądarki, natomiast stałe pliki cookies są przechowywane
-także po zakończeniu korzystania przez Państwa z witryny i służą do przechowywania informacji takich
-jak Państwa hasło czy login, co przyspiesza i ułatwia korzystanie z Witryny.
-
-W każdym wypadku mogą Państwo zablokować instalowanie plików cookies lub usunąć stałe pliki cookies,
-wykorzystując stosowne opcje Państwa przeglądarki internetowej. W razie problemów doradzamy
-skorzystać z pliku pomocy przeglądarki lub skontaktować się z producentem przeglądarki, z której
-Państwo korzystacie.
-
-Dane są przechowywane przez okres niezbędny do świadczenia usługi żądanej przez Użytkownika lub też
-przez okres określony przez cele opisane w niniejszym dokumencie. Użytkownik może zawsze poprosić
-Administratora Danych o zawieszenie lub usunięcie danych.
-```
+- Exact Facebook-note copy — hers to write.
+- Whether the `/realizacje` category-scoped deep link from the offer-gallery CTA is worth building
+  — flagged, not requested explicitly.
+- Disposition of any existing `elewacje-kompozytowe`-categorized realizations — needs a client
+  decision (delete / recategorize / unpublish).
+- `/o-nas` 404 status and the żaluzje/Akcesoria naming mismatch — pre-existing open items from
+  earlier rounds, untouched here.

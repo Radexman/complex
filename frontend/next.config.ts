@@ -20,6 +20,13 @@ const nextConfig: NextConfig = {
         destination: '/oferta/akcesoria-do-zadaszen',
         permanent: true,
       },
+      // Elewacje kompozytowe was removed from the offer entirely (client request,
+      // Round 7) — send any existing links/search results to the offer index.
+      {
+        source: '/oferta/elewacje-kompozytowe',
+        destination: '/oferta',
+        permanent: true,
+      },
     ];
   },
 };

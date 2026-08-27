@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, type FieldError } from 'react-hook-form';
 import { AlertCircle, Loader2, Send } from 'lucide-react';
@@ -12,19 +13,22 @@ import {
   type ContactFormInput,
 } from '@/app/lib/validations/contactForm';
 import { submitContactForm } from '@/app/lib/actions/submitContactForm';
+import { markFormSubmitted } from '@/app/lib/formSubmissionSession';
 import { FormCheckbox } from './shared/FormCheckbox';
 import { FormInput } from './shared/FormInput';
 import { FormTextarea } from './shared/FormTextarea';
-import FormSuccessState from './shared/FormSuccessState';
 
 /**
  * General contact form. Deliberately has no page of its own — it is rendered
  * inside `ContactFormDialog` from the navbar, so it stays reachable from every
- * page without adding a route.
+ * page without adding a route. On success it navigates to `/dziekujemy-kontakt`
+ * (a distinct, GA-trackable URL) instead of rendering a success state inline —
+ * `onSuccess` lets the dialog close itself during that navigation.
  */
-export default function ContactForm() {
+export default function ContactForm({ onSuccess }: { onSuccess?: () => void } = {}) {
+  const router = useRouter();
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [submittedEmail, setSubmittedEmail] = useState<string | null>(null);
 
   const {
     register,
@@ -58,17 +62,16 @@ export default function ContactForm() {
     const result = await submitContactForm(formData);
 
     if (result.success) {
-      setSubmittedEmail(data.email);
+      // Recorded before navigating so the thank-you page can confirm this
+      // visitor really submitted, and echo their address back.
+      markFormSubmitted('kontakt', data.email);
+      setIsRedirecting(true);
+      onSuccess?.();
+      router.push('/dziekujemy-kontakt');
     } else if (result.error) {
       setSubmitError(result.error);
     }
   };
-
-  // No process recap in the dialog — `steps: []` skips that block, keeping the
-  // confirmation short enough to sit inside a modal.
-  if (submittedEmail) {
-    return <FormSuccessState formType="kontakt" submittedEmail={submittedEmail} steps={[]} />;
-  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5" noValidate>
@@ -144,10 +147,10 @@ export default function ContactForm() {
 
       <button
         type="submit"
-        disabled={isSubmitting}
+        disabled={isSubmitting || isRedirecting}
         className="flex w-full items-center justify-center gap-2 rounded-lg bg-accent py-3.5 text-base font-semibold text-black transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-70"
       >
-        {isSubmitting ? (
+        {isSubmitting || isRedirecting ? (
           <>
             <Loader2 size={18} className="animate-spin" /> Wysyłanie…
           </>

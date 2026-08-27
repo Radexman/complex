@@ -45,6 +45,7 @@ export const service = defineType({
   groups: [
     { name: 'hero', title: 'Hero', default: true },
     { name: 'benefits', title: 'Zalety' },
+    { name: 'gallery', title: 'Galeria' },
     { name: 'brands', title: 'Producenci' },
     { name: 'techSpecs', title: 'Specyfikacja' },
     { name: 'formCta', title: 'CTA formularza' },
@@ -129,8 +130,7 @@ export const service = defineType({
     defineField({
       name: 'relatedFormSlug',
       title: 'Powiązany formularz wyceny',
-      description:
-        'Formularz, do którego prowadzi przycisk CTA. Pozostaw puste, gdy oferta nie ma formularza (np. Elewacje kompozytowe).',
+      description: 'Formularz, do którego prowadzi przycisk CTA. Pozostaw puste, gdy oferta nie ma formularza.',
       type: 'string',
       group: 'hero',
       options: {
@@ -204,12 +204,43 @@ export const service = defineType({
               title: 'Opis',
               type: 'string',
             }),
+            defineField({
+              name: 'linkText',
+              title: 'Tekst linku',
+              description:
+                'Opcjonalny fragment tekstu w opisie, który ma być wyświetlony jako link, np. „goliatgres.pl”.',
+              type: 'string',
+              hidden: ({ parent }) => !parent?.description,
+            }),
+            defineField({
+              name: 'linkUrl',
+              title: 'Adres linku',
+              description: 'Docelowy adres URL dla tekstu linku powyżej.',
+              type: 'url',
+              validation: (rule) => rule.uri({ scheme: ['http', 'https'] }),
+              hidden: ({ parent }) => !parent?.description,
+            }),
           ],
           preview: {
             select: { title: 'title', subtitle: 'icon' },
           },
         }),
       ],
+    }),
+    defineField({
+      name: 'galleryFooterText',
+      title: 'Tekst pod galerią',
+      description: 'Opcjonalny krótki tekst wyświetlany pod galerią zdjęć, np. odnośnik do Facebooka.',
+      type: 'text',
+      rows: 2,
+      group: 'gallery',
+    }),
+    defineField({
+      name: 'galleryFacebookUrl',
+      title: 'Link do Facebooka',
+      description: 'Opcjonalny adres profilu/posta na Facebooku — wyświetlany jako link obok tekstu powyżej.',
+      type: 'url',
+      group: 'gallery',
     }),
     defineField({
       name: 'brandsEyebrow',
@@ -240,7 +271,7 @@ export const service = defineType({
       name: 'brands',
       title: 'Producenci i systemy',
       description:
-        'Opcjonalna lista producentów / modeli. Pozostaw pustą, gdy oferta nie wymaga tej sekcji — wtedy sekcja się nie pojawi.',
+        'Opcjonalna lista producentów / typów (np. producentów, modeli, albo typów desek). Pozostaw pustą, gdy oferta nie wymaga tej sekcji — wtedy sekcja się nie pojawi. Każdy wpis może mieć jeden lub wiele wariantów (kolor / struktura / wymiary).',
       type: 'array',
       group: 'brands',
       of: [
@@ -251,7 +282,7 @@ export const service = defineType({
             defineField({
               name: 'name',
               title: 'Nazwa',
-              description: 'Nazwa producenta lub modelu, np. „Deponti — Noble”.',
+              description: 'Nazwa producenta, modelu lub typu, np. „Deponti — Noble” albo „Deski kompozytowe komorowe”.',
               type: 'string',
               validation: (rule) => rule.required(),
             }),
@@ -264,34 +295,77 @@ export const service = defineType({
             defineField({
               name: 'fullDescription',
               title: 'Pełny opis',
-              description: '2–4 zdania widoczne po rozwinięciu.',
+              description:
+                '2–4 zdania widoczne po rozwinięciu. Wciśnij Enter dwa razy, aby rozdzielić na osobne akapity.',
               type: 'text',
               rows: 3,
             }),
             defineField({
-              name: 'image',
-              title: 'Zdjęcie',
-              description: 'Opcjonalne zdjęcie produktu / systemu (widoczne po rozwinięciu).',
-              type: 'image',
-              options: { hotspot: true },
-              fields: [
-                defineField({
-                  name: 'alt',
-                  title: 'Tekst alternatywny',
-                  type: 'string',
+              name: 'variants',
+              title: 'Warianty',
+              description:
+                'Warianty tego wpisu — kolor, struktura, wymiary. Jeden wariant renderuje się jak dotychczas (duże zdjęcie + specyfikacja). Więcej wariantów pokazuje siatkę miniaturek do rozwinięcia. Aby dodać wariant: skopiuj poprzedni i zmień nazwę, zdjęcie oraz specyfikację.',
+              type: 'array',
+              validation: (rule) => rule.min(1),
+              of: [
+                defineArrayMember({
+                  type: 'object',
+                  name: 'brandVariant',
+                  fields: [
+                    defineField({
+                      name: 'name',
+                      title: 'Nazwa wariantu',
+                      description: 'Podpis widoczny na miniaturce, np. „Antracyt — struktura drewna”.',
+                      type: 'string',
+                      validation: (rule) => rule.required(),
+                    }),
+                    defineField({
+                      name: 'image',
+                      title: 'Zdjęcie',
+                      type: 'image',
+                      options: { hotspot: true },
+                      fields: [
+                        defineField({
+                          name: 'alt',
+                          title: 'Tekst alternatywny',
+                          description: 'Opisowy tekst po polsku (kolor, struktura) — ważny dla dostępności i SEO.',
+                          type: 'string',
+                          validation: (rule) => rule.required(),
+                        }),
+                      ],
+                      validation: (rule) => rule.required(),
+                    }),
+                    defineField({
+                      name: 'specs',
+                      title: 'Specyfikacja',
+                      description: 'Punkty specyfikacji tego wariantu, np. „Grubość 22 mm”.',
+                      type: 'array',
+                      of: [defineArrayMember({ type: 'string' })],
+                      validation: (rule) => rule.min(1),
+                    }),
+                    defineField({
+                      name: 'description',
+                      title: 'Opis',
+                      description: 'Opcjonalny krótki opis widoczny tylko po rozwinięciu wariantu.',
+                      type: 'text',
+                      rows: 3,
+                    }),
+                    defineField({
+                      name: 'manufacturer',
+                      title: 'Producent',
+                      description: 'Opcjonalna nazwa producenta widoczna po rozwinięciu wariantu.',
+                      type: 'string',
+                    }),
+                  ],
+                  preview: {
+                    select: { title: 'name', subtitle: 'manufacturer', media: 'image' },
+                  },
                 }),
               ],
             }),
-            defineField({
-              name: 'specs',
-              title: 'Specyfikacja',
-              description: 'Opcjonalne punkty specyfikacji widoczne po rozwinięciu.',
-              type: 'array',
-              of: [defineArrayMember({ type: 'string' })],
-            }),
           ],
           preview: {
-            select: { title: 'name', subtitle: 'shortDescription', media: 'image' },
+            select: { title: 'name', subtitle: 'shortDescription', media: 'variants.0.image' },
           },
         }),
       ],

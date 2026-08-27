@@ -11,14 +11,18 @@ import ContactForm from './ContactForm';
  * visitor is on. Controlled by `Navbar`, which owns the state so the mobile
  * drawer can close itself before opening this.
  *
- * `unmountOnExit` resets the form (and its success state) between openings.
+ * `unmountOnExit` resets the form between openings. `onSuccess` is threaded down
+ * to `ContactForm` so a successful submit can close this dialog before the
+ * navigation to `/dziekujemy-kontakt` lands.
  */
 export default function ContactFormDialog({
   open,
   onOpenChange,
+  onSuccess,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onSuccess?: () => void;
 }) {
   return (
     <Dialog.Root
@@ -53,7 +57,7 @@ export default function ContactFormDialog({
                 <X size={24} aria-hidden="true" />
               </Dialog.CloseTrigger>
             </div>
-            <ContactForm />
+            <ContactForm onSuccess={onSuccess} />
           </Dialog.Content>
         </Dialog.Positioner>
       </Portal>

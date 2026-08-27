@@ -47,7 +47,7 @@ export default function AboutHero({ heroHeadline, heroSubheadline }: AboutHeroPr
 
           {heroSubheadline && (
             <div data-hero-right className="border-t border-accent/30 pt-6">
-              <p className="font-body text-base leading-relaxed text-silver">{heroSubheadline}</p>
+              <p className="font-body text-base leading-relaxed text-white/80">{heroSubheadline}</p>
             </div>
           )}
         </div>

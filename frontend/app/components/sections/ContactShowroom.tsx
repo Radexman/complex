@@ -122,16 +122,18 @@ export default function ContactShowroom({
             </p>
           )}
 
-          {/* Office — a prominent notice that visits are by prior appointment only. */}
+          {/* Office — the prominent notice: visits are by prior appointment only. */}
           {(officeLabel || officeDescription) && (
-            <div className="mt-8 flex gap-3 rounded-lg border border-accent/30 bg-accent/10 p-4">
+            <div className="mt-8 flex gap-3 rounded-lg border-l-4 border-accent bg-accent/10 p-4">
               <CalendarClock size={20} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
               <div>
                 {officeLabel && (
                   <h4 className="font-heading text-base font-bold text-white">{officeLabel}</h4>
                 )}
                 {officeDescription && (
-                  <p className="mt-1 font-body text-sm text-silver">{officeDescription}</p>
+                  <p className="mt-1 font-body text-sm font-bold text-silver">
+                    {officeDescription}
+                  </p>
                 )}
               </div>
             </div>

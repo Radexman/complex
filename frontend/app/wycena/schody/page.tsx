@@ -21,11 +21,11 @@ export default async function WycenaSchodyPage() {
             Formularze wycen
           </p>
           <h1 className="mt-2 font-heading text-4xl font-bold text-white">
-            Formularz Wyceny Schodów
+            {config?.title || 'Formularz Wyceny Schodów'}
           </h1>
           <p className="mt-3 max-w-xl font-body text-base text-silver">
-            Wypełnij poniższy formularz, a przygotujemy bezpłatną wycenę i skontaktujemy się z Tobą
-            w ciągu 3 dni roboczych.
+            {config?.description ||
+              'Wypełnij poniższy formularz, a przygotujemy bezpłatną wycenę i skontaktujemy się z Tobą w ciągu 3 dni roboczych.'}
           </p>
         </div>
       </section>

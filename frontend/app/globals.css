@@ -93,3 +93,14 @@ body {
     opacity: 1;
   }
 }
+
+@keyframes variant-detail-in {
+  from {
+    transform: translateY(-8px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

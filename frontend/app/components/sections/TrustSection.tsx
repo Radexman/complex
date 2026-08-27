@@ -48,6 +48,10 @@ function parseStatValue(
 function StatValue({ raw, triggered }: { raw?: string; triggered: boolean }) {
   const parsed = parseStatValue(raw);
   const countUpRef = useRef<HTMLSpanElement>(null);
+  // `parsed` is a fresh object every render, so it can't be a dependency without
+  // this guard — listing it directly would restart the count-up on every
+  // re-render once `triggered` is already true, not just when it first flips.
+  const hasStartedRef = useRef(false);
   const { start } = useCountUp({
     ref: countUpRef as RefObject<HTMLElement>,
     start: 0,
@@ -61,8 +65,11 @@ function StatValue({ raw, triggered }: { raw?: string; triggered: boolean }) {
   });
 
   useEffect(() => {
-    if (triggered && parsed) start();
-  }, [triggered]);
+    if (triggered && parsed && !hasStartedRef.current) {
+      hasStartedRef.current = true;
+      start();
+    }
+  }, [triggered, parsed, start]);
 
   if (!parsed) {
     return <>{stegaClean(raw ?? '')}</>;

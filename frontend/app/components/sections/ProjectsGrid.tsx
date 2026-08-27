@@ -14,7 +14,7 @@ import type {
   RealizacjePageQueryResult,
 } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/utils';
-import { CATEGORY_ORDER, categoryLabel } from '@/app/lib/categories';
+import { REALIZACJE_TAB_CATEGORIES, categoryLabel } from '@/app/lib/categories';
 import ProjectLightbox from '@/app/components/ui/ProjectLightbox';
 import FacebookRealizacjeLink from '@/app/components/ui/FacebookRealizacjeLink';
 
@@ -124,7 +124,7 @@ export default function ProjectsGrid({
             {header?.headline ?? 'Realizacje'}
           </h1>
           {header?.subheadline && (
-            <p data-pg-reveal className="mx-auto mt-4 max-w-2xl font-body text-base text-silver">
+            <p data-pg-reveal className="mx-auto mt-4 max-w-2xl font-body text-base text-white/80">
               {header.subheadline}
             </p>
           )}
@@ -144,7 +144,7 @@ export default function ProjectsGrid({
             >
               Wszystkie
             </Tabs.Trigger>
-            {CATEGORY_ORDER.map((category) => (
+            {REALIZACJE_TAB_CATEGORIES.map((category) => (
               <Tabs.Trigger
                 key={category}
                 value={category}

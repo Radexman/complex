@@ -116,6 +116,18 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .icon(ComponentIcon)
         .child(S.document().schemaType('tarasFormConfig').documentId('tarasFormConfig')),
       S.listItem()
+        .title('Formularz Zadaszenia')
+        .icon(ComponentIcon)
+        .child(
+          S.document().schemaType('zadaszenieFormConfig').documentId('zadaszenieFormConfig'),
+        ),
+      S.listItem()
+        .title('Formularz Żaluzji')
+        .icon(ComponentIcon)
+        .child(
+          S.document().schemaType('zaluzjeFormConfig').documentId('zaluzjeFormConfig'),
+        ),
+      S.listItem()
         .title('Formularz Schodów')
         .icon(ComponentIcon)
         .child(S.document().schemaType('schodyFormConfig').documentId('schodyFormConfig')),
