@@ -1,6 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { clearFormSubmission, getSubmittedEmail, markFormSubmitted } from './formSubmissionSession';
+import {
+  claimConversion,
+  clearConversion,
+  clearFormSubmission,
+  getSubmittedEmail,
+  markFormSubmitted,
+} from './formSubmissionSession';
 
 /** Minimal in-memory stand-in for the browser's `sessionStorage`. */
 function createFakeStorage(): Storage {
@@ -29,6 +35,7 @@ function stubWindow(sessionStorage: Storage | (() => never)) {
 function resetModuleState() {
   for (const formType of ['taras', 'zadaszenie', 'zaluzje', 'schody', 'kontakt'] as const) {
     clearFormSubmission(formType);
+    clearConversion(formType);
   }
 }
 
@@ -99,5 +106,68 @@ describe('formSubmissionSession', () => {
 
     expect(getSubmittedEmail('kontakt')).toBeNull();
     expect(storage.getItem('complex:form-submitted:kontakt')).toBeNull();
+  });
+});
+
+describe('claimConversion', () => {
+  it('grants the claim exactly once per form', () => {
+    stubWindow(createFakeStorage());
+
+    expect(claimConversion('taras')).toBe(true);
+    expect(claimConversion('taras')).toBe(false);
+    expect(claimConversion('taras')).toBe(false);
+  });
+
+  it('keys claims per form, so one conversion does not swallow another', () => {
+    stubWindow(createFakeStorage());
+    claimConversion('taras');
+
+    expect(claimConversion('zadaszenie')).toBe(true);
+    expect(claimConversion('kontakt')).toBe(true);
+  });
+
+  it('refuses a second claim after a page refresh', () => {
+    const storage = createFakeStorage();
+    stubWindow(storage);
+    expect(claimConversion('zaluzje')).toBe(true);
+
+    // Simulate a refresh of the thank-you page: sessionStorage survives, the
+    // module's in-memory set does not. This is the double-count this guard exists
+    // for — the submission record itself is deliberately never cleared.
+    const persisted = storage.getItem('complex:conversion-sent:zaluzje');
+    resetModuleState();
+    storage.setItem('complex:conversion-sent:zaluzje', persisted as string);
+
+    expect(claimConversion('zaluzje')).toBe(false);
+  });
+
+  it('still refuses a repeat claim when sessionStorage is unavailable', () => {
+    // Storage throws (Safari private mode), so only the in-memory set can guard —
+    // which still covers a remount without a reload.
+    stubWindow(() => {
+      throw new Error('SecurityError');
+    });
+
+    expect(claimConversion('schody')).toBe(true);
+    expect(claimConversion('schody')).toBe(false);
+  });
+
+  it('does not consume the claim when a submission is only read', () => {
+    stubWindow(createFakeStorage());
+    markFormSubmitted('kontakt', 'biuro@example.pl');
+    getSubmittedEmail('kontakt');
+
+    expect(claimConversion('kontakt')).toBe(true);
+  });
+
+  it('clears a claim', () => {
+    const storage = createFakeStorage();
+    stubWindow(storage);
+    claimConversion('taras');
+
+    clearConversion('taras');
+
+    expect(storage.getItem('complex:conversion-sent:taras')).toBeNull();
+    expect(claimConversion('taras')).toBe(true);
   });
 });

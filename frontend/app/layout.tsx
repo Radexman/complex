@@ -1,5 +1,6 @@
 import './globals.css';
 
+import { GoogleTagManager } from '@next/third-parties/google';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
 import { Inter, Bebas_Neue, Space_Grotesk } from 'next/font/google';
@@ -72,11 +73,19 @@ const spaceGrotesk = Space_Grotesk({
   display: 'swap',
 });
 
+/**
+ * Google Tag Manager container. One container rather than hardcoded Ads/GA4 tags
+ * so the client's agency can add and change tags in the GTM panel without a
+ * deploy here. Unset locally and in preview, where the tag simply isn't rendered.
+ */
+const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
+
 export default async function RootLayout({ children }: LayoutProps<'/'>) {
   const { isEnabled: isDraftMode } = await draftMode();
 
   return (
     <html lang="pl" className={`${inter.variable} ${bebasNeue.variable} ${spaceGrotesk.variable}`}>
+      {gtmId && <GoogleTagManager gtmId={gtmId} />}
       <body>
         <OrganizationJsonLd />
         {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}

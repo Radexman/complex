@@ -27,7 +27,47 @@ type OfferFormCtaProps = Pick<
   | 'formCtaButtonLabel'
   | 'formCtaBullets'
   | 'relatedFormSlug'
+  | 'secondaryFormSlug'
+  | 'secondaryFormButtonLabel'
 >;
+
+/**
+ * One quotation-form button plus the „Prowadzi do: …" line naming the form it
+ * opens. Shared by the primary and secondary buttons so the two can't drift.
+ */
+function FormCtaButton({
+  formSlug,
+  label,
+  variant,
+}: {
+  formSlug: string;
+  label: string;
+  variant: 'primary' | 'secondary';
+}) {
+  const formLabel = FORM_LABELS[formSlug];
+
+  return (
+    <div className="flex flex-col items-center gap-2">
+      <Link
+        href={`/wycena/${formSlug}`}
+        className={
+          variant === 'primary'
+            ? 'inline-flex items-center gap-3 rounded-lg bg-accent px-10 py-5 text-base font-semibold text-black transition-colors hover:bg-accent-hover'
+            : 'inline-flex items-center gap-3 rounded-lg border border-accent/50 px-8 py-4 text-base font-semibold text-accent transition-colors hover:border-accent hover:bg-accent/10'
+        }
+      >
+        {label}
+        <ArrowRight size={18} aria-hidden="true" />
+      </Link>
+      {formLabel && (
+        <span className="inline-flex items-center gap-2 text-sm text-silver">
+          <FileText size={15} className="text-accent" aria-hidden="true" />
+          Prowadzi do: <span className="font-semibold text-white">{formLabel}</span>
+        </span>
+      )}
+    </div>
+  );
+}
 
 export default function OfferFormCta({
   formCtaHeadline,
@@ -35,6 +75,8 @@ export default function OfferFormCta({
   formCtaButtonLabel,
   formCtaBullets,
   relatedFormSlug,
+  secondaryFormSlug,
+  secondaryFormButtonLabel,
 }: OfferFormCtaProps) {
   const container = useRef<HTMLElement>(null);
 
@@ -69,10 +111,11 @@ export default function OfferFormCta({
   );
 
   const formSlug = stegaClean(relatedFormSlug);
+  // „Akcesoria do zadaszeń" is quoted through two forms — blinds have their own,
+  // but zabudowy/rolety/LED are fields of the canopy form. Empty everywhere else.
+  const secondarySlug = stegaClean(secondaryFormSlug);
 
   if (!formSlug) return null;
-
-  const formLabel = FORM_LABELS[formSlug];
 
   return (
     <section ref={container} className="relative overflow-hidden bg-bg-mid py-24">
@@ -110,19 +153,18 @@ export default function OfferFormCta({
           </p>
         )}
 
-        <div data-formcta-content className="mt-10 flex flex-col items-center gap-4">
-          <Link
-            href={`/wycena/${formSlug}`}
-            className="inline-flex items-center gap-3 rounded-lg bg-accent px-10 py-5 text-base font-semibold text-black transition-colors hover:bg-accent-hover"
-          >
-            {formCtaButtonLabel || 'Wypełnij formularz wyceny'}
-            <ArrowRight size={18} aria-hidden="true" />
-          </Link>
-          {formLabel && (
-            <span className="inline-flex items-center gap-2 text-sm text-silver">
-              <FileText size={15} className="text-accent" aria-hidden="true" />
-              Prowadzi do: <span className="font-semibold text-white">{formLabel}</span>
-            </span>
+        <div data-formcta-content className="mt-10 flex flex-col items-center gap-6">
+          <FormCtaButton
+            formSlug={formSlug}
+            label={formCtaButtonLabel || 'Wypełnij formularz wyceny'}
+            variant="primary"
+          />
+          {secondarySlug && (
+            <FormCtaButton
+              formSlug={secondarySlug}
+              label={secondaryFormButtonLabel || 'Wypełnij drugi formularz wyceny'}
+              variant="secondary"
+            />
           )}
         </div>
 

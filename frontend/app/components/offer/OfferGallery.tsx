@@ -109,7 +109,7 @@ export default function OfferGallery({
             data-gallery-header
             className="mb-2 text-xs font-semibold uppercase tracking-widest text-accent"
           >
-            Nasze realizacje
+            Nasze wybrane realizacje
           </p>
           <h2
             data-gallery-header

@@ -49,6 +49,7 @@ export const service = defineType({
     { name: 'brands', title: 'Producenci' },
     { name: 'techSpecs', title: 'Specyfikacja' },
     { name: 'formCta', title: 'CTA formularza' },
+    { name: 'relatedOffers', title: 'Powiązane oferty' },
   ],
   fields: [
     defineField({
@@ -130,7 +131,8 @@ export const service = defineType({
     defineField({
       name: 'relatedFormSlug',
       title: 'Powiązany formularz wyceny',
-      description: 'Formularz, do którego prowadzi przycisk CTA. Pozostaw puste, gdy oferta nie ma formularza.',
+      description:
+        'Formularz, do którego prowadzi przycisk CTA. Pozostaw puste, gdy oferta nie ma formularza.',
       type: 'string',
       group: 'hero',
       options: {
@@ -230,7 +232,8 @@ export const service = defineType({
     defineField({
       name: 'galleryFooterText',
       title: 'Tekst pod galerią',
-      description: 'Opcjonalny krótki tekst wyświetlany pod galerią zdjęć, np. odnośnik do Facebooka.',
+      description:
+        'Opcjonalny krótki tekst wyświetlany pod galerią zdjęć, np. odnośnik do Facebooka.',
       type: 'text',
       rows: 2,
       group: 'gallery',
@@ -238,7 +241,8 @@ export const service = defineType({
     defineField({
       name: 'galleryFacebookUrl',
       title: 'Link do Facebooka',
-      description: 'Opcjonalny adres profilu/posta na Facebooku — wyświetlany jako link obok tekstu powyżej.',
+      description:
+        'Opcjonalny adres profilu/posta na Facebooku — wyświetlany jako link obok tekstu powyżej.',
       type: 'url',
       group: 'gallery',
     }),
@@ -282,7 +286,8 @@ export const service = defineType({
             defineField({
               name: 'name',
               title: 'Nazwa',
-              description: 'Nazwa producenta, modelu lub typu, np. „Deponti — Noble” albo „Deski kompozytowe komorowe”.',
+              description:
+                'Nazwa producenta, modelu lub typu, np. „Deponti — Noble” albo „Deski kompozytowe komorowe”.',
               type: 'string',
               validation: (rule) => rule.required(),
             }),
@@ -315,7 +320,8 @@ export const service = defineType({
                     defineField({
                       name: 'name',
                       title: 'Nazwa wariantu',
-                      description: 'Podpis widoczny na miniaturce, np. „Antracyt — struktura drewna”.',
+                      description:
+                        'Podpis widoczny na miniaturce, np. „Antracyt — struktura drewna”.',
                       type: 'string',
                       validation: (rule) => rule.required(),
                     }),
@@ -328,7 +334,8 @@ export const service = defineType({
                         defineField({
                           name: 'alt',
                           title: 'Tekst alternatywny',
-                          description: 'Opisowy tekst po polsku (kolor, struktura) — ważny dla dostępności i SEO.',
+                          description:
+                            'Opisowy tekst po polsku (kolor, struktura) — ważny dla dostępności i SEO.',
                           type: 'string',
                           validation: (rule) => rule.required(),
                         }),
@@ -454,6 +461,74 @@ export const service = defineType({
       type: 'array',
       group: 'formCta',
       of: [defineArrayMember({ type: 'string' })],
+    }),
+    // Some offers are quoted through two different forms — „Akcesoria do zadaszeń”
+    // covers blinds (own form) but its zabudowy/rolety/LED are fields of the canopy
+    // form. Left empty on every other offer, which then renders one button as before.
+    defineField({
+      name: 'secondaryFormSlug',
+      title: 'Dodatkowy formularz wyceny',
+      description:
+        'Opcjonalny drugi formularz pokazywany pod głównym przyciskiem. Zostaw pusty, jeśli ta oferta ma tylko jeden formularz.',
+      type: 'string',
+      group: 'formCta',
+      options: {
+        list: [...RELATED_FORM_SLUGS],
+        layout: 'dropdown',
+      },
+    }),
+    defineField({
+      name: 'secondaryFormButtonLabel',
+      title: 'Etykieta dodatkowego przycisku',
+      description:
+        'Tekst na drugim przycisku, np. „Wypełnij formularz wyceny zadaszeń”. Używane tylko gdy wybrano dodatkowy formularz.',
+      type: 'string',
+      group: 'formCta',
+      hidden: ({ parent }) => !parent?.secondaryFormSlug,
+    }),
+    // Cross-links to related offers, shown under the gallery. A reference (not a
+    // typed-in URL) so renaming a slug can never leave a dead link behind.
+    defineField({
+      name: 'relatedOffers',
+      title: 'Powiązane oferty',
+      description:
+        'Przekierowania do innych podstron oferty, pokazywane pod galerią realizacji. Zostaw puste, aby nie pokazywać tej sekcji.',
+      type: 'array',
+      group: 'relatedOffers',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'relatedOffer',
+          fields: [
+            defineField({
+              name: 'text',
+              title: 'Tekst wprowadzający',
+              description:
+                'Opcjonalne zdanie nad przyciskiem, np. „Zobacz dostępne zabudowy, rolety, oświetlenie LED…”. Zostaw puste, aby pokazać sam przycisk.',
+              type: 'text',
+              rows: 3,
+            }),
+            defineField({
+              name: 'label',
+              title: 'Etykieta przycisku',
+              description: 'Tekst na przycisku, np. „Zobacz akcesoria”.',
+              type: 'string',
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: 'target',
+              title: 'Docelowa oferta',
+              description: 'Podstrona oferty, do której prowadzi przycisk.',
+              type: 'reference',
+              to: [{ type: 'service' }],
+              validation: (rule) => rule.required(),
+            }),
+          ],
+          preview: {
+            select: { title: 'label', subtitle: 'target.title' },
+          },
+        }),
+      ],
     }),
   ],
   // Mirrors the order the cards appear in on /oferta, so the Studio list reads the same way.

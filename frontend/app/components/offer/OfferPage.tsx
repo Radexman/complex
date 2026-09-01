@@ -17,6 +17,7 @@ import OfferBrands from './OfferBrands';
 import OfferFormCta from './OfferFormCta';
 import OfferGallery from './OfferGallery';
 import OfferHero from './OfferHero';
+import OfferRelatedLinks from './OfferRelatedLinks';
 import OfferTechSpecs from './OfferTechSpecs';
 
 export type Service = NonNullable<ServiceBySlugQueryResult>;
@@ -61,6 +62,10 @@ export default function OfferPage({
         footerText={service.galleryFooterText}
         facebookUrl={service.galleryFacebookUrl}
       />
+      {/* Sits under the gallery, where the client asked for it („pod tekstem —
+          zobacz wybrane realizacje”), but outside it so an offer with no
+          projects still shows its cross-links. */}
+      <OfferRelatedLinks relatedOffers={service.relatedOffers} />
       <OfferBrands
         brandsEyebrow={service.brandsEyebrow}
         brandsHeadline={service.brandsHeadline}
@@ -81,6 +86,8 @@ export default function OfferPage({
           formCtaButtonLabel={service.formCtaButtonLabel}
           formCtaBullets={service.formCtaBullets}
           relatedFormSlug={service.relatedFormSlug}
+          secondaryFormSlug={service.secondaryFormSlug}
+          secondaryFormButtonLabel={service.secondaryFormButtonLabel}
         />
       )}
       {processTimeline && <ProcessTimeline data={processTimeline} />}
