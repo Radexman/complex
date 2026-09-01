@@ -1,79 +1,154 @@
-# Current Feature: Client Feedback Round 10 — przekierowania między ofertami, drugi formularz, konwersje Ads
+# Current Feature
 
 ## Status
 
-In Progress
+Not Started
 
 ## Goals
 
-- **#1 Przekierowania między podstronami oferty.** Pod istniejącym linkiem „Zobacz wybrane
-  realizacje" każda podstrona oferty **oprócz `schody-modulowe`** dostaje blok: opcjonalne zdanie
-  wprowadzające + wyraźny przycisk prowadzący do powiązanej oferty. CMS-driven — nowa grupa pól
-  „Powiązane oferty" na `service`, tablica `{text?, label, target → reference do service}`.
-- **#2 Drugi formularz na `/oferta/akcesoria-do-zadaszen`.** Pod przyciskiem „Wypełnij formularz
-  wyceny żaluzji" pojawia się drugi, secondary, prowadzący do `/wycena/zadaszenie` — bo zabudowy,
-  rolety i oświetlenie LED są polami formularza zadaszeń. Nowe opcjonalne `secondaryFormSlug`
-  (+ etykieta) na `service`, puste na pozostałych 5 usługach.
-- **#3 „Nasze realizacje" → „Nasze wybrane realizacje".** Etykieta w `OfferGallery.tsx:112` (kod)
-  - `featuredProjectsSection.eyebrow` (CMS, sama publikacja). Dwa pozostałe wystąpienia to
-    **etykiety przycisków** — czekają na decyzję klientki.
-- **#4 Konwersje Google Ads — event-based.** `@next/third-parties` + warunkowy `<GoogleTagManager>`
-  w `layout.tsx`; `sendGTMEvent({ event: 'generate_lead', form_type })` w `FormThankYouPanel`,
-  odpalane tylko gdy blokada `submittedEmail !== null` uzna wysyłkę za prawdziwą, **raz na wysyłkę
-  na sesję**. Adresy stron „dziękuję" **nie zmieniają się**.
+<!-- Populated by /feature load -->
 
 ## Notes
 
-Źródło: wiadomość WhatsApp klientki + 3 screenshoty jej dokumentu, 01.09.2026.
-Pełna analiza: `context/features/feedback-round-10-spec.md` (napisany w tej sesji, do commitu razem
-z feature'em). Chronologicznie **Runda 10**.
-
-**Decyzje podjęte:**
-
-- ✅ **Adresy stron „dziękuję" zostają bez zmian.** Jej propozycja (`/dziekuje/…`) nie mapuje się
-  1:1 na formularze — jest **jeden** „Formularz Wyceny Tarasu" na kompozyt, gres i drewno
-  (materiał to pole w formularzu), a jej lista pomija żaluzje i tarasy drewniane. Rename dałby jej
-  ładniejsze nazwy, ale nie rozbicie kompozyt/gres, o które chodziło. Wariant z rozbiciem po
-  materiale — odłożony, wykonalny później bez zmiany formularza.
-- ✅ **Konwersja zdarzeniowa, nie adresowa.** Kluczowe ustalenie techniczne: wszystkie 5 stron
-  potwierdzeń jest osiąganych `router.push` (nawigacja po stronie klienta), a panel montuje się
-  przez `dynamic(…, {ssr:false})`. **Czysty gtag.js Ads nigdy by się nie odpalił** — `config`
-  leci raz, przy pierwszym załadowaniu. Zdarzenie `generate_lead` z parametrem `form_type` daje
-  jej rozbicie per formularz **bez** zmiany adresów.
-
-**Kluczowe fakty z rekonesansu (zweryfikowane, nie założone):**
-
-- Wszystkie 5 stron „dziękuję" idzie przez jeden łańcuch `ThankYouPageContent` → `FormThankYou` →
-  `FormThankYouPanel` → **jeden punkt podpięcia obsługuje wszystkie konwersje**.
-- ⚠️ Rekord wysyłki **nie jest kasowany po odczycie** (świadomy kompromis z 28.07) → odświeżenie
-  strony zliczyłoby konwersję drugi raz. Potrzebny osobny klucz `sessionStorage`.
-- Repo nie ma middleware ani CSP → wariant z `nonce` z dokumentacji Next.js zbędny.
-- `@next/third-parties` **nie jest** zainstalowany. Zero tagów Google w repo (potwierdzone Runda 9).
-- `galleryFooterText` / `galleryFacebookUrl` (Runda 7) są `null` na wszystkich 6 usługach —
-  to osobne pola, nie przeciążać ich przekierowaniami.
-- `OfferGallery` zwraca `null` gdy brak zdjęć → blok przekierowań musi być **osobnym komponentem**
-  w `OfferPage`, inaczej oferta bez realizacji straci też przekierowanie.
-
-**Otwarte pytania do klientki (blokują część #1 i #3, nie blokują #2 i #4):**
-
-1. Trzy strony tarasowe nie mają w dokumencie tekstu wprowadzającego — sam przycisk czy dopisze copy?
-2. Czy każda strona tarasowa linkuje do **obu** pozostałych, czy tylko do tej jednej z tabeli?
-3. ⚠️ Trzeci screenshot jest **ucięty** na wierszu „Strona schody…" — poprosić o pełny plik.
-4. Czy „nasze wybrane realizacje" dotyczy też **etykiet przycisków**, czy tylko nagłówków sekcji?
-5. GTM container ID (albo Ads Conversion ID + Label i GA4 Measurement ID).
-
-**Do powiedzenia klientce przed wpięciem tagów:** nie ma baneru zgody na cookies (Consent Mode v2
-jest wymagany dla tagów reklamowych w EOG — kwestia RODO, nie tylko jakości danych), a polityka
-prywatności z Rundy 9 nadal nie wymienia odbiorców danych ani okresu przechowywania.
-
-**Poza zakresem:** baner cookies / Consent Mode v2, zaległe nieopublikowane drafty.
-(⚠️ Ostrzeżenie z Rundy 9 o `elewacje-kompozytowe` jako żywym 404 **jest nieaktualne** — sprawdzone:
-zero odwołań w kodzie, redirect 308 w `next.config.ts`, draftu w datasecie już nie ma.)
-
-**Wymaga po implementacji:** `npm run deploy` z `studio/` (nowe pola na `service` nie będą widoczne
-w CMS bez redeploya) + zmienne `NEXT_PUBLIC_*` na Vercelu.
+<!-- Populated by /feature load -->
 
 ## History
+
+### Client Feedback Round 10 — przekierowania między ofertami, drugi formularz, konwersje Google Ads (2026-09-01)
+
+Four items from a WhatsApp message plus three screenshots of the client's feedback document
+(01.09.2026), comprehended into `context/features/feedback-round-10-spec.md` (written this session,
+committed with the feature) and loaded via `/feature load`. Branch `feature/feedback-round-10`, cut
+from `main`. Four decisions confirmed up front.
+
+- **The headline question — „jakie powinny być adresy po przesłaniu formularza" — resolved by
+  *not* changing them.** Her proposed `/dziekuje/…` scheme **does not map 1:1 onto the forms**: she
+  listed `tarasy-kompozytowe` and `tarasy-gresowe` separately, but there is **one** „Formularz
+  Wyceny Tarasu" covering kompozyt, gres and drewno (material is a field *inside* it, and all three
+  terrace offer pages point at `/wycena/taras`). She also omitted żaluzje entirely and omitted
+  tarasy-drewniane. The rename would have bought nicer names but **not** the per-product split she
+  was actually after. User's call: keep the five existing URLs.
+- ⚠️ **The critical technical finding: a URL-based Ads conversion could never have fired here.**
+  All five thank-you pages are reached by `router.push` (client-side navigation) and the panel
+  mounts through `dynamic(…, {ssr:false})` — there is no page load for a pageview trigger to hook
+  into, and plain gtag.js runs `config` exactly once at first load. Had we handed her the URLs and
+  stopped there, she would have configured conversions that silently never counted.
+- **Shipped event-based instead, which gives her *more* than the rename would have.**
+  `sendGTMEvent({ event: 'generate_lead', form_type })` carries the product as a parameter, so she
+  can split conversions per form in GTM **without** any URL change — the very thing the new
+  addresses were meant to achieve. Also domain-agnostic, which matters when the site moves off
+  `complex-puce.vercel.app`.
+- **One hook covers all five conversions.** Every thank-you page funnels through
+  `ThankYouPageContent` → `FormThankYou` → **`FormThankYouPanel`**, which already holds both the
+  `formType` and the „did this visitor really submit" guard. Firing there means **a conversion
+  inherits exactly the confirmation's definition** — bots, bookmarks and shared links are excluded
+  by the guard that was already running, for free.
+- ⚠️ **The refresh double-count was a real bug waiting to happen.** The submission record is
+  deliberately **never cleared after reading** (that is what lets a refresh still render the
+  confirmation — a documented 28.07 trade-off). Without a second guard, every refresh would have
+  reported another conversion, and React's dev double-invoke would have reported two on the first
+  render alone. New `claimConversion()` mirrors the file's existing two-layer approach: an
+  in-memory `Set` catches a remount, `sessionStorage` catches a reload. **Verified in-browser both
+  ways:** the event fires once, and after a reload the fresh dataLayer holds **0** `generate_lead`
+  entries while the confirmation still renders.
+- **Her container turned out to already carry the Ads tag.** She first sent an `AW-…` ID (a Google
+  Ads conversion ID, not a GTM container), then the GTM install dialog with **`GTM-NWZ9GM5`**.
+  Loading that container in a real browser showed it already pulls `gtag/js?id=AW-850864161` — so
+  Ads is wired into GTM already, and **the conversion label never needs to reach our code**: it
+  lives in the tag she configures. Verified end-to-end: GTM stamped our event with its own
+  `gtm.uniqueEventId`, and the container read back both `event` and `form_type`.
+- ⚠️ **`NEXT_PUBLIC_GTM_ID` is deliberately NOT in `.env.local` or any repo file.** `NEXT_PUBLIC_*`
+  is inlined at build time, and once she creates the conversion tag, **any local test submission
+  would fire a real conversion into her live Ads account** — which corrupts bid optimisation, not
+  merely reports. Vercel **Production scope only**, and it needs a redeploy to take effect.
+- **#1 `relatedOffers` is a reference, not a typed-in URL.** `target` → `reference to service`,
+  slug resolved in GROQ, so renaming a slug cannot strand a link — exactly the failure that
+  produced the three entries in `next.config.ts`'s `redirects()`. Modelled as an **array** so the
+  „link to both other terrace pages" variant needs no migration if she changes her mind.
+- **The cross-links are a separate section, not part of `OfferGallery`.** The gallery returns
+  `null` when a service has no projects (`OfferGallery.tsx:98`) and would have taken the redirects
+  down with it. Empty array → no section, which is why **`schody-modulowe` („oprócz schodów")
+  needed no exclusion logic at all**.
+- ⚠️ **A reference can outlive its target.** `OfferRelatedLinks` filters on `entry.target?.slug`
+  before rendering — an unpublished or deleted target resolves to `null`, which would otherwise
+  produce a link to `/oferta/undefined`. Not hypothetical in this dataset: `elewacje-kompozytowe`
+  vanished between rounds.
+- **#2 The accessories page genuinely needed two forms.** Zabudowy, rolety and LED are fields of
+  the *canopy* form, while that page's own `relatedFormSlug` is `zaluzje` — so a visitor looking
+  for zabudowy had nowhere to go. `OfferFormCta` gained a shared `FormCtaButton` so both buttons
+  and their „Prowadzi do:" captions cannot drift. Verified in-browser: **2** form buttons, both
+  captions naming the right form, **0** nested anchors.
+- **#3 All four „Nasze realizacje" occurrences changed** (user's call, wider than the screenshot):
+  two in code, two in the CMS. Caps deliberately not typed into the content — the gallery eyebrow
+  is already `uppercase` in CSS, same trap as „BEZPŁATNA WYCENA" in Round 9.
+- ✅ **Corrected a stale warning carried over from Round 9.** That round recorded
+  `/oferta/elewacje-kompozytowe` as „a live 404 linked from navbar and footer". **Checked rather
+  than repeated: there are zero references to `elewacje` anywhere in the app code, and
+  `next.config.ts` already 308s the old URL to `/oferta`.** Round 7 had fixed it; the Round 9 note
+  was simply out of date. Spec and notes amended rather than propagating it a third time.
+- ⚠️ **The `.next` staleness trap struck again — and was caught in time.** Started a `next start`
+  to verify the seeded content, then realised the build **predated the seed**, so its prerendered
+  HTML was still the old content. Rebuilt after seeding before trusting anything.
+- ⚠️ **A `next start` survived `TaskStop` and kept holding port 3100** — the exact false negative
+  from Round 7, same port. `TaskStop` killed the shell, not the node child; the PID needed
+  `taskkill`. **Always re-check the port after stopping a background server**, not just the task
+  status.
+- ⚠️ **`git status` briefly reported ~190 modified files** right after `git add`. Not real: a stale
+  index stat cache under `core.autocrlf`. `git diff --numstat` refreshed it and showed **8** files
+  with genuine content changes, all pre-existing drift. Worth not panicking about next time.
+- **`studio/sanity.types.ts` was stale and needed the studio's *own* typegen** — `frontend`'s
+  `sanity:typegen` does not cover it. It carried 0 lines of change until `npm run sanity:typegen`
+  was run from `studio/`, after which it picked up 17 real lines. The same file that nearly slipped
+  through in Round 9.
+- **Prettier drift rode along in two files this feature genuinely edits** (`service.ts`,
+  `structure/index.ts`) — long lines re-wrapped by format-on-save. **Verified content-identical**
+  by collapsing whitespace and confirming every pre-existing description survives verbatim; the
+  structure file's drift is a pure re-wrap with no behavioural change. Same precedent as
+  `ProjectsGrid.tsx` in Round 8.
+- ⚠️ **No write token at first** — Round 7's `SANITY_API_WRITE_TOKEN` was gone from
+  `frontend/.env.local`. The code was finished and verified without it (empty fields degrade to no
+  section / one button), then the user created a new Editor token mid-session. **Audited all 7
+  target documents for pending drafts first — all clean**, and re-verified afterwards that the
+  dataset holds **0 drafts**, so nothing of the client's was clobbered. The dry run printed all 7
+  mutations before anything was written.
+- **Seeded + published:** `relatedOffers` on 5 services (intro text only where she supplied copy;
+  the three terrace pages get a bare button, per her document), `secondaryFormSlug` + label on
+  `akcesoria-do-zadaszen`, and the two CMS „Nasze wybrane realizacje" strings.
+- **Studio redeployed** (`npm run deploy` from `studio/`) — in place via the pinned `appId`, same
+  URL, `Deployed 1/1 schemas`. **Verified against the deployed schema, not assumed:** all three new
+  fields live on `service`, `relatedOffers` members are `["text","label","target"]`, and `target`
+  resolves to `[{"type":"service"}]`. ⚠️ The Studio **UI** is unverified as always (Playwright
+  isn't logged in).
+- **Six new tests** for `claimConversion` (granted once, keyed per form, refused after a simulated
+  refresh, still refused when `sessionStorage` throws, not consumed by merely reading a submission,
+  cleanable). Nothing else was unit-testable — items #1–#3 are presentational plus schema.
+- Verified: **178/178 Vitest** (172 baseline + 6), `type-check` (both workspaces), `lint`
+  (**0 warnings** — the long-standing `useCountUp` warning was fixed in an earlier round), clean
+  `next build` after `rm -rf .next` — 28 static pages, 6 offer slugs still SSG, **no new routes**.
+  Against a real production server: all 6 offer pages 200 with exactly the right cross-link,
+  `schody-modulowe` with **none**, and `akcesoria-do-zadaszen` showing **3** `/wycena/zadaszenie`
+  hrefs against a baseline of 2 elsewhere — the second button. In-browser (Playwright/Chromium):
+  3 console errors, **all environmental** (Vercel Speed Insights 404 + Sanity Live CORS on the
+  ad-hoc port 3100); the GSAP reveal reaches **0.999** given a 7 s settle (sampled repeatedly — the
+  Round 9 stagger lesson); **no horizontal overflow at 390 px**; a direct visit to a thank-you page
+  redirects with **0** conversion events.
+- **Not driven in-browser:** a real form *send* — it would e-mail the dev inbox through Resend. The
+  submission was simulated by writing the same `sessionStorage` record the form writes before its
+  `router.push`, which exercises the identical code path without sending mail.
+- ⚠️ **Still needed before conversions actually count** (hers, not ours): set
+  `NEXT_PUBLIC_GTM_ID=GTM-NWZ9GM5` on Vercel Production and redeploy; in GTM create a *Custom
+  Event* trigger on `generate_lead` → a *Google Ads Conversion Tracking* tag, optionally a Data
+  Layer Variable on `form_type` to split per form, then **publish the container**.
+- ⚠️ **Still open, unchanged:** no cookie-consent banner (EEA ad tags need Consent Mode v2 — a RODO
+  matter, not just data quality), and the privacy policy still lists no data recipients or
+  retention period, a gap that Google Ads/Analytics widens.
+- **Open questions to the client:** whether the three terrace pages get intro copy (left as bare
+  buttons for now), whether each terrace page should link to **both** others (her table gives one
+  each, leaving `tarasy-drewniane` with no inbound link), and the **truncated third screenshot** —
+  it cuts off mid-row at „Strona schody…", so the document may hold rows we have not seen.
+- **Left untouched (same precedent as prior features):** 8 files carrying pre-existing uncommitted
+  drift — `.mcp.json`, `AUDIT.md`, `OPTIMIZATION-PLAN.md`, the Round 7/8 spec files,
+  `OrganizationJsonLd.tsx`, `OfferIndexGrid.tsx` — plus the untracked `.playwright-mcp/` artifacts.
 
 ### Client Feedback Round 9 — polityka prywatności, WhatsApp, Facebook (2026-08-27)
 
@@ -2657,3 +2732,4 @@ Set up the foundational design system in `frontend/app/globals.css` and `fronten
 - Fonts loaded via `next/font/google` (Bebas Neue, Space Grotesk, Inter) instead of `@import` — matches project convention and avoids double-loading
 - Dark `body` background, smooth scroll, `.glass` and `.section-padding` utilities
 - Removed leftover IBM Plex Mono font; set `html lang="pl"`
+
