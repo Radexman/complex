@@ -163,7 +163,7 @@ export default function FormSuccessState({
           href="/realizacje"
           className="rounded-lg border border-graphite px-6 py-3 text-sm text-silver transition-colors hover:border-accent/50 hover:text-white"
         >
-          Zobacz nasze realizacje
+          Zobacz nasze wybrane realizacje
         </Link>
       </div>
     </div>

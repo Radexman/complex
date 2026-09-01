@@ -176,6 +176,13 @@ export type HeroStat = {
   label: string;
 };
 
+export type ServiceReference = {
+  _ref: string;
+  _type: 'reference';
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: 'service';
+};
+
 export type Service = {
   _id: string;
   _type: 'service';
@@ -286,6 +293,15 @@ export type Service = {
   formCtaSubheadline?: string;
   formCtaButtonLabel?: string;
   formCtaBullets?: Array<string>;
+  secondaryFormSlug?: 'zadaszenie' | 'zaluzje' | 'taras' | 'schody';
+  secondaryFormButtonLabel?: string;
+  relatedOffers?: Array<{
+    text?: string;
+    label: string;
+    target: ServiceReference;
+    _type: 'relatedOffer';
+    _key: string;
+  }>;
 };
 
 export type SanityImageCrop = {
@@ -1024,6 +1040,7 @@ export type AllSanitySchemaTypes =
   | OfferCard
   | TrustStat
   | HeroStat
+  | ServiceReference
   | Service
   | SanityImageCrop
   | SanityImageHotspot

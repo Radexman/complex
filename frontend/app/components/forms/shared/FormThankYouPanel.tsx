@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { sendGTMEvent } from '@next/third-parties/google';
 
-import { getSubmittedEmail, type FormType } from '@/app/lib/formSubmissionSession';
+import { claimConversion, getSubmittedEmail, type FormType } from '@/app/lib/formSubmissionSession';
 import FormSuccessState, { type ProcessStepData } from './FormSuccessState';
 
 export interface FormThankYouProps {
@@ -33,6 +34,20 @@ export default function FormThankYouPanel({ formType, formHref, steps }: FormTha
   useEffect(() => {
     if (submittedEmail === null) router.replace(formHref);
   }, [submittedEmail, formHref, router]);
+
+  // Report the lead to Google Tag Manager. Fired here rather than from a
+  // URL-based rule in GTM because every thank-you page is reached by a
+  // client-side `router.push` — there is no page load for a pageview trigger to
+  // hook into. Sharing the guard above means a conversion has exactly the same
+  // definition as the confirmation on screen: no bots, bookmarks or shared links.
+  useEffect(() => {
+    if (submittedEmail === null) return;
+    if (!claimConversion(formType)) return;
+
+    // `sendGTMEvent` queues into `dataLayer` even before (or without) GTM being
+    // initialised, so this is harmless when no container is configured.
+    sendGTMEvent({ event: 'generate_lead', form_type: formType });
+  }, [submittedEmail, formType]);
 
   if (submittedEmail === null) {
     // Reserve the panel's vertical space so the redirect isn't a jump.

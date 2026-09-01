@@ -176,6 +176,13 @@ export type HeroStat = {
   label: string;
 };
 
+export type ServiceReference = {
+  _ref: string;
+  _type: 'reference';
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: 'service';
+};
+
 export type Service = {
   _id: string;
   _type: 'service';
@@ -286,6 +293,15 @@ export type Service = {
   formCtaSubheadline?: string;
   formCtaButtonLabel?: string;
   formCtaBullets?: Array<string>;
+  secondaryFormSlug?: 'zadaszenie' | 'zaluzje' | 'taras' | 'schody';
+  secondaryFormButtonLabel?: string;
+  relatedOffers?: Array<{
+    text?: string;
+    label: string;
+    target: ServiceReference;
+    _type: 'relatedOffer';
+    _key: string;
+  }>;
 };
 
 export type SanityImageCrop = {
@@ -1024,6 +1040,7 @@ export type AllSanitySchemaTypes =
   | OfferCard
   | TrustStat
   | HeroStat
+  | ServiceReference
   | Service
   | SanityImageCrop
   | SanityImageHotspot
@@ -1723,7 +1740,7 @@ export type ServiceSlugsQueryResult = Array<{
 
 // Source: sanity/lib/queries.ts
 // Variable: serviceBySlugQuery
-// Query: *[_type == "service" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    seoDescription,    heroImage,    heroHeadline,    heroSubheadline,    relatedFormSlug,    category,    benefitsEyebrow,    benefitsHeadline,    benefitsDescription,    benefits[]{      _key,      icon,      title,      description,      linkText,      linkUrl    },    galleryFooterText,    galleryFacebookUrl,    brandsEyebrow,    brandsHeadline,    brandsDescription,    brands[]{      _key,      name,      shortDescription,      fullDescription,      variants[]{        _key,        name,        image,        specs,        description,        manufacturer      }    },    techSpecsHeadline,    techSpecsDescription,    techSpecs[]{      _key,      icon,      title,      content    },    formCtaHeadline,    formCtaSubheadline,    formCtaButtonLabel,    formCtaBullets  }
+// Query: *[_type == "service" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    seoDescription,    heroImage,    heroHeadline,    heroSubheadline,    relatedFormSlug,    category,    benefitsEyebrow,    benefitsHeadline,    benefitsDescription,    benefits[]{      _key,      icon,      title,      description,      linkText,      linkUrl    },    galleryFooterText,    galleryFacebookUrl,    brandsEyebrow,    brandsHeadline,    brandsDescription,    brands[]{      _key,      name,      shortDescription,      fullDescription,      variants[]{        _key,        name,        image,        specs,        description,        manufacturer      }    },    techSpecsHeadline,    techSpecsDescription,    techSpecs[]{      _key,      icon,      title,      content    },    formCtaHeadline,    formCtaSubheadline,    formCtaButtonLabel,    formCtaBullets,    secondaryFormSlug,    secondaryFormButtonLabel,    relatedOffers[]{      _key,      text,      label,      target->{        title,        "slug": slug.current      }    }  }
 export type ServiceBySlugQueryResult = {
   _id: string;
   title: string;
@@ -1824,6 +1841,17 @@ export type ServiceBySlugQueryResult = {
   formCtaSubheadline: string | null;
   formCtaButtonLabel: string | null;
   formCtaBullets: Array<string> | null;
+  secondaryFormSlug: 'schody' | 'taras' | 'zadaszenie' | 'zaluzje' | null;
+  secondaryFormButtonLabel: string | null;
+  relatedOffers: Array<{
+    _key: string;
+    text: string | null;
+    label: string;
+    target: {
+      title: string;
+      slug: string;
+    };
+  }> | null;
 } | null;
 
 // Query TypeMap
@@ -1860,6 +1888,6 @@ declare module '@sanity/client' {
     '*[_type == "project"] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    surface,\n    coverImage\n  }': AllProjectsQueryResult;
     '*[_type == "project" && category == $category] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    coverImage\n  }': GalleryProjectsByCategoryQueryResult;
     '*[_type == "service" && defined(slug.current)]{ "slug": slug.current }': ServiceSlugsQueryResult;
-    '*[_type == "service" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    seoDescription,\n    heroImage,\n    heroHeadline,\n    heroSubheadline,\n    relatedFormSlug,\n    category,\n    benefitsEyebrow,\n    benefitsHeadline,\n    benefitsDescription,\n    benefits[]{\n      _key,\n      icon,\n      title,\n      description,\n      linkText,\n      linkUrl\n    },\n    galleryFooterText,\n    galleryFacebookUrl,\n    brandsEyebrow,\n    brandsHeadline,\n    brandsDescription,\n    brands[]{\n      _key,\n      name,\n      shortDescription,\n      fullDescription,\n      variants[]{\n        _key,\n        name,\n        image,\n        specs,\n        description,\n        manufacturer\n      }\n    },\n    techSpecsHeadline,\n    techSpecsDescription,\n    techSpecs[]{\n      _key,\n      icon,\n      title,\n      content\n    },\n    formCtaHeadline,\n    formCtaSubheadline,\n    formCtaButtonLabel,\n    formCtaBullets\n  }': ServiceBySlugQueryResult;
+    '*[_type == "service" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    seoDescription,\n    heroImage,\n    heroHeadline,\n    heroSubheadline,\n    relatedFormSlug,\n    category,\n    benefitsEyebrow,\n    benefitsHeadline,\n    benefitsDescription,\n    benefits[]{\n      _key,\n      icon,\n      title,\n      description,\n      linkText,\n      linkUrl\n    },\n    galleryFooterText,\n    galleryFacebookUrl,\n    brandsEyebrow,\n    brandsHeadline,\n    brandsDescription,\n    brands[]{\n      _key,\n      name,\n      shortDescription,\n      fullDescription,\n      variants[]{\n        _key,\n        name,\n        image,\n        specs,\n        description,\n        manufacturer\n      }\n    },\n    techSpecsHeadline,\n    techSpecsDescription,\n    techSpecs[]{\n      _key,\n      icon,\n      title,\n      content\n    },\n    formCtaHeadline,\n    formCtaSubheadline,\n    formCtaButtonLabel,\n    formCtaBullets,\n    secondaryFormSlug,\n    secondaryFormButtonLabel,\n    relatedOffers[]{\n      _key,\n      text,\n      label,\n      target->{\n        title,\n        "slug": slug.current\n      }\n    }\n  }': ServiceBySlugQueryResult;
   }
 }

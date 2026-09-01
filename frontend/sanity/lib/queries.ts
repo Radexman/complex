@@ -199,6 +199,17 @@ export const serviceBySlugQuery = defineQuery(
     formCtaHeadline,
     formCtaSubheadline,
     formCtaButtonLabel,
-    formCtaBullets
+    formCtaBullets,
+    secondaryFormSlug,
+    secondaryFormButtonLabel,
+    relatedOffers[]{
+      _key,
+      text,
+      label,
+      target->{
+        title,
+        "slug": slug.current
+      }
+    }
   }`,
 );
