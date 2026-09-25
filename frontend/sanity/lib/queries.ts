@@ -33,7 +33,8 @@ export const sitemapQuery = defineQuery(`{
   "realizacje": *[_type in ["realizacjePage", "project"]] | order(_updatedAt desc)[0]._updatedAt,
   "tarasy": *[_type == "tarasyPage"][0]._updatedAt,
   "oNas": *[_type == "aboutPage"][0]._updatedAt,
-  "politykaPrywatnosci": *[_type == "legalPage"][0]._updatedAt
+  "politykaPrywatnosci": *[_type == "legalPage"][0]._updatedAt,
+  "faq": *[_type == "faqPage"][0]._updatedAt
 }`);
 
 /**
@@ -81,6 +82,8 @@ export const facebookUrlQuery = defineQuery(
 
 /** The privacy policy behind `/polityka-prywatnosci`. Whole-doc select. */
 export const legalPageQuery = defineQuery(`*[_type == "legalPage"][0]`);
+/** The FAQ page behind `/faq`. Whole-doc select. */
+export const faqPageQuery = defineQuery(`*[_type == "faqPage"][0]`);
 export const tarasFormConfigQuery = defineQuery(
   `*[_type == "tarasFormConfig"][0]{
     title,

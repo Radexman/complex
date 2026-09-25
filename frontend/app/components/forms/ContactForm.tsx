@@ -124,7 +124,7 @@ export default function ContactForm({ onSuccess }: { onSuccess?: () => void } = 
                 Polityki prywatności
               </Link>{' '}
               i wyrażam zgodę na przetwarzanie moich danych osobowych przez Complex sp. z o.o. w
-              celu udzielenia odpowiedzi na moją wiadomość.
+              celu udzielenia odpowiedzi na moją wiadomość. <span className="text-accent">*</span>
             </>
           }
         />
@@ -161,7 +161,7 @@ export default function ContactForm({ onSuccess }: { onSuccess?: () => void } = 
         )}
       </button>
       <p className="text-center text-xs text-silver">
-        * Pola obowiązkowe. Odpowiadamy najszybciej jak to możliwe.
+        * Pola obowiązkowe. Odpowiadamy najszybciej, jak to możliwe.
       </p>
     </form>
   );

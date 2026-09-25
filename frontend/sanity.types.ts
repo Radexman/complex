@@ -15,6 +15,22 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: ../sanity.schema.json
+export type FaqItem = {
+  _type: 'faqItem';
+  question: string;
+  answer: string;
+};
+
+export type FaqCategory = {
+  _type: 'faqCategory';
+  title: string;
+  items?: Array<
+    {
+      _key: string;
+    } & FaqItem
+  >;
+};
+
 export type LegalSection = {
   _type: 'legalSection';
   heading?: string;
@@ -406,6 +422,24 @@ export type TarasFormConfig = {
   >;
 };
 
+export type FaqPage = {
+  _id: string;
+  _type: 'faqPage';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  headline: string;
+  subheadline?: string;
+  categories?: Array<
+    {
+      _key: string;
+    } & FaqCategory
+  >;
+  seoTitle?: string;
+  seoDescription?: string;
+};
+
 export type LegalPage = {
   _id: string;
   _type: 'legalPage';
@@ -597,6 +631,15 @@ export type AboutPage = {
       _key: string;
     } & AboutValue
   >;
+  cta?: {
+    eyebrow?: string;
+    headline?: string;
+    description?: string;
+    primaryCtaLabel?: string;
+    primaryCtaHref?: string;
+    secondaryCtaLabel?: string;
+    secondaryCtaHref?: string;
+  };
 };
 
 export type VatHighlightSection = {
@@ -1027,6 +1070,8 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+  | FaqItem
+  | FaqCategory
   | LegalSection
   | WycenaFormCard
   | VatRate
@@ -1050,6 +1095,7 @@ export type AllSanitySchemaTypes =
   | ZadaszenieFormConfig
   | SchodyFormConfig
   | TarasFormConfig
+  | FaqPage
   | LegalPage
   | Footer
   | ProcessTimeline
@@ -1364,11 +1410,20 @@ export type AboutPageQueryResult = {
       _key: string;
     } & AboutValue
   >;
+  cta?: {
+    eyebrow?: string;
+    headline?: string;
+    description?: string;
+    primaryCtaLabel?: string;
+    primaryCtaHref?: string;
+    secondaryCtaLabel?: string;
+    secondaryCtaHref?: string;
+  };
 } | null;
 
 // Source: sanity/lib/queries.ts
 // Variable: sitemapQuery
-// Query: {  "services": *[_type == "service" && defined(slug.current)]    | order(coalesce(order, 99) asc, title asc){ "slug": slug.current, _updatedAt },  "home": *[_type in [    "heroSection", "trustSection", "offerSection", "aboutSection",    "featuredProjectsSection", "beforeAfterSection", "vatHighlightSection",    "processTimeline", "bottomCtaSection"  ]] | order(_updatedAt desc)[0]._updatedAt,  "oferta": *[_type == "ofertaPage"][0]._updatedAt,  "wycena": *[_type == "wycenaPage"][0]._updatedAt,  "realizacje": *[_type in ["realizacjePage", "project"]] | order(_updatedAt desc)[0]._updatedAt,  "tarasy": *[_type == "tarasyPage"][0]._updatedAt,  "oNas": *[_type == "aboutPage"][0]._updatedAt,  "politykaPrywatnosci": *[_type == "legalPage"][0]._updatedAt}
+// Query: {  "services": *[_type == "service" && defined(slug.current)]    | order(coalesce(order, 99) asc, title asc){ "slug": slug.current, _updatedAt },  "home": *[_type in [    "heroSection", "trustSection", "offerSection", "aboutSection",    "featuredProjectsSection", "beforeAfterSection", "vatHighlightSection",    "processTimeline", "bottomCtaSection"  ]] | order(_updatedAt desc)[0]._updatedAt,  "oferta": *[_type == "ofertaPage"][0]._updatedAt,  "wycena": *[_type == "wycenaPage"][0]._updatedAt,  "realizacje": *[_type in ["realizacjePage", "project"]] | order(_updatedAt desc)[0]._updatedAt,  "tarasy": *[_type == "tarasyPage"][0]._updatedAt,  "oNas": *[_type == "aboutPage"][0]._updatedAt,  "politykaPrywatnosci": *[_type == "legalPage"][0]._updatedAt,  "faq": *[_type == "faqPage"][0]._updatedAt}
 export type SitemapQueryResult = {
   services: Array<{
     slug: string;
@@ -1381,6 +1436,7 @@ export type SitemapQueryResult = {
   tarasy: string | null;
   oNas: string | null;
   politykaPrywatnosci: string | null;
+  faq: string | null;
 };
 
 // Source: sanity/lib/queries.ts
@@ -1601,6 +1657,27 @@ export type LegalPageQueryResult = {
       _key: string;
     } & LegalSection
   >;
+  seoDescription?: string;
+} | null;
+
+// Source: sanity/lib/queries.ts
+// Variable: faqPageQuery
+// Query: *[_type == "faqPage"][0]
+export type FaqPageQueryResult = {
+  _id: string;
+  _type: 'faqPage';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  headline: string;
+  subheadline?: string;
+  categories?: Array<
+    {
+      _key: string;
+    } & FaqCategory
+  >;
+  seoTitle?: string;
   seoDescription?: string;
 } | null;
 
@@ -1870,7 +1947,7 @@ declare module '@sanity/client' {
     '*[_type == "ofertaPage"][0]': OfertaPageQueryResult;
     '*[_type == "wycenaPage"][0]': WycenaPageQueryResult;
     '*[_type == "aboutPage"][0]': AboutPageQueryResult;
-    '{\n  "services": *[_type == "service" && defined(slug.current)]\n    | order(coalesce(order, 99) asc, title asc){ "slug": slug.current, _updatedAt },\n  "home": *[_type in [\n    "heroSection", "trustSection", "offerSection", "aboutSection",\n    "featuredProjectsSection", "beforeAfterSection", "vatHighlightSection",\n    "processTimeline", "bottomCtaSection"\n  ]] | order(_updatedAt desc)[0]._updatedAt,\n  "oferta": *[_type == "ofertaPage"][0]._updatedAt,\n  "wycena": *[_type == "wycenaPage"][0]._updatedAt,\n  "realizacje": *[_type in ["realizacjePage", "project"]] | order(_updatedAt desc)[0]._updatedAt,\n  "tarasy": *[_type == "tarasyPage"][0]._updatedAt,\n  "oNas": *[_type == "aboutPage"][0]._updatedAt,\n  "politykaPrywatnosci": *[_type == "legalPage"][0]._updatedAt\n}': SitemapQueryResult;
+    '{\n  "services": *[_type == "service" && defined(slug.current)]\n    | order(coalesce(order, 99) asc, title asc){ "slug": slug.current, _updatedAt },\n  "home": *[_type in [\n    "heroSection", "trustSection", "offerSection", "aboutSection",\n    "featuredProjectsSection", "beforeAfterSection", "vatHighlightSection",\n    "processTimeline", "bottomCtaSection"\n  ]] | order(_updatedAt desc)[0]._updatedAt,\n  "oferta": *[_type == "ofertaPage"][0]._updatedAt,\n  "wycena": *[_type == "wycenaPage"][0]._updatedAt,\n  "realizacje": *[_type in ["realizacjePage", "project"]] | order(_updatedAt desc)[0]._updatedAt,\n  "tarasy": *[_type == "tarasyPage"][0]._updatedAt,\n  "oNas": *[_type == "aboutPage"][0]._updatedAt,\n  "politykaPrywatnosci": *[_type == "legalPage"][0]._updatedAt,\n  "faq": *[_type == "faqPage"][0]._updatedAt\n}': SitemapQueryResult;
     '*[_type == "service" && defined(slug.current)] | order(coalesce(order, 99) asc, title asc){\n    _id,\n    title,\n    "slug": slug.current,\n    heroImage,\n    heroSubheadline,\n    category,\n    relatedFormSlug,\n    isNew\n  }': AllServicesQueryResult;
     '*[_type == "service" && slug.current in ["tarasy-kompozytowe", "tarasy-gresowe", "tarasy-drewniane"]]{\n    _id,\n    title,\n    "slug": slug.current,\n    heroImage,\n    heroSubheadline,\n    category\n  }': TerraceServicesQueryResult;
     '*[_type == "beforeAfterSection"][0]': BeforeAfterQueryResult;
@@ -1880,6 +1957,7 @@ declare module '@sanity/client' {
     '*[_type == "footer"][0]': FooterQueryResult;
     '*[_type == "footer"][0].socialLinks[platform == "facebook"][0].href': FacebookUrlQueryResult;
     '*[_type == "legalPage"][0]': LegalPageQueryResult;
+    '*[_type == "faqPage"][0]': FaqPageQueryResult;
     '*[_type == "tarasFormConfig"][0]{\n    title,\n    description,\n    shapes[]{\n      _key,\n      shapeNumber,\n      label,\n      image,\n      sides\n    }\n  }': TarasFormConfigQueryResult;
     '*[_type == "zadaszenieFormConfig"][0]{\n    title,\n    description\n  }': ZadaszenieFormConfigQueryResult;
     '*[_type == "zaluzjeFormConfig"][0]{\n    title,\n    description\n  }': ZaluzjeFormConfigQueryResult;

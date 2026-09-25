@@ -43,6 +43,7 @@ const OFERTA_LINKS: NavLink[] = [
 const FIRMA_LINKS: NavLink[] = [
   { label: 'O nas', href: '/o-nas' },
   { label: 'Realizacje', href: '/realizacje' },
+  { label: 'FAQ', href: '/faq' },
   // Anchor into the home page's contact/showroom block — there is no /kontakt page.
   { label: 'Kontakt', href: '/#kontakt' },
 ];

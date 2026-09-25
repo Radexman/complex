@@ -15,6 +15,22 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: ../sanity.schema.json
+export type FaqItem = {
+  _type: 'faqItem';
+  question: string;
+  answer: string;
+};
+
+export type FaqCategory = {
+  _type: 'faqCategory';
+  title: string;
+  items?: Array<
+    {
+      _key: string;
+    } & FaqItem
+  >;
+};
+
 export type LegalSection = {
   _type: 'legalSection';
   heading?: string;
@@ -406,6 +422,24 @@ export type TarasFormConfig = {
   >;
 };
 
+export type FaqPage = {
+  _id: string;
+  _type: 'faqPage';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  headline: string;
+  subheadline?: string;
+  categories?: Array<
+    {
+      _key: string;
+    } & FaqCategory
+  >;
+  seoTitle?: string;
+  seoDescription?: string;
+};
+
 export type LegalPage = {
   _id: string;
   _type: 'legalPage';
@@ -597,6 +631,15 @@ export type AboutPage = {
       _key: string;
     } & AboutValue
   >;
+  cta?: {
+    eyebrow?: string;
+    headline?: string;
+    description?: string;
+    primaryCtaLabel?: string;
+    primaryCtaHref?: string;
+    secondaryCtaLabel?: string;
+    secondaryCtaHref?: string;
+  };
 };
 
 export type VatHighlightSection = {
@@ -1027,6 +1070,8 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+  | FaqItem
+  | FaqCategory
   | LegalSection
   | WycenaFormCard
   | VatRate
@@ -1050,6 +1095,7 @@ export type AllSanitySchemaTypes =
   | ZadaszenieFormConfig
   | SchodyFormConfig
   | TarasFormConfig
+  | FaqPage
   | LegalPage
   | Footer
   | ProcessTimeline

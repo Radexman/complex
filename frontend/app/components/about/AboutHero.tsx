@@ -38,7 +38,7 @@ export default function AboutHero({ heroHeadline, heroSubheadline }: AboutHeroPr
         <div className="grid grid-cols-1 items-end gap-12 lg:grid-cols-2">
           <div data-hero-left>
             <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent">
-              Complex sp. z o.o.
+              CCOMPLEX SP. Z O.O.
             </p>
             <h1 className="font-heading text-6xl font-bold leading-none text-white md:text-7xl">
               {heroHeadline}

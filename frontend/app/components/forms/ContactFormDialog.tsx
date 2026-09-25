@@ -46,8 +46,8 @@ export default function ContactFormDialog({
                   Formularz kontaktowy
                 </Dialog.Title>
                 <Dialog.Description className="mt-2 font-body text-sm text-silver">
-                  Masz pytanie, które nie dotyczy konkretnej wyceny? Napisz — odpowiemy najszybciej
-                  jak to możliwe.
+                  Masz pytanie, które nie dotyczy konkretnej wyceny? Napisz do nas — odpowiemy
+                  najszybciej, jak to możliwe.
                 </Dialog.Description>
               </div>
               <Dialog.CloseTrigger
