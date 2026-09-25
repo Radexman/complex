@@ -270,9 +270,12 @@ export default function Navbar({ navbar }: { navbar?: NavbarType }) {
   const navLinkClass = (active: boolean) =>
     `text-sm transition-colors duration-200 ${active ? 'text-white' : 'text-white/80 hover:text-white'}`;
 
+  // Fixed positioning lives on the wrapper in layout.tsx (shared with
+  // <AnnouncementBar>), not here — so the banner and navbar stack in normal
+  // flow and the navbar rises automatically when the banner isn't rendered.
   return (
     <header
-      className={`fixed top-0 left-0 z-50 w-full animate-[nav-slide-down_0.45s_cubic-bezier(0.22,1,0.36,1)] transition-all duration-300 ${
+      className={`w-full animate-[nav-slide-down_0.45s_cubic-bezier(0.22,1,0.36,1)] transition-all duration-300 ${
         scrolled ? 'bg-bg-mid/80 backdrop-blur-md' : 'bg-transparent'
       }`}
     >

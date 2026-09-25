@@ -17,6 +17,7 @@ import {
   ThListIcon,
   TransferIcon,
   UsersIcon,
+  WarningOutlineIcon,
 } from '@sanity/icons';
 import type { StructureBuilder, StructureResolver } from 'sanity/structure';
 
@@ -33,6 +34,10 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
   S.list()
     .title('Treść strony')
     .items([
+      S.listItem()
+        .title('Baner ogłoszeń')
+        .icon(WarningOutlineIcon)
+        .child(S.document().schemaType('announcementBanner').documentId('announcementBanner')),
       S.listItem()
         .title('Nawigacja')
         .icon(MenuIcon)

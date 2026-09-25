@@ -140,6 +140,11 @@ export default defineConfig({
             message: 'Ten dokument jest używany na wszystkich stronach',
             tone: 'positive',
           }),
+          announcementBanner: defineLocations({
+            locations: [homeLocation],
+            message: 'Baner ogłoszeń jest używany na wszystkich stronach',
+            tone: 'positive',
+          }),
           navbar: defineLocations({
             locations: [homeLocation],
             message: 'Nawigacja jest używana na wszystkich stronach',

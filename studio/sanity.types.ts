@@ -803,6 +803,19 @@ export type Navbar = {
   };
 };
 
+export type AnnouncementBanner = {
+  _id: string;
+  _type: 'announcementBanner';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  isEnabled?: boolean;
+  text: string;
+  endsAt: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+};
+
 export type Settings = {
   _id: string;
   _type: 'settings';
@@ -1113,6 +1126,7 @@ export type AllSanitySchemaTypes =
   | TrustSection
   | HeroSection
   | Navbar
+  | AnnouncementBanner
   | Settings
   | SanityAssistInstructionTask
   | SanityAssistTaskStatus

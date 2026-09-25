@@ -1,16 +1,100 @@
-# Current Feature
+# Current Feature: Announcement Banner
 
 ## Status
 
-Not Started
+In Progress
 
 ## Goals
 
-<!-- Populated by /feature load -->
+- A thin sticky glassmorphism announcement bar rendered above the Navbar, fully controlled from
+  Sanity Studio (enable/disable, text, end date, optional CTA).
+- Auto-hides once `endsAt` passes (computed server-side — no client flash of an expired banner).
+- Dismissible via a close (✕) button; dismissal stored in `localStorage` and suppresses the
+  banner for 24 hours, then it can reappear if still active.
+- When disabled or expired, renders nothing (no HTML/hydration cost).
+- Matches the reference screenshot (`context/features/announcement-banner-spec.md`'s companion
+  image, provided by the client): a leading emoji/icon, bold promo text, a muted "· do DD.MM.RRRR"
+  end-date suffix, a green pill CTA button ("Zapytaj o wycenę"), and a ✕ close icon on the right —
+  all in one row on a subtle frosted-glass dark strip.
 
 ## Notes
 
-<!-- Populated by /feature load -->
+- Source spec: `context/features/announcement-banner-spec.md`. Client also supplied a reference
+  screenshot of the desired look (single-row layout, small icon before the text, pill-style green
+  CTA, muted end-date suffix, ✕ close button) — the implementation should match that visual, not
+  just the spec's prose description.
+- **Path reconciliation needed at implementation time (same as every prior feature):** the spec's
+  `src/app`, `src/components`, `src/sanity/lib/queries.ts`, `src/types/sanity.ts` and
+  `sanity/schemas/siteSettings.ts` paths don't match this repo — real locations are
+  `frontend/app/`, `frontend/app/components/`, `frontend/sanity/lib/queries.ts`, and
+  `studio/src/schemaTypes/`.
+- **Schema location — deviate from the spec's "embed in siteSettings" instruction.** The
+  2026-06-16 history entry explicitly moved per-section config (Navbar, Hero, Trust, Offer, etc.)
+  *out* of `settings` into their own fixed-id singleton documents, precisely so `settings`
+  (document id `siteSettings`, `_type == "settings"`) stays metadata/SEO-only — every section
+  added since has followed that precedent (`bottomCtaSection`, `beforeAfterSection`,
+  `vatHighlightSection`, `legalPage`, `faqPage`, etc., all under `studio/src/schemaTypes/objects/`
+  but registered as `type: 'document'`). Plan to add a new **`announcementBanner`** fixed-id
+  singleton instead of touching `settings.tsx` — same shape as the spec's fields
+  (`isEnabled`/`text`/`endsAt`/`ctaLabel`/`ctaHref`), own structure entry + Presentation location.
+- The spec's `endsAt` computation, dismiss/localStorage logic (24h window, try/catch guards),
+  `isActive` server-side gate, and "no HTML when inactive" behavior are all sound as written and
+  should carry over as-is.
+- Render position: `<body>` in `frontend/app/layout.tsx` currently goes
+  `<SanityLive> → <Header /> → <main> → <Footer /> → <SpeedInsights />`. The banner should be the
+  first child, before `<Header />` (which is what renders `<Navbar>` after its own `navbarQuery`
+  fetch) — not before `<SanityLive>`/`<Toaster>`, which are infrastructure, not layout content.
+- The spec's icon-less text-only banner doesn't match the screenshot, which shows a small emoji/
+  icon before the text — reconcile at implementation time (likely a static lucide icon like
+  `Sparkles`/`Megaphone`, not a new CMS field, unless the client wants to change it per-promotion).
+- No `src/types/sanity.ts` file exists in this repo — TypeGen (`sanity.types.ts`) is generated,
+  never hand-edited; the query result type comes free from `defineQuery` + typegen regen, so the
+  spec's manual `AnnouncementBannerData` type isn't needed.
+
+### Implementation notes (in progress)
+
+- **Schema:** new `announcementBanner` fixed-id singleton (`studio/src/schemaTypes/objects/
+announcementBanner.ts`, icon `WarningOutlineIcon` — `@sanity/icons` has no megaphone glyph),
+  fields `isEnabled`/`text`/`endsAt`/`ctaLabel`/`ctaHref` per the spec, plus a `ctaHref` custom
+  validation requiring a link whenever a label is set. `ctaLabel`/`ctaHref` now carry
+  `initialValue`s ("Zapytaj o wycenę" → `/wycena/zadaszenie`) per user request — new documents
+  default to the canopy quotation form. Registered in `schemaTypes/index.ts`, structure entry
+  ("Baner ogłoszeń", first item — it renders above the Navbar), Presentation `locations` resolver
+  (→ home, "used on all pages" message, same as `navbar`/`footer`).
+- **Navbar is `fixed`, not `sticky` as the spec assumed** — so a banner placed above it in the DOM
+  would NOT push it down (fixed elements are out of flow) and would instead get covered by it.
+  Fixed by moving the fixed positioning off `Navbar.tsx`'s own `<header>` (was `fixed top-0 left-0
+z-50`, now plain `w-full`) and onto a shared wrapper in `layout.tsx`
+  (`<div className="fixed inset-x-0 top-0 z-50"><AnnouncementBar /><Header /></div>`). Banner and
+  Navbar now stack in normal flow inside that shared fixed strip, so the Navbar rises on its own
+  when the banner isn't rendered — no cross-component height coordination needed. Documented with
+  a comment in both files. (Known, spec-acknowledged limitation: since hero sections' `pt-28`/
+  `pt-20` clearance is calibrated to the Navbar's height alone, a small clearance gap is possible
+  at the very top of the page while the banner is showing — same tradeoff the spec itself called
+  out ("banner height should not be baked into scroll offsets").)
+- **Dismissal check avoids `useEffect` + `setState`** (this repo's `react-hooks/set-state-in-effect`
+  lint rule is an error) by reading `localStorage` in a lazy `useState` initializer instead, inside
+  a client-only-mounted component (`AnnouncementBannerMount.tsx`, `dynamic(..., { ssr: false })`) —
+  same pattern as `FormThankYou.tsx`/`FormThankYouPanel.tsx`. `AnnouncementBar.tsx` (new, mirrors
+  `Header.tsx`) is the async server component that fetches `announcementBannerQuery` and computes
+  `isActive` server-side, rendering nothing at all when disabled/expired.
+- Reused the existing `nav-slide-down` keyframe (already used for the Navbar's own mount
+  animation) for the banner's entrance — no new CSS needed.
+- ⚠️ **Found a pending, unrelated-to-us client draft while checking for conflicts before seeding
+  test content:** `drafts.announcementBanner` already exists in the dataset (created today,
+  `isEnabled: false`, `text: "Promocja Testowa - 15"`, no `endsAt`/CTA yet) — the client appears to
+  be testing this feature live in their own Studio session (port 3333 was listening). **Left it
+  completely untouched** — did not seed/publish any test content over it, per this project's
+  standing rule to never clobber an in-progress client draft. Full interactive in-browser
+  verification (Playwright) was skipped this session as a result — verified instead via `lint`
+  (clean), `type-check` (both workspaces, clean), `next build` (clean, all routes still prerender
+  as before, no new routes), and `npm test` (184/184, unchanged — no new server actions/utilities).
+- Both the user's local dev servers (frontend :3000, studio :3333) stopped mid-session (not
+  something this session did) — worth a restart before browser-testing the banner.
+- **Still open before this can be marked Complete:** in-browser verification of the enabled/CTA/
+  dismiss/24h-localStorage states (once the client's draft is safe to test against or a throwaway
+  doc can be created instead), and a Studio redeploy (`npm run deploy` from `studio/`) before the
+  client sees the new "Baner ogłoszeń" entry in the hosted Studio.
 
 ## History
 

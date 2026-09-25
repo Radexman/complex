@@ -1,4 +1,5 @@
 import { settings } from './singletons/settings';
+import { announcementBanner } from './objects/announcementBanner';
 import { heroSection } from './objects/heroSection';
 import { heroStat } from './objects/heroStat';
 import { navbar } from './objects/navbar';
@@ -43,6 +44,7 @@ import { service } from './documents/service';
 export const schemaTypes = [
   // Singletons (one fixed-id document each)
   settings,
+  announcementBanner,
   navbar,
   heroSection,
   trustSection,

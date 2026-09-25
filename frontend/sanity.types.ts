@@ -803,6 +803,19 @@ export type Navbar = {
   };
 };
 
+export type AnnouncementBanner = {
+  _id: string;
+  _type: 'announcementBanner';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  isEnabled?: boolean;
+  text: string;
+  endsAt: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+};
+
 export type Settings = {
   _id: string;
   _type: 'settings';
@@ -1113,6 +1126,7 @@ export type AllSanitySchemaTypes =
   | TrustSection
   | HeroSection
   | Navbar
+  | AnnouncementBanner
   | Settings
   | SanityAssistInstructionTask
   | SanityAssistTaskStatus
@@ -1169,6 +1183,22 @@ export type SettingsQueryResult = {
     metadataBase?: string;
     _type: 'image';
   };
+} | null;
+
+// Source: sanity/lib/queries.ts
+// Variable: announcementBannerQuery
+// Query: *[_type == "announcementBanner"][0]
+export type AnnouncementBannerQueryResult = {
+  _id: string;
+  _type: 'announcementBanner';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  isEnabled?: boolean;
+  text: string;
+  endsAt: string;
+  ctaLabel?: string;
+  ctaHref?: string;
 } | null;
 
 // Source: sanity/lib/queries.ts
@@ -1936,6 +1966,7 @@ import '@sanity/client';
 declare module '@sanity/client' {
   interface SanityQueries {
     '*[_type == "settings"][0]': SettingsQueryResult;
+    '*[_type == "announcementBanner"][0]': AnnouncementBannerQueryResult;
     '*[_type == "navbar"][0]': NavbarQueryResult;
     '*[_type == "heroSection"][0]': HeroQueryResult;
     '*[_type == "trustSection"][0]': TrustQueryResult;

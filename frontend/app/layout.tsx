@@ -9,6 +9,7 @@ import { toPlainText } from 'next-sanity';
 import { VisualEditing } from 'next-sanity/visual-editing';
 import { Toaster } from 'sonner';
 
+import AnnouncementBar from '@/app/components/AnnouncementBar';
 import DraftModeToast from '@/app/components/DraftModeToast';
 import Footer from '@/app/components/layout/Footer';
 import Header from '@/app/components/Header';
@@ -99,7 +100,13 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
         )}
         {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
         <SanityLive onError={handleError} />
-        <Header />
+        {/* Fixed strip pinned to the viewport top — the banner and Navbar stack in
+            normal flow inside it, so the Navbar rises on its own when the banner
+            isn't rendered (disabled, expired, or dismissed). See Navbar.tsx. */}
+        <div className="fixed inset-x-0 top-0 z-50">
+          <AnnouncementBar />
+          <Header />
+        </div>
         <main>{children}</main>
         <Footer />
         <SpeedInsights />
