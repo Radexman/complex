@@ -5,6 +5,7 @@ import {
   CreditCardIcon,
   DocumentsIcon,
   DocumentTextIcon,
+  HelpCircleIcon,
   ImageIcon,
   ImagesIcon,
   MenuIcon,
@@ -100,6 +101,10 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .icon(ImagesIcon)
         .child(S.document().schemaType('realizacjePage').documentId('realizacjePage')),
       S.listItem()
+        .title('Strona FAQ')
+        .icon(HelpCircleIcon)
+        .child(S.document().schemaType('faqPage').documentId('faqPage')),
+      S.listItem()
         .title('Strona Tarasy')
         .icon(ThLargeIcon)
         .child(S.document().schemaType('tarasyPage').documentId('tarasyPage')),
@@ -118,15 +123,11 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
       S.listItem()
         .title('Formularz Zadaszenia')
         .icon(ComponentIcon)
-        .child(
-          S.document().schemaType('zadaszenieFormConfig').documentId('zadaszenieFormConfig'),
-        ),
+        .child(S.document().schemaType('zadaszenieFormConfig').documentId('zadaszenieFormConfig')),
       S.listItem()
         .title('Formularz Żaluzji')
         .icon(ComponentIcon)
-        .child(
-          S.document().schemaType('zaluzjeFormConfig').documentId('zaluzjeFormConfig'),
-        ),
+        .child(S.document().schemaType('zaluzjeFormConfig').documentId('zaluzjeFormConfig')),
       S.listItem()
         .title('Formularz Schodów')
         .icon(ComponentIcon)

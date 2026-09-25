@@ -105,5 +105,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.3,
       changeFrequency: 'yearly',
     },
+    {
+      url: `${baseUrl}/faq`,
+      lastModified: lastModified(data.faq),
+      priority: 0.6,
+      changeFrequency: 'monthly',
+    },
   ];
 }

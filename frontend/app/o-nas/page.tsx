@@ -40,7 +40,7 @@ export default async function AboutPage() {
         values={page.values}
       />
       {processTimeline && <ProcessTimeline data={processTimeline} />}
-      <AboutCta />
+      <AboutCta data={page.cta} />
     </div>
   );
 }

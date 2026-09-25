@@ -7,13 +7,18 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { ArrowRight } from 'lucide-react';
 
+import type { AboutPageQueryResult } from '@/sanity.types';
+
 gsap.registerPlugin(ScrollTrigger);
 
+type AboutCtaData = NonNullable<AboutPageQueryResult>['cta'];
+
 /**
- * Closing lead-gen CTA for /o-nas. Copy is hardcoded — it is a standard closing block with
- * nothing product-specific to edit. Mirrors the accent bars and eyebrow pill of OfferFormCta.
+ * Closing lead-gen CTA for /o-nas. Copy is CMS-managed (`aboutPage.cta`) — the client couldn't
+ * edit this block before. Mirrors the accent bars and eyebrow pill of OfferFormCta. In-component
+ * Polish fallbacks since `initialValue` doesn't backfill the already-published singleton.
  */
-export default function AboutCta() {
+export default function AboutCta({ data }: { data?: AboutCtaData }) {
   const container = useRef<HTMLElement>(null);
 
   useGSAP(
@@ -60,35 +65,35 @@ export default function AboutCta() {
           className="inline-flex items-center gap-2 rounded-full border border-graphite bg-bg-surface px-4 py-1.5 text-sm text-silver"
         >
           <span className="h-2 w-2 rounded-full bg-accent" aria-hidden="true" />
-          Zacznijmy współpracę
+          {data?.eyebrow || 'Zacznijmy współpracę'}
         </span>
 
         <h2
           data-aboutcta-content
           className="mt-6 font-heading text-4xl font-bold leading-tight text-white md:text-5xl"
         >
-          Masz pytania lub chcesz poznać naszą ofertę?
+          {data?.headline || 'Masz pytania lub chcesz poznać naszą ofertę?'}
         </h2>
 
         <p data-aboutcta-content className="mx-auto mt-4 max-w-xl font-body text-lg text-silver">
-          Skontaktuj się z nami — odpowiadamy w ciągu 3 dni roboczych i umawiamy bezpłatną wizytę
-          pomiarową.
+          {data?.description ||
+            'Skontaktuj się z nami — odpowiadamy w ciągu 3 dni roboczych i umawiamy bezpłatną wizytę pomiarową.'}
         </p>
 
         <div data-aboutcta-content className="mt-10 flex flex-wrap justify-center gap-4">
           {/* The contact block lives on the home page — there is no /kontakt route. */}
           <Link
-            href="/#kontakt"
+            href={data?.primaryCtaHref || '/#kontakt'}
             className="inline-flex items-center gap-3 rounded-lg bg-accent px-8 py-4 text-base font-semibold text-black transition-colors hover:bg-accent-hover"
           >
-            Skontaktuj się
+            {data?.primaryCtaLabel || 'Skontaktuj się'}
             <ArrowRight size={18} aria-hidden="true" />
           </Link>
           <Link
-            href="/wycena"
+            href={data?.secondaryCtaHref || '/wycena'}
             className="inline-flex items-center gap-3 rounded-lg border border-graphite px-8 py-4 text-base font-semibold text-white transition-colors hover:border-accent/50 hover:text-accent"
           >
-            Formularz wyceny
+            {data?.secondaryCtaLabel || 'Formularz wyceny'}
           </Link>
         </div>
 

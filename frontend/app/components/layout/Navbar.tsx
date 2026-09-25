@@ -54,6 +54,7 @@ const WYCENA_ITEMS: NavItem[] = [
  */
 const NAV_LINKS: NavItem[] = [
   { label: 'Realizacje', href: '/realizacje' },
+  { label: 'FAQ', href: '/faq' },
   { label: 'O nas', href: '/o-nas' },
   { label: 'Kontakt', href: '/#kontakt' },
 ];

@@ -1,12 +1,138 @@
-# Current Feature
+# Current Feature: Client Corrections & New FAQ Page
 
 ## Status
 
-Not Started
+Implemented — pending review/test sign-off and commit approval
 
 ## Goals
 
-<!-- Populated by /feature load -->
+1. **`/o-nas` copy corrections**
+   - `AboutHero` hardcoded eyebrow "Complex sp. z o.o." → "CCOMPLEX SP. Z O.O."
+   - `aboutPage.heroSubheadline` seed/live value → the new, less formal Polish text from the spec
+   - Resolve the spec's "body text should match the homepage" instruction — see Notes (architecture conflict)
+2. **Extract the "Masz pytania?" CTA into Sanity** — new `cta` object on `aboutPage`, `AboutCta.tsx` reads from it instead of hardcoded JSX; phone number sourced from `footer.contactPhone` (not duplicated)
+3. **Contact form corrections** (`ContactFormDialog.tsx` + `ContactForm.tsx` — no `/kontakt` page exists, see Notes)
+   - Shorten/adjust the modal's `Dialog.Description` intro copy
+   - Add a visible `*` to the RODO consent label (Zod validation is already required — visual only)
+   - Add missing comma: "najszybciej jak to możliwe" → "najszybciej, jak to możliwe" in both the dialog description and the form's footnote
+4. **New `/faq` page** — `faqPage` Sanity singleton (categories → items, question/answer), `FaqHero` + `FaqAccordion` (Ark UI, `OfferBrands` pattern) + `FaqCta` components, seeded with the 5 categories / ~50 Q&A pairs from the spec, nav entry in `Navbar`/`Footer`, added to `sitemap.ts`
+5. **AI-visibility SEO items**
+   - Confirm/document `robots.ts` already allows `OAI-SearchBot` (no rule currently blocks it)
+   - Upgrade `OrganizationJsonLd` (already exists) to also emit `LocalBusiness` with a structured `PostalAddress` + `areaServed`, rather than building JSON-LD from scratch
+
+## Notes
+
+Spec file: `context/features/client-corrections-spec.md`. Written against a `src/app/...` /
+`src/components/...` layout that doesn't match this repo (`frontend/app/...`,
+`studio/src/schemaTypes/...`) — same reconciliation every prior feature has needed. Checked the
+actual current state of every file the spec touches before writing these goals; several of its
+assumptions don't hold and need a decision before `start`:
+
+- **Confirmed by the user: "Kontakt" being called a "podstrona" in the spec is just the client not
+  knowing the technicalities — not a real requirement.** There is no `/kontakt` route, and never
+  has been. "Formularz kontaktowy" is a **modal** — `ContactFormDialog.tsx` rendered from
+  `Navbar.tsx`, wrapping `ContactForm.tsx`. There is no `contactPage` Sanity document either — the
+  modal's intro copy (`Dialog.Description`) and the form's footnote are both hardcoded strings.
+  Item 2 of the spec targets these actual files, not `src/app/kontakt/page.tsx` — no page will be
+  built.
+- **Item 2.1's target copy is already ~90% live.** Current `Dialog.Description`
+  (`ContactFormDialog.tsx:48-51`): "Masz pytanie, które nie dotyczy konkretnej wyceny? Napisz —
+  odpowiemy najszybciej jak to możliwe." vs. the spec's target, which only adds "do nas" after
+  "Napisz" and a comma after "najszybciej". Small edit, not a rewrite.
+- **Item 2.2's validation is already done.** `contactForm.ts`'s `consentRodo` already has
+  `.refine((val) => val === true, ...)` — required since Round 4/5. Only the visual `*` asterisk
+  on the label is missing; no Zod change needed. `consentMarketing` is correctly optional already.
+- **Item 2.3's phrase exists in two places with two different verb forms** — the dialog
+  description says "odpowiemy" (future), the form footnote (`ContactForm.tsx:164`) says
+  "Odpowiadamy" (present): "Odpowiadamy najszybciej jak to możliwe." Both need the comma; the verb
+  mismatch itself is not in scope unless flagged separately.
+- **Confirmed by the user: item 1.1's third bullet is a wording-consistency note, not a request to
+  touch architecture.** `aboutSection` (home-page teaser singleton) and `aboutPage.storyBody` (the
+  `/o-nas` page's long story, rendered by `AboutStory.tsx`) stay two intentionally separate fields —
+  split out for exactly this reason on 2026-06-16 and reaffirmed when `/o-nas` was built
+  (2026-08-04: "not Portable Text... reuses the `AboutSection.description` pattern"). **Do not
+  merge or restructure these fields.** Also, `AboutHero.tsx` itself renders no body copy at all —
+  only `heroHeadline`/`heroSubheadline` — so this bullet has no actual code target; treated as
+  already satisfied / out of scope, nothing to implement here beyond the eyebrow/subheadline
+  corrections already listed in Goal 1.
+- **`aboutPage` has no `heroEyebrow` field — the eyebrow is hardcoded** in `AboutHero.tsx`
+  ("Complex sp. z o.o."). Simplest fix matching the client's ask (a copy correction, not a new
+  editable field) is to just change the hardcoded string; promoting it to a CMS field is a larger
+  change the spec doesn't actually justify.
+- **`AboutCta.tsx` is confirmed fully hardcoded** (comment in the file says so explicitly) — item 2
+  of the spec (CTA → Sanity) is real, needed work, not already partially done.
+- **`OrganizationJsonLd.tsx` already exists** (shipped in the 2026-08-21 audit quick-wins feature)
+  — `Organization` type only, address as a plain string, no `areaServed`. Item 4's ask is an
+  upgrade (add `LocalBusiness` + structured `PostalAddress` + `areaServed`), not new work.
+- **`robots.ts` already exists and allows everything** (`{ userAgent: '*', allow: '/' }`) — nothing
+  currently blocks `OAI-SearchBot`. An explicit `OAI-SearchBot` rule would be redundant; worth
+  confirming with the client whether they still want it spelled out explicitly for their own peace
+  of mind, or whether "already allowed" is enough.
+- **FAQ nav placement is ambiguous against the real nav.** Spec says "after Realizacje, before
+  Kontakt"; the actual `NAV_LINKS` order is `Realizacje → O nas → Kontakt (/#kontakt anchor)`. Spec
+  doesn't say where relative to "O nas". Default plan: place FAQ immediately after Realizacje
+  (`Realizacje → FAQ → O nas → Kontakt`) unless told otherwise at `start`.
+- FAQ schema/page/components (3.2–3.8) match the repo's conventions closely (Ark UI `Accordion`,
+  same pattern as `OfferBrands`) — this part of the spec is straightforward, no reconciliation
+  needed beyond the usual `src/...` → `frontend/app/...` / `studio/src/schemaTypes/...` path swap.
+- Content volume is large — 5 categories × ~10 Q&A pairs (~50 items). Seeding this many nested
+  array items via the Sanity API will need the same one-doc-at-a-time approach used for the
+  "Brands & Models" feature (2026-06-29), which timed out on a single large multi-doc patch.
+
+## Implementation Notes (post-`start`)
+
+- **No Sanity MCP available this session** — used direct HTTP calls to the mutate API with
+  `SANITY_API_WRITE_TOKEN`, dry-run first (`dryRun=true`), same precedent as Round 7. Audited
+  `aboutPage` for a pending draft first (none) before patching directly on the published doc.
+  `faqPage` didn't exist yet — created fresh via `createOrReplace`.
+- **Real bug caught during verification, not shipped:** `parsePolishAddress` (new util backing the
+  `LocalBusiness` JSON-LD upgrade) initially mis-parsed the live `footer.contactAddress` value
+  ("Kępska 12, 45-130 Opole, pok.20 (parter)") — the room-number suffix leaked into
+  `addressLocality` because the regex was greedy across the rejoined remainder. Fixed to only use
+  the first two comma-separated segments; added a regression test with the exact live value.
+- **Schema additions:** `aboutPage.cta` (object, new "CTA" field group), `faqPage` (new fixed-id
+  singleton, icon `HelpCircleIcon`) + `faqCategory`/`faqItem` (new reusable objects), registered in
+  `schemaTypes/index.ts`, `structure/index.ts` ("Strona FAQ", after "Strona Realizacje"), and
+  `sanity.config.ts` (`/faq` `mainDocuments` route + `locations` resolver).
+- **Seeded + published (verified via GROQ readback):** `aboutPage.heroSubheadline` (new copy),
+  `aboutPage.cta` (7 fields), `faqPage` (5 categories, 50 Q&A items — verified count via
+  `count(categories[].items[])`).
+- **New pure util + tests:** `app/lib/parsePolishAddress.ts` (6 tests, including the live-data
+  regression case).
+- **AboutCta.tsx** now reads from `aboutPage.cta` with in-component Polish fallbacks (repo
+  convention — `initialValue` doesn't backfill already-published docs). Two buttons preserved
+  exactly as before (`/#kontakt`, `/wycena`) — did not add the spec's suggested phone-call button,
+  since the client's actual ask was "let me edit this text," not "change what it does."
+- **`robots.ts`** got an explicit `OAI-SearchBot` rule alongside the existing wildcard `allow: '/'`
+  — redundant but costs nothing and directly satisfies the client's SEO document.
+- **`OrganizationJsonLd.tsx`** upgraded: `@type` is now `["Organization", "LocalBusiness"]`,
+  `address` is a structured `PostalAddress` when it parses (falls back to the plain string
+  otherwise), plus a hardcoded `areaServed` (the two voivodeships already named throughout the
+  site's own copy — not CMS-managed, same reasoning as other hardcoded business facts).
+- **`/faq`**: new route, `FaqHero`/`FaqAccordion`/`FaqCta` components (`app/components/faq/`),
+  modeled on `OfferIndexGrid`'s header pattern and `OfferBrands`'s accordion pattern rather than the
+  spec's literal Tailwind classes, for visual consistency with the rest of the site. Added to
+  `Navbar` (`NAV_LINKS`, right after "Realizacje") and `Footer` (`FIRMA_LINKS`), and to
+  `sitemap.ts`/`sitemapQuery` (new `faq` `_updatedAt` field).
+- **Contact form corrections** landed in the real files (`ContactFormDialog.tsx`,
+  `ContactForm.tsx`) — no `/kontakt` page was built, per the standing project rule.
+- Verified: **184/184 Vitest** (178 baseline + 6 new), `type-check` (both workspaces, 0 errors),
+  `lint` (0 warnings/errors), clean `next build` after `rm -rf .next` — `/faq` prerenders **static**,
+  all 6 offer slugs still SSG. In-browser (Playwright/Chromium) against a real `next start`: `/faq`
+  renders exactly 5 category headings and 50 accordion triggers; `/o-nas` shows the corrected
+  eyebrow/subheadline and the CMS-driven CTA; the contact modal shows the corrected description, a
+  visible `*` on the RODO consent, and the corrected footnote comma; `Navbar`/`Footer` both link to
+  `/faq`; `/robots.txt` lists the `OAI-SearchBot` rule; `/sitemap.xml` includes `/faq`; the
+  homepage's JSON-LD `<script>` shows `["Organization","LocalBusiness"]`, a structured
+  `PostalAddress` (correctly excluding the "pok.20 (parter)" suffix), and `areaServed`. 3 console
+  errors, all environmental (Vercel Speed Insights 404 + Sanity Live CORS on the ad-hoc port 3100),
+  matching the documented precedent from prior rounds.
+- **Not yet done:** Studio has not been redeployed (`npm run deploy` from `studio/`) — the new
+  "Strona FAQ" entry and `aboutPage`'s "CTA" field group aren't visible in the hosted Studio editor
+  yet, though all seeded content is already live on the site. Not run this session — needs explicit
+  go-ahead like every prior redeploy.
+- **Not committed** — awaiting explicit approval per project workflow (`context/ai-interaction.md`:
+  "Do NOT commit without permission").
 
 ## Notes
 
@@ -22,9 +148,9 @@ committed with the feature) and loaded via `/feature load`. Branch `feature/feed
 from `main`. Four decisions confirmed up front.
 
 - **The headline question — „jakie powinny być adresy po przesłaniu formularza" — resolved by
-  *not* changing them.** Her proposed `/dziekuje/…` scheme **does not map 1:1 onto the forms**: she
+  _not_ changing them.** Her proposed `/dziekuje/…` scheme **does not map 1:1 onto the forms**: she
   listed `tarasy-kompozytowe` and `tarasy-gresowe` separately, but there is **one** „Formularz
-  Wyceny Tarasu" covering kompozyt, gres and drewno (material is a field *inside* it, and all three
+  Wyceny Tarasu" covering kompozyt, gres and drewno (material is a field _inside_ it, and all three
   terrace offer pages point at `/wycena/taras`). She also omitted żaluzje entirely and omitted
   tarasy-drewniane. The rename would have bought nicer names but **not** the per-product split she
   was actually after. User's call: keep the five existing URLs.
@@ -33,7 +159,7 @@ from `main`. Four decisions confirmed up front.
   mounts through `dynamic(…, {ssr:false})` — there is no page load for a pageview trigger to hook
   into, and plain gtag.js runs `config` exactly once at first load. Had we handed her the URLs and
   stopped there, she would have configured conversions that silently never counted.
-- **Shipped event-based instead, which gives her *more* than the rename would have.**
+- **Shipped event-based instead, which gives her _more_ than the rename would have.**
   `sendGTMEvent({ event: 'generate_lead', form_type })` carries the product as a parameter, so she
   can split conversions per form in GTM **without** any URL change — the very thing the new
   addresses were meant to achieve. Also domain-agnostic, which matters when the site moves off
@@ -74,7 +200,7 @@ from `main`. Four decisions confirmed up front.
   produce a link to `/oferta/undefined`. Not hypothetical in this dataset: `elewacje-kompozytowe`
   vanished between rounds.
 - **#2 The accessories page genuinely needed two forms.** Zabudowy, rolety and LED are fields of
-  the *canopy* form, while that page's own `relatedFormSlug` is `zaluzje` — so a visitor looking
+  the _canopy_ form, while that page's own `relatedFormSlug` is `zaluzje` — so a visitor looking
   for zabudowy had nowhere to go. `OfferFormCta` gained a shared `FormCtaButton` so both buttons
   and their „Prowadzi do:" captions cannot drift. Verified in-browser: **2** form buttons, both
   captions naming the right form, **0** nested anchors.
@@ -96,7 +222,7 @@ from `main`. Four decisions confirmed up front.
 - ⚠️ **`git status` briefly reported ~190 modified files** right after `git add`. Not real: a stale
   index stat cache under `core.autocrlf`. `git diff --numstat` refreshed it and showed **8** files
   with genuine content changes, all pre-existing drift. Worth not panicking about next time.
-- **`studio/sanity.types.ts` was stale and needed the studio's *own* typegen** — `frontend`'s
+- **`studio/sanity.types.ts` was stale and needed the studio's _own_ typegen** — `frontend`'s
   `sanity:typegen` does not cover it. It carried 0 lines of change until `npm run sanity:typegen`
   was run from `studio/`, after which it picked up 17 real lines. The same file that nearly slipped
   through in Round 9.
@@ -132,12 +258,12 @@ from `main`. Four decisions confirmed up front.
   ad-hoc port 3100); the GSAP reveal reaches **0.999** given a 7 s settle (sampled repeatedly — the
   Round 9 stagger lesson); **no horizontal overflow at 390 px**; a direct visit to a thank-you page
   redirects with **0** conversion events.
-- **Not driven in-browser:** a real form *send* — it would e-mail the dev inbox through Resend. The
+- **Not driven in-browser:** a real form _send_ — it would e-mail the dev inbox through Resend. The
   submission was simulated by writing the same `sessionStorage` record the form writes before its
   `router.push`, which exercises the identical code path without sending mail.
 - ⚠️ **Still needed before conversions actually count** (hers, not ours): set
-  `NEXT_PUBLIC_GTM_ID=GTM-NWZ9GM5` on Vercel Production and redeploy; in GTM create a *Custom
-  Event* trigger on `generate_lead` → a *Google Ads Conversion Tracking* tag, optionally a Data
+  `NEXT_PUBLIC_GTM_ID=GTM-NWZ9GM5` on Vercel Production and redeploy; in GTM create a _Custom
+  Event_ trigger on `generate_lead` → a _Google Ads Conversion Tracking_ tag, optionally a Data
   Layer Variable on `form_type` to split per form, then **publish the container**.
 - ⚠️ **Still open, unchanged:** no cookie-consent banner (EEA ad tags need Consent Mode v2 — a RODO
   matter, not just data quality), and the privacy policy still lists no data recipients or
@@ -2732,4 +2858,3 @@ Set up the foundational design system in `frontend/app/globals.css` and `fronten
 - Fonts loaded via `next/font/google` (Bebas Neue, Space Grotesk, Inter) instead of `@import` — matches project convention and avoids double-loading
 - Dark `body` background, smooth scroll, `.glass` and `.section-padding` utilities
 - Removed leftover IBM Plex Mono font; set `html lang="pl"`
-
