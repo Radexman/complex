@@ -90,3 +90,38 @@ Branch `feature/announcement-banner`, cut from `main`.
   `initialValue`s (Sanity's initialValue-doesn't-backfill-existing-docs behavior, same as every
   other singleton in this project) — they'll need to fill those two fields in manually, or ask for
   a narrow patch of just those two empty fields on their existing draft.
+
+### Client Feedback Round 11 — SEO podstron, kolor banera, korekty formularzy wycen (2026-10-13)
+
+Client message of 13.10.2026. Spec: `context/features/feedback-round-11-spec.md`. Branch
+`feature/feedback-round-11`, cut from `main`.
+
+- **SEO per subpage:** new reusable `seo` object (`title`, `description`, `ogImage` + `alt`, all
+  optional, length limits as warnings). **Deviation from the spec:** no separate `pageSeo` singleton.
+  The spec assumed the static routes have no document of their own, but they all do (`ofertaPage`,
+  `realizacjePage`, `tarasyPage`, `wycenaPage`, 4 × `*FormConfig`). So `seo` sits on those plus
+  `service`, `aboutPage`, `faqPage`, `legalPage` (12 docs). Tabbed docs get an „SEO” tab; the rest
+  get a collapsed „SEO” object. All 11 page types use `generateMetadata` → `buildSeoMetadata(seo,
+  fallback)` (tested). Fallback order: `seo.*` → old field (`seoDescription`/`seoTitle`) → the
+  former hardcoded text. The doubled brand in `<title>` is gone. `openGraph` is set only when there
+  is an image, so pages inherit the site-wide OG image (`/oferta/[slug]` used to suppress it with
+  `images: []`). The fallback title is trimmed, because CMS `faqPage.seoTitle` is `"FAQ "`.
+- **Banner color:** `announcementBanner.color` radio presets (`brand` default, red, orange, yellow,
+  blue, graphite) → `BANNER_THEMES` class literals, `stegaClean`, empty → `brand`. Other presets
+  not previewed live, to avoid touching the client's published banner.
+- **Forms:** „Prowadzi do” removed from `OfferFormCta`. Taras montaż text and „CComplex” in the
+  contact RODO consent changed. Zadaszenie options renamed, plus 4 new add-ons (16 total) and a
+  helper text for the „Żaluzje tarasowe” field. **Zaluzje: 3 openings** (1 required, 2–3 optional
+  both-or-neither). The pair rule needs `superRefine(…, { when })`: without it Zod 4 skips the
+  object refinement while any other field is invalid, so the error only showed after everything
+  else was fixed (caught in the browser, covered by a test).
+- Verified: lint, type-check, Vitest 202/202, clean `next build` (29 routes, all still static/SSG).
+  Browser check on a local `next start`. Studio deployed.
+- **Unrelated working-tree churn was left uncommitted on purpose:** CRLF-only diffs, prettier
+  reformatting of `AUDIT.md`/old specs, `package-lock.json` `dev`/`devOptional` flips,
+  playwright logs.
+- **Open for the client:** (1) is the 6-color preset set OK? (2) Is „CComplex sp. z o.o.” the
+  registered name? If yes, also fix `/o-nas` and the privacy policy. (3) „Wolnostojące” was applied
+  for grammatical consistency (FYI). (4) The live banner's CMS `ctaHref` is
+  `oferta/zadaszenia-tarasowe`, with no leading `/`, so it 404s from subpages. It should be
+  `/oferta/zadaszenia-tarasowe`.
