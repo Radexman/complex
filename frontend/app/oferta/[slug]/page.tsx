@@ -12,7 +12,7 @@ import {
   serviceSlugsQuery,
   vatHighlightQuery,
 } from '@/sanity/lib/queries';
-import { resolveOpenGraphImage } from '@/sanity/lib/utils';
+import { buildSeoMetadata } from '@/app/lib/buildSeoMetadata';
 import OfferPage from '@/app/components/offer/OfferPage';
 
 type PageProps = {
@@ -34,13 +34,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!service) return {};
 
-  const ogImage = resolveOpenGraphImage(service.heroImage);
-
-  return {
-    title: `${service.title} — Complex`,
-    description: service.seoDescription ?? undefined,
-    openGraph: { images: ogImage ? [ogImage] : [] },
-  };
+  // New `seo` fields first, then the service's own title, older SEO description
+  // and hero image. The root layout appends the site name via its `title.template`.
+  return buildSeoMetadata(service.seo, {
+    title: service.title,
+    description: service.seoDescription,
+    ogImage: service.heroImage,
+  });
 }
 
 export default async function OfferRoutePage({ params }: PageProps) {

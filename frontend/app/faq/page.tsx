@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 
 import { sanityFetch } from '@/sanity/lib/live';
 import { faqPageQuery } from '@/sanity/lib/queries';
+import { buildSeoMetadata } from '@/app/lib/buildSeoMetadata';
 import FaqHero from '@/app/components/faq/FaqHero';
 import FaqAccordion from '@/app/components/faq/FaqAccordion';
 import FaqCta from '@/app/components/faq/FaqCta';
@@ -14,11 +15,12 @@ export async function generateMetadata(): Promise<Metadata> {
     stega: false,
   });
 
-  return {
-    // The root layout appends the site name via its `title.template`.
-    title: page?.seoTitle ?? 'FAQ — Najczęstsze pytania',
-    description: page?.seoDescription ?? undefined,
-  };
+  // New `seo` fields first, then the older dedicated SEO fields. The root
+  // layout appends the site name via its `title.template`.
+  return buildSeoMetadata(page?.seo, {
+    title: page?.seoTitle || 'FAQ — Najczęstsze pytania',
+    description: page?.seoDescription,
+  });
 }
 
 export default async function FaqPage() {

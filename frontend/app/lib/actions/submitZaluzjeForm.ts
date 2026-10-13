@@ -16,6 +16,10 @@ function formDataToObject(formData: FormData) {
   return {
     openingHeight: formData.get('openingHeight') ?? undefined,
     openingWidth: formData.get('openingWidth') ?? undefined,
+    opening2Height: formData.get('opening2Height') ?? undefined,
+    opening2Width: formData.get('opening2Width') ?? undefined,
+    opening3Height: formData.get('opening3Height') ?? undefined,
+    opening3Width: formData.get('opening3Width') ?? undefined,
     postalCode: formData.get('postalCode') ?? '',
     name: formData.get('name') ?? '',
     phone: formData.get('phone') ?? '',
@@ -41,8 +45,14 @@ export async function submitZaluzjeForm(formData: FormData) {
     {
       title: 'Żaluzje tarasowe',
       rows: [
-        { label: 'Wysokość otworu [cm]', value: data.openingHeight },
-        { label: 'Szerokość otworu [cm]', value: data.openingWidth },
+        // Optional openings 2 and 3 are `undefined` when left empty, and the
+        // email renderer drops empty rows, so only filled-in openings appear.
+        { label: 'Otwór 1 — wysokość [cm]', value: data.openingHeight },
+        { label: 'Otwór 1 — szerokość [cm]', value: data.openingWidth },
+        { label: 'Otwór 2 — wysokość [cm]', value: data.opening2Height },
+        { label: 'Otwór 2 — szerokość [cm]', value: data.opening2Width },
+        { label: 'Otwór 3 — wysokość [cm]', value: data.opening3Height },
+        { label: 'Otwór 3 — szerokość [cm]', value: data.opening3Width },
         { label: 'Usługa montażu', value: data.installationService },
       ],
     },

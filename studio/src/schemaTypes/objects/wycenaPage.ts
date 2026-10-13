@@ -44,6 +44,12 @@ export const wycenaPage = defineType({
       of: [defineArrayMember({ type: 'wycenaFormCard' })],
       validation: (rule) => rule.min(1),
     }),
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+      options: { collapsible: true, collapsed: true },
+    }),
   ],
   preview: {
     select: { subtitle: 'headline' },

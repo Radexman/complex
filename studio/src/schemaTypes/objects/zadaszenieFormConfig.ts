@@ -28,6 +28,12 @@ export const zadaszenieFormConfig = defineType({
       initialValue:
         'Wypełnij poniższy formularz, a przygotujemy bezpłatną wycenę i skontaktujemy się z Tobą w ciągu 3 dni roboczych.',
     }),
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+      options: { collapsible: true, collapsed: true },
+    }),
   ],
   preview: {
     prepare() {

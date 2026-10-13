@@ -36,6 +36,12 @@ export const realizacjePage = defineType({
       initialValue:
         'Przeglądaj nasze projekty tarasów, zadaszeń, żaluzji i schodów modułowych. Każda realizacja to indywidualne podejście i dbałość o każdy detal.',
     }),
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+      options: { collapsible: true, collapsed: true },
+    }),
   ],
   preview: {
     select: { subtitle: 'headline' },

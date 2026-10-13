@@ -6,18 +6,11 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { stegaClean } from 'next-sanity';
-import { ArrowRight, FileText } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 import type { ServiceBySlugQueryResult } from '@/sanity.types';
 
 gsap.registerPlugin(ScrollTrigger);
-
-const FORM_LABELS: Record<string, string> = {
-  zadaszenie: 'Formularz wyceny zadaszenia',
-  zaluzje: 'Formularz wyceny żaluzji',
-  taras: 'Formularz wyceny tarasu',
-  schody: 'Formularz wyceny schodów',
-};
 
 type Service = NonNullable<ServiceBySlugQueryResult>;
 type OfferFormCtaProps = Pick<
@@ -32,8 +25,8 @@ type OfferFormCtaProps = Pick<
 >;
 
 /**
- * One quotation-form button plus the „Prowadzi do: …" line naming the form it
- * opens. Shared by the primary and secondary buttons so the two can't drift.
+ * One quotation-form button. Shared by the primary and secondary buttons so the
+ * two can't drift.
  */
 function FormCtaButton({
   formSlug,
@@ -44,28 +37,18 @@ function FormCtaButton({
   label: string;
   variant: 'primary' | 'secondary';
 }) {
-  const formLabel = FORM_LABELS[formSlug];
-
   return (
-    <div className="flex flex-col items-center gap-2">
-      <Link
-        href={`/wycena/${formSlug}`}
-        className={
-          variant === 'primary'
-            ? 'inline-flex items-center gap-3 rounded-lg bg-accent px-10 py-5 text-base font-semibold text-black transition-colors hover:bg-accent-hover'
-            : 'inline-flex items-center gap-3 rounded-lg border border-accent/50 px-8 py-4 text-base font-semibold text-accent transition-colors hover:border-accent hover:bg-accent/10'
-        }
-      >
-        {label}
-        <ArrowRight size={18} aria-hidden="true" />
-      </Link>
-      {formLabel && (
-        <span className="inline-flex items-center gap-2 text-sm text-silver">
-          <FileText size={15} className="text-accent" aria-hidden="true" />
-          Prowadzi do: <span className="font-semibold text-white">{formLabel}</span>
-        </span>
-      )}
-    </div>
+    <Link
+      href={`/wycena/${formSlug}`}
+      className={
+        variant === 'primary'
+          ? 'inline-flex items-center gap-3 rounded-lg bg-accent px-10 py-5 text-base font-semibold text-black transition-colors hover:bg-accent-hover'
+          : 'inline-flex items-center gap-3 rounded-lg border border-accent/50 px-8 py-4 text-base font-semibold text-accent transition-colors hover:border-accent hover:bg-accent/10'
+      }
+    >
+      {label}
+      <ArrowRight size={18} aria-hidden="true" />
+    </Link>
   );
 }
 

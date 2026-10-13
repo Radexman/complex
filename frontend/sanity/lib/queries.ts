@@ -89,6 +89,7 @@ export const tarasFormConfigQuery = defineQuery(
   `*[_type == "tarasFormConfig"][0]{
     title,
     description,
+    seo,
     shapes[]{
       _key,
       shapeNumber,
@@ -101,20 +102,23 @@ export const tarasFormConfigQuery = defineQuery(
 export const zadaszenieFormConfigQuery = defineQuery(
   `*[_type == "zadaszenieFormConfig"][0]{
     title,
-    description
+    description,
+    seo
   }`,
 );
 export const zaluzjeFormConfigQuery = defineQuery(
   `*[_type == "zaluzjeFormConfig"][0]{
     title,
-    description
+    description,
+    seo
   }`,
 );
 export const schodyFormConfigQuery = defineQuery(
   `*[_type == "schodyFormConfig"][0]{
     title,
     description,
-    diagram
+    diagram,
+    seo
   }`,
 );
 export const featuredProjectsQuery = defineQuery(
@@ -157,6 +161,7 @@ export const serviceBySlugQuery = defineQuery(
     title,
     "slug": slug.current,
     seoDescription,
+    seo,
     heroImage,
     heroHeadline,
     heroSubheadline,

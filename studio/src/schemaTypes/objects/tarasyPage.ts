@@ -37,6 +37,12 @@ export const tarasyPage = defineType({
       initialValue:
         'Kompozytowe, gresowe i drewniane — wybierz rodzaj tarasu, który najlepiej pasuje do Twojej przestrzeni, i zobacz szczegóły oraz nasze realizacje.',
     }),
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+      options: { collapsible: true, collapsed: true },
+    }),
   ],
   preview: {
     select: { subtitle: 'headline' },

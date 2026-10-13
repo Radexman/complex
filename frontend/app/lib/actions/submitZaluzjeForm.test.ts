@@ -20,6 +20,8 @@ function lastEmail(): SendQuoteEmailsOptions {
 interface FormValues {
   openingHeight?: string;
   openingWidth?: string;
+  /** Optional openings 2 and 3 — appended only when given, as the client does. */
+  extraOpenings?: Record<string, string>;
   postalCode?: string;
   name?: string;
   phone?: string;
@@ -34,6 +36,7 @@ function buildFormData(values: FormValues = {}): FormData {
   const {
     openingHeight = '220',
     openingWidth = '250',
+    extraOpenings = {},
     postalCode = '44-100',
     name = 'Jan Kowalski',
     phone = '123456789',
@@ -47,6 +50,9 @@ function buildFormData(values: FormValues = {}): FormData {
   const formData = new FormData();
   formData.append('openingHeight', openingHeight);
   formData.append('openingWidth', openingWidth);
+  for (const [field, value] of Object.entries(extraOpenings)) {
+    formData.append(field, value);
+  }
   formData.append('postalCode', postalCode);
   formData.append('name', name);
   formData.append('phone', phone);
@@ -84,6 +90,47 @@ describe('submitZaluzjeForm', () => {
 
     expect(html).toContain('>180<');
     expect(html).toContain('>300<');
+  });
+
+  it('lists only opening 1 when the optional openings were left empty', async () => {
+    await submitZaluzjeForm(buildFormData());
+    const { html } = lastEmail();
+
+    expect(html).toContain('Otwór 1 — wysokość [cm]');
+    expect(html).toContain('Otwór 1 — szerokość [cm]');
+    expect(html).not.toContain('Otwór 2');
+    expect(html).not.toContain('Otwór 3');
+  });
+
+  it('lists every filled-in optional opening', async () => {
+    await submitZaluzjeForm(
+      buildFormData({
+        extraOpenings: {
+          opening2Height: '210',
+          opening2Width: '180',
+          opening3Height: '205',
+          opening3Width: '420',
+        },
+      }),
+    );
+    const { html } = lastEmail();
+
+    expect(html).toContain('Otwór 2 — wysokość [cm]');
+    expect(html).toContain('>180<');
+    expect(html).toContain('Otwór 3 — szerokość [cm]');
+    expect(html).toContain('>420<');
+  });
+
+  it('fails when an optional opening has only one dimension', async () => {
+    const result = await submitZaluzjeForm(
+      buildFormData({ extraOpenings: { opening2Width: '180' } }),
+    );
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.errors?.fieldErrors.opening2Height).toBeDefined();
+    }
+    expect(sendMock).not.toHaveBeenCalled();
   });
 
   it('renders the installationService boolean as Polish', async () => {
