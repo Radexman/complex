@@ -3,12 +3,19 @@ import type { Metadata } from 'next';
 import SchodyForm from '@/app/components/forms/SchodyForm';
 import { schodyFormConfigQuery } from '@/sanity/lib/queries';
 import { sanityFetch } from '@/sanity/lib/live';
+import { buildSeoMetadata } from '@/app/lib/buildSeoMetadata';
 
-export const metadata: Metadata = {
-  title: 'Formularz Wyceny Schodów — Complex',
-  description:
-    'Wypełnij formularz wyceny schodów modułowych i otrzymaj bezpłatną ofertę w ciągu 3 dni roboczych.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  // Metadata should never contain stega
+  const { data } = await sanityFetch({ query: schodyFormConfigQuery, stega: false });
+
+  // The root layout appends the site name via its `title.template`.
+  return buildSeoMetadata(data?.seo, {
+    title: 'Formularz Wyceny Schodów',
+    description:
+      'Wypełnij formularz wyceny schodów modułowych i otrzymaj bezpłatną ofertę w ciągu 3 dni roboczych.',
+  });
+}
 
 export default async function WycenaSchodyPage() {
   const { data: config } = await sanityFetch({ query: schodyFormConfigQuery });

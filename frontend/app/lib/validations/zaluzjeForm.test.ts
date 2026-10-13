@@ -65,6 +65,62 @@ describe('zaluzjeFormSchema — opening dimensions', () => {
   });
 });
 
+describe('zaluzjeFormSchema — optional openings 2 and 3', () => {
+  it('leaves untouched optional openings absent', () => {
+    const result = zaluzjeFormSchema.safeParse({
+      ...validBase,
+      opening2Height: '',
+      opening2Width: '',
+    });
+    expect(result.success).toBe(true);
+    expect(result.data?.opening2Height).toBeUndefined();
+    expect(result.data?.opening3Width).toBeUndefined();
+  });
+
+  it('accepts all three openings and coerces them to numbers', () => {
+    const result = zaluzjeFormSchema.safeParse({
+      ...validBase,
+      opening2Height: '210',
+      opening2Width: '180',
+      opening3Height: '205',
+      opening3Width: '420',
+    });
+    expect(result.success).toBe(true);
+    expect(result.data?.opening2Width).toBe(180);
+    expect(result.data?.opening3Height).toBe(205);
+  });
+
+  it('puts the error on the missing half of an optional opening', () => {
+    expect(issuePaths({ ...validBase, opening2Width: '180' })).toEqual(['opening2Height']);
+    expect(issuePaths({ ...validBase, opening3Height: '205' })).toEqual(['opening3Width']);
+  });
+
+  it('reports the pair error even while other fields are still invalid', () => {
+    const paths = issuePaths({ ...validBase, email: '', opening2Width: '180' });
+    expect(paths).toEqual(expect.arrayContaining(['email', 'opening2Height']));
+  });
+
+  it('names the opening in the pair error', () => {
+    const result = zaluzjeFormSchema.safeParse({ ...validBase, opening3Height: '205' });
+    expect(result.error?.issues[0]?.message).toBe('Podaj szerokość otworu 3');
+  });
+
+  it('applies the same 300 / 1000 cm caps as opening 1', () => {
+    expect(issuePaths({ ...validBase, opening2Height: '301', opening2Width: '180' })).toContain(
+      'opening2Height',
+    );
+    expect(issuePaths({ ...validBase, opening3Height: '205', opening3Width: '1001' })).toContain(
+      'opening3Width',
+    );
+  });
+
+  it('rejects zero in an optional opening', () => {
+    expect(issuePaths({ ...validBase, opening2Height: '0', opening2Width: '180' })).toContain(
+      'opening2Height',
+    );
+  });
+});
+
 describe('zaluzjeFormSchema — field validation', () => {
   it('enforces the 00-000 postal-code format', () => {
     expect(issuePaths({ ...validBase, postalCode: '44100' })).toContain('postalCode');

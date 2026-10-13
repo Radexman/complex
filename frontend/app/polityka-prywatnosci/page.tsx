@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import LegalDocument from '@/app/components/legal/LegalDocument';
 import { sanityFetch } from '@/sanity/lib/live';
 import { legalPageQuery } from '@/sanity/lib/queries';
+import { buildSeoMetadata } from '@/app/lib/buildSeoMetadata';
 
 export async function generateMetadata(): Promise<Metadata> {
   const { data: page } = await sanityFetch({
@@ -12,11 +13,12 @@ export async function generateMetadata(): Promise<Metadata> {
     stega: false,
   });
 
-  return {
-    // The root layout appends the site name via its `title.template`.
-    title: page?.title ?? 'Polityka prywatności',
-    description: page?.seoDescription ?? undefined,
-  };
+  // New `seo` fields first, then the page title and its older SEO description.
+  // The root layout appends the site name via its `title.template`.
+  return buildSeoMetadata(page?.seo, {
+    title: page?.title || 'Polityka prywatności',
+    description: page?.seoDescription,
+  });
 }
 
 export default async function PolitykaPrywatnosciPage() {

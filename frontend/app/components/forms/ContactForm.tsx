@@ -123,7 +123,7 @@ export default function ContactForm({ onSuccess }: { onSuccess?: () => void } = 
               <Link href="/polityka-prywatnosci" className="text-accent hover:text-accent-hover">
                 Polityki prywatności
               </Link>{' '}
-              i wyrażam zgodę na przetwarzanie moich danych osobowych przez Complex sp. z o.o. w
+              i wyrażam zgodę na przetwarzanie moich danych osobowych przez CComplex sp. z o.o. w
               celu udzielenia odpowiedzi na moją wiadomość. <span className="text-accent">*</span>
             </>
           }

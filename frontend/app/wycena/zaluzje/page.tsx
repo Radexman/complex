@@ -3,12 +3,19 @@ import type { Metadata } from 'next';
 import ZaluzjeForm from '@/app/components/forms/ZaluzjeForm';
 import { zaluzjeFormConfigQuery } from '@/sanity/lib/queries';
 import { sanityFetch } from '@/sanity/lib/live';
+import { buildSeoMetadata } from '@/app/lib/buildSeoMetadata';
 
-export const metadata: Metadata = {
-  title: 'Formularz Wyceny Żaluzji — Complex',
-  description:
-    'Wypełnij formularz wyceny żaluzji tarasowych i otrzymaj bezpłatną ofertę w ciągu 3 dni roboczych.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  // Metadata should never contain stega
+  const { data } = await sanityFetch({ query: zaluzjeFormConfigQuery, stega: false });
+
+  // The root layout appends the site name via its `title.template`.
+  return buildSeoMetadata(data?.seo, {
+    title: 'Formularz Wyceny Żaluzji',
+    description:
+      'Wypełnij formularz wyceny żaluzji tarasowych i otrzymaj bezpłatną ofertę w ciągu 3 dni roboczych.',
+  });
+}
 
 export default async function WycenaZaluzjePage() {
   const { data: config } = await sanityFetch({ query: zaluzjeFormConfigQuery });

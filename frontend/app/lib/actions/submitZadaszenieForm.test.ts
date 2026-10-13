@@ -105,23 +105,26 @@ describe('submitZadaszenieForm', () => {
   });
 
   it('sends the canopy model and the roof filling as separate rows', async () => {
-    await submitZadaszenieForm(buildFormData({ canopyType: 'Wolnostojący', roofType: 'Szkło' }));
+    await submitZadaszenieForm(buildFormData({ canopyType: 'Wolnostojące', roofType: 'Szkło' }));
     const { html } = lastEmail();
 
     expect(html).toContain('Rodzaj zadaszenia');
-    expect(html).toContain('Wolnostojący');
+    expect(html).toContain('Wolnostojące');
     expect(html).toContain('Rodzaj dachu');
     expect(html).toContain('Szkło');
   });
 
   it('lists only the selected equipment, by label', async () => {
     await submitZadaszenieForm(
-      buildFormData({ equipment: ['equipLedLighting', 'equipFramedDoorsFront'] }),
+      buildFormData({
+        equipment: ['equipLedLighting', 'equipFramedDoorsFront', 'equipUnderRoofAwning'],
+      }),
     );
     const { html } = lastEmail();
 
     expect(html).toContain('Oświetlenie punktowe LED + pilot');
-    expect(html).toContain('Drzwi przesuwne, szyby w ramie / front');
+    expect(html).toContain('Zabudowa szklana przesuwna ramowa / front');
+    expect(html).toContain('Markizy podachowe');
     expect(html).not.toContain('Klin boczny');
   });
 

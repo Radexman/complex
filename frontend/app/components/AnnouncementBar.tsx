@@ -20,6 +20,7 @@ export default async function AnnouncementBar() {
       endsAt={banner.endsAt}
       ctaLabel={banner.ctaLabel}
       ctaHref={banner.ctaHref}
+      color={banner.color}
     />
   );
 }

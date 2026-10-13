@@ -228,7 +228,7 @@ export default function TarasForm({ shapes }: TarasFormProps) {
             label="Usługa montażu"
             name="installationService"
             control={control}
-            helperText="Zaznacz jeśli chcesz wycenić montaż wraz z materiałem"
+            helperText="Zaznacz, jeśli wycena ma obejmować montaż."
           />
           {/* Name and phone are optional — the `preprocess` in the schema makes their
               RHF input type `unknown`, hence the error cast (same as DimensionInputs). */}

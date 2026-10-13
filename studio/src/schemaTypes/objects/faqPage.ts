@@ -62,6 +62,12 @@ export const faqPage = defineType({
       initialValue:
         'Odpowiedzi na najczęściej zadawane pytania dotyczące zadaszeń tarasowych, tarasów kompozytowych, gresowych, drewnianych oraz akcesoriów.',
     }),
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+      group: 'seo',
+    }),
   ],
   preview: {
     select: { subtitle: 'headline' },

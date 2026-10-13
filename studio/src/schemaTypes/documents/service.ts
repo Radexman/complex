@@ -50,6 +50,7 @@ export const service = defineType({
     { name: 'techSpecs', title: 'Specyfikacja' },
     { name: 'formCta', title: 'CTA formularza' },
     { name: 'relatedOffers', title: 'Powiązane oferty' },
+    { name: 'seo', title: 'SEO' },
   ],
   fields: [
     defineField({
@@ -529,6 +530,12 @@ export const service = defineType({
           },
         }),
       ],
+    }),
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+      group: 'seo',
     }),
   ],
   // Mirrors the order the cards appear in on /oferta, so the Studio list reads the same way.

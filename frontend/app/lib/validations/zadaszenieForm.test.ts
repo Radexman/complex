@@ -39,13 +39,13 @@ function issuePaths(input: RawInput): string[] {
 
 describe('option lists', () => {
   it('splits the canopy model and the roof filling into two lists', () => {
-    expect(CANOPY_TYPES).toEqual(['Przyścienny', 'Wolnostojący']);
+    expect(CANOPY_TYPES).toEqual(['Przyścienne', 'Wolnostojące']);
     expect(ROOF_TYPES).toEqual([
       'Poliwęglan',
       'Szkło',
       'Lamele aluminiowe',
-      'Materiał',
-      'Roleta rzymska',
+      'Pergole ekonomiczne',
+      'Roleta rzymska Deponti Verdeca',
     ]);
   });
 
@@ -53,8 +53,8 @@ describe('option lists', () => {
     expect(FRAME_COLORS).toEqual(['antracyt', 'czarny', 'biały']);
   });
 
-  it('lists the twelve equipment add-ons, each matching a schema field', () => {
-    expect(EQUIPMENT_OPTIONS).toHaveLength(12);
+  it('lists the sixteen equipment add-ons, each matching a schema field', () => {
+    expect(EQUIPMENT_OPTIONS).toHaveLength(16);
     const result = zadaszenieFormSchema.safeParse(validBase);
     expect(result.success).toBe(true);
     if (result.success) {

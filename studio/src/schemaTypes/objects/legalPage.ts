@@ -56,6 +56,12 @@ export const legalPage = defineType({
       initialValue:
         'Zasady przetwarzania danych osobowych i wykorzystania plików cookies w serwisie ccomplex.pl.',
     }),
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+      options: { collapsible: true, collapsed: true },
+    }),
   ],
   preview: {
     select: { subtitle: 'title' },

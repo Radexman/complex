@@ -61,6 +61,10 @@ export default function ZadaszenieForm() {
       equipFramedDoorsSide1: false,
       equipFramedDoorsSide2: false,
       equipFramedDoorsFront: false,
+      equipUnderRoofAwning: false,
+      equipVerticalBlindSide1: false,
+      equipVerticalBlindSide2: false,
+      equipVerticalBlindFront: false,
       terraceBlinds: '',
       installationService: false,
       notes: '',
@@ -179,9 +183,9 @@ export default function ZadaszenieForm() {
               name="terraceBlinds"
               register={register}
               error={errors.terraceBlinds}
-              rows={2}
-              placeholder="np. 250 x 220"
-              helperText="Podaj wymiary otworu do zabudowy: szerokość x wysokość [cm]"
+              rows={3}
+              placeholder="np. 250 x 220, 180 x 220"
+              helperText="Podaj wymiary otworu do zabudowy: szerokość x wysokość [cm] (jeśli otworów jest kilka, podaj wysokość i szerokość każdego z nich osobno)"
             />
           </div>
         </div>

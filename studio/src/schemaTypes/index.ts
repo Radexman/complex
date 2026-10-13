@@ -31,6 +31,7 @@ import { legalSection } from './objects/legalSection';
 import { faqPage } from './objects/faqPage';
 import { faqCategory } from './objects/faqCategory';
 import { faqItem } from './objects/faqItem';
+import { seo } from './objects/seo';
 import { tarasFormConfig } from './objects/tarasFormConfig';
 import { tarasShape } from './objects/tarasShape';
 import { schodyFormConfig } from './objects/schodyFormConfig';
@@ -85,4 +86,5 @@ export const schemaTypes = [
   legalSection,
   faqCategory,
   faqItem,
+  seo,
 ];

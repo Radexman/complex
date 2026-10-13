@@ -21,6 +21,30 @@ import { FormInput } from './shared/FormInput';
 import { FormNumberInput } from './shared/FormNumberInput';
 import { FormTextarea } from './shared/FormTextarea';
 
+/** Opening 1 is required; 2 and 3 are optional pairs (both-or-neither, see the schema). */
+const OPENINGS = [
+  { title: 'Otwór 1', required: true, height: 'openingHeight', width: 'openingWidth' },
+  {
+    title: 'Otwór 2 (opcjonalnie)',
+    required: false,
+    height: 'opening2Height',
+    width: 'opening2Width',
+  },
+  {
+    title: 'Otwór 3 (opcjonalnie)',
+    required: false,
+    height: 'opening3Height',
+    width: 'opening3Width',
+  },
+] as const;
+
+const OPTIONAL_OPENING_FIELDS = [
+  'opening2Height',
+  'opening2Width',
+  'opening3Height',
+  'opening3Width',
+] as const;
+
 export default function ZaluzjeForm() {
   const router = useRouter();
   const [isRedirecting, setIsRedirecting] = useState(false);
@@ -51,6 +75,10 @@ export default function ZaluzjeForm() {
     const formData = new FormData();
     formData.append('openingHeight', String(data.openingHeight));
     formData.append('openingWidth', String(data.openingWidth));
+    for (const field of OPTIONAL_OPENING_FIELDS) {
+      const value = data[field];
+      if (value !== undefined) formData.append(field, String(value));
+    }
     formData.append('installationService', String(data.installationService));
     formData.append('postalCode', data.postalCode);
     formData.append('name', data.name ?? '');
@@ -79,35 +107,43 @@ export default function ZaluzjeForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mx-auto max-w-6xl px-6 py-16" noValidate>
       <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:items-start">
-        {/* Left column: opening dimensions */}
+        {/* Left column: opening dimensions — opening 1 required, 2 and 3 optional */}
         <div className="flex flex-col">
           <p className="mb-4 font-body text-sm font-medium text-white">
-            Podaj wymiary otworu do zabudowy (szerokość × wysokość) w cm{' '}
-            <span className="text-accent">*</span>
+            Podaj wymiary otworu do zabudowy (szerokość × wysokość) w cm
           </p>
-          <div className="flex flex-col gap-6 md:mt-10 mt-0">
-            <FormNumberInput
-              label="Wysokość [cm]"
-              name="openingHeight"
-              control={control}
-              error={errors.openingHeight as FieldError | undefined}
-              placeholder="np. 220"
-              step={1}
-              min={1}
-              max={300}
-              required
-            />
-            <FormNumberInput
-              label="Szerokość [cm]"
-              name="openingWidth"
-              control={control}
-              error={errors.openingWidth as FieldError | undefined}
-              placeholder="np. 250"
-              step={1}
-              min={1}
-              max={1000}
-              required
-            />
+          <div className="mt-0 flex flex-col gap-8 md:mt-10">
+            {OPENINGS.map(({ title, required, height, width }) => (
+              <fieldset key={height} className="min-w-0">
+                <legend className="mb-3 font-heading text-sm font-semibold text-white">
+                  {title} {required && <span className="text-accent">*</span>}
+                </legend>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <FormNumberInput
+                    label="Wysokość [cm]"
+                    name={height}
+                    control={control}
+                    error={errors[height] as FieldError | undefined}
+                    placeholder="np. 220"
+                    step={1}
+                    min={1}
+                    max={300}
+                    required={required}
+                  />
+                  <FormNumberInput
+                    label="Szerokość [cm]"
+                    name={width}
+                    control={control}
+                    error={errors[width] as FieldError | undefined}
+                    placeholder="np. 250"
+                    step={1}
+                    min={1}
+                    max={1000}
+                    required={required}
+                  />
+                </div>
+              </fieldset>
+            ))}
           </div>
         </div>
 

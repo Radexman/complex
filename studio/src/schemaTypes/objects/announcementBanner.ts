@@ -28,6 +28,26 @@ export const announcementBanner = defineType({
       validation: (rule) => rule.required().max(120),
     }),
     defineField({
+      name: 'color',
+      title: 'Kolor banera',
+      type: 'string',
+      description: 'Zielony to wygląd zgodny z kolorystyką strony.',
+      // Fixed presets rather than a hex picker: the frontend maps each value to
+      // Tailwind classes with readable contrast. An empty value renders as `brand`.
+      options: {
+        list: [
+          { title: 'Zielony (kolor marki)', value: 'brand' },
+          { title: 'Czerwony', value: 'red' },
+          { title: 'Pomarańczowy', value: 'orange' },
+          { title: 'Żółty', value: 'yellow' },
+          { title: 'Niebieski', value: 'blue' },
+          { title: 'Grafitowy (neutralny)', value: 'graphite' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'brand',
+    }),
+    defineField({
       name: 'endsAt',
       title: 'Data zakończenia promocji',
       type: 'datetime',

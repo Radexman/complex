@@ -3,18 +3,24 @@ import { notFound } from 'next/navigation';
 
 import { aboutPageQuery, processTimelineQuery } from '@/sanity/lib/queries';
 import { sanityFetch } from '@/sanity/lib/live';
+import { buildSeoMetadata } from '@/app/lib/buildSeoMetadata';
 import AboutHero from '@/app/components/about/AboutHero';
 import AboutStory from '@/app/components/about/AboutStory';
 import AboutValues from '@/app/components/about/AboutValues';
 import AboutCta from '@/app/components/about/AboutCta';
 import ProcessTimeline from '@/app/components/sections/ProcessTimeline';
 
-export const metadata: Metadata = {
+export async function generateMetadata(): Promise<Metadata> {
+  // Metadata should never contain stega
+  const { data } = await sanityFetch({ query: aboutPageQuery, stega: false });
+
   // The root layout appends the site name via its `title.template`.
-  title: 'O nas',
-  description:
-    'Poznaj Complex sp. z o.o. — firmę z wieloletnim doświadczeniem w realizacji tarasów, zadaszeń i schodów modułowych na terenie Śląska i Opolszczyzny.',
-};
+  return buildSeoMetadata(data?.seo, {
+    title: 'O nas',
+    description:
+      'Poznaj Complex sp. z o.o. — firmę z wieloletnim doświadczeniem w realizacji tarasów, zadaszeń i schodów modułowych na terenie Śląska i Opolszczyzny.',
+  });
+}
 
 export default async function AboutPage() {
   const [{ data: page }, { data: processTimeline }] = await Promise.all([

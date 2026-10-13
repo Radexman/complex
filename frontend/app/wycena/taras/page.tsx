@@ -3,12 +3,19 @@ import type { Metadata } from 'next';
 import TarasForm from '@/app/components/forms/TarasForm';
 import { tarasFormConfigQuery } from '@/sanity/lib/queries';
 import { sanityFetch } from '@/sanity/lib/live';
+import { buildSeoMetadata } from '@/app/lib/buildSeoMetadata';
 
-export const metadata: Metadata = {
-  title: 'Formularz Wyceny Tarasu — Complex',
-  description:
-    'Wypełnij formularz wyceny tarasu i otrzymaj bezpłatną ofertę w ciągu 3 dni roboczych.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  // Metadata should never contain stega
+  const { data } = await sanityFetch({ query: tarasFormConfigQuery, stega: false });
+
+  // The root layout appends the site name via its `title.template`.
+  return buildSeoMetadata(data?.seo, {
+    title: 'Formularz Wyceny Tarasu',
+    description:
+      'Wypełnij formularz wyceny tarasu i otrzymaj bezpłatną ofertę w ciągu 3 dni roboczych.',
+  });
+}
 
 export default async function WycenaTarasPage() {
   const { data: config } = await sanityFetch({ query: tarasFormConfigQuery });

@@ -15,6 +15,27 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: ../sanity.schema.json
+export type SanityImageAssetReference = {
+  _ref: string;
+  _type: 'reference';
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+};
+
+export type Seo = {
+  _type: 'seo';
+  title?: string;
+  description?: string;
+  ogImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: 'image';
+  };
+};
+
 export type FaqItem = {
   _type: 'faqItem';
   question: string;
@@ -53,13 +74,6 @@ export type VatRate = {
   label: string;
   description?: string;
   isAdvantage?: boolean;
-};
-
-export type SanityImageAssetReference = {
-  _ref: string;
-  _type: 'reference';
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
 };
 
 export type BeforeAfterItem = {
@@ -318,6 +332,7 @@ export type Service = {
     _type: 'relatedOffer';
     _key: string;
   }>;
+  seo?: Seo;
 };
 
 export type SanityImageCrop = {
@@ -377,6 +392,7 @@ export type ZaluzjeFormConfig = {
   _rev: string;
   title?: string;
   description?: string;
+  seo?: Seo;
 };
 
 export type ZadaszenieFormConfig = {
@@ -387,6 +403,7 @@ export type ZadaszenieFormConfig = {
   _rev: string;
   title?: string;
   description?: string;
+  seo?: Seo;
 };
 
 export type SchodyFormConfig = {
@@ -405,6 +422,7 @@ export type SchodyFormConfig = {
     alt: string;
     _type: 'image';
   };
+  seo?: Seo;
 };
 
 export type TarasFormConfig = {
@@ -420,6 +438,7 @@ export type TarasFormConfig = {
       _key: string;
     } & TarasShape
   >;
+  seo?: Seo;
 };
 
 export type FaqPage = {
@@ -438,6 +457,7 @@ export type FaqPage = {
   >;
   seoTitle?: string;
   seoDescription?: string;
+  seo?: Seo;
 };
 
 export type LegalPage = {
@@ -455,6 +475,7 @@ export type LegalPage = {
     } & LegalSection
   >;
   seoDescription?: string;
+  seo?: Seo;
 };
 
 export type Footer = {
@@ -565,6 +586,7 @@ export type WycenaPage = {
       _key: string;
     } & WycenaFormCard
   >;
+  seo?: Seo;
 };
 
 export type TarasyPage = {
@@ -576,6 +598,7 @@ export type TarasyPage = {
   eyebrow?: string;
   headline: string;
   subheadline?: string;
+  seo?: Seo;
 };
 
 export type RealizacjePage = {
@@ -587,6 +610,7 @@ export type RealizacjePage = {
   eyebrow?: string;
   headline: string;
   subheadline?: string;
+  seo?: Seo;
 };
 
 export type OfertaPage = {
@@ -598,6 +622,7 @@ export type OfertaPage = {
   eyebrow?: string;
   headline: string;
   subheadline?: string;
+  seo?: Seo;
 };
 
 export type AboutPage = {
@@ -640,6 +665,7 @@ export type AboutPage = {
     secondaryCtaLabel?: string;
     secondaryCtaHref?: string;
   };
+  seo?: Seo;
 };
 
 export type VatHighlightSection = {
@@ -811,6 +837,7 @@ export type AnnouncementBanner = {
   _rev: string;
   isEnabled?: boolean;
   text: string;
+  color?: 'brand' | 'red' | 'orange' | 'yellow' | 'blue' | 'graphite';
   endsAt: string;
   ctaLabel?: string;
   ctaHref?: string;
@@ -1083,12 +1110,13 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+  | SanityImageAssetReference
+  | Seo
   | FaqItem
   | FaqCategory
   | LegalSection
   | WycenaFormCard
   | VatRate
-  | SanityImageAssetReference
   | BeforeAfterItem
   | TarasShape
   | ProcessStep
@@ -1196,6 +1224,7 @@ export type AnnouncementBannerQueryResult = {
   _rev: string;
   isEnabled?: boolean;
   text: string;
+  color?: 'blue' | 'brand' | 'graphite' | 'orange' | 'red' | 'yellow';
   endsAt: string;
   ctaLabel?: string;
   ctaHref?: string;
@@ -1357,6 +1386,7 @@ export type RealizacjePageQueryResult = {
   eyebrow?: string;
   headline: string;
   subheadline?: string;
+  seo?: Seo;
 } | null;
 
 // Source: sanity/lib/queries.ts
@@ -1371,6 +1401,7 @@ export type TarasyPageQueryResult = {
   eyebrow?: string;
   headline: string;
   subheadline?: string;
+  seo?: Seo;
 } | null;
 
 // Source: sanity/lib/queries.ts
@@ -1385,6 +1416,7 @@ export type OfertaPageQueryResult = {
   eyebrow?: string;
   headline: string;
   subheadline?: string;
+  seo?: Seo;
 } | null;
 
 // Source: sanity/lib/queries.ts
@@ -1404,6 +1436,7 @@ export type WycenaPageQueryResult = {
       _key: string;
     } & WycenaFormCard
   >;
+  seo?: Seo;
 } | null;
 
 // Source: sanity/lib/queries.ts
@@ -1449,6 +1482,7 @@ export type AboutPageQueryResult = {
     secondaryCtaLabel?: string;
     secondaryCtaHref?: string;
   };
+  seo?: Seo;
 } | null;
 
 // Source: sanity/lib/queries.ts
@@ -1688,6 +1722,7 @@ export type LegalPageQueryResult = {
     } & LegalSection
   >;
   seoDescription?: string;
+  seo?: Seo;
 } | null;
 
 // Source: sanity/lib/queries.ts
@@ -1709,14 +1744,16 @@ export type FaqPageQueryResult = {
   >;
   seoTitle?: string;
   seoDescription?: string;
+  seo?: Seo;
 } | null;
 
 // Source: sanity/lib/queries.ts
 // Variable: tarasFormConfigQuery
-// Query: *[_type == "tarasFormConfig"][0]{    title,    description,    shapes[]{      _key,      shapeNumber,      label,      image,      sides    }  }
+// Query: *[_type == "tarasFormConfig"][0]{    title,    description,    seo,    shapes[]{      _key,      shapeNumber,      label,      image,      sides    }  }
 export type TarasFormConfigQueryResult = {
   title: string | null;
   description: string | null;
+  seo: Seo | null;
   shapes: Array<{
     _key: string;
     shapeNumber: '1' | '2' | '3' | '4';
@@ -1735,23 +1772,25 @@ export type TarasFormConfigQueryResult = {
 
 // Source: sanity/lib/queries.ts
 // Variable: zadaszenieFormConfigQuery
-// Query: *[_type == "zadaszenieFormConfig"][0]{    title,    description  }
+// Query: *[_type == "zadaszenieFormConfig"][0]{    title,    description,    seo  }
 export type ZadaszenieFormConfigQueryResult = {
   title: string | null;
   description: string | null;
+  seo: Seo | null;
 } | null;
 
 // Source: sanity/lib/queries.ts
 // Variable: zaluzjeFormConfigQuery
-// Query: *[_type == "zaluzjeFormConfig"][0]{    title,    description  }
+// Query: *[_type == "zaluzjeFormConfig"][0]{    title,    description,    seo  }
 export type ZaluzjeFormConfigQueryResult = {
   title: string | null;
   description: string | null;
+  seo: Seo | null;
 } | null;
 
 // Source: sanity/lib/queries.ts
 // Variable: schodyFormConfigQuery
-// Query: *[_type == "schodyFormConfig"][0]{    title,    description,    diagram  }
+// Query: *[_type == "schodyFormConfig"][0]{    title,    description,    diagram,    seo  }
 export type SchodyFormConfigQueryResult = {
   title: string | null;
   description: string | null;
@@ -1763,6 +1802,7 @@ export type SchodyFormConfigQueryResult = {
     alt: string;
     _type: 'image';
   } | null;
+  seo: Seo | null;
 } | null;
 
 // Source: sanity/lib/queries.ts
@@ -1847,12 +1887,13 @@ export type ServiceSlugsQueryResult = Array<{
 
 // Source: sanity/lib/queries.ts
 // Variable: serviceBySlugQuery
-// Query: *[_type == "service" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    seoDescription,    heroImage,    heroHeadline,    heroSubheadline,    relatedFormSlug,    category,    benefitsEyebrow,    benefitsHeadline,    benefitsDescription,    benefits[]{      _key,      icon,      title,      description,      linkText,      linkUrl    },    galleryFooterText,    galleryFacebookUrl,    brandsEyebrow,    brandsHeadline,    brandsDescription,    brands[]{      _key,      name,      shortDescription,      fullDescription,      variants[]{        _key,        name,        image,        specs,        description,        manufacturer      }    },    techSpecsHeadline,    techSpecsDescription,    techSpecs[]{      _key,      icon,      title,      content    },    formCtaHeadline,    formCtaSubheadline,    formCtaButtonLabel,    formCtaBullets,    secondaryFormSlug,    secondaryFormButtonLabel,    relatedOffers[]{      _key,      text,      label,      target->{        title,        "slug": slug.current      }    }  }
+// Query: *[_type == "service" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    seoDescription,    seo,    heroImage,    heroHeadline,    heroSubheadline,    relatedFormSlug,    category,    benefitsEyebrow,    benefitsHeadline,    benefitsDescription,    benefits[]{      _key,      icon,      title,      description,      linkText,      linkUrl    },    galleryFooterText,    galleryFacebookUrl,    brandsEyebrow,    brandsHeadline,    brandsDescription,    brands[]{      _key,      name,      shortDescription,      fullDescription,      variants[]{        _key,        name,        image,        specs,        description,        manufacturer      }    },    techSpecsHeadline,    techSpecsDescription,    techSpecs[]{      _key,      icon,      title,      content    },    formCtaHeadline,    formCtaSubheadline,    formCtaButtonLabel,    formCtaBullets,    secondaryFormSlug,    secondaryFormButtonLabel,    relatedOffers[]{      _key,      text,      label,      target->{        title,        "slug": slug.current      }    }  }
 export type ServiceBySlugQueryResult = {
   _id: string;
   title: string;
   slug: string;
   seoDescription: string | null;
+  seo: Seo | null;
   heroImage: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -1989,14 +2030,14 @@ declare module '@sanity/client' {
     '*[_type == "footer"][0].socialLinks[platform == "facebook"][0].href': FacebookUrlQueryResult;
     '*[_type == "legalPage"][0]': LegalPageQueryResult;
     '*[_type == "faqPage"][0]': FaqPageQueryResult;
-    '*[_type == "tarasFormConfig"][0]{\n    title,\n    description,\n    shapes[]{\n      _key,\n      shapeNumber,\n      label,\n      image,\n      sides\n    }\n  }': TarasFormConfigQueryResult;
-    '*[_type == "zadaszenieFormConfig"][0]{\n    title,\n    description\n  }': ZadaszenieFormConfigQueryResult;
-    '*[_type == "zaluzjeFormConfig"][0]{\n    title,\n    description\n  }': ZaluzjeFormConfigQueryResult;
-    '*[_type == "schodyFormConfig"][0]{\n    title,\n    description,\n    diagram\n  }': SchodyFormConfigQueryResult;
+    '*[_type == "tarasFormConfig"][0]{\n    title,\n    description,\n    seo,\n    shapes[]{\n      _key,\n      shapeNumber,\n      label,\n      image,\n      sides\n    }\n  }': TarasFormConfigQueryResult;
+    '*[_type == "zadaszenieFormConfig"][0]{\n    title,\n    description,\n    seo\n  }': ZadaszenieFormConfigQueryResult;
+    '*[_type == "zaluzjeFormConfig"][0]{\n    title,\n    description,\n    seo\n  }': ZaluzjeFormConfigQueryResult;
+    '*[_type == "schodyFormConfig"][0]{\n    title,\n    description,\n    diagram,\n    seo\n  }': SchodyFormConfigQueryResult;
     '*[_type == "project" && isFeatured == true] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    coverImage\n  }': FeaturedProjectsQueryResult;
     '*[_type == "project"] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    surface,\n    coverImage\n  }': AllProjectsQueryResult;
     '*[_type == "project" && category == $category] | order(_createdAt desc){\n    _id,\n    title,\n    city,\n    category,\n    coverImage\n  }': GalleryProjectsByCategoryQueryResult;
     '*[_type == "service" && defined(slug.current)]{ "slug": slug.current }': ServiceSlugsQueryResult;
-    '*[_type == "service" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    seoDescription,\n    heroImage,\n    heroHeadline,\n    heroSubheadline,\n    relatedFormSlug,\n    category,\n    benefitsEyebrow,\n    benefitsHeadline,\n    benefitsDescription,\n    benefits[]{\n      _key,\n      icon,\n      title,\n      description,\n      linkText,\n      linkUrl\n    },\n    galleryFooterText,\n    galleryFacebookUrl,\n    brandsEyebrow,\n    brandsHeadline,\n    brandsDescription,\n    brands[]{\n      _key,\n      name,\n      shortDescription,\n      fullDescription,\n      variants[]{\n        _key,\n        name,\n        image,\n        specs,\n        description,\n        manufacturer\n      }\n    },\n    techSpecsHeadline,\n    techSpecsDescription,\n    techSpecs[]{\n      _key,\n      icon,\n      title,\n      content\n    },\n    formCtaHeadline,\n    formCtaSubheadline,\n    formCtaButtonLabel,\n    formCtaBullets,\n    secondaryFormSlug,\n    secondaryFormButtonLabel,\n    relatedOffers[]{\n      _key,\n      text,\n      label,\n      target->{\n        title,\n        "slug": slug.current\n      }\n    }\n  }': ServiceBySlugQueryResult;
+    '*[_type == "service" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    seoDescription,\n    seo,\n    heroImage,\n    heroHeadline,\n    heroSubheadline,\n    relatedFormSlug,\n    category,\n    benefitsEyebrow,\n    benefitsHeadline,\n    benefitsDescription,\n    benefits[]{\n      _key,\n      icon,\n      title,\n      description,\n      linkText,\n      linkUrl\n    },\n    galleryFooterText,\n    galleryFacebookUrl,\n    brandsEyebrow,\n    brandsHeadline,\n    brandsDescription,\n    brands[]{\n      _key,\n      name,\n      shortDescription,\n      fullDescription,\n      variants[]{\n        _key,\n        name,\n        image,\n        specs,\n        description,\n        manufacturer\n      }\n    },\n    techSpecsHeadline,\n    techSpecsDescription,\n    techSpecs[]{\n      _key,\n      icon,\n      title,\n      content\n    },\n    formCtaHeadline,\n    formCtaSubheadline,\n    formCtaButtonLabel,\n    formCtaBullets,\n    secondaryFormSlug,\n    secondaryFormButtonLabel,\n    relatedOffers[]{\n      _key,\n      text,\n      label,\n      target->{\n        title,\n        "slug": slug.current\n      }\n    }\n  }': ServiceBySlugQueryResult;
   }
 }

@@ -16,6 +16,7 @@ export const aboutPage = defineType({
     { name: 'story', title: 'Historia' },
     { name: 'values', title: 'Wartości' },
     { name: 'cta', title: 'CTA' },
+    { name: 'seo', title: 'SEO' },
   ],
   fields: [
     // ── Hero ────────────────────────────────────────────────────────────────
@@ -171,6 +172,12 @@ export const aboutPage = defineType({
           initialValue: '/wycena',
         }),
       ],
+    }),
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+      group: 'seo',
     }),
   ],
   preview: {
