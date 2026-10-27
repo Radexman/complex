@@ -14,8 +14,8 @@ export const ROOF_TYPES = [
   'Poliwęglan',
   'Szkło',
   'Lamele aluminiowe',
-  'Pergole ekonomiczne',
-  'Roleta rzymska Deponti Verdeca',
+  'Materia (pergole ekonomiczne)',
+  'Roleta rzymska (Deponti Verdeca)',
 ] as const;
 
 /** Available frame colours. */
@@ -29,19 +29,19 @@ export const EQUIPMENT_OPTIONS = [
   { name: 'equipWedgePoly', label: 'Klin boczny, poliwęglan w ramie alum. (kpl/2szt)' },
   { name: 'equipWedgeGlass', label: 'Klin boczny, szkło w ramie alum. (kpl/2szt)' },
   { name: 'equipLedLighting', label: 'Oświetlenie punktowe LED + pilot' },
-  { name: 'equipPolyWallSide1', label: 'Zabudowa stała, poliwęglan / bok 1' },
-  { name: 'equipPolyWallSide2', label: 'Zabudowa stała, poliwęglan / bok 2' },
-  { name: 'equipPolyWallFront', label: 'Zabudowa stała, poliwęglan / front' },
-  { name: 'equipFramelessDoorsSide1', label: 'Zabudowa szklana przesuwna bezramowa / bok 1' },
-  { name: 'equipFramelessDoorsSide2', label: 'Zabudowa szklana przesuwna bezramowa / bok 2' },
-  { name: 'equipFramelessDoorsFront', label: 'Zabudowa szklana przesuwna bezramowa / front' },
-  { name: 'equipFramedDoorsSide1', label: 'Zabudowa szklana przesuwna ramowa / bok 1' },
-  { name: 'equipFramedDoorsSide2', label: 'Zabudowa szklana przesuwna ramowa / bok 2' },
-  { name: 'equipFramedDoorsFront', label: 'Zabudowa szklana przesuwna ramowa / front' },
-  { name: 'equipUnderRoofAwning', label: 'Markizy podachowe' },
-  { name: 'equipVerticalBlindSide1', label: 'Pionowa roleta (pergole ekonomiczne) / bok 1' },
-  { name: 'equipVerticalBlindSide2', label: 'Pionowa roleta (pergole ekonomiczne) / bok 2' },
-  { name: 'equipVerticalBlindFront', label: 'Pionowa roleta (pergole ekonomiczne) / front' },
+  { name: 'equipPolyWallSide1', label: 'Zabudowa stała, poliwęglan - bok 1' },
+  { name: 'equipPolyWallSide2', label: 'Zabudowa stała, poliwęglan - bok 2' },
+  { name: 'equipPolyWallFront', label: 'Zabudowa stała, poliwęglan - front' },
+  { name: 'equipFramelessDoorsSide1', label: 'Zabudowa przesuwna, bezramowa, szkło - bok 1' },
+  { name: 'equipFramelessDoorsSide2', label: 'Zabudowa przesuwna, bezramowa, szkło - bok 2' },
+  { name: 'equipFramelessDoorsFront', label: 'Zabudowa przesuwna, bezramowa, szkło - front' },
+  { name: 'equipFramedDoorsSide1', label: 'Zabudowa przesuwna, ramowa, szkło - bok 1' },
+  { name: 'equipFramedDoorsSide2', label: 'Zabudowa przesuwna, ramowa, szkło - bok 2' },
+  { name: 'equipFramedDoorsFront', label: 'Zabudowa przesuwna, ramowa, szkło - front' },
+  { name: 'equipUnderRoofAwning', label: 'Markizy poddachowe' },
+  { name: 'equipVerticalBlindSide1', label: 'Pionowa roleta (pergole ekonomiczne) - bok 1' },
+  { name: 'equipVerticalBlindSide2', label: 'Pionowa roleta (pergole ekonomiczne) - bok 2' },
+  { name: 'equipVerticalBlindFront', label: 'Pionowa roleta (pergole ekonomiczne) - front' },
 ] as const;
 
 export type EquipmentField = (typeof EQUIPMENT_OPTIONS)[number]['name'];

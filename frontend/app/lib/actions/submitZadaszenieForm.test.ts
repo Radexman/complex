@@ -123,8 +123,8 @@ describe('submitZadaszenieForm', () => {
     const { html } = lastEmail();
 
     expect(html).toContain('Oświetlenie punktowe LED + pilot');
-    expect(html).toContain('Zabudowa szklana przesuwna ramowa / front');
-    expect(html).toContain('Markizy podachowe');
+    expect(html).toContain('Zabudowa przesuwna, ramowa, szkło - front');
+    expect(html).toContain('Markizy poddachowe');
     expect(html).not.toContain('Klin boczny');
   });
 
