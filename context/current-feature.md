@@ -125,3 +125,23 @@ Client message of 13.10.2026. Spec: `context/features/feedback-round-11-spec.md`
   for grammatical consistency (FYI). (4) The live banner's CMS `ctaHref` is
   `oferta/zadaszenia-tarasowe`, with no leading `/`, so it 404s from subpages. It should be
   `/oferta/zadaszenia-tarasowe`.
+
+### Client Feedback Round 12 — `/wycena/zadaszenie` korekty nazw (2026-10-27)
+
+Client message of 27.10.2026. Spec: `context/features/feedback-round-12-spec.md`. Branch
+`feature/feedback-round-12`, cut from `main`.
+
+- Copy-only, in `zadaszenieForm.ts` + `ZadaszenieForm.tsx`. No schema change, no Studio redeploy.
+  Field `name`s unchanged; the quote e-mail reads the same labels.
+- `ROOF_TYPES`: „Materia (pergole ekonomiczne)”, „Roleta rzymska (Deponti Verdeca)”. Typo
+  „Markizy podachowe” → „poddachowe”. Montaż helper text unified with Taras/Żaluzje („Zaznacz,
+  jeśli wycena ma obejmować montaż.”).
+- Add-ons: the sliding glass options reordered to „Zabudowa przesuwna, bezramowa/ramowa, szkło”.
+  The client's „apply that logic to each matching checkbox” was read as the ` / ` → ` - `
+  separator change on all 12 bok 1 / bok 2 / front options, for consistency. The client's
+  screenshot wasn't available, so the table was derived from their two examples.
+- Verified: lint, type-check, Vitest 202/202, clean `next build`. New labels confirmed in the
+  prerendered `/wycena/zadaszenie` HTML (no old strings left). No interactive browser or e-mail
+  send check.
+- Unrelated working-tree churn again left uncommitted (same as Round 11).
+- **Open for the client:** „Materia” applied as written. Should it be „Materiał” (fabric)?
