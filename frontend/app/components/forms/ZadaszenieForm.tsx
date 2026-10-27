@@ -233,7 +233,7 @@ export default function ZadaszenieForm() {
             label="Usługa montażu"
             name="installationService"
             control={control}
-            helperText="Zaznacz jeśli chcesz wycenić montaż wraz z zadaszeniem"
+            helperText="Zaznacz, jeśli wycena ma obejmować montaż."
           />
           <FormTextarea
             label="Uwagi"

@@ -44,8 +44,8 @@ describe('option lists', () => {
       'Poliwęglan',
       'Szkło',
       'Lamele aluminiowe',
-      'Pergole ekonomiczne',
-      'Roleta rzymska Deponti Verdeca',
+      'Materia (pergole ekonomiczne)',
+      'Roleta rzymska (Deponti Verdeca)',
     ]);
   });
 
