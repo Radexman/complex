@@ -96,7 +96,7 @@ export default function AboutStory({
               <div className="relative aspect-4/5 overflow-hidden rounded-2xl ring-1 ring-accent/20">
                 <Image
                   src={imageUrl}
-                  alt={storyImage?.alt || stegaClean(storyHeadline) || 'Complex'}
+                  alt={storyImage?.alt || stegaClean(storyHeadline) || 'CComplex'}
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover"

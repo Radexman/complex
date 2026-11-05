@@ -1,3 +1,5 @@
+import type { Metadata } from 'next';
+
 import {
   aboutQuery,
   beforeAfterQuery,
@@ -21,6 +23,11 @@ import BeforeAfterSection from './components/sections/BeforeAfterSection';
 import VatHighlight from './components/sections/VatHighlight';
 import ProcessTimeline from './components/sections/ProcessTimeline';
 import BottomCtaSection from './components/sections/BottomCtaSection';
+
+// Set here, not in the root layout, or every page would inherit the home page's canonical.
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+};
 
 export default async function Page() {
   const [

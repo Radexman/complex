@@ -16,6 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
   // New `seo` fields first, then the page title and its older SEO description.
   // The root layout appends the site name via its `title.template`.
   return buildSeoMetadata(page?.seo, {
+    path: '/polityka-prywatnosci',
     title: page?.title || 'Polityka prywatności',
     description: page?.seoDescription,
   });

@@ -11,6 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   // The root layout appends the site name via its `title.template`.
   return buildSeoMetadata(data?.seo, {
+    path: '/wycena/zaluzje',
     title: 'Formularz Wyceny Żaluzji',
     description:
       'Wypełnij formularz wyceny żaluzji tarasowych i otrzymaj bezpłatną ofertę w ciągu 3 dni roboczych.',

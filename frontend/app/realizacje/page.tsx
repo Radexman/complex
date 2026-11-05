@@ -11,6 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   // The root layout appends the site name via its `title.template`.
   return buildSeoMetadata(data?.seo, {
+    path: '/realizacje',
     title: 'Realizacje',
     description:
       'Przeglądaj nasze zrealizowane projekty tarasów, zadaszeń, żaluzji i schodów modułowych na terenie Śląska i Opolszczyzny.',

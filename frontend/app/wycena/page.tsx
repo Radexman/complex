@@ -11,6 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   // The root layout appends the site name via its `title.template`.
   return buildSeoMetadata(data?.seo, {
+    path: '/wycena',
     title: 'Wycena',
     description:
       'Wybierz formularz bezpłatnej wyceny: taras, zadaszenie tarasowe, żaluzje lub schody modułowe. Wypełnienie zajmuje kilka minut i do niczego nie zobowiązuje.',
