@@ -145,3 +145,47 @@ Client message of 27.10.2026. Spec: `context/features/feedback-round-12-spec.md`
   send check.
 - Unrelated working-tree churn again left uncommitted (same as Round 11).
 - **Open for the client:** „Materia” applied as written. Should it be „Materiał” (fabric)?
+
+### Client Feedback Round 13 — po wdrożeniu: przekierowania, canonical (2026-11-05)
+
+Client messages of 5.11.2026. Spec: `context/features/feedback-round-13-spec.md`, attachments in
+`context/features/assets/`. Branch `feature/feedback-round-13`, cut from `main`. **Only the code
+part is done. The conversions work is still open, see below.**
+
+- **Redirects:** old WordPress addresses → new pages in `next.config.ts`. News posts, old thank-you
+  pages, categories, tags and author stay 404 on purpose, to avoid soft 404s.
+- **Canonical:** required `path` on `buildSeoMetadata` → `alternates.canonical` on all indexable
+  pages; the home page sets its own. Not in the root layout, or every page would inherit it.
+- **`metadataBase`:** `NEXT_PUBLIC_SITE_URL` first, then the CMS value (still the non-`www` address).
+- **Studio:** `www.ccomplex.pl` added to `PREVIEW_ALLOW_ORIGINS`. `SANITY_STUDIO_PREVIEW_URL` changed
+  locally in `studio/.env.production`, which is git-ignored.
+- **Deviation from the spec:** the `dziekujemy-kontakt` title is „Wiadomość wysłana”, without the
+  brand, because the layout template already appends it. „CComplex” would have appeared twice.
+- Verified: lint, type-check, Vitest 203/203, `next build`. On a local `next start`: 33 old URLs
+  reach the right page, canonicals on 14 pages, none on thank-you pages, browser check of
+  `/kontakt/` → `/#kontakt`. **Not verified:** the full chain from `https://ccomplex.pl/...`, which
+  needs a deploy.
+- Unrelated working-tree churn again left uncommitted.
+
+**Not deployed at the time of this entry, in order:**
+
+1. Push `main`, then check the redirect chain and canonicals on production.
+2. Confirm `https://www.ccomplex.pl` is in Sanity CORS origins, then `npm run deploy` from `studio/`.
+3. Only then redirect `complex-puce.vercel.app` to `www` in Vercel, or Presentation breaks.
+4. CMS: `metadataBase` → `https://www.ccomplex.pl`; banner `ctaHref` →
+   `/oferta/zadaszenia-tarasowe`.
+
+**Still open, full steps in the spec:**
+
+- **Conversions (P0):** GTM version 6 still targets WordPress form elements, so the tags cannot fire.
+  Add 4 `generate_lead` triggers on the existing tags, make sure each form counts once in Google
+  Ads, test with one real submission per form (these send real e-mails), then publish.
+- **GA4:** `G-2YVGGG5VH6` is missing from the new site.
+- **Cookies:** no banner or Consent Mode, and `_gcl_au` is set on first visit. Decide this first,
+  because it affects how the GTM tags are configured.
+- **Other:** Search Console (sitemap, request indexing), Vercel Firewall check for AI crawlers, new
+  logo (trim margins; Navbar and Footer in Studio; check the favicon and OG images), client's Sanity
+  access.
+- **Questions for the client:** GTM, Ads and GSC access; CookieYes; GA4 property; a Schody conversion;
+  „Kierownik budowy” (two old URLs stay 404 until answered); final logo; registered company name
+  (`o-nas/page.tsx` still says „Complex sp. z o.o.”).
