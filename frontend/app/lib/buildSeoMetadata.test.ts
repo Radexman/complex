@@ -20,7 +20,7 @@ const image = (ref: string, alt?: string) => ({
   asset: { _type: 'reference' as const, _ref: ref },
 });
 
-const fallback = { title: 'Realizacje', description: 'Domyślny opis.' };
+const fallback = { title: 'Realizacje', path: '/realizacje', description: 'Domyślny opis.' };
 
 describe('buildSeoMetadata', () => {
   it('uses the fallback when the page has no seo object', async () => {
@@ -28,6 +28,7 @@ describe('buildSeoMetadata', () => {
     expect(buildSeoMetadata(null, fallback)).toEqual({
       title: 'Realizacje',
       description: 'Domyślny opis.',
+      alternates: { canonical: '/realizacje' },
     });
   });
 
@@ -50,13 +51,23 @@ describe('buildSeoMetadata', () => {
 
   it('trims stray whitespace from a CMS-sourced fallback title', async () => {
     const buildSeoMetadata = await load();
-    expect(buildSeoMetadata(null, { title: 'FAQ ' }).title).toBe('FAQ');
+    expect(buildSeoMetadata(null, { title: 'FAQ ', path: '/faq' }).title).toBe('FAQ');
   });
 
   it('omits the description entirely when neither source has one', async () => {
     const buildSeoMetadata = await load();
-    const metadata = buildSeoMetadata(undefined, { title: 'FAQ', description: null });
+    const metadata = buildSeoMetadata(undefined, {
+      title: 'FAQ',
+      path: '/faq',
+      description: null,
+    });
     expect(metadata).not.toHaveProperty('description');
+  });
+
+  it('sets the canonical from the route, whatever the seo fields say', async () => {
+    const buildSeoMetadata = await load();
+    const metadata = buildSeoMetadata({ title: 'Inny tytuł' }, fallback);
+    expect(metadata.alternates).toEqual({ canonical: '/realizacje' });
   });
 
   it('omits openGraph when there is no image, so the layout default applies', async () => {

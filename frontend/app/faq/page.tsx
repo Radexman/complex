@@ -18,6 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
   // New `seo` fields first, then the older dedicated SEO fields. The root
   // layout appends the site name via its `title.template`.
   return buildSeoMetadata(page?.seo, {
+    path: '/faq',
     title: page?.seoTitle || 'FAQ — Najczęstsze pytania',
     description: page?.seoDescription,
   });

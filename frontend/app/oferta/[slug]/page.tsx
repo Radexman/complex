@@ -37,6 +37,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   // New `seo` fields first, then the service's own title, older SEO description
   // and hero image. The root layout appends the site name via its `title.template`.
   return buildSeoMetadata(service.seo, {
+    path: `/oferta/${slug}`,
     title: service.title,
     description: service.seoDescription,
     ogImage: service.heroImage,

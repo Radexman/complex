@@ -19,6 +19,7 @@ import { sanityFetch, SanityLive } from '@/sanity/lib/live';
 import { settingsQuery } from '@/sanity/lib/queries';
 import { resolveOpenGraphImage } from '@/sanity/lib/utils';
 import { handleError } from '@/app/client-utils';
+import { resolveSiteUrl } from '@/app/lib/siteUrl';
 
 /**
  * Generate metadata for the page.
@@ -34,11 +35,14 @@ export async function generateMetadata(): Promise<Metadata> {
   const description = settings?.description || demo.description;
 
   const ogImage = resolveOpenGraphImage(settings?.ogImage);
+  // The env var wins so canonical URLs use the one production host, like the sitemap does.
+  const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  const baseUrl = configuredSiteUrl
+    ? resolveSiteUrl({ configuredUrl: configuredSiteUrl })
+    : settings?.ogImage?.metadataBase;
   let metadataBase: URL | undefined = undefined;
   try {
-    metadataBase = settings?.ogImage?.metadataBase
-      ? new URL(settings.ogImage.metadataBase)
-      : undefined;
+    metadataBase = baseUrl ? new URL(baseUrl) : undefined;
   } catch {
     // ignore
   }

@@ -12,6 +12,8 @@ export type SeoInput = Pick<Seo, 'title' | 'description' | 'ogImage'> | null | u
 export interface SeoFallback {
   /** Page name only — the root layout's title template appends the site name. */
   title: string;
+  /** The page's own route. Becomes its canonical URL, resolved against `metadataBase`. */
+  path: string;
   description?: string | null;
   ogImage?: OgImageSource;
 }
@@ -30,6 +32,7 @@ export function buildSeoMetadata(seo: SeoInput, fallback: SeoFallback): Metadata
   return {
     title,
     ...(description && { description }),
+    alternates: { canonical: fallback.path },
     ...(ogImage && { openGraph: { images: [ogImage] } }),
   };
 }

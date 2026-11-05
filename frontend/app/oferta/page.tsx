@@ -11,6 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   // The root layout appends the site name via its `title.template`.
   return buildSeoMetadata(data?.seo, {
+    path: '/oferta',
     title: 'Oferta',
     description:
       'Poznaj pełną ofertę CComplex — zadaszenia tarasowe, tarasy kompozytowe, gresowe i drewniane, żaluzje tarasowe oraz schody modułowe na terenie Śląska i Opolszczyzny.',

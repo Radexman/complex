@@ -16,6 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   // The root layout appends the site name via its `title.template`.
   return buildSeoMetadata(data?.seo, {
+    path: '/o-nas',
     title: 'O nas',
     description:
       'Poznaj Complex sp. z o.o. — firmę z wieloletnim doświadczeniem w realizacji tarasów, zadaszeń i schodów modułowych na terenie Śląska i Opolszczyzny.',

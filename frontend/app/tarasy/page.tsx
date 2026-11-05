@@ -11,6 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   // The root layout appends the site name via its `title.template`.
   return buildSeoMetadata(data?.seo, {
+    path: '/tarasy',
     title: 'Tarasy kompozytowe, gresowe i drewniane',
     description:
       'Tarasy kompozytowe, gresowe i drewniane — wybierz rodzaj tarasu, zobacz realizacje i zamów bezpłatną wycenę. Śląsk i Opolszczyzna.',

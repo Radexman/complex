@@ -27,9 +27,12 @@ const SANITY_STUDIO_PREVIEW_URL = process.env.SANITY_STUDIO_PREVIEW_URL || 'http
 // Origins the Presentation tool is allowed to load in its preview iframe and exchange
 // postMessage events with. Declared explicitly so one bundle works for both local development
 // and the deployed frontend — relying on the build-time preview URL alone allows only one of
-// them. Add any new frontend domain here (e.g. a future ccomplex.pl) or Presentation will
-// refuse to open it.
-const PREVIEW_ALLOW_ORIGINS = ['http://localhost:*', 'https://complex-puce.vercel.app'];
+// them. Add any new frontend domain here or Presentation will refuse to open it.
+const PREVIEW_ALLOW_ORIGINS = [
+  'http://localhost:*',
+  'https://complex-puce.vercel.app',
+  'https://www.ccomplex.pl',
+];
 
 // Define the home location for the presentation tool
 const homeLocation = {
