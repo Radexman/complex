@@ -213,3 +213,19 @@ Follow-up to Round 13. Branch `fix/kierownik-favicon`, cut from `main`.
   the three icons are in `<head>` and served with 200. **Not verified on production yet** (needs a
   push). Google may take days to weeks to show the new icon in results.
 - Round 13 spec corrections committed separately (`docs:`).
+
+### Fix — Old gallery filter redirect → /realizacje (2026-11-09)
+
+Branch `fix/gallery-filter-redirect`, cut from `main`.
+
+- `/awl_filter_gallery/:path*` (old WordPress gallery-plugin filter pages) → `/realizacje` in
+  `next.config.ts`, next to `/realizacje/:path+`. The new gallery has no per-category URLs.
+- Source: the Search Console 404 report for `https://ccomplex.pl/` (9.11.2026). It was the only
+  reported 404 with a real equivalent; the other five (tags, an old thank-you page, a news post) stay
+  404 on purpose, and Hartika was already fixed by Round 13. The 403 (`/wp-content/plugins/*`),
+  noindex (`/comments/feed/`) and nine crawled-not-indexed URLs are all old WordPress leftovers.
+- Verified: lint, type-check, Vitest 203/203, `next build`. On a local `next start`: the reported URL
+  with and without the trailing slash, another filter and the bare path all end on `/realizacje` with
+  200; `/realizacje/zadaszenia/`, Hartika and `/kierownik-budowy/` still redirect. **Not verified on
+  production yet** (needs a push).
+- The client message drafted on 9.11.2026 promises this redirect, so send it after the deploy.
