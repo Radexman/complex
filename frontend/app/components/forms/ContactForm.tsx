@@ -120,7 +120,7 @@ export default function ContactForm({ onSuccess }: { onSuccess?: () => void } = 
           label={
             <>
               Zapoznałem/am się z treścią{' '}
-              <Link href="/polityka-prywatnosci" className="text-accent hover:text-accent-hover">
+              <Link href="/polityka-prywatnosci" className="text-accent underline underline-offset-2 hover:text-accent-hover">
                 Polityki prywatności
               </Link>{' '}
               i wyrażam zgodę na przetwarzanie moich danych osobowych przez CComplex sp. z o.o. w

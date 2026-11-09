@@ -3,9 +3,37 @@ import type { NextConfig } from 'next';
 /** Parent path of every offer page on the old WordPress site. */
 const WP_OFFER = '/oferta-zadaszenia-aluminiowe-tarasy-uslugi-kierownik-budowy';
 
+/**
+ * Sites allowed to embed the frontend in a frame. The Studio's Presentation tool shows the site in
+ * an iframe, and the hosted Studio itself can run inside the sanity.io dashboard, so every level of
+ * that chain must be listed. `frame-ancestors` is used instead of X-Frame-Options, which can't
+ * allowlist other origins.
+ */
+const FRAME_ANCESTORS = [
+  "'self'",
+  'https://complex.sanity.studio',
+  'https://*.sanity.studio',
+  'https://www.sanity.io',
+  'http://localhost:*',
+].join(' ');
+
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [{ protocol: 'https', hostname: 'cdn.sanity.io' }],
+  },
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          // No `preload`: being on the browser preload list is hard to undo.
+          { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains' },
+          { key: 'Content-Security-Policy', value: `frame-ancestors ${FRAME_ANCESTORS}` },
+        ],
+      },
+    ];
   },
   async redirects() {
     return [

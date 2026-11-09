@@ -29,7 +29,7 @@ export function FormFileDropzone({ label, helperText, onFilesChange }: FormFileD
         <p className="font-body text-sm text-silver">
           Przeciągnij zdjęcia tutaj lub kliknij, aby wybrać
         </p>
-        <p className="text-xs text-silver/60">JPG, PNG, WEBP • max. 10 MB • do 3 zdjęć</p>
+        <p className="text-xs text-silver">JPG, PNG, WEBP • max. 10 MB • do 3 zdjęć</p>
       </FileUpload.Dropzone>
 
       <FileUpload.ItemGroup className="grid grid-cols-1 gap-2 sm:grid-cols-2">
