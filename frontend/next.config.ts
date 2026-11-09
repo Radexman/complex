@@ -95,6 +95,9 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       { source: `${WP_OFFER}/elewacje-kompozytowe`, destination: '/oferta', permanent: true },
+      // The construction-site manager service is no longer offered (client, 9.11.2026).
+      { source: '/kierownik-budowy', destination: '/oferta', permanent: true },
+      { source: '/kierownik-budowy/:path+', destination: '/oferta', permanent: true },
     ];
   },
 };
