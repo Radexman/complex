@@ -258,7 +258,7 @@ export default function ZadaszenieForm() {
                   Zapoznałem(-am) się z{' '}
                   <Link
                     href="/polityka-prywatnosci"
-                    className="text-accent hover:text-accent-hover"
+                    className="text-accent underline underline-offset-2 hover:text-accent-hover"
                   >
                     Polityką prywatności
                   </Link>{' '}

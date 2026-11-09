@@ -5,7 +5,7 @@ import { useMemo, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import { Tabs } from '@ark-ui/react/tabs';
+import { ToggleGroup } from '@ark-ui/react/toggle-group';
 import { stegaClean } from 'next-sanity';
 
 import type {
@@ -131,30 +131,32 @@ export default function ProjectsGrid({
           <FacebookRealizacjeLink href={facebookUrl} className="mt-6" data-pg-reveal />
         </div>
 
-        {/* Category tabs — all categories always shown, in fixed order */}
-        <Tabs.Root
-          value={activeTab}
-          onValueChange={(details) => setActiveTab(details.value)}
-          activationMode="manual"
+        {/* Category filter — all categories always shown, in fixed order */}
+        <ToggleGroup.Root
+          data-pg-reveal
+          aria-label="Filtruj realizacje według kategorii"
+          value={[activeTab]}
+          // A filter always has one active option: clicking the selected one must not clear it.
+          deselectable={false}
+          onValueChange={(details) => setActiveTab(details.value[0] ?? ALL)}
+          className="mt-10 flex flex-wrap justify-center gap-2"
         >
-          <Tabs.List data-pg-reveal className="mt-10 flex flex-wrap justify-center gap-2">
-            <Tabs.Trigger
-              value={ALL}
-              className="cursor-pointer rounded-full border border-graphite bg-bg-surface px-4 py-2 text-sm font-medium text-silver transition-all duration-200 hover:text-white data-selected:border-accent data-selected:bg-accent data-selected:text-black"
+          <ToggleGroup.Item
+            value={ALL}
+            className="cursor-pointer rounded-full border border-graphite bg-bg-surface px-4 py-2 text-sm font-medium text-silver transition-all duration-200 hover:text-white data-[state=on]:border-accent data-[state=on]:bg-accent data-[state=on]:text-black"
+          >
+            Wszystkie
+          </ToggleGroup.Item>
+          {REALIZACJE_TAB_CATEGORIES.map((category) => (
+            <ToggleGroup.Item
+              key={category}
+              value={category}
+              className="cursor-pointer rounded-full border border-graphite bg-bg-surface px-4 py-2 text-sm font-medium text-silver transition-all duration-200 hover:text-white data-[state=on]:border-accent data-[state=on]:bg-accent data-[state=on]:text-black"
             >
-              Wszystkie
-            </Tabs.Trigger>
-            {REALIZACJE_TAB_CATEGORIES.map((category) => (
-              <Tabs.Trigger
-                key={category}
-                value={category}
-                className="cursor-pointer rounded-full border border-graphite bg-bg-surface px-4 py-2 text-sm font-medium text-silver transition-all duration-200 hover:text-white data-selected:border-accent data-selected:bg-accent data-selected:text-black"
-              >
-                {categoryLabel(category)}
-              </Tabs.Trigger>
-            ))}
-          </Tabs.List>
-        </Tabs.Root>
+              {categoryLabel(category)}
+            </ToggleGroup.Item>
+          ))}
+        </ToggleGroup.Root>
 
         {/* Results count */}
         <p className="mt-4 text-center text-sm text-silver">

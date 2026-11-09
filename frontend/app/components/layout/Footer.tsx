@@ -63,7 +63,7 @@ const LEGAL_LINKS: NavLink[] = [{ label: 'Polityka prywatności', href: '/polity
 function LinkColumn({ heading, links }: { heading: string; links: NavLink[] }) {
   return (
     <div>
-      <h3 className="mb-4 font-heading text-sm font-semibold text-white">{heading}</h3>
+      <h2 className="mb-4 font-heading text-sm font-semibold text-white">{heading}</h2>
       <ul className="flex flex-col gap-3">
         {links.map((link) => (
           <li key={link.href}>
@@ -161,7 +161,7 @@ export default async function Footer() {
           <LinkColumn heading="Firma" links={FIRMA_LINKS} />
           <LinkColumn heading="Narzędzia" links={NARZEDZIA_LINKS} />
           <div>
-            <h3 className="mb-4 font-heading text-sm font-semibold text-white">Kontakt</h3>
+            <h2 className="mb-4 font-heading text-sm font-semibold text-white">Kontakt</h2>
             <div className="font-body text-sm leading-relaxed text-silver">
               {contactName && <p className="font-medium text-white">{contactName}</p>}
               {contactAddress && (

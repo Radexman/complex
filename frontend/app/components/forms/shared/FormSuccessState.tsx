@@ -141,7 +141,7 @@ export default function FormSuccessState({
               })}
             </div>
 
-            <p className="mt-6 text-xs italic text-silver/60">
+            <p className="mt-6 text-xs italic text-silver">
               Oferta zostanie przesłana na adres e-mail podany w formularzu do 3 dni roboczych.
               Usługi montażowe wykonujemy na wybranych obszarach województw śląskiego i opolskiego.
             </p>

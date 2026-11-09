@@ -44,9 +44,18 @@ export default function ShowroomMap({ address }: { address?: string }) {
       <Marker
         position={SHOWROOM_COORDS}
         icon={greenIcon}
-        // Open the popup as soon as the marker is added to the map, so the
-        // address card shows by default without a click.
-        eventHandlers={{ add: (e) => e.target.openPopup() }}
+        eventHandlers={{
+          add: (e) => {
+            // Leaflet renders the divIcon as a focusable role="button" with no text, so
+            // assistive tech and browser agents need a name for it.
+            e.target
+              .getElement()
+              ?.setAttribute('aria-label', `Salon CComplex: ${address || FALLBACK_ADDRESS}`);
+            // Open the popup as soon as the marker is added to the map, so the
+            // address card shows by default without a click.
+            e.target.openPopup();
+          },
+        }}
       >
         <Popup>
           <span className="block font-heading text-sm font-bold text-black">{SHOWROOM_NAME}</span>
