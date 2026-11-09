@@ -23,7 +23,16 @@
 
 ## Status
 
-Not started. Audited against production on 5.11.2026. This document is not the implementation.
+Code part shipped and verified on production on 5.11.2026. Panel work is still open.
+**Item 1 was corrected the same day** after we saw GTM and Google Ads; the first diagnosis (GTM is
+why conversions don't count) was wrong for the primary conversions.
+
+| Done and verified                                               | Still open                                                  |
+| --------------------------------------------------------------- | ----------------------------------------------------------- |
+| Old URL redirects, canonical, `metadataBase`                    | Google Ads policy messages (content unknown)                |
+| `vercel.app` → `www`, Studio deployed, Presentation works       | Cookie banner + Consent Mode, GA4 tag                       |
+| CMS: metadata base and banner link                              | Primary conversions: live test once a campaign runs         |
+| Firewall allows AI bots; client's Sanity access                 | 5 unpublished GTM changes; logo; other questions at the end |
 
 ---
 
@@ -31,77 +40,112 @@ Not started. Audited against production on 5.11.2026. This document is not the i
 
 | #   | Item                                              | Audit result                              | Who / where                  | Priority |
 | --- | ------------------------------------------------- | ----------------------------------------- | ---------------------------- | -------- |
-| 1   | Konwersje Google Ads                              | ❌ **Broken: tags cannot fire**            | GTM + Google Ads, no code    | **P0**   |
-| 2   | GA4 lost in the migration                         | ❌ Not on the new site                     | GTM                          | **P0**   |
+| 1   | Konwersje Google Ads                              | ❓ Set up correctly, not yet proven        | Google Ads, live test        | **P0**   |
+| 1a  | Komunikaty Ads o naruszeniu zasad                 | ❓ Content not seen yet                    | Google Ads, maybe site       | **P0**   |
+| 2   | GA4 lost in the migration                         | ❌ Not on the new site                     | GTM + GA4 settings           | **P0**   |
 | 3   | Baner cookies / Consent Mode                      | ❌ Missing, the old site had CookieYes     | Decision, then GTM or code   | **P0**   |
-| 4   | Przekierowania ze starych adresów                 | ❌ All old URLs end in 404                 | `next.config.ts`             | **P0**   |
-| 5   | Canonical + duplicate on `vercel.app`             | ❌ No canonical tags, duplicate is public  | Code + Vercel + Studio       | P1       |
+| 4   | Przekierowania ze starych adresów                 | ✅ Shipped and verified                    | `next.config.ts`             | Done     |
+| 5   | Canonical + duplicate on `vercel.app`             | ✅ Shipped and verified                    | Code + Vercel + Studio       | Done     |
 | 6   | Indeksacja (Search Console)                       | ⚠️ Technically ready, GSC not checked      | Client / GSC                 | P1       |
-| 7   | OAI-SearchBot                                     | ✅ Allowed; one Vercel setting to confirm  | Vercel                       | Done     |
+| 7   | OAI-SearchBot                                     | ✅ Allowed; Firewall checked               | Vercel                       | Done     |
 | 8   | Nowe logo                                         | ⚠️ File needs trimming, 2 CMS slots        | Sanity + favicon             | P1       |
-| 9   | Dostęp klientki do strony                         | ❓ Not checkable from the repo             | sanity.io/manage             | P2       |
+| 9   | Dostęp klientki do strony                         | ✅ Confirmed by the developer              | sanity.io/manage             | Done     |
 | 10  | Reszta nazwy „Complex” + link w banerze           | ⚠️ Small leftovers                         | Code + Studio                | P2       |
 
-Order matters: 3 decides how 1 and 2 are configured, so settle it first.
+Order: read the policy messages (1a), then banner and GA4 (3, 2), then a new campaign and a live conversion test (1).
 
 ---
 
 ## 1. Konwersje Google Ads
 
-### Root cause
+> **Corrected 5.11.2026.** The first version of this section said the conversions fail because GTM
+> still targets WordPress. That only applies to the old GTM tags, not to the conversions that matter.
 
-The live GTM container (`GTM-NWZ9GM5`, version 6) **was never migrated**. Its conversion tags still
-wait for Contact Form 7 elements from the old WordPress site. On the new site these elements do not
-exist (0 `wpcf7` elements in the browser), so the tags cannot fire. No GTM trigger listens for the
-`generate_lead` event that our forms already send.
+### What actually counts
 
-Container contents, decoded from the public `gtm.js`:
+The client confirmed that three conversions matter. All three are page-load conversions on the
+thank-you URL, so they don't depend on the old GTM tags:
 
-| Old trigger (element visibility)  | Old WordPress form      | Conversion label       | New `form_type` |
-| --------------------------------- | ----------------------- | ---------------------- | --------------- |
-| `#wpcf7-f1341-p4117-o1 > form > div`  | Formularz kontaktowy    | `CxZTCOf-g5sbEKHQ3JUD` | `kontakt`       |
-| `#wpcf7-f1327-p10690-o1 > form > div` | Wycena zadaszenia       | `aVfaCOr-g5sbEKHQ3JUD` | `zadaszenie`    |
-| `#wpcf7-f1263-p2670-o1 > form > div`  | Wycena tarasu           | `pJE4CO3-g5sbEKHQ3JUD` | `taras`         |
-| `#wpcf7-f1338-p14920-o1 > form > div` | Wycena żaluzji          | `N0qICPD-g5sbEKHQ3JUD` | `zaluzje`       |
-| none                              | Wycena schodów          | none                   | `schody`        |
+| Google Ads conversion               | Rule (`Ktoś odwiedza stronę`)                       | Last conversion          | Goal category         | Value |
+| ----------------------------------- | --------------------------------------------------- | ------------------------ | --------------------- | ----- |
+| `A_Przesłany formularz ZADASZENIA`  | `ccomplex.pl/wycena/zadaszenie/przeslany-formularz` | 27.10.2026               | Prośby o wycenę       | none  |
+| `A_Przesłany formularz TARAS`       | `ccomplex.pl/wycena/taras/przeslany-formularz`      | 25.10.2026               | Wyświetlenia strony   | none  |
+| `A_Przesłany formularz_SCHODY`      | `ccomplex.pl/wycena/schody/przeslany-formularz`     | none (created 5.11.2026) | Przesłania formularzy | 1 zł  |
 
-The form ↔ label mapping comes from matching each selector to the form ID on the old pages. Confirm
-the conversion names in Google Ads. **Schody never had a conversion**, on the old site either.
+Żaluzje are secondary and not important to the client. The rest of the list is auto-created GA4
+events, all secondary.
 
-### The question the Google Ads note asks
+### Why Ads shows no conversions
 
-**Does the tag register a view of the thank-you page?** Not proven yet:
+**All campaigns are paused**, per the client: the old ones are stopped and she is building new ones.
+So zero conversions since 27.10 proves nothing either way.
 
-- The Google tag (`AW-850864161`) loads on every page.
-- The form reaches the thank-you page by `router.push`, with no full page load. In the browser the
-  tag did send a hit on a history change (`gtm.historyChange-v2` → `google.com/ccm/collect`), so a
-  URL rule **may** see the page, but this was not tested with a real submission.
-- **A URL rule also has a false-positive path.** Opening the thank-you URL directly sends a hit with
-  the thank-you page title **before** `FormThankYouPanel` redirects to the form (confirmed in the
-  browser). The on-screen guard does not stop that hit. Only visits attributed to an ad click would
-  count, but this is why the event is the better signal.
+### Does the tag see the thank-you page? Yes
 
-The code comment in `FormThankYouPanel.tsx` says there is no page load for a pageview trigger. That
-is still accurate, and `generate_lead` remains the intended signal.
+Tested on production on 5.11.2026 with the same client-side navigation a submission uses (no form
+sent, all requests to Google intercepted and blocked). The Google tag prepared a `page_view` with
+`dl=https://www.ccomplex.pl/wycena/zadaszenie/przeslany-formularz` and the right title, and
+`generate_lead` with `form_type: zadaszenie` reached `dataLayer`.
 
-### Fix (in GTM, no code change)
+This answers the question in the Google Ads note, but a simulation is not a counted conversion.
 
-1. **GTM → Variables:** add Data Layer Variable `form_type`.
-2. **GTM → Triggers:** add 4 Custom Event triggers, event name `generate_lead`, with `form_type`
-   equal to `kontakt`, `zadaszenie`, `taras`, `zaluzje`.
-3. **GTM → Tags:** attach each trigger to the matching conversion tag from the table above. Remove
-   the old element-visibility triggers.
-4. **Google Ads → Goals → Conversions:** check each action's source. **Each form must count once.**
-   If an action uses a URL rule (as the note suggests) and a tag also fires, make one of them
-   secondary or remove it, otherwise leads are counted twice.
-5. **Test:** GTM Preview + Tag Assistant, **one real submission per form**, marked „TEST”. Each one
-   sends real e-mails, so tell the client first. Check that the right tag fires exactly once, then
-   publish the container.
-6. **Google Ads:** check the status after about 24 h. Consider a **data exclusion** for the period
-   since the switch, because Smart Bidding sees a false drop in conversions. No conversions were
-   recorded by these tags in that period, and they cannot be recovered.
+### Still unverified
 
-**Access needed:** GTM and Google Ads, from the client or her agency.
+- **A live conversion.** When a new campaign runs, the client clicks her own ad and sends a form
+  marked „TEST”, then we check Ads after 1–2 days.
+- **The rule's match condition.** The rule has no `www` and the site runs on `www`. Check under
+  `Zarządzaj` only if the live test fails.
+
+### Worth fixing in Google Ads (client's decision)
+
+- **Three conversions sit in three goal categories, and only Schody has a value.** A campaign only
+  optimises for the goals it uses, so Taras in „Wyświetlenia strony” may not influence it. Recommended:
+  one category and one value setting, before the new campaign.
+- **Enhanced conversions** are on for Zadaszenia, and Taras shows „Wykryto problemy z konfiguracją”.
+  The tag also sent `ccm/form-data/850864161` requests, which may relate to this. Settle together
+  with item 3, including the privacy policy.
+- **False-positive path:** opening a thank-you URL directly sends a `page_view` before
+  `FormThankYouPanel` redirects to the form. It could only count after an ad click, so the risk is
+  small. Check this if conversions exceed the number of e-mails.
+
+### GTM
+
+Access granted. Container `GTM-NWZ9GM5`, live version 6:
+
+- **4 old tags** (kontaktowy, taras, zadaszenia, żaluzje) on element-visibility triggers for
+  `#wpcf7-...` selectors, once per page. These fire when a form **appears**, not when it is sent,
+  which fits `A_Wczytany` rather than `A_Przesłany` (not confirmed by label). They can't fire on the
+  new site and do no harm. Leave them unless the client needs the `A_Wczytany` data.
+- **5 unpublished changes** added 5.11.2026 by `info@ccomplex.pl`: two `Google Ads AW-850864161` tags
+  on Initialization – All Pages, which look redundant next to the existing Google tag, plus three
+  settings: Universal Analytics event logging, automatic event detection, and user-provided data.
+  **Don't publish them, and don't discard them without the client's consent.**
+
+If GTM work starts before she answers, use a separate workspace. `generate_lead` remains available
+if a tag-based conversion is ever needed. **The label table in the first version of this spec was
+dropped as a plan.**
+
+---
+
+## 1a. Komunikaty Ads o naruszeniu zasad
+
+The client says Ads sent „mnóstwo wiadomości o naruszeniu zasad” after the site change. **We haven't
+seen them, so the cause is unknown.** Possible cause: ads pointing at old URLs that returned 404
+until the redirects shipped on 5.11.2026. Get the policy names and affected ads before launching new
+campaigns.
+
+Site check from outside on 5.11.2026, which rules out only the basics:
+
+| Check                                                                | Result |
+| -------------------------------------------------------------------- | ------ |
+| AdsBot desktop and mobile user agents on 3 pages: 200, under 0.3 s   | ✅     |
+| All 18 sitemap pages and all internal links found on them return 200 | ✅     |
+| Company name, address, phone and e-mail in the footer of each page   | ✅     |
+| KRS number in the privacy policy                                     | ✅     |
+| No „najlepszy/najtańszy/nr 1” claims on these pages                  | ✅     |
+| Privacy policy mentions Google Ads, Analytics or Tag Manager         | ❌     |
+
+New ads should use `https://www.ccomplex.pl/...` final URLs. This check is not an Ads policy review.
 
 ---
 
@@ -110,9 +154,17 @@ is still accurate, and `generate_lead` remains the intended signal.
 The old site loaded GA4 (`G-2YVGGG5VH6`). It appears **neither in the new site's HTML nor in the
 GTM container**, so the new site is not reporting to Analytics.
 
-**Fix:** add a Google tag `G-2YVGGG5VH6` in GTM on all pages, and optionally a GA4 event for
-`generate_lead`. Confirm with the client that this property is still the one she uses. Enhanced
-measurement should cover the client-side page changes; verify in GA4 Realtime.
+**Stream confirmed:** `ccomplex.pl` / `G-2YVGGG5VH6` is the active one. The second stream,
+`G-695H6WP73F`, has no data; don't use it, and don't delete it without the client's consent.
+
+**Fix, together with item 3:**
+
+1. Add a Google tag `G-2YVGGG5VH6` in GTM on all pages.
+2. **Turn on enhanced measurement** in that stream, with page changes based on browser history
+   events. It is off today, and without it client-side navigation may count only the first page of
+   a visit. (The first version of this spec wrongly assumed it was on.)
+3. Optionally change the stream URL to `https://www.ccomplex.pl/`.
+4. Verify in GA4 Realtime. Optionally add a GA4 event for `generate_lead`.
 
 ---
 
@@ -125,6 +177,10 @@ choice. This matters in two ways:
 - **Legal:** advertising cookies need prior consent in Poland/EU.
 - **Google Ads:** EEA traffic needs Consent Mode v2 for remarketing and modelled conversions.
 
+The client has no CookieYes account, as far as she recalls. Free plan: 5,000 pageviews/month, and the
+banner may be suspended past the limit; paid from $10/month. **Check its GTM template and Consent
+Mode v2 before anyone pays:** this is not confirmed yet.
+
 **Decision needed from the client, since this adds a visible feature:**
 
 | Option                                           | Effort | Notes                                                |
@@ -133,8 +189,8 @@ choice. This matters in two ways:
 | B. Own Ark UI banner + Consent Mode in code      | Medium | No subscription, but the consent logic is ours to keep. |
 
 Do the rest of the GTM work with this in mind: with a CMP, tags must respect consent. Also confirm
-that `/polityka-prywatnosci` matches what is actually loaded (Google Ads, GA4, CMP). That text is
-for the client or her lawyer to approve.
+that `/polityka-prywatnosci` matches what is actually loaded. **Today it mentions cookies but not
+Google Ads, Analytics or Tag Manager.** That text is for the client or her lawyer to approve.
 
 ---
 
@@ -198,6 +254,8 @@ line-ending diff, so don't let it mix into the commit.
   is a public duplicate.
 - **`metadataBase` in the CMS is `https://ccomplex.pl`**, the redirecting address, not `www`.
 
+> ✅ All steps done and verified on production on 5.11.2026.
+
 **Fix:**
 
 1. Resolve `metadataBase` in [layout.tsx](frontend/app/layout.tsx) from `NEXT_PUBLIC_SITE_URL` first
@@ -252,8 +310,9 @@ Rankings can fluctuate after a migration, and new URLs take days to weeks to app
 - Requests with the OAI-SearchBot, GPTBot and ChatGPT-User user agents all return 200, and the
   content is in the server-rendered HTML.
 
-**Limit of this test:** it imitates the user agent, not OpenAI's real IPs. To finish, confirm that
-**Vercel → Firewall** has no rule or bot protection blocking AI crawlers. Allowing the bot makes
+**Vercel → Firewall checked on 5.11.2026:** AI Bots off, Bot Protection off, no custom or IP rules.
+
+**Limit of this test:** it imitates the user agent, not OpenAI's real IPs. Allowing the bot makes
 inclusion possible; it doesn't guarantee that the site appears for a given query.
 
 ---
@@ -296,9 +355,9 @@ Tell her the old WordPress admin no longer controls the public site.
 - `AboutStory.tsx:99`: image alt fallback `'Complex'`; change to „CComplex”.
 - `o-nas/page.tsx:21`: „**Complex sp. z o.o.**” in the description. **Depends on the registered
   company name**, which is still open from Round 11.
-- **Banner CTA in the CMS:** `ctaHref` is still `oferta/zadaszenia-tarasowe`, with no leading `/`,
-  so it breaks from subpages. The banner is currently off (`isEnabled: false`). Fix it to
-  `/oferta/zadaszenia-tarasowe` before it is turned on again.
+- ✅ **Banner CTA in the CMS:** fixed to `/oferta/zadaszenia-tarasowe`.
+- **Banner „Promocja Jesienna”:** ends 1.12.2026 but is off (`isEnabled: false`). Ask if intended.
+- ✅ `dziekujemy-kontakt` and `AboutStory` shipped.
 
 ---
 
@@ -312,11 +371,18 @@ Tell her the old WordPress admin no longer controls the public site.
 
 ## Questions for the client
 
-1. **Cookie banner:** continue with CookieYes through GTM (recommended)?
-2. **Access:** who has GTM, Google Ads and Search Console? We need access or a person to do it.
-3. **GA4:** is `G-2YVGGG5VH6` still the right property?
-4. **Schody:** should this form get its own conversion? It never had one.
-5. **Kierownik budowy:** is this service still offered? If yes, it needs a page; if not, should the
-   old URLs go to `/oferta`?
-6. **Logo:** is the attached file final?
-7. **Company name:** is „CComplex sp. z o.o.” the registered name? (Open from Round 11.)
+**Next, and most important:**
+
+1. Screenshots of the Ads policy messages, and the ads marked as disapproved or limited.
+2. May we discard her 5 unpublished GTM changes?
+3. Can the CookieYes account use `info@ccomplex.pl`?
+4. One goal category and one value setting for the three primary conversions?
+
+**Later:**
+
+5. **Logo:** is the attached file final?
+6. **Kierownik budowy:** still offered? If not, should the two old URLs go to `/oferta`?
+7. **Company name:** „CComplex sp. z o.o.” appears in the footer, privacy policy, GTM and Analytics,
+   but `o-nas/page.tsx` still says „Complex sp. z o.o.”. Confirm, then fix it.
+8. **Banner „Promocja Jesienna”:** should it be on?
+9. **„Materia (pergole ekonomiczne)”:** or „Materiał”? (Open from Round 12.)
