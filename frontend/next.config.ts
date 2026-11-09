@@ -62,6 +62,8 @@ const nextConfig: NextConfig = {
       { source: '/kontakt', destination: '/#kontakt', permanent: true },
       { source: '/wyslij-zapytanie', destination: '/wycena', permanent: true },
       { source: '/realizacje/:path+', destination: '/realizacje', permanent: true },
+      // Filter pages of the old gallery plugin; the new gallery has no per-category URLs.
+      { source: '/awl_filter_gallery/:path*', destination: '/realizacje', permanent: true },
       { source: WP_OFFER, destination: '/oferta', permanent: true },
       // `:path*` also covers the old per-brand subpages (deponti, silvadec, …).
       {
