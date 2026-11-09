@@ -167,25 +167,49 @@ part is done. The conversions work is still open, see below.**
   needs a deploy.
 - Unrelated working-tree churn again left uncommitted.
 
-**Not deployed at the time of this entry, in order:**
+**Deployed and verified on production the same day:** the full redirect chain from
+`https://ccomplex.pl/.../`, canonicals on all 18 sitemap pages, Studio deploy with Presentation on
+`www`, `vercel.app` → `www` redirect, CMS metadata base and banner link, Firewall (nothing blocks AI
+bots).
 
-1. Push `main`, then check the redirect chain and canonicals on production.
-2. Confirm `https://www.ccomplex.pl` is in Sanity CORS origins, then `npm run deploy` from `studio/`.
-3. Only then redirect `complex-puce.vercel.app` to `www` in Vercel, or Presentation breaks.
-4. CMS: `metadataBase` → `https://www.ccomplex.pl`; banner `ctaHref` →
-   `/oferta/zadaszenia-tarasowe`.
+**⚠️ Correction of the first diagnosis, same day.** The spec's first version said conversions fail
+because GTM still targets WordPress. After seeing GTM and Ads, that is true only of the 4 old tags,
+which most likely fed `A_Wczytany`. The three primary `A_Przesłany` conversions are page-load rules
+on the new thank-you URLs. All campaigns are paused, so zero conversions since 27.10 proves nothing.
+A browser test confirmed the tag prepares a `page_view` for the thank-you URL after client-side
+navigation. **Not yet proven with a live conversion.** Schody does have a conversion, created
+5.11.2026. GA4 enhanced measurement is off, contrary to the spec's first assumption.
 
 **Still open, full steps in the spec:**
 
-- **Conversions (P0):** GTM version 6 still targets WordPress form elements, so the tags cannot fire.
-  Add 4 `generate_lead` triggers on the existing tags, make sure each form counts once in Google
-  Ads, test with one real submission per form (these send real e-mails), then publish.
-- **GA4:** `G-2YVGGG5VH6` is missing from the new site.
-- **Cookies:** no banner or Consent Mode, and `_gcl_au` is set on first visit. Decide this first,
-  because it affects how the GTM tags are configured.
-- **Other:** Search Console (sitemap, request indexing), Vercel Firewall check for AI crawlers, new
-  logo (trim margins; Navbar and Footer in Studio; check the favicon and OG images), client's Sanity
-  access.
-- **Questions for the client:** GTM, Ads and GSC access; CookieYes; GA4 property; a Schody conversion;
-  „Kierownik budowy” (two old URLs stay 404 until answered); final logo; registered company name
-  (`o-nas/page.tsx` still says „Complex sp. z o.o.”).
+- **Google Ads policy messages (P0):** the client reports many, content not seen yet. Basic outside
+  checks found no cause.
+- **Conversions:** live test once a new campaign runs. Three goal categories should become one.
+- **GTM:** 5 unpublished changes from `info@ccomplex.pl`. Don't publish them, and don't discard them
+  without her consent. Use a separate workspace if work starts earlier.
+- **GA4:** `G-2YVGGG5VH6` confirmed, tag missing; turn on enhanced measurement when adding it.
+- **Cookies:** no banner or Consent Mode, and `_gcl_au` is set on first visit. The client has no
+  CookieYes account. The privacy policy doesn't mention Google Ads, Analytics or Tag Manager.
+- **Other:** Search Console (the client added pages today; check the sitemap), new logo (trim margins;
+  Navbar and Footer in Studio; check the favicon and OG images).
+- **Questions for the client:** see the end of the spec.
+
+### Fix — Kierownik budowy redirects + brand favicon (2026-11-09)
+
+Follow-up to Round 13. Branch `fix/kierownik-favicon`, cut from `main`.
+
+- **Kierownik budowy:** the client confirmed the service is no longer offered. `/kierownik-budowy` and
+  `/kierownik-budowy/:path+` redirect to `/oferta` (same as „Elewacje kompozytowe”). The old offer
+  URLs with `kierownik-budowy` in the parent folder name are not this service and already redirect.
+- **Favicon:** the Next.js „N” from the Sanity template was still the site icon, and Google showed it
+  in results. Replaced with the „CC” mark: `app/favicon.ico` (16/32/48 PNG entries), `app/icon.png`
+  (512) and `app/apple-icon.png` (180, on `#0B0B0C`). **Deviation from the plan:** no ring. The script
+  keeps only the two largest shapes in the logo, because the ring, the part of the „O” inside the
+  second „C” and the wordmark were noise at 16 px. Made from
+  `context/features/assets/ccomplex-logo-2026-11.png` (1000×452); the user's
+  `frontend/assets/*.webp` is the same logo at 354×160 and was left untracked and untouched.
+- Verified: lint, type-check, Vitest 203/203, `next build`. On a local `next start`: all four
+  Kierownik variants end on `/oferta` with 200, the old Deceuninck offer URL still redirects, and
+  the three icons are in `<head>` and served with 200. **Not verified on production yet** (needs a
+  push). Google may take days to weeks to show the new icon in results.
+- Round 13 spec corrections committed separately (`docs:`).
