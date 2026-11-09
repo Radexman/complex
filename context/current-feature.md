@@ -229,3 +229,38 @@ Branch `fix/gallery-filter-redirect`, cut from `main`.
   200; `/realizacje/zadaszenia/`, Hartika and `/kierownik-budowy/` still redirect. **Not verified on
   production yet** (needs a push).
 - The client message drafted on 9.11.2026 promises this redirect, so send it after the deploy.
+
+### Lighthouse — agentic browsing, accessibility, safe security headers (2026-11-09)
+
+Spec: `context/features/lighthouse-best-practices-agentic-spec.md` (Lighthouse 13.6.0). Branch
+`feature/lighthouse-agentic-a11y`, cut from `main`. Scope: the spec's „This round” (items 1, 2, 8 and
+the safe headers from item 4).
+
+- **Baseline:** in a clean profile Best practices was already 100; the developer's 77 came from
+  third-party cookies in their own browser profile. Agentic browsing was 50 on three pages because
+  of two accessibility-tree failures.
+- **Map marker:** `ShowroomMap` sets an `aria-label` („Salon CComplex: <address>”) on the Leaflet
+  divIcon, which renders as an unnamed focusable `role="button"`.
+- **Project filter:** `FeaturedProjectsSection` and `ProjectsGrid` used Ark UI Tabs with no
+  `Tabs.Content`, so `aria-controls` pointed at nothing. Replaced with `ToggleGroup`
+  (`deselectable={false}`, `value={[activeTab]}`, active style on `data-[state=on]`). Ark renders it as a
+  `radiogroup` with `role="radio"` items. Same look, state and `data-*-reveal` hooks.
+- **Accessibility:** footer column headings `h3` → `h2` (same classes); `text-silver/60` helper text
+  → `text-silver` in `FormFileDropzone`/`FormSuccessState`; the „Polityka prywatności” consent link is
+  underlined in all five forms.
+- **Headers** (`headers()` in `next.config.ts`): `nosniff`, `Referrer-Policy`, HSTS
+  `includeSubDomains` (no `preload`), `Content-Security-Policy: frame-ancestors`.
+  **Deviations from the plan:** (1) `frame-ancestors` also lists `https://www.sanity.io` and
+  `https://*.sanity.studio`, because the hosted Studio redirects into the sanity.io dashboard and
+  `frame-ancestors` checks every ancestor; (2) **COOP was skipped**: it could cut the opener link when
+  Presentation opens the preview in a separate window, and it is an unscored hint.
+- Verified: lint, type-check, Vitest 203/203, `next build`. Lighthouse 13.6.0 on a local `next start`:
+  Agentic 100 and Accessibility 100 on `/`, `/realizacje`, `/oferta/zadaszenia-tarasowe` and
+  `/wycena/zadaszenie`; Best practices 96 locally only from a Sanity CORS error on port 3100 (100 on
+  production). Headers confirmed with `curl`. Filter checked in the browser: click filters (20 of
+  86), re-click keeps the selection, Tab enters the group, arrows move focus, Enter selects.
+- **Not verified:** Presentation in the hosted Studio with the new `frame-ancestors` (needs a
+  deploy; if it breaks, adjust `FRAME_ANCESTORS`); a visual check of the filter styling.
+- Left for later, per the spec: third-party cookies and full CSP (with the cookie banner),
+  `llms.txt`, source maps, ARD/WebMCP, `/realizacje` performance (73).
+- `OfferIndexGrid.tsx` (older uncommitted churn) left out of the commit.
