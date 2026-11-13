@@ -264,3 +264,40 @@ the safe headers from item 4).
 - Left for later, per the spec: third-party cookies and full CSP (with the cookie banner),
   `llms.txt`, source maps, ARD/WebMCP, `/realizacje` performance (73).
 - `OfferIndexGrid.tsx` (older uncommitted churn) left out of the commit.
+
+### Client Feedback Round 14 — Part A: zdjęcia, teksty, e-maile, telefon (2026-11-13)
+
+Client checklist and WhatsApp of 12–13.11.2026. Spec: `context/features/feedback-round-14-spec.md`;
+Part B (cookie banner, panel work only) in `context/features/feedback-round-14-cookies-guide.md`. Branch
+`feature/feedback-round-14`, cut from `main`.
+
+- **A1 photos (real P0 bug):** Server Actions cap the body at 1 MB by default and Vercel at 4.5 MB
+  (not configurable), while the dropzone promised 10 MB per photo, so most phone photos failed.
+  Photos are now re-encoded in the browser before submit (`compressPhotos.ts`: `createImageBitmap` with
+  EXIF orientation, canvas, JPEG steps 2000/0.8 → 1600/0.72 → 1280/0.62 until ≤ 1.1 MB, white
+  background for PNG transparency); size rules in `photoUpload.ts` (tested). Total budget 3.5 MB,
+  `serverActions.bodySizeLimit: '4mb'`, friendly error pointing to WhatsApp, dropzone copy and a 20 MB
+  pick limit. Done at submit time in all four forms rather than on file pick, so a fast submit can't
+  race the compression.
+- **A2** „Materiał (pergole ekonomiczne)”. **A3** WhatsApp hint (linked number) in the shared dropzone,
+  so on all quotation forms. **A4** thank-you pages no longer show the submitted address (the
+  `submittedEmail` prop was removed from `FormSuccessState`; the guard in `FormThankYouPanel` still uses
+  it); heading „Co dalej? Oto kolejne kroki:”. **Deviation:** the CMS process has 7 steps, so the
+  spec's `steps.slice(1)` would have shown 02–07; the client asked for 02–06, so `slice(1, 6)`.
+- **A5** new confirmation text (first-name greeting kept, signature „Zespół CComplex / Zadaszenia i
+  tarasy”). **A6** both e-mails now send a plain-text part: `renderQuoteEmailText` / `renderQuoteEmailParts`
+  (spread into `sendQuoteEmails`, where `text` is now required) and `renderConfirmationEmailText`.
+- **A7** `CallButton` (server component in the root layout): fixed bottom-right, `z-40`, `tel:` from the
+  footer's `contactPhone` (stega-cleaned), icon only on mobile, number on desktop.
+- **A10** `.env.example` shows `CComplex <wycena@send.ccomplex.pl>`.
+- Verified: lint, type-check, Vitest 227/227 (was 203), `next build`. On a local `next start` with
+  Playwright, requests intercepted so **no e-mail was sent**: three 6.3 MB photos went out as `443 KB
+  each (1.33 MB body), and the server accepted a 1.33 MB body (tested with the RODO consent flipped so
+  validation stopped it before sending); thank-you copy and steps for zadaszenie and kontakt; the
+  call button on desktop and mobile, not covering „Wyślij zapytanie”.
+- **Not done / not verified:** A8 (the trimmed logo must be uploaded in Studio first; locally the
+  logo renders tiny and reads as „COMPLEX”); A10 on Vercel (`QUOTE_FROM_EMAIL`); a real send with large
+  photos on production. A9 needed no change (all checked addresses are already `mailto:`).
+- Still open for the client: a screenshot of a „scattered” e-mail (A6), where she saw a
+  non-clickable address (A9), floating button vs. navbar (A7), WhatsApp hint on all forms (A3).
+- Test photos in `.playwright-mcp/r14/` and unrelated working-tree churn left out of the commit.
