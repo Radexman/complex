@@ -21,6 +21,14 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [{ protocol: 'https', hostname: 'cdn.sanity.io' }],
   },
+  experimental: {
+    serverActions: {
+      // The quotation forms send photos through Server Actions (default limit 1 MB). Photos are
+      // shrunk in the browser first (app/lib/compressPhotos.ts); this stays below Vercel's
+      // non-configurable 4.5 MB request body limit.
+      bodySizeLimit: '4mb',
+    },
+  },
   async headers() {
     return [
       {

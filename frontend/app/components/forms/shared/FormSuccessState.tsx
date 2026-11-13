@@ -23,9 +23,7 @@ const HEADLINES: Record<FormType, string> = {
 
 interface FormSuccessStateProps {
   formType: FormType;
-  /** The email the customer entered — echoed so they know where to expect a reply. */
-  submittedEmail: string;
-  /** The full `processTimeline` steps; the recap shows the next three (steps 2–4). */
+  /** The full `processTimeline` steps; the recap shows steps 02–06. */
   steps: ProcessStepData[];
   primaryCtaLabel?: string;
   primaryCtaHref?: string;
@@ -33,7 +31,6 @@ interface FormSuccessStateProps {
 
 export default function FormSuccessState({
   formType,
-  submittedEmail,
   steps,
   primaryCtaLabel = 'Wróć na stronę główną',
   primaryCtaHref = '/',
@@ -70,10 +67,9 @@ export default function FormSuccessState({
     { scope: container },
   );
 
-  // The customer has just completed step 1 (Zapytanie), so the recap shows the
-  // three steps that follow — Wycena wstępna → Wycena końcowa → Umowa — with the
-  // immediate next step highlighted.
-  const nextSteps = steps.slice(1, 4);
+  // The customer has just completed step 1 (Zapytanie), so the recap shows steps 02–06,
+  // ending with Montaż (client request; Gwarancja is left out), next step highlighted.
+  const nextSteps = steps.slice(1, 6);
   const isContact = formType === 'kontakt';
 
   return (
@@ -85,15 +81,13 @@ export default function FormSuccessState({
         <p className="mx-auto mt-3 max-w-lg font-body text-base leading-relaxed text-silver">
           {isContact ? (
             <>
-              Dziękujemy za wiadomość! Odpiszemy na adres{' '}
-              <span className="font-medium text-accent">{submittedEmail}</span> najszybciej jak to
-              możliwe.
+              Dziękujemy za wiadomość! Odpowiemy na podany przez Ciebie adres e-mail najszybciej,
+              jak to możliwe.
             </>
           ) : (
             <>
-              Dziękujemy! Twoje zapytanie zostało przyjęte. Skontaktujemy się z Tobą na adres{' '}
-              <span className="font-medium text-accent">{submittedEmail}</span> lub telefonicznie w
-              ciągu 3 dni roboczych.
+              Dziękujemy! Twoje zapytanie zostało przyjęte. Skontaktujemy się z Tobą mailowo lub
+              telefonicznie w ciągu 3 dni roboczych.
             </>
           )}
         </p>
@@ -106,7 +100,7 @@ export default function FormSuccessState({
 
           <div>
             <p className="mb-6 text-left font-body text-sm font-semibold text-white">
-              Co dalej? Oto co możesz oczekiwać:
+              Co dalej? Oto kolejne kroki:
             </p>
 
             <div className="flex flex-col gap-4 text-left">

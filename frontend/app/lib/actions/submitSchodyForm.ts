@@ -3,7 +3,7 @@
 import { z } from 'zod';
 
 import { photosToAttachments } from '@/app/lib/email/attachments';
-import { renderQuoteEmail, type Section } from '@/app/lib/email/renderQuoteEmail';
+import { renderQuoteEmailParts, type Section } from '@/app/lib/email/renderQuoteEmail';
 import { sendQuoteEmails } from '@/app/lib/email/sendQuoteEmails';
 import { SCHODY_DIMENSIONS, schodyFormSchema } from '@/app/lib/validations/schodyForm';
 import { client } from '@/sanity/lib/client';
@@ -90,7 +90,7 @@ export async function submitSchodyForm(formData: FormData) {
   const email = await sendQuoteEmails({
     // The name is optional, so the address identifies the sender when it's absent.
     subject: `Wycena schodów — ${data.name ?? data.email}`,
-    html: renderQuoteEmail({
+    ...renderQuoteEmailParts({
       heading: 'Formularz wyceny schodów',
       sections,
       diagram,

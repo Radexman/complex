@@ -90,6 +90,36 @@ function renderSection(section: Section): string {
     </table>`;
 }
 
+/** Both bodies of the lead email, ready to spread into `sendQuoteEmails`. */
+export function renderQuoteEmailParts(options: QuoteEmailOptions): { html: string; text: string } {
+  return { html: renderQuoteEmail(options), text: renderQuoteEmailText(options) };
+}
+
+/**
+ * Plain-text version of the same email: one „Etykieta: wartość" line per field. Without it, mail
+ * apps that show the text part derive one from the HTML table, which reads as scattered words.
+ */
+export function renderQuoteEmailText({
+  heading,
+  sections,
+  diagram,
+  warning,
+}: QuoteEmailOptions): string {
+  const blocks = [`${heading}\nNowe zapytanie ze strony ccomplex.pl`];
+  if (warning) blocks.push(`UWAGA: ${warning}`);
+
+  for (const section of sections) {
+    const lines = section.rows
+      .map((row) => ({ label: row.label, value: formatRowValue(row.value) }))
+      .filter((row): row is { label: string; value: string } => row.value !== null)
+      .map(({ label, value }) => `${label}: ${value}`);
+    if (lines.length > 0) blocks.push([section.title.toUpperCase(), ...lines].join('\n'));
+  }
+
+  if (diagram) blocks.push(`RYSUNEK TECHNICZNY\n${diagram.caption}\n${diagram.url}`);
+  return blocks.join('\n\n');
+}
+
 export function renderQuoteEmail({
   heading,
   sections,

@@ -10,6 +10,7 @@ import { VisualEditing } from 'next-sanity/visual-editing';
 import { Toaster } from 'sonner';
 
 import AnnouncementBar from '@/app/components/AnnouncementBar';
+import CallButton from '@/app/components/layout/CallButton';
 import DraftModeToast from '@/app/components/DraftModeToast';
 import Footer from '@/app/components/layout/Footer';
 import Header from '@/app/components/Header';
@@ -113,6 +114,7 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
         </div>
         <main>{children}</main>
         <Footer />
+        <CallButton />
         <SpeedInsights />
       </body>
     </html>

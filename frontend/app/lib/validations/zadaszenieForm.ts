@@ -14,7 +14,7 @@ export const ROOF_TYPES = [
   'Poliwęglan',
   'Szkło',
   'Lamele aluminiowe',
-  'Materia (pergole ekonomiczne)',
+  'Materiał (pergole ekonomiczne)',
   'Roleta rzymska (Deponti Verdeca)',
 ] as const;
 

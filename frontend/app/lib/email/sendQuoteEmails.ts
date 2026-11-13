@@ -1,13 +1,18 @@
 import { Resend } from 'resend';
 
 import type { EmailAttachment } from '@/app/lib/email/attachments';
-import { renderConfirmationEmail } from '@/app/lib/email/renderConfirmationEmail';
+import {
+  renderConfirmationEmail,
+  renderConfirmationEmailText,
+} from '@/app/lib/email/renderConfirmationEmail';
 
 export interface SendQuoteEmailsOptions {
   /** Subject of the lead email sent to the company. */
   subject: string;
-  /** The rendered lead email (see `renderQuoteEmail`). */
+  /** The rendered lead email (see `renderQuoteEmailParts`). */
   html: string;
+  /** Plain-text version of the lead email, for mail apps that show the text part. */
+  text: string;
   attachments: EmailAttachment[];
   customer: { name: string; email: string };
   /** Reads inside „Dziękujemy za przesłanie …", e.g. „wyceny tarasu". */
@@ -29,6 +34,7 @@ const GENERIC_ERROR =
 export async function sendQuoteEmails({
   subject,
   html,
+  text,
   attachments,
   customer,
   formLabel,
@@ -53,6 +59,7 @@ export async function sendQuoteEmails({
     replyTo: customer.email,
     subject,
     html,
+    text,
     attachments: attachments.length > 0 ? attachments : undefined,
   });
 
@@ -66,6 +73,7 @@ export async function sendQuoteEmails({
     to: [customer.email],
     subject: 'Dziękujemy za zapytanie — CComplex',
     html: renderConfirmationEmail({ name: customer.name, formLabel }),
+    text: renderConfirmationEmailText({ name: customer.name, formLabel }),
   });
 
   // The lead is already safely in the company's inbox, so a failed confirmation is

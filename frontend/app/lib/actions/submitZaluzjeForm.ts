@@ -3,7 +3,7 @@
 import { z } from 'zod';
 
 import { photosToAttachments } from '@/app/lib/email/attachments';
-import { renderQuoteEmail, type Section } from '@/app/lib/email/renderQuoteEmail';
+import { renderQuoteEmailParts, type Section } from '@/app/lib/email/renderQuoteEmail';
 import { sendQuoteEmails } from '@/app/lib/email/sendQuoteEmails';
 import { zaluzjeFormSchema } from '@/app/lib/validations/zaluzjeForm';
 
@@ -78,7 +78,7 @@ export async function submitZaluzjeForm(formData: FormData) {
   const email = await sendQuoteEmails({
     // The name is optional, so the address identifies the sender when it's absent.
     subject: `Wycena żaluzji — ${data.name ?? data.email}`,
-    html: renderQuoteEmail({
+    ...renderQuoteEmailParts({
       heading: 'Formularz wyceny żaluzji',
       sections,
       warning: skipped

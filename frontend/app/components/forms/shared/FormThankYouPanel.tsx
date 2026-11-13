@@ -54,5 +54,5 @@ export default function FormThankYouPanel({ formType, formHref, steps }: FormTha
     return <div className="min-h-[60vh]" aria-hidden="true" />;
   }
 
-  return <FormSuccessState formType={formType} submittedEmail={submittedEmail} steps={steps} />;
+  return <FormSuccessState formType={formType} steps={steps} />;
 }
