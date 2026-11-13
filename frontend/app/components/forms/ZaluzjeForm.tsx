@@ -16,6 +16,7 @@ import {
 import { submitZaluzjeForm } from '@/app/lib/actions/submitZaluzjeForm';
 import { markFormSubmitted } from '@/app/lib/formSubmissionSession';
 import { FormCheckbox } from './shared/FormCheckbox';
+import { preparePhotos } from '@/app/lib/compressPhotos';
 import { FormFileDropzone } from './shared/FormFileDropzone';
 import { FormInput } from './shared/FormInput';
 import { FormNumberInput } from './shared/FormNumberInput';
@@ -86,7 +87,13 @@ export default function ZaluzjeForm() {
     formData.append('email', data.email);
     if (data.notes) formData.append('notes', data.notes);
     formData.append('consentRodo', String(data.consentRodo));
-    for (const photo of photos) {
+    // Phone photos are shrunk first: the request must fit Vercel's 4.5 MB body limit.
+    const prepared = await preparePhotos(photos);
+    if (!prepared.ok) {
+      setSubmitError(prepared.error);
+      return;
+    }
+    for (const photo of prepared.files) {
       formData.append('photo', photo);
     }
 

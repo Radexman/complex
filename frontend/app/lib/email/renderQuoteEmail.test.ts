@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
-import { escapeHtml, formatRowValue, renderQuoteEmail } from './renderQuoteEmail';
+import {
+  escapeHtml,
+  formatRowValue,
+  renderQuoteEmail,
+  renderQuoteEmailParts,
+  renderQuoteEmailText,
+} from './renderQuoteEmail';
 
 describe('formatRowValue', () => {
   it('maps booleans to Polish', () => {
@@ -97,5 +103,56 @@ describe('renderQuoteEmail', () => {
   it('renders the warning when photos were dropped', () => {
     const html = renderQuoteEmail({ heading: 'Wycena', sections, warning: 'Zdjęcia pominięte' });
     expect(html).toContain('Zdjęcia pominięte');
+  });
+});
+
+describe('renderQuoteEmailText', () => {
+  const sections = [
+    {
+      title: 'Kontakt',
+      rows: [
+        { label: 'Imię i nazwisko', value: 'Jan Kowalski' },
+        { label: 'Telefon', value: undefined },
+        { label: 'Usługa montażu', value: true },
+      ],
+    },
+    { title: 'Pusta sekcja', rows: [{ label: 'Uwagi', value: '' }] },
+  ];
+
+  it('writes one „Etykieta: wartość" line per filled field', () => {
+    const text = renderQuoteEmailText({ heading: 'Wycena tarasu', sections });
+    expect(text).toContain('Wycena tarasu');
+    expect(text).toContain('KONTAKT\nImię i nazwisko: Jan Kowalski\nUsługa montażu: Tak');
+    expect(text).not.toContain('Telefon');
+  });
+
+  it('skips a section whose every row is empty', () => {
+    expect(renderQuoteEmailText({ heading: 'Wycena', sections })).not.toContain('PUSTA SEKCJA');
+  });
+
+  it('includes the warning and the diagram link', () => {
+    const text = renderQuoteEmailText({
+      heading: 'Wycena',
+      sections,
+      warning: 'Zdjęcia pominięte',
+      diagram: { url: 'https://cdn.sanity.io/images/shape-1.png', caption: 'Kształt 1' },
+    });
+    expect(text).toContain('UWAGA: Zdjęcia pominięte');
+    expect(text).toContain('Kształt 1\nhttps://cdn.sanity.io/images/shape-1.png');
+  });
+
+  it('contains no HTML', () => {
+    expect(renderQuoteEmailText({ heading: 'Wycena', sections })).not.toMatch(/<[a-z]/i);
+  });
+});
+
+describe('renderQuoteEmailParts', () => {
+  it('returns the HTML and the text version together', () => {
+    const parts = renderQuoteEmailParts({
+      heading: 'Wycena',
+      sections: [{ title: 'Kontakt', rows: [{ label: 'E-mail', value: 'jan@example.com' }] }],
+    });
+    expect(parts.html).toContain('<table');
+    expect(parts.text).toContain('E-mail: jan@example.com');
   });
 });

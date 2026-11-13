@@ -3,7 +3,7 @@
 import { z } from 'zod';
 
 import { photosToAttachments } from '@/app/lib/email/attachments';
-import { renderQuoteEmail, type Section } from '@/app/lib/email/renderQuoteEmail';
+import { renderQuoteEmailParts, type Section } from '@/app/lib/email/renderQuoteEmail';
 import { sendQuoteEmails } from '@/app/lib/email/sendQuoteEmails';
 import { EQUIPMENT_OPTIONS, zadaszenieFormSchema } from '@/app/lib/validations/zadaszenieForm';
 
@@ -87,7 +87,7 @@ export async function submitZadaszenieForm(formData: FormData) {
   const email = await sendQuoteEmails({
     // The name is optional, so the address identifies the sender when it's absent.
     subject: `Wycena zadaszenia — ${data.name ?? data.email}`,
-    html: renderQuoteEmail({
+    ...renderQuoteEmailParts({
       heading: 'Formularz wyceny zadaszenia',
       sections,
       warning: skipped

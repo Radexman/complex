@@ -1,7 +1,7 @@
 import { FileUpload } from '@ark-ui/react/file-upload';
 import { ImagePlus, X } from 'lucide-react';
 
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+import { MAX_PICKED_FILE_BYTES } from '@/app/lib/photoUpload';
 
 interface FormFileDropzoneProps {
   label: string;
@@ -14,7 +14,7 @@ export function FormFileDropzone({ label, helperText, onFilesChange }: FormFileD
   return (
     <FileUpload.Root
       maxFiles={3}
-      maxFileSize={MAX_FILE_SIZE}
+      maxFileSize={MAX_PICKED_FILE_BYTES}
       accept={['image/jpeg', 'image/png', 'image/webp']}
       onFileChange={(details) => onFilesChange(details.acceptedFiles)}
       className="flex flex-col gap-3"
@@ -29,7 +29,9 @@ export function FormFileDropzone({ label, helperText, onFilesChange }: FormFileD
         <p className="font-body text-sm text-silver">
           Przeciągnij zdjęcia tutaj lub kliknij, aby wybrać
         </p>
-        <p className="text-xs text-silver">JPG, PNG, WEBP • max. 10 MB • do 3 zdjęć</p>
+        <p className="text-xs text-silver">
+          JPG, PNG, WEBP • do 3 zdjęć • duże zdjęcia zmniejszymy automatycznie
+        </p>
       </FileUpload.Dropzone>
 
       <FileUpload.ItemGroup className="grid grid-cols-1 gap-2 sm:grid-cols-2">
@@ -60,13 +62,27 @@ export function FormFileDropzone({ label, helperText, onFilesChange }: FormFileD
               {rejectedFiles.length > 0 && (
                 <p className="text-xs text-red-400 sm:col-span-2">
                   Nie dodano: {rejectedFiles.map((rejected) => rejected.file.name).join(', ')} —
-                  sprawdź format (JPG, PNG, WEBP), rozmiar (max. 10 MB) i liczbę zdjęć (do 3).
+                  sprawdź format (JPG, PNG, WEBP), rozmiar (max. 20 MB) i liczbę zdjęć (do 3).
                 </p>
               )}
             </>
           )}
         </FileUpload.Context>
       </FileUpload.ItemGroup>
+
+      <p className="text-xs leading-relaxed text-silver">
+        Nie możesz dodać zdjęć? Wyślij je do nas przez WhatsApp na numer{' '}
+        <a
+          href="https://wa.me/48661242507"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-semibold text-accent underline underline-offset-2 hover:text-accent-hover"
+        >
+          661 242 507
+        </a>
+        . W wiadomości podaj <strong className="text-white">adres e-mail</strong> wpisany w
+        formularzu.
+      </p>
 
       <FileUpload.HiddenInput />
     </FileUpload.Root>

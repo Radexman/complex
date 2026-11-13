@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 
-import { renderQuoteEmail, type Section } from '@/app/lib/email/renderQuoteEmail';
+import { renderQuoteEmailParts, type Section } from '@/app/lib/email/renderQuoteEmail';
 import { sendQuoteEmails } from '@/app/lib/email/sendQuoteEmails';
 import { contactFormSchema } from '@/app/lib/validations/contactForm';
 
@@ -56,7 +56,7 @@ export async function submitContactForm(formData: FormData) {
   const email = await sendQuoteEmails({
     // The name is optional now, so the address identifies the sender when it's absent.
     subject: `Formularz kontaktowy — ${data.name ?? data.email}`,
-    html: renderQuoteEmail({ heading: 'Formularz kontaktowy', sections }),
+    ...renderQuoteEmailParts({ heading: 'Formularz kontaktowy', sections }),
     attachments: [],
     // `renderConfirmationEmail` degrades to a nameless „Dzień dobry!" on an empty string.
     customer: { name: data.name ?? '', email: data.email },
